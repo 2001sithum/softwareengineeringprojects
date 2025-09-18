@@ -1,175 +1,332 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Software Engineering - Lecture Index</title>
-  <style>
-    /* --- General Page Styling (Light & Study Friendly) --- */
-    body {
-      /* A clean, professional font stack */
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-      background-color: #f8f9fa; /* A slightly warmer, very light gray, easy on the eyes */
-      margin: 0;
-      color: #212529; /* Darker text for better contrast and readability */
-      line-height: 1.7; /* Increased line-height for better paragraph reading */
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Software Engineering - Lecture Index</title>
+    <style>
+      /* --- General Page Styling (Light & Study Friendly) --- */
+      body {
+        /* A clean, professional font stack */
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+          "Segoe UI Symbol";
+        background-color: #f8f9fa; /* A slightly warmer, very light gray, easy on the eyes */
+        margin: 0;
+        color: #212529; /* Darker text for better contrast and readability */
+        line-height: 1.7; /* Increased line-height for better paragraph reading */
+      }
 
-    /* --- Main Content Container --- */
-    .container {
-      max-width: 1200px;
-      margin: 40px auto;
-      padding: 20px;
-    }
+      /* --- Main Content Container --- */
+      .container {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 20px;
+      }
 
-    /* --- Header Section --- */
-    header {
-      text-align: center;
-      margin-bottom: 50px;
-      padding-bottom: 25px;
-      border-bottom: 1px solid #e0e0e0; /* A subtle separator */
-    }
+      /* --- Header Section --- */
+      header {
+        text-align: center;
+        margin-bottom: 50px;
+        padding-bottom: 25px;
+        border-bottom: 1px solid #e0e0e0; /* A subtle separator */
+      }
 
-    header h1 {
-      font-size: 2.8em;
-      color: #2c3e50; /* A muted, academic slate-blue */
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
+      header h1 {
+        font-size: 2.8em;
+        color: #2c3e50; /* A muted, academic slate-blue */
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
 
-    header p {
-      font-size: 1.2em;
-      color: #6c757d; /* A softer gray for the subtitle */
-    }
+      header p {
+        font-size: 1.2em;
+        color: #6c757d; /* A softer gray for the subtitle */
+      }
 
-    /* --- Responsive Grid for Lecture Cards --- */
-    .lecture-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 30px; /* Slightly more space between cards */
-    }
+      /* --- Responsive Grid for Lecture Cards --- */
+      .lecture-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 30px; /* Slightly more space between cards */
+      }
 
-    /* --- Individual Lecture Card Styling --- */
-    .lecture-card {
-      background-color: #ffffff;
-      border-radius: 8px;
-      /* A very subtle shadow for a clean, modern look */
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
-      /* A light border to clearly define the card edge */
-      border: 1px solid #e9ecef;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
-      display: flex;
-      flex-direction: column;
-    }
+      /* --- Individual Lecture Card Styling --- */
+      .lecture-card {
+        background-color: #ffffff;
+        border-radius: 8px;
+        /* A very subtle shadow for a clean, modern look */
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+        /* A light border to clearly define the card edge */
+        border: 1px solid #e9ecef;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        display: flex;
+        flex-direction: column;
+      }
 
-    /* --- Hover Effect (Subtle & Non-distracting) --- */
-    .lecture-card:hover {
-      /* The shadow gets slightly more pronounced to indicate interaction */
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      /* The border color changes to highlight the selection */
-      border-color: #4a90e2;
-    }
+      /* --- Hover Effect (Subtle & Non-distracting) --- */
+      .lecture-card:hover {
+        /* The shadow gets slightly more pronounced to indicate interaction */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        /* The border color changes to highlight the selection */
+        border-color: #4a90e2;
+      }
 
-    /* --- Link Styling (to make the whole card clickable) --- */
-    .lecture-card a {
-      text-decoration: none;
-      color: inherit;
-      padding: 22px;
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1; /* Allows the link to take up all available space */
-    }
+      /* --- Link Styling (to make the whole card clickable) --- */
+      .lecture-card a {
+        text-decoration: none;
+        color: inherit;
+        padding: 22px;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1; /* Allows the link to take up all available space */
+      }
 
-    /* Accessibility: Add a clear focus state for keyboard navigation */
-    .lecture-card a:focus-visible {
-      outline: 2px solid #4a90e2;
-      outline-offset: 4px;
-      border-radius: 6px;
-    }
+      /* Accessibility: Add a clear focus state for keyboard navigation */
+      .lecture-card a:focus-visible {
+        outline: 2px solid #4a90e2;
+        outline-offset: 4px;
+        border-radius: 6px;
+      }
 
-    .lecture-card h2 {
-      margin-top: 0;
-      margin-bottom: 12px;
-      font-size: 1.3em;
-      font-weight: 600;
-      color: #2c3e50; /* Consistent with the main header for visual hierarchy */
-    }
+      .lecture-card h2 {
+        margin-top: 0;
+        margin-bottom: 12px;
+        font-size: 1.3em;
+        font-weight: 600;
+        color: #2c3e50; /* Consistent with the main header for visual hierarchy */
+      }
 
-    .lecture-card p {
-      margin: 0;
-      font-size: 0.95em;
-      color: #6c757d; /* Consistent muted gray */
-    }
+      .lecture-card p {
+        margin: 0;
+        font-size: 0.95em;
+        color: #6c757d; /* Consistent muted gray */
+      }
 
-    /* --- Footer Styling --- */
-    footer {
-      text-align: center;
-      margin-top: 60px;
-      padding: 20px;
-      color: #adb5bd; /* Lighter gray, as it's secondary information */
-      font-size: 0.9em;
-    }
-  </style>
-</head>
-<body>
+      /* --- Footer Styling --- */
+      footer {
+        text-align: center;
+        margin-top: 60px;
+        padding: 20px;
+        color: #adb5bd; /* Lighter gray, as it's secondary information */
+        font-size: 0.9em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>software engineering</h1>
+        <p>Course Lecture Notes & Resources</p>
+      </header>
 
-<div class="container">
-  <header>
-    <h1>Digital Logic Design</h1>
-    <p>Course Lecture Notes & Resources</p>
-  </header>
+      <main>
+        <div class="lecture-grid">
+          <!-- Row 1 -->
+          <div class="lecture-card">
+            <a href="se1.html"
+              ><h2>Lecture 01</h2>
+              <p>SE PDF 1-An Overview of Software Engineering</p></a
+            >
+          </div>
+          <div class="lecture-card">
+            <a href="se2.html"
+              ><h2>Lecture 02</h2>
+              <p>SE PDF 1-Software Process Models</p></a
+            >
+          </div>
+          <div class="lecture-card">
+            <a href="se3.html"
+              ><h2>Lecture 03</h2>
+              <p>SE PDF 1-Software Implementation</p></a
+            >
+          </div>
+          <div class="lecture-card">
+            <a href="se4.html"
+              ><h2>Lecture 04</h2>
+              <p>SE PDF 1-Verification and Validation</p></a
+            >
+          </div>
 
-  <main>
-    <div class="lecture-grid">
-      <!-- Row 1 -->
-      <div class="lecture-card"><a href="se1.html"><h2>Lecture 01</h2><p>SE PDF 1-An Overview of Software Engineering</p></a></div>
-      <div class="lecture-card"><a href="se2.html"><h2>Lecture 02</h2><p>SE PDF 1-Software Process Models</p></a></div>
-      <div class="lecture-card"><a href="se3.html"><h2>Lecture 03</h2><p>SE PDF 1-Software Implementation</p></a></div>
-      <div class="lecture-card"><a href="se4.html"><h2>Lecture 04</h2><p>SE PDF 1-Verification and Validation</p></a></div>
+          <!-- Row 2 -->
+          <div class="lecture-card">
+            <a href="se5.html"
+              ><h2>Lecture 05</h2>
+              <p>SE PDF 1-Software Project Management</p></a
+            >
+          </div>
+          <div class="lecture-card">
+            <a href="se6.html"
+              ><h2>Lecture 06</h2>
+              <p>SE PDF 1-User Interface Design</p></a
+            >
+          </div>
+          <div class="lecture-card">
+            <a href="se7.html"
+              ><h2>Lecture 07</h2>
+              <p>SE PDF 1-</p></a
+            >
+          </div>
+          <div class="lecture-card">
+            <a href="se8.html"
+              ><h2>Lecture 08</h2>
+              <p>SE PDF 1-</p></a
+            >
+          </div>
 
-      <!-- Row 2 -->
-      <div class="lecture-card"><a href="se5.html"><h2>Lecture 05</h2><p>SE PDF 1-Software Project Management</p></a></div>
-      <div class="lecture-card"><a href="se6.html"><h2>Lecture 06</h2><p>SE PDF 1-User Interface Design</p></a></div>
-      <div class="lecture-card"><a href="se7.html"><h2>Lecture 07</h2><p>SE PDF 1-</p></a></div>
-      <div class="lecture-card"><a href="se8.html"><h2>Lecture 08</h2><p>SE PDF 1-</p></a></div>
+          <!-- Row 3 -->
+          <div class="lecture-card">
+            <a href="se9.html"
+              ><h2>Lecture 09</h2>
+              <p>SE PDF 1-</p></a
+            >
+          </div>
+          <div class="lecture-card">
+            <a href="se10.html"
+              ><h2>Lecture 10</h2>
+              <p>SE PDF 1-</p></a
+            >
+          </div>
+          <div class="lecture-card">
+            <a href="se11.html"
+              ><h2>Lecture 11</h2>
+              <p>SE PDF 1-</p></a
+            >
+          </div>
+          <div class="lecture-card">
+            <a href="se12.html"
+              ><h2>Lecture 12</h2>
+              <p>SE PDF 1-</p></a
+            >
+          </div>
 
-      <!-- Row 3 -->
-      <div class="lecture-card"><a href="se9.html"><h2>Lecture 09</h2><p>SE PDF 1-</p></a></div>
-      <div class="lecture-card"><a href="se10.html"><h2>Lecture 10</h2><p>SE PDF 1- </p></a></div>
-      <div class="lecture-card"><a href="se11.html"><h2>Lecture 11</h2><p>SE PDF 1-</p></a></div>
-      <div class="lecture-card"><a href="se12.html"><h2>Lecture 12</h2><p>SE PDF 1-</p></a></div>
+          <!-- Row 4 -->
+          <div class="lecture-card">
+            <a href="se13.html"
+              ><h2>Lecture 13</h2>
+              <p>SE PDF 1-</p></a
+            >
+          </div>
+          <div class="lecture-card">
+            <a href="se14.html"
+              ><h2>Lecture 14</h2>
+              <p>SE PDF 1-</p></a
+            >
+          </div>
+          <div class="lecture-card">
+            <a href="se15.html"
+              ><h2>Lecture 15</h2>
+              <p>SE PDF 1-</p></a
+            >
+          </div>
+          <div class="lecture-card">
+            <a href="se16.html"
+              ><h2>Lecture 16</h2>
+              <p>SE PDF 1-</p></a
+            >
+          </div>
 
-      <!-- Row 4 -->
-      <div class="lecture-card"><a href="se13.html"><h2>Lecture 13</h2><p>SE PDF 1-</p></a></div>
-      <div class="lecture-card"><a href="se14.html"><h2>Lecture 14</h2><p>SE PDF 1-</p></a></div>
-      <div class="lecture-card"><a href="se15.html"><h2>Lecture 15</h2><p>SE PDF 1-</p></a></div>
-      <div class="lecture-card"><a href="se16.html"><h2>Lecture 16</h2><p>SE PDF 1-</p></a></div>
+          <!-- Row 5 -->
+          <div class="lecture-card">
+            <a href="se17.html"
+              ><h2>Lecture 17</h2>
+              <p>SE PAPER</p></a
+            >
+          </div>
+          <div class="lecture-card">
+            <a href="se18.html"
+              ><h2>Lecture 18</h2>
+              <p>SE PDF 1</p></a
+            >
+          </div>
+          <div class="lecture-card">
+            <a href="se19.html"
+              ><h2>Lecture 19</h2>
+              <p>SE PDF 1-</p></a
+            >
+          </div>
+          <div class="lecture-card">
+            <a href="se20.html"
+              ><h2>Lecture 19</h2>
+              <p>SE PDF 1-</p></a
+            >
+          </div>
 
-      <!-- Row 5 -->
-      <div class="lecture-card"><a href="se17.html"><h2>Lecture 17</h2><p>SE PAPER</p></a></div>
-      <div class="lecture-card"><a href="se18.html"><h2>Lecture 18</h2><p>SE PDF 1</p></a></div>
-      <div class="lecture-card"><a href="se19.html"><h2>Lecture 19</h2><p>SE PDF 1-</p></a></div>
-      <div class="lecture-card"><a href="se20.html"><h2>Lecture 19</h2><p>SE PDF 1-</p></a></div>
+          <!-- More Cards -->
+          <div class="lecture-card">
+            <a href="se21.html"
+              ><h2>Lecture 20</h2>
+              <p>SE PDF 1-</p></a
+            >
+          </div>
+          <div class="lecture-card">
+            <a href="se22.html"
+              ><h2>Lecture 20</h2>
+              <p>SE PDF 1-</p></a
+            >
+          </div>
+          <div class="lecture-card">
+            <a href="se23.html"
+              ><h2>Lecture 19</h2>
+              <p>SE PDF 1-</p></a
+            >
+          </div>
+          <div class="lecture-card">
+            <a href="se24.html"
+              ><h2>Lecture 20</h2>
+              <p>SE PDF 1-</p></a
+            >
+          </div>
+          <div class="lecture-card">
+            <a href="se25.html"
+              ><h2>Lecture 20</h2>
+              <p>SE PDF 1-</p></a
+            >
+          </div>
+          <div class="lecture-card">
+            <a href="se26.html"
+              ><h2>Lecture 20</h2>
+              <p>SE PDF 1-</p></a
+            >
+          </div>
+          <div class="lecture-card">
+            <a href="se27.html"
+              ><h2>Lecture 19</h2>
+              <p>SE PDF 1-</p></a
+            >
+          </div>
+          <div class="lecture-card">
+            <a href="se28.html"
+              ><h2>Lecture 20</h2>
+              <p>SE PDF 1-</p></a
+            >
+          </div>
+          <div class="lecture-card">
+            <a href="se29.html"
+              ><h2>Lecture 20</h2>
+              <p>SE PDF 1-</p></a
+            >
+          </div>
+          <div class="lecture-card">
+            <a href="se30.html"
+              ><h2>Lecture 20</h2>
+              <p>SE PDF 1-</p></a
+            >
+          </div>
+          <div class="lecture-card">
+            <a href="se43.html"
+              ><h2>Lecture 19</h2>
+              <p>CSE PDF 1-</p></a
+            >
+          </div>
+        </div>
+      </main>
 
-      <!-- More Cards -->
-      <div class="lecture-card"><a href="se21.html"><h2>Lecture 20</h2><p>SE PDF 1-</p></a></div>
-      <div class="lecture-card"><a href="se22.html"><h2>Lecture 20</h2><p>SE PDF 1-</p></a></div>
-      <div class="lecture-card"><a href="se23.html"><h2>Lecture 19</h2><p>SE PDF 1-</p></a></div>
-      <div class="lecture-card"><a href="se24.html"><h2>Lecture 20</h2><p>SE PDF 1-</p></a></div>
-      <div class="lecture-card"><a href="se25.html"><h2>Lecture 20</h2><p>SE PDF 1-</p></a></div>
-      <div class="lecture-card"><a href="se26.html"><h2>Lecture 20</h2><p>SE PDF 1-</p></a></div>
-      <div class="lecture-card"><a href="se27.html"><h2>Lecture 19</h2><p>SE PDF 1-</p></a></div>
-      <div class="lecture-card"><a href="se28.html"><h2>Lecture 20</h2><p>SE PDF 1-</p></a></div>
-      <div class="lecture-card"><a href="se29.html"><h2>Lecture 20</h2><p>SE PDF 1-</p></a></div>
-      <div class="lecture-card"><a href="se30.html"><h2>Lecture 20</h2><p>SE PDF 1-</p></a></div>
-      <div class="lecture-card"><a href="se43.html"><h2>Lecture 19</h2><p>CSE PDF 1-</p></a></div>
+      <footer>
+        <p>
+          &copy; 2024 Software Engineering ss soft inc. All rights reserved.
+        </p>
+      </footer>
     </div>
-  </main>
-
-  <footer>
-    <p>&copy; 2024 Software Engineering ss soft inc. All rights reserved.</p>
-  </footer>
-</div>
-
-</body>
+  </body>
 </html>
