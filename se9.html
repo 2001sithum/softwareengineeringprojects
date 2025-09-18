@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT 2402: Configuration Management</title>
+    <style>
+        /* --- Google Font --- */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        /* --- W3 Light Theme Variables --- */
+        :root {
+            --primary-color: #0078D4; /* A professional blue */
+            --secondary-color: #555555; /* Darker grey for accents */
+            --bg-color: #f4f4f4;
+            --card-bg-color: #ffffff;
+            --text-color: #333333;
+            --heading-color: #000000;
+            --border-color: #dddddd;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
+        }
+
+        /* --- Layout --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- Header & Navigation --- */
+        .main-header {
+            background: var(--card-bg-color);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 2px 5px var(--shadow-color);
+        }
+
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .logo svg { width: 32px; height: 32px; }
+
+        .main-nav ul { display: flex; list-style: none; gap: 15px; flex-wrap: wrap; }
+        .main-nav a { color: var(--secondary-color); text-decoration: none; font-weight: 600; transition: color 0.3s ease; }
+        .main-nav a:hover { color: var(--primary-color); }
+
+        /* --- Hero Section --- */
+        .hero {
+            background: var(--primary-color);
+            color: #ffffff;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .hero h1 { font-size: 3rem; margin-bottom: 0.5rem; }
+        .hero p { font-size: 1.8rem; font-weight: 300; opacity: 0.9; }
+
+        /* --- Main Content Section Styling --- */
+        main section { padding: 60px 0; }
+
+        .section-header { text-align: center; margin-bottom: 40px; }
+        .section-header h2 { font-size: 2.5rem; color: var(--heading-color); display: inline-block; border-bottom: 3px solid var(--primary-color); padding-bottom: 10px; }
+
+        /* --- Card & Grid Styles --- */
+        .grid { display: grid; gap: 30px; }
+        .grid-2 { grid-template-columns: repeat(2, 1fr); }
+
+        .card {
+            background: var(--card-bg-color);
+            padding: 25px;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 8px var(--shadow-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px var(--shadow-color); }
+        .card h3 { color: var(--primary-color); margin-bottom: 15px; display: flex; align-items: center; gap: 10px; font-size: 1.4rem; }
+        .card h4 { color: var(--secondary-color); margin-top: 20px; margin-bottom: 10px; font-size: 1.1rem; }
+        .card ul { list-style-position: inside; padding-left: 5px; }
+        .card li { margin-bottom: 8px; }
+
+        .icon { width: 24px; height: 24px; stroke: var(--primary-color); stroke-width: 2; fill: none; flex-shrink: 0; }
+
+        /* --- Footer --- */
+        .main-footer {
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 40px;
+            background: var(--card-bg-color);
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            .main-header .container { flex-direction: column; gap: 15px; }
+            .main-nav ul { justify-content: center; }
+            .hero h1 { font-size: 2.5rem; }
+            .hero p { font-size: 1.5rem; }
+            .section-header h2 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+<header class="main-header">
+    <div class="container">
+        <a href="#hero" class="logo">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" alt="sithara logo">
+                <title>sithara</title>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 100 15 7.5 7.5 0 000-15zM21 21l-5.197-5.197" />
+            </svg>
+            <span>ICT 2402</span>
+        </a>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="#intro">Introduction</a></li>
+                <li><a href="#planning">CM Planning</a></li>
+                <li><a href="#change">Change Management</a></li>
+                <li><a href="#version">Version Management</a></li>
+                <li><a href="#release">Release Management</a></li>
+                <li><a href="#building">System Building</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <section id="hero" class="hero">
+        <div class="container">
+            <h1>Configuration Management</h1>
+            <p>Managing Change in Evolving Software Systems</p>
+        </div>
+    </section>
+
+    <section id="intro">
+        <div class="container">
+            <div class="section-header">
+                <h2>What is Configuration Management?</h2>
+            </div>
+            <div class="card">
+                <h3>
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z" /></svg>
+                    Managing Complexity and Change
+                </h3>
+                <p>As software systems evolve, new versions are constantly created to fix bugs, add functionality, or support different hardware/OS platforms. <strong>Configuration Management (CM)</strong> is the process of managing these evolving systems, especially when maintained by teams.</p>
+                <h4>Why is CM Necessary?</h4>
+                <ul>
+                    <li>At any one time, there may be several different versions of the software in use by customers.</li>
+                    <li>It is a crucial part of the general quality management process and is essential for certifications like ISO 9000.</li>
+                    <li>CM tools are used to store versions, build systems from components, and track releases to customers.</li>
+                </ul>
+                <h4>Key Term: Baseline</h4>
+                <p>When a version of a software system is released to CM, it becomes a controlled system or a <strong>baseline</strong>. A baseline is a stable, formally reviewed version that serves as a starting point for further development.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="planning">
+        <div class="container">
+            <div class="section-header">
+                <h2>Configuration Management Planning</h2>
+            </div>
+            <div class="card">
+                <h3>The CM Plan</h3>
+                <p>A CM plan is created to define the standards and procedures for managing a project's artifacts. All products of the software process—specifications, designs, code, test data, and user manuals—must be managed.</p>
+                <h4>The CM Plan Defines:</h4>
+                <ul>
+                    <li><b>What to manage:</b> The types of documents and a unique naming scheme (e.g., a hierarchical system).</li>
+                    <li><b>Who is responsible:</b> Defines who is in charge of CM procedures and creating baselines.</li>
+                    <li><b>Policies:</b> Defines the rules for change control and version management.</li>
+                    <li><b>Tools:</b> Describes the CM tools to be used and the process for using them.</li>
+                    <li><b>Database:</b> Defines the structure of the configuration database used to record all CM information.</li>
+                </ul>
+            </div>
+            <div class="card" style="margin-top: 30px;">
+                <h3>The Configuration Database</h3>
+                <p>All CM information should be maintained in a central configuration database. This database stores metadata about system components, changes, and users.</p>
+                <h4>It should be able to answer critical questions like:</h4>
+                <ul>
+                    <li>Which customer has a particular system version?</li>
+                    <li>What hardware platform is required for version X?</li>
+                    <li>What other versions are affected by a change to component Y?</li>
+                    <li>How many reported faults exist in version T?</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="change">
+        <div class="container">
+            <div class="section-header">
+                <h2>Change Management</h2>
+            </div>
+            <div class="card">
+                <h3>
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0011.667 0l3.181-3.183m-4.991-2.691V5.25a2.25 2.25 0 00-2.25-2.25L10.5 2.25v4.992m0 0H5.25m5.25 0l-3.182 3.182a8.25 8.25 0 0011.667 0l3.182-3.182" /></svg>
+                    A Controlled Process
+                </h3>
+                <p>Software systems are subject to continual change requests from users, developers, and market forces. Change management is the process of keeping track of these changes and implementing them in a cost-effective way.</p>
+                <h4>The Change Management Process:</h4>
+                <ol>
+                    <li>A user or developer requests a change by completing a <b>Change Request Form</b>.</li>
+                    <li>The request is analyzed for validity and impact.</li>
+                    <li>The cost of the change is assessed.</li>
+                    <li>The request is submitted to a <b>Change Control Board (CCB)</b>.</li>
+                    <li>The CCB, an independent group, decides if the change is cost-effective from a strategic viewpoint.</li>
+                    <li>If approved, the change is implemented and tested.</li>
+                    <li>A new system version is created.</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+    <section id="version">
+        <div class="container">
+            <div class="section-header">
+                <h2>Version Management</h2>
+            </div>
+            <div class="card">
+                <h3>
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m9.375 2.25c.621 0 1.125.504 1.125 1.125v3.5m0 0a1.125 1.125 0 01-1.125 1.125h-9.25" /></svg>
+                    Tracking Instances of the System
+                </h3>
+                <p>Version management is the process of keeping track of the different versions of software components or systems.</p>
+                <h4>Key Terms:</h4>
+                <ul>
+                    <li><b>Version:</b> An instance of a system that is functionally distinct from other instances (e.g., adding a new feature creates a new version).</li>
+                    <li><b>Variant:</b> An instance that is functionally identical but designed for different hardware or software configurations (e.g., a Windows version vs. a Linux version).</li>
+                    <li><b>Release:</b> An instance of a system that is distributed to users outside the development team.</li>
+                </ul>
+                <h4>Version Identification Techniques:</h4>
+                <ul>
+                    <li><b>Version Numbering:</b> A simple scheme (e.g., V1.1, V1.2), but can be inflexible for complex, branching development.</li>
+                    <li><b>Attribute-based Identification:</b> A flexible scheme where versions are identified by a set of attributes (e.g., language=Java, platform=XP). Supports powerful queries.</li>
+                    <li><b>Change-oriented Identification:</b> Integrates versioning with the changes made to create them, using "change sets".</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="release">
+        <div class="container">
+            <div class="section-header">
+                <h2>Release Management</h2>
+            </div>
+            <div class="card">
+                <h3>Delivering Software to Users</h3>
+                <p>Release management is concerned with planning when and how to issue a system version as a release to customers. This is an expensive process that must be carefully planned.</p>
+                <h4>What's in a Release?</h4>
+                <p>A release is more than just an executable program. It includes:</p>
+                <ul>
+                    <li>Executable code</li>
+                    <li>Configuration files</li>
+                    <li>Data files needed for operation</li>
+                    <li>An installation program or script</li>
+                    <li>Electronic and paper documentation</li>
+                </ul>
+                <h4>Release Problems:</h4>
+                <p>Customers may not want a new release if it provides unwanted functionality or they are happy with their current system. Release management cannot assume that previous releases have been accepted by all customers.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="building">
+        <div class="container">
+            <div class="section-header">
+                <h2>System Building</h2>
+            </div>
+            <div class="card">
+                <h3>
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.625a2.25 2.25 0 01-2.36 0l-7.5-4.625A2.25 2.25 0 013 6.993V6.75" /></svg>
+                    Creating an Executable System
+                </h3>
+                <p>System building is the process of compiling and linking software components into an executable system. This process is almost always automated using tools that are driven by 'build scripts' (e.g., a Makefile).</p>
+                <h4>Common System Building Problems:</h4>
+                <ul>
+                    <li><b>Missing Components:</b> Build instructions do not include all required components.</li>
+                    <li><b>Incorrect Component Version:</b> The system is built with the wrong version of a component, which may cause it to fail after delivery.</li>
+                    <li><b>Incorrect Platform:</b> The system is not built for the correct target OS or hardware configuration.</li>
+                    <li><b>Tool Incompatibilities:</b> The wrong version of a compiler or other tool is used, generating different code.</li>
+                </ul>
+                <p style="margin-top: 20px;">For Agile and DevOps practices, frequent system building (e.g., daily builds, continuous integration) is essential. This helps find component interaction problems early and encourages thorough unit testing because developers don't want to "break the build."</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="main-footer">
+    <div class="container">
+        <p>Made with love by SS</p>
+    </div>
+</footer>
+</body>
+</html>

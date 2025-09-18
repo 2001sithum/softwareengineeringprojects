@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COM 2308: An Overview of Software Engineering</title>
+    <style>
+        /* --- Google Font --- */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        /* --- Global Styles & Variables --- */
+        :root {
+            --primary-color: #ffc107; /* Bright Yellow/Gold */
+            --secondary-color: #00bcd4; /* Accent Cyan */
+            --bg-color: #1a1a1a;
+            --card-bg-color: #2c2c2c;
+            --text-color: #e0e0e0;
+            --heading-color: #ffffff;
+            --border-color: #444444;
+            --shadow-color: rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
+        }
+
+        /* --- Layout --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- Header & Navigation --- */
+        .main-header {
+            background: var(--bg-color);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 2px 10px var(--shadow-color);
+        }
+
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .logo svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .main-nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        .main-nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .main-nav a:hover {
+            color: var(--primary-color);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 0 L100 25 L100 75 L50 100 L0 75 L0 25 Z" fill="%232c2c2c" opacity="0.1"/></svg>');
+            color: var(--heading-color);
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .hero h2 {
+            font-size: 1.8rem;
+            color: var(--secondary-color);
+            font-weight: 400;
+        }
+
+        /* --- Main Content Section Styling --- */
+        main section {
+            padding: 60px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        section:last-of-type {
+            border-bottom: none;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--heading-color);
+            display: inline-block;
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+        }
+
+        /* --- Card & Grid Styles --- */
+        .grid {
+            display: grid;
+            gap: 30px;
+        }
+
+        .grid-2 { grid-template-columns: repeat(2, 1fr); }
+        .grid-3 { grid-template-columns: repeat(3, 1fr); }
+        .grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+        .card {
+            background: var(--card-bg-color);
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 15px var(--shadow-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px var(--shadow-color);
+        }
+
+        .card h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.4rem;
+        }
+
+        .card h4 {
+            color: var(--secondary-color);
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .card ul {
+            list-style-position: inside;
+            padding-left: 5px;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+        }
+
+        .icon {
+            width: 24px;
+            height: 24px;
+            stroke: var(--primary-color);
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .comparison-container {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .divider {
+            width: 2px;
+            height: 100%;
+            background: var(--primary-color);
+            border-radius: 1px;
+        }
+
+        .comparison-item h3 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            color: var(--heading-color);
+        }
+
+        /* --- Specific Section Styles --- */
+        #ethics .card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        #ethics .card li {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 15px;
+        }
+
+        #ethics .card li::before {
+            content: '✔';
+            position: absolute;
+            left: 0;
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+
+        .callout-box {
+            background-color: rgba(0, 188, 212, 0.1);
+            border-left: 5px solid var(--secondary-color);
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .callout-box h4 {
+            color: var(--secondary-color);
+        }
+
+        /* --- Footer --- */
+        .main-footer {
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 40px;
+            background: var(--card-bg-color);
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .grid-2, .grid-3, .grid-4, .comparison-container {
+                grid-template-columns: 1fr;
+            }
+            .main-header .container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .main-nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+            .hero h1 { font-size: 2.5rem; }
+            .hero h2 { font-size: 1.5rem; }
+            .section-header h2 { font-size: 2rem; }
+            .divider { display: none; }
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="main-header">
+    <div class="container">
+        <a href="#hero" class="logo">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" alt="sithara logo">
+                <title>sithara</title>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z" />
+            </svg>
+            <span>COM 2308</span>
+        </a>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="#intro">Introduction</a></li>
+                <li><a href="#process">Process</a></li>
+                <li><a href="#attributes">Attributes</a></li>
+                <li><a href="#challenges">Challenges</a></li>
+                <li><a href="#ethics">Ethics</a></li>
+                <li><a href="#recap">Recap</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+        <div class="container">
+            <h1>COM 2308 Software Engineering</h1>
+            <h2>An Overview of Software Engineering</h2>
+        </div>
+    </section>
+
+    <!-- Introduction & Definitions -->
+    <section id="intro">
+        <div class="container">
+            <div class="section-header">
+                <h2>Introduction & Core Concepts</h2>
+            </div>
+
+            <div class="grid grid-2">
+                <div class="card">
+                    <h3>
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg>
+                        Learning Objectives
+                    </h3>
+                    <p>After this lesson, you should be able to:</p>
+                    <ul>
+                        <li>Describe different categories of software.</li>
+                        <li>Describe the scope and objectives of software engineering.</li>
+                        <li>Describe the software process.</li>
+                        <li>Describe ethics in software engineering.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" /></svg>
+                        Topics Covered
+                    </h3>
+                    <ul>
+                        <li>Definitions of 'Software' & 'Software Engineering'</li>
+                        <li>History and the "Software Crisis"</li>
+                        <li>Software Process Models</li>
+                        <li>Software Engineering as a Discipline</li>
+                        <li>Professional and Ethical Responsibility</li>
+                        <li>Software Attributes & Challenges</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 30px;">
+                <h3>What is Software?</h3>
+                <p>According to Sommerville, software is not just the code. It encompasses:</p>
+                <div class="grid grid-3" style="margin-top:20px;">
+                    <div><h4>Computer Programs</h4><p>The executable code that delivers functionality.</p></div>
+                    <div><h4>Associated Documentation</h4><p>User manuals, technical guides, and API docs.</p></div>
+                    <div><h4>Configuration Data</h4><p>Settings and files needed for the program to operate correctly.</p></div>
+                </div>
+            </div>
+
+            <div class="grid grid-2" style="margin-top: 30px;">
+                <div class="card">
+                    <h3>Generic Software</h3>
+                    <p>Stand-alone software products sold on the open market.</p>
+                    <h4>Examples:</h4>
+                    <ul>
+                        <li>Spreadsheet applications (e.g., Excel)</li>
+                        <li>Database systems (e.g., MySQL)</li>
+                        <li>Text editors (e.g., VS Code)</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Bespoke Software</h3>
+                    <p>Software developed for a specific customer or purpose.</p>
+                    <h4>Examples:</h4>
+                    <ul>
+                        <li>Business process automation tools</li>
+                        <li>Embedded systems software (in cars, appliances)</li>
+                        <li>Air traffic control systems</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>System Software</h3>
+                    <p>Low-level software required to manage computer resources and support application execution.</p>
+                    <h4>Examples:</h4>
+                    <ul>
+                        <li>Operating Systems (Windows, Linux)</li>
+                        <li>Database Management Systems (DBMS)</li>
+                        <li>Network Management Software</li>
+                        <li>Development Tools (Compilers, Debuggers)</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Application Software</h3>
+                    <p>Software that performs a specific function directly for the end user.</p>
+                    <h4>Examples:</h4>
+                    <ul>
+                        <li>Word Processors & Spreadsheets</li>
+                        <li>Games & Media Players</li>
+                        <li>CRM & HR Management Software</li>
+                        <li>Anti-virus & Utility Software</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="callout-box">
+                <h4>Food for Thought</h4>
+                <p>Consider the software development community in your region (e.g., Sri Lanka). How many companies exist? How many people are employed? Are they primarily developing generic or bespoke software? This helps connect these concepts to the real world.</p>
+            </div>
+
+            <div class="card" style="margin-top: 30px;">
+                <h3>
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
+                    The History: Software Crisis
+                </h3>
+                <p>The term 'software engineering' was proposed in 1968 as a response to the "software crisis". As computer hardware advanced rapidly, software became more complex, leading to systemic problems:</p>
+                <ul>
+                    <li>Projects were frequently over budget and behind schedule.</li>
+                    <li>Software was often of low quality and did not meet user requirements.</li>
+                    <li>Projects were unmanageable, and the code was difficult to maintain.</li>
+                    <li>Some projects were never delivered at all.</li>
+                </ul>
+                <p style="margin-top:10px;"><strong>Software Engineering was proposed as the solution</strong>—a disciplined, engineering-based approach to tackle this complexity.</p>
+            </div>
+
+            <div class="comparison-container" style="margin-top: 30px;">
+                <div class="comparison-item card">
+                    <h3>
+                        Computer Science
+                    </h3>
+                    <p>Focuses on the <strong>theory and fundamentals</strong> of computation, algorithms, data structures, and the underlying principles of computing.</p>
+                </div>
+                <div class="divider"></div>
+                <div class="comparison-item card">
+                    <h3>
+                        Software Engineering
+                    </h3>
+                    <p>Focuses on <strong>practically producing software</strong> by applying computer science principles, along with engineering discipline, project management, and other ad hoc approaches to build reliable and maintainable systems.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Software Process -->
+    <section id="process">
+        <div class="container">
+            <div class="section-header">
+                <h2>The Software Process & Models</h2>
+            </div>
+            <div class="card">
+                <h3>
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10.5v6m3-3H9m4.06-7.19l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" /></svg>
+                    Core Software Process Activities
+                </h3>
+                <p>The software process is a structured set of activities required to develop a software system. It is generally broken down into four key phases:</p>
+                <div class="grid grid-4" style="margin-top: 20px;">
+                    <div><h4>1. Specification</h4><p>Defining what the system should do. Includes requirements analysis and specification.</p></div>
+                    <div><h4>2. Development</h4><p>Designing and building the software. Includes design, implementation, and documentation.</p></div>
+                    <div><h4>3. Validation</h4><p>Ensuring the software does what the customer wants. Includes testing and debugging.</p></div>
+                    <div><h4>4. Evolution</h4><p>Changing the software in response to changing demands. Includes maintenance.</p></div>
+                </div>
+            </div>
+
+            <div class="grid grid-2" style="margin-top: 30px;">
+                <div class="card">
+                    <h3>Software Development Life Cycle (SDLC)</h3>
+                    <p>The SDLC is a series of steps or phases in which software is produced. The goals of each phase are to:</p>
+                    <ul>
+                        <li>Mark out a clear set of steps to perform.</li>
+                        <li>Produce a tangible item (e.g., a document, a prototype).</li>
+                        <li>Allow for review of work.</li>
+                        <li>Specify actions for the next phase.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Software Process Models</h3>
+                    <p>A software process model is a simplified representation (or abstraction) of a software process. Popular paradigms include:</p>
+                    <ul>
+                        <li><strong>Waterfall Model:</strong> Represents process activities as separate, sequential phases.</li>
+                        <li><strong>Iterative Development:</strong> "Cycles" through development phases, delivering functionality incrementally.</li>
+                        <li><strong>Component-based:</strong> Software is developed by integrating existing components.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card" style="margin-top: 30px;">
+                <h3>
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 1.5m1-1.5l1 1.5m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6" /></svg>
+                    CASE Tools
+                </h3>
+                <p><strong>Computer-Aided Software Engineering (CASE)</strong> tools are software systems that support software process activities.</p>
+                <div class="grid grid-2" style="margin-top: 20px;">
+                    <div><h4>Upper-CASE Tools</h4><p>Support early phases of the SDLC, such as requirements analysis and system design.</p></div>
+                    <div><h4>Lower-CASE Tools</h4><p>Support later phases, such as implementation, testing, and maintenance.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Attributes & Objectives -->
+    <section id="attributes">
+        <div class="container">
+            <div class="section-header">
+                <h2>Software Attributes & Objectives</h2>
+            </div>
+            <p style="text-align: center; max-width: 800px; margin: -20px auto 40px auto;">Good software engineering aims to produce software that is not just functional, but also possesses a range of desirable qualities. These are the key objectives and attributes of well-engineered software.</p>
+            <div class="grid grid-3">
+                <div class="card">
+                    <h3>Maintainability</h3>
+                    <p>The ability for the software to evolve to meet changing needs. This includes fixing bugs and adding new features.</p>
+                </div>
+                <div class="card">
+                    <h3>Dependability & Reliability</h3>
+                    <p>The software should be reliable, safe, and secure. It should not cause physical or economic damage in the event of system failure.</p>
+                </div>
+                <div class="card">
+                    <h3>Efficiency</h3>
+                    <p>The software should not waste system resources such as memory (RAM) or processor cycles (CPU time).</p>
+                </div>
+                <div class="card">
+                    <h3>Usability</h3>
+                    <p>The ability for users to use the software easily and without hassle. It should have an appropriate user interface and adequate documentation.</p>
+                </div>
+                <div class="card">
+                    <h3>Correctness & Testability</h3>
+                    <p>The software should perform according to its specification. It must be testable to verify this correctness.</p>
+                </div>
+                <div class="card">
+                    <h3>Reusability & Portability</h3>
+                    <p>Components should be reusable in other systems. The software should be able to run on different hardware and operating systems.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Challenges -->
+    <section id="challenges">
+        <div class="container">
+            <div class="section-header">
+                <h2>Key Challenges in Software Engineering</h2>
+            </div>
+            <div class="grid grid-3">
+                <div class="card">
+                    <h3>
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 14.15v4.07a2.25 2.25 0 01-2.25 2.25h-13.5a2.25 2.25 0 01-2.25-2.25v-4.07m18-4.21v-4.07a2.25 2.25 0 00-2.25-2.25h-13.5a2.25 2.25 0 00-2.25 2.25v4.07m18 4.21c0 1.242-1.008 2.25-2.25 2.25h-13.5c-1.242 0-2.25-1.008-2.25-2.25m18-4.21V8.25a2.25 2.25 0 00-2.25-2.25h-13.5a2.25 2.25 0 00-2.25 2.25v1.69" /></svg>
+                        The Legacy Challenge
+                    </h3>
+                    <p>Many valuable software systems were developed long ago using outdated technologies. Maintaining and evolving these "legacy systems" is a significant challenge, as they are often critical to business operations but difficult to change.</p>
+                </div>
+                <div class="card">
+                    <h3>
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5m0 15V21m-9-1.5h10.5a2.25 2.25 0 002.25-2.25V6.75a2.25 2.25 0 00-2.25-2.25H6.75A2.25 2.25 0 004.5 6.75v10.5a2.25 2.25 0 002.25 2.25z" /></svg>
+                        The Heterogeneity Challenge
+                    </h3>
+                    <p>Modern software rarely operates in isolation. It must run on a variety of devices (desktops, mobiles, servers) and be integrated with other systems across networks. Maintaining these distributed systems is complex.</p>
+                </div>
+                <div class="card">
+                    <h3>
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.63 2.25c-5.508 0-10.198 3.318-12.13 7.91a14.98 14.98 0 0012.13 19.86A14.98 14.98 0 0021.75 12m-2.43 2.37a6 6 0 01-8.26 0M16.5 15.75l-1.5-1.5" /></svg>
+                        The Delivery Challenge
+                    </h3>
+                    <p>Businesses operate in a fast-changing environment and require software to be delivered quickly to respond to new opportunities and market pressures. Balancing speed of delivery with quality and cost is a constant engineering trade-off.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Professional Ethics -->
+    <section id="ethics">
+        <div class="container">
+            <div class="section-header">
+                <h2>Professional Ethics for Software Engineers</h2>
+            </div>
+            <p style="text-align: center; max-width: 800px; margin: -20px auto 40px auto;">Software engineers have responsibilities to the engineering profession and to society. The IEEE-CS/ACM task force developed a code of ethics with 8 guiding principles.</p>
+            <div class="grid grid-2">
+                <div class="card">
+                    <h3>Public & Client</h3>
+                    <ul>
+                        <li><strong>Public Interest:</strong> Act consistently with the public interest.</li>
+                        <li><strong>Client and Employer:</strong> Act in a manner that is in the best interest of their client and employer, consistent with the public interest.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Product & Judgment</h3>
+                    <ul>
+                        <li><strong>Product:</strong> Ensure that products and related modifications meet the highest professional standards possible.</li>
+                        <li><strong>Judgment:</strong> Maintain integrity and independence in their professional judgment.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Management & Profession</h3>
+                    <ul>
+                        <li><strong>Management:</strong> Managers and leaders shall promote an ethical approach to the management of software development and maintenance.</li>
+                        <li><strong>Profession:</strong> Advance the integrity and reputation of the profession consistent with the public interest.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Colleagues & Self</h3>
+                    <ul>
+                        <li><strong>Colleagues:</strong> Be fair to and supportive of their colleagues.</li>
+                        <li><strong>Self:</strong> Participate in lifelong learning and promote an ethical approach to the practice of the profession.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Points / Recap -->
+    <section id="recap">
+        <div class="container">
+            <div class="section-header">
+                <h2>Key Takeaways</h2>
+            </div>
+            <div class="grid grid-2">
+                <div class="card">
+                    <h3>Software Engineering</h3>
+                    <p>An engineering discipline concerned with <strong>all aspects</strong> of software production, from specification to maintenance.</p>
+                </div>
+                <div class="card">
+                    <h3>Software</h3>
+                    <p>A combination of programs, documentation, and configuration data.</p>
+                </div>
+                <div class="card">
+                    <h3>Software Process</h3>
+                    <p>The core activities of specification, development, validation, and evolution (maintenance).</p>
+                </div>
+                <div class="card">
+                    <h3>Software Attributes</h3>
+                    <p>The essential qualities of good software: maintainability, dependability, efficiency, and usability.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- Footer -->
+<footer class="main-footer">
+    <div class="container">
+        <p>COM 2308 Software Engineering Study Guide | End of Overview</p>
+    </div>
+</footer>
+
+</body>
+</html>

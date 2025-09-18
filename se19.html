@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100 Practice Questions: Software Process Models</title>
+    <style>
+        /* --- Google Font & W3 Light Theme --- */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        :root {
+            --primary-color: #0078D4;
+            --secondary-color: #555555;
+            --bg-color: #f4f4f4;
+            --card-bg-color: #ffffff;
+            --text-color: #333333;
+            --heading-color: #000000;
+            --border-color: #dddddd;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --answer-bg: #f9f9f9;
+        }
+
+        * { box-sizing: border-box; scroll-behavior: smooth; }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.7; margin: 0; padding: 0; }
+        .container { max-width: 1000px; margin: 20px auto; padding: 0 20px; }
+
+        .main-header { text-align: center; padding: 40px 20px; background: var(--card-bg-color); border-radius: 5px; margin-bottom: 30px; border: 1px solid var(--border-color); }
+        .main-header h1 { color: var(--primary-color); margin: 0; }
+        .main-header p { color: var(--secondary-color); font-size: 1.1rem; }
+
+        #toc { background: var(--card-bg-color); padding: 25px; border-radius: 5px; margin-bottom: 30px; }
+        #toc h2 { text-align: center; margin-top: 0; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        #toc ol { list-style-type: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px; }
+        #toc a { text-decoration: none; color: var(--primary-color); font-weight: 600; }
+        #toc a:hover { text-decoration: underline; }
+
+        .question-section { margin-bottom: 40px; }
+        .question-section h2 { border-bottom: 3px solid var(--primary-color); padding-bottom: 10px; }
+
+        .question-list { list-style-type: none; padding: 0; }
+        .question-list li { background: var(--card-bg-color); padding: 20px; border-radius: 5px; border: 1px solid var(--border-color); margin-bottom: 20px; box-shadow: 0 2px 5px var(--shadow-color); }
+        .question-list p { margin: 0 0 15px 0; }
+
+        .toggle-answer-btn { background-color: var(--primary-color); color: white; border: none; padding: 8px 15px; border-radius: 3px; cursor: pointer; font-weight: 600; font-family: 'Poppins', sans-serif; }
+        .toggle-answer-btn:hover { opacity: 0.9; }
+
+        .answer { display: none; background-color: var(--answer-bg); border: 1px solid var(--border-color); border-left: 5px solid var(--primary-color); padding: 15px; margin-top: 15px; border-radius: 0 5px 5px 0; }
+        .answer ul { padding-left: 20px; }
+
+        .main-footer { text-align: center; padding: 20px; margin-top: 40px; color: var(--secondary-color); }
+    </style>
+    <script>
+        function toggleAnswer(id) {
+            const answerEl = document.getElementById(id);
+            const buttonEl = answerEl.previousElementSibling;
+            if (answerEl.style.display === 'block') {
+                answerEl.style.display = 'none';
+                buttonEl.textContent = 'Show Answer';
+            } else {
+                answerEl.style.display = 'block';
+                buttonEl.textContent = 'Hide Answer';
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <header class="main-header">
+        <h1>100 Practice Questions: Software Process Models</h1>
+        <p>Based on COM 2308 Course Material</p>
+    </header>
+
+    <nav id="toc">
+        <h2>Table of Contents</h2>
+        <ol>
+            <li><a href="#section1">1. Core Concepts</a></li>
+            <li><a href="#section2">2. The Waterfall Model</a></li>
+            <li><a href="#section3">3. Iterative & Incremental Development</a></li>
+            <li><a href="#section4">4. The Spiral Model</a></li>
+            <li><a href="#section5">5. Agile Methods & Principles</a></li>
+            <li><a href="#section6">6. Extreme Programming (XP)</a></li>
+            <li><a href="#section7">7. TDD, Prototyping & Cowboy Coding</a></li>
+            <li><a href="#section8">8. Reuse-Oriented Engineering (CBSE)</a></li>
+            <li><a href="#section9">9. Scrum Development</a></li>
+        </ol>
+    </nav>
+
+    <main>
+        <!-- SECTION 1: Core Concepts -->
+        <section id="section1" class="question-section">
+            <h2>Section 1: Core Concepts & Process Activities</h2>
+            <ol class="question-list">
+                <li><p><strong>1.</strong> What is 'The Software Process'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans1')">Show Answer</button><div id="ans1" class="answer">A structured set of activities required to develop a software system.</div></li>
+                <li><p><strong>2.</strong> List the four fundamental activities of the software process.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans2')">Show Answer</button><div id="ans2" class="answer">Specification, Design & Implementation, Validation, and Maintenance.</div></li>
+                <li><p><strong>3.</strong> Define a 'Software Process Model' according to Sommerville.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans3')">Show Answer</button><div id="ans3" class="answer">An abstract representation of a process that presents a description from a particular perspective.</div></li>
+                <li><p><strong>4.</strong> What is the primary purpose of a process model?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans4')">Show Answer</button><div id="ans4" class="answer">To provide a roadmap or framework for the activities, actions, and tasks required to build high-quality software.</div></li>
+                <li><p><strong>5.</strong> Name the three generic software process models discussed in the lecture.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans5')">Show Answer</button><div id="ans5" class="answer">1. The Waterfall Model. 2. Iterative Processes. 3. Component-based Software Engineering.</div></li>
+                <li><p><strong>6.</strong> What activity is involved in the 'Specification' phase?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans6')">Show Answer</button><div id="ans6" class="answer">Defining what the system should do, including requirements gathering and analysis.</div></li>
+                <li><p><strong>7.</strong> What happens during the 'Validation' phase?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans7')">Show Answer</button><div id="ans7" class="answer">Ensuring the software meets the customer's needs, primarily through testing and debugging.</div></li>
+                <li><p><strong>8.</strong> What is 'Process Iteration'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans8')">Show Answer</button><div id="ans8" class="answer">The concept of repeating software process activities to cater for changing requirements, forming the basis of iterative and agile models.</div></li>
+                <li><p><strong>9.</strong> What is the main driver for process iteration?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans9')">Show Answer</button><div id="ans9" class="answer">The fact that the requirements of a software project tend to change over time.</div></li>
+                <li><p><strong>10.</strong> What is another name for the 'Maintenance' phase?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans10')">Show Answer</button><div id="ans10" class="answer">Software Evolution.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 2: The Waterfall Model -->
+        <section id="section2" class="question-section">
+            <h2>Section 2: The Waterfall Model</h2>
+            <ol class="question-list">
+                <li><p><strong>11.</strong> Describe the core concept of the Waterfall model.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans11')">Show Answer</button><div id="ans11" class="answer">It is a sequential process where development flows steadily downwards through distinct phases (Requirements, Design, Implementation, etc.). Each phase must be fully completed and signed off before the next one begins.</div></li>
+                <li><p><strong>12.</strong> List the five main phases of the Waterfall model as shown in the detailed diagram.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans12')">Show Answer</button><div id="ans12" class="answer">1. Requirements analysis and definition. 2. System and software design. 3. Implementation and unit testing. 4. Integration and system testing. 5. Operation and maintenance.</div></li>
+                <li><p><strong>13.</strong> What is the main argument for using the Waterfall model regarding bug detection?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans13')">Show Answer</button><div id="ans13" class="answer">It is more economical if bugs are found earlier in the lifecycle (e.g., during the requirements or design phase), as the cost to fix them increases exponentially in later phases.</div></li>
+                <li><p><strong>14.</strong> What is a major advantage of the Waterfall model concerning project visibility?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans14')">Show Answer</button><div id="ans14" class="answer">Documents are produced at the end of each stage (e.g., requirements specification, design document), which improves the visibility and traceability of the project for management.</div></li>
+                <li><p><strong>15.</strong> What is the primary criticism of the Waterfall model?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans15')">Show Answer</button><div id="ans15" class="answer">It is very difficult and costly to accommodate changing customer requirements because it requires going back to earlier phases and re-doing significant work.</div></li>
+                <li><p><strong>16.</strong> Why does the Waterfall model struggle with real-world projects?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans16')">Show Answer</button><div id="ans16" class="answer">Because it assumes that requirements can be fully known and frozen at the beginning, which is rarely possible. It also assumes that each phase can be perfected before moving to the next.</div></li>
+                <li><p><strong>17.</strong> For what types of organizations is the Waterfall model still widely used?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans17')">Show Answer</button><div id="ans17" class="answer">Large organizations like the US Department of Defense and NASA, especially for large, critical systems where upfront planning and documentation are mandatory.</div></li>
+                <li><p><strong>18.</strong> When is the Waterfall model considered most applicable?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans18')">Show Answer</button><div id="ans18" class="answer">When requirements are very well understood and stable, and the problem domain is familiar to the development organization.</div></li>
+                <li><p><strong>19.</strong> What key management activity is not explicitly covered by the pure Waterfall model?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans19')">Show Answer</button><div id="ans19" class="answer">Risk management.</div></li>
+                <li><p><strong>20.</strong> How does the Waterfall model contribute to "waste of resources"?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans20')">Show Answer</button><div id="ans20" class="answer">A working version of the software is not available until late in the cycle. If the final product does not meet user needs, much of the effort spent in the preceding phases is wasted.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 3: Iterative & Incremental Development -->
+        <section id="section3" class="question-section">
+            <h2>Section 3: Iterative & Incremental Development</h2>
+            <ol class="question-list">
+                <li><p><strong>21.</strong> What is the core idea of Incremental Development?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans21')">Show Answer</button><div id="ans21" class="answer">To develop an initial implementation, expose it to user comment, and then evolve it through several versions (increments) until an adequate system is developed.</div></li>
+                <li><p><strong>22.</strong> How does the handling of requirements differ between Waterfall and Incremental models?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans22')">Show Answer</button><div id="ans22" class="answer">In Waterfall, requirements are specified upfront. In Incremental models, the specification is developed in conjunction with the software, evolving with each iteration.</div></li>
+                <li><p><strong>23.</strong> What are three advantages of incremental development over the waterfall model?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans23')">Show Answer</button><div id="ans23" class="answer">1. Reduced cost to accommodate changing requirements. 2. Easier to get customer feedback on working software. 3. More rapid delivery of useful functionality.</div></li>
+                <li><p><strong>24.</strong> How does incremental development provide value to the customer earlier?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans24')">Show Answer</button><div id="ans24" class="answer">The first increment typically satisfies the most critical requirements, allowing customers to use the software and gain value immediately rather than waiting for the entire system to be finished.</div></li>
+                <li><p><strong>25.</strong> What is a major management disadvantage of incremental development?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans25')">Show Answer</button><div id="ans25" class="answer">The process is not as visible as in the Waterfall model. Without the regular, formal documents produced at each phase, it can be harder for managers to measure progress.</div></li>
+                <li><p><strong>26.</strong> What tends to happen to the system structure in incremental development if not managed carefully?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans26')">Show Answer</button><div id="ans26" class="answer">The system structure tends to degrade as new increments are added. Regular change can corrupt the structure unless time and money are spent on refactoring to improve it.</div></li>
+                <li><p><strong>27.</strong> Why can getting useful customer feedback be difficult in iterative development for a replacement system?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans27')">Show Answer</button><div id="ans27" class="answer">Users of the old system often want all of its functionality from day one and are unwilling to experiment with an incomplete new system, making it hard to provide feedback on early increments.</div></li>
+                <li><p><strong>28.</strong> How does incremental development conflict with traditional procurement models?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans28')">Show Answer</button><div id="ans28" class="answer">Many organizations' contracts require a complete system specification upfront. In an incremental approach, a complete specification doesn't exist until the final increment is defined, requiring a new form of contract.</div></li>
+                <li><p><strong>29.</strong> Name three types of iterative development models mentioned in the lecture.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans29')">Show Answer</button><div id="ans29" class="answer">Any three of: Incremental Development, Spiral model, Agile software development, Extreme Programming (XP), Test-Driven Development (TDD).</div></li>
+                <li><p><strong>30.</strong> What does it mean for specification, development, and validation to be "interleaved"?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans30')">Show Answer</button><div id="ans30" class="answer">It means these activities are not done in separate, long phases. Instead, a small amount of specification is done, followed by development and validation for that piece, and this cycle repeats.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 4: Spiral Model -->
+        <section id="section4" class="question-section">
+            <h2>Section 4: The Spiral Model</h2>
+            <ol class="question-list">
+                <li><p><strong>31.</strong> What is the defining characteristic of the Spiral model?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans31')">Show Answer</button><div id="ans31" class="answer">It is a risk-driven process model where risks are explicitly assessed and resolved in each loop of the spiral.</div></li>
+                <li><p><strong>32.</strong> For what types of projects is the Spiral model particularly favored?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans32')">Show Answer</button><div id="ans32" class="answer">Large, expensive, and complicated projects where risk management is critical.</div></li>
+                <li><p><strong>33.</strong> List the four sectors (activities) in each loop of the spiral.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans33')">Show Answer</button><div id="ans33" class="answer">1. Objective setting. 2. Risk assessment and reduction. 3. Development and validation. 4. Planning.</div></li>
+                <li><p><strong>34.</strong> What happens in the 'Objective setting' sector of a spiral loop?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans34')">Show Answer</button><div id="ans34" class="answer">Specific objectives for that phase of the project (that loop of the spiral) are identified.</div></li>
+                <li><p><strong>35.</strong> What happens in the 'Risk assessment and reduction' sector?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans35')">Show Answer</button><div id="ans35" class="answer">Key risks are identified and assessed, and activities (like prototyping) are put in place to reduce those risks.</div></li>
+                <li><p><strong>36.</strong> What happens in the 'Development and validation' sector?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans36')">Show Answer</button><div id="ans36" class="answer">A development model (which can be any of the generic models, like waterfall) is chosen for that phase, and the system is developed and validated.</div></li>
+                <li><p><strong>37.</strong> What happens in the 'Planning' sector?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans37')">Show Answer</button><div id="ans37" class="answer">The project is reviewed, and the next phase (the next loop of the spiral) is planned.</div></li>
+                <li><p><strong>38.</strong> Does the Spiral model have fixed phases?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans38')">Show Answer</button><div id="ans38" class="answer">No, it does not have fixed phases like the waterfall model. The loops in the spiral are chosen depending on what is required at that stage of the project.</div></li>
+                <li><p><strong>39.</strong> How is the process represented visually in the Spiral model?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans39')">Show Answer</button><div id="ans39" class="answer">As a spiral rather than a sequence of activities with backtracking. Each loop represents a phase in the process.</div></li>
+                <li><p><strong>40.</strong> What is the main benefit of the Spiral model's approach?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans40')">Show Answer</button><div id="ans40" class="answer">It integrates risk management directly into the lifecycle, allowing high-risk problems to be addressed early before they become too costly or threaten the project.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 5: Agile -->
+        <section id="section5" class="question-section">
+            <h2>Section 5: Agile Methods & Principles</h2>
+            <ol class="question-list">
+                <li><p><strong>41.</strong> What is the core idea behind Agile software development?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans41')">Show Answer</button><div id="ans41" class="answer">To develop software in short timeboxes called iterations (1-4 weeks), releasing mini-increments of working software at the end of each iteration to adapt to changing requirements.</div></li>
+                <li><p><strong>42.</strong> What is the primary measure of progress in Agile?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans42')">Show Answer</button><div id="ans42" class="answer">Working software.</div></li>
+                <li><p><strong>43.</strong> What form of communication does Agile emphasize?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans43')">Show Answer</button><div id="ans43" class="answer">Real-time communication, preferably face-to-face, over extensive written documents.</div></li>
+                <li><p><strong>44.</strong> How does Agile differ from general iterative development?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans44')">Show Answer</button><div id="ans44" class="answer">Agile uses much shorter iterations (weeks vs. months), emphasizes a highly collaborative team manner, and treats the iteration length as a strict, non-negotiable timebox.</div></li>
+                <li><p><strong>45.</strong> How does Agile differ from the Waterfall model in its approach to features?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans45')">Show Answer</button><div id="ans45" class="answer">Waterfall completes entire phases (all design, then all coding). Agile aims to produce completely developed and tested features within a single iteration, focusing on the smallest workable piece of functionality first.</div></li>
+                <li><p><strong>46.</strong> List the six typical phases within an Agile iteration.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans46')">Show Answer</button><div id="ans46" class="answer">Planning, requirements analysis, Design, Coding, Testing, and Documentation.</div></li>
+                <li><p><strong>47.</strong> What happens at the end of each Agile iteration?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans47')">Show Answer</button><div id="ans47" class="answer">A mini-increment of the software is released, and the team re-evaluates project priorities for the next iteration.</div></li>
+                <li><p><strong>48.</strong> Why can prioritizing changes be difficult in Agile?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans48')">Show Answer</button><div id="ans48" class="answer">It can be difficult where there are multiple stakeholders with conflicting priorities, making it hard to decide which features to work on next.</div></li>
+                <li><p><strong>49.</strong> Why does 'maintaining simplicity' require extra work in Agile?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans49')">Show Answer</button><div id="ans49" class="answer">Because as new features are added iteratively, the system's design can degrade. It requires continuous effort (refactoring) to keep the code simple and easy to change.</div></li>
+                <li><p><strong>50.</strong> What is the main advantage of delivering in "mini-increments"?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans50')">Show Answer</button><div id="ans50" class="answer">It allows for rapid feedback from the customer on a tangible, working piece of software, which helps to ensure the final product meets their needs.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 6: XP -->
+        <section id="section6" class="question-section">
+            <h2>Section 6: Extreme Programming (XP)</h2>
+            <ol class="question-list">
+                <li><p><strong>51.</strong> What makes Extreme Programming (XP) 'extreme'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans51')">Show Answer</button><div id="ans51" class="answer">XP takes good Agile practices and turns them up to an 'extreme' level. For example, if code reviews are good, XP does them continuously via pair programming. If testing is good, XP writes tests first (TDD).</div></li>
+                <li><p><strong>52.</strong> How frequently are increments delivered in XP?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans52')">Show Answer</button><div id="ans52" class="answer">Typically every 2 weeks.</div></li>
+                <li><p><strong>53.</strong> List the five essential values/ways XP improves a project.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans53')">Show Answer</button><div id="ans53" class="answer">Communication, Simplicity, Feedback, Courage, and Respect.</div></li>
+                <li><p><strong>54.</strong> What are the four main activities in XP?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans54')">Show Answer</button><div id="ans54" class="answer">Coding, Testing, Listening, and Designing.</div></li>
+                <li><p><strong>55.</strong> For what types of projects is XP most applicable?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans55')">Show Answer</button><div id="ans55" class="answer">Projects involving new technology where requirements are expected to change rapidly, or for research projects focused on domain knowledge.</div></li>
+                <li><p><strong>56.</strong> How does XP handle customer engagement?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans56')">Show Answer</button><div id="ans56" class="answer">It requires full-time engagement of the customer or a customer representative who is part of the development team.</div></li>
+                <li><p><strong>57.</strong> What is the purpose of 'listening' as an XP activity?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans57')">Show Answer</button><div id="ans57" class="answer">Programmers must listen to what the customer needs and provide feedback to help improve the customer's own understanding of the problem.</div></li>
+                <li><p><strong>58.</strong> What is the goal of 'designing' in XP?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans58')">Show Answer</button><div id="ans58" class="answer">To create a simple design structure that organizes the system's logic in a way that allows one part to be changed without affecting other parts.</div></li>
+                <li><p><strong>59.</strong> What are the two types of tests used in XP testing?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans59')">Show Answer</button><div id="ans59" class="answer">1. Unit Tests: Automated tests to test the code. 2. Acceptance Tests: Based on requirements given by the customer.</div></li>
+                <li><p><strong>60.</strong> What is the main goal of XP's approach?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans60')">Show Answer</button><div id="ans60" class="answer">To stress customer satisfaction by empowering developers to confidently respond to changing requirements, even late in the life cycle.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 7: TDD, Prototyping & Cowboy Coding -->
+        <section id="section7" class="question-section">
+            <h2>Section 7: TDD, Prototyping & Cowboy Coding</h2>
+            <ol class="question-list">
+                <li><p><strong>61.</strong> What is Test-Driven Development (TDD)?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans61')">Show Answer</button><div id="ans61" class="answer">A software development technique where you repeatedly write a test case first, and then implement only the code necessary to pass that test.</div></li>
+                <li><p><strong>62.</strong> Is TDD primarily a method of testing or designing software?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans62')">Show Answer</button><div id="ans62" class="answer">It is primarily a method of *designing* software, not just testing it. Writing the test first forces the developer to think about the desired interface and behavior.</div></li>
+                <li><p><strong>63.</strong> List the five steps of the TDD cycle.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans63')">Show Answer</button><div id="ans63" class="answer">1. Add a test. 2. Run all tests and see the new one fail. 3. Write some code. 4. Run the automated tests and see them succeed. 5. Refactor code.</div></li>
+                <li><p><strong>64.</strong> What is the main purpose of prototyping in software development?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans64')">Show Answer</button><div id="ans64" class="answer">To help users get an idea of the system and make design decisions without waiting for the full system to be built. It is a tool for clarifying requirements and getting early feedback.</div></li>
+                <li><p><strong>65.</strong> What is a major drawback of showing a polished prototype to users?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans65')">Show Answer</button><div id="ans65" class="answer">Users may see the prototype and have difficulty understanding that the finished, fully-functional design will not be produced for some time. It sets unrealistic expectations.</div></li>
+                <li><p><strong>66.</strong> What is the risk of using "patched-together" prototype code?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans66')">Show Answer</button><div id="ans66" class="answer">There is a strong temptation to use the low-quality prototype code in the final system to save time, which leads to a poorly engineered and unmaintainable product.</div></li>
+                <li><p><strong>67.</strong> Define 'Cowboy coding'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans67')">Show Answer</button><div id="ans67" class="answer">An unstructured approach without a defined method, where team members (often just one programmer) do whatever they feel is right to get the job done.</div></li>
+                <li><p><strong>68.</strong> In what limited situations is cowboy coding advantageous?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans68')">Show Answer</button><div id="ans68" class="answer">For quick solutions to small, well-understood problems, or for creating a 'spike' to test a programming idea before committing to it in a larger project.</div></li>
+                <li><p><strong>69.</strong> List three major disadvantages of cowboy coding for any non-trivial project.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans69')">Show Answer</button><div id="ans69" class="answer">1. Lacks a clear scope/vision. 2. Tends to produce poor quality/buggy software. 3. Lack of version control.</div></li>
+                <li><p><strong>70.</strong> Why does cowboy coding present a "huge risk to the business"?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans70')">Show Answer</button><div id="ans70" class="answer">Because it often results in an unmaintainable, undocumented system that is dependent on a single developer. If that developer leaves, the business is left with a critical system that no one understands.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 8: Reuse -->
+        <section id="section8" class="question-section">
+            <h2>Section 8: Reuse-Oriented & Component-Based Engineering</h2>
+            <ol class="question-list">
+                <li><p><strong>71.</strong> What is the core concept of Component-Based Software Engineering (CBSE)?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans71')">Show Answer</button><div id="ans71" class="answer">That systems should be built by integrating existing components or Commercial-Off-The-Shelf (COTS) systems, rather than developing all software from scratch.</div></li>
+                <li><p><strong>72.</strong> What is another name for CBSE?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans72')">Show Answer</button><div id="ans72" class="answer">Reuse-oriented development.</div></li>
+                <li><p><strong>73.</strong> List the four main process stages of reuse-oriented development.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans73')">Show Answer</button><div id="ans73" class="answer">1. Component analysis. 2. Requirements modification. 3. System design with reuse. 4. Development and integration.</div></li>
+                <li><p><strong>74.</strong> What happens during the 'Component analysis' stage?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans74')">Show Answer</button><div id="ans74" class="answer">The developers search for existing components that could be used to implement the system requirements.</div></li>
+                <li><p><strong>75.</strong> What happens during the 'Requirements modification' stage?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans75')">Show Answer</button><div id="ans75" class="answer">The requirements are analyzed against the components found and are modified to reflect what the available components can do.</div></li>
+                <li><p><strong>76.</strong> List three advantages of CBSE.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans76')">Show Answer</button><div id="ans76" class="answer">1. Reduces the amount of software to be developed. 2. Reduces cost and risk. 3. Allows for faster delivery of software.</div></li>
+                <li><p><strong>77.</strong> What is the main disadvantage of CBSE regarding requirements?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans77')">Show Answer</button><div id="ans77" class="answer">Requirements often have to be compromised because there may not be suitable components to match the exact client needs.</div></li>
+                <li><p><strong>78.</strong> What is the main disadvantage of CBSE regarding evolution?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans78')">Show Answer</button><div id="ans78" class="answer">The developing organization does not have full control over the evolution of the third-party components. They are dependent on the third party for upgrades and bug fixes.</div></li>
+                <li><p><strong>79.</strong> What does COTS stand for?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans79')">Show Answer</button><div id="ans79" class="answer">Commercial-Off-The-Shelf.</div></li>
+                <li><p><strong>80.</strong> What is the key dependency for a successful CBSE approach?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans80')">Show Answer</button><div id="ans80" class="answer">It requires a large base of available, reliable, and well-documented reusable software components and an integrating framework.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 9: Scrum -->
+        <section id="section9" class="question-section">
+            <h2>Section 9: Scrum Development</h2>
+            <ol class="question-list">
+                <li><p><strong>81.</strong> What is Scrum named after?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans81')">Show Answer</button><div id="ans81" class="answer">The game of Rugby, in which a group is responsible for picking up the ball and moving it forward together as a team.</div></li>
+                <li><p><strong>82.</strong> Is Scrum a process for developing software only?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans82')">Show Answer</button><div id="ans82" class="answer">No, it is an iterative, incremental process for developing *any* product or managing *any* work.</div></li>
+                <li><p><strong>83.</strong> What are the three main phases of the Scrum methodology?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans83')">Show Answer</button><div id="ans83" class="answer">Pregame, Game, and Postgame.</div></li>
+                <li><p><strong>84.</strong> What two activities happen during the 'Pregame' phase?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans84')">Show Answer</button><div id="ans84" class="answer">Planning and System Architecture/High-Level Design.</div></li>
+                <li><p><strong>85.</strong> What is the main activity during the 'Game' phase?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans85')">Show Answer</button><div id="ans85" class="answer">Development occurs in 'Sprints', which are periods of concurrent engineering (Analysis, Design, Develop).</div></li>
+                <li><p><strong>86.</strong> How long does a typical Sprint last?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans86')">Show Answer</button><div id="ans86" class="answer">The slide says 30 days, though modern Scrum often uses shorter sprints (1-4 weeks).</div></li>
+                <li><p><strong>87.</strong> When does testing happen in a Sprint?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans87')">Show Answer</button><div id="ans87" class="answer">Testing happens throughout the Sprint, concurrently with development.</div></li>
+                <li><p><strong>88.</strong> What happens in the 'Postgame' phase?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans88')">Show Answer</button><div id="ans88" class="answer">Closure, which includes delivering a functioning deliverable, getting sign-off, and starting the next Sprint.</div></li>
+                <li><p><strong>89.</strong> List four roles mentioned in Scrum.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans89')">Show Answer</button><div id="ans89" class="answer">Scrum Master, Developer, QA, and Documentation Member.</div></li>
+                <li><p><strong>90.</strong> List five values of Scrum.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans90')">Show Answer</button><div id="ans90" class="answer">Flexible deliverable, Flexible schedule, Small teams, Frequent reviews, Collaboration, Team Empowerment, and Adaptability.</div></li>
+                <li><p><strong>91.</strong> What happens in the "Adjust" part of a Sprint?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans91')">Show Answer</button><div id="ans91" class="answer">The team makes adjustments to their plan or process based on what they learned during the Sprint review and their own internal reflection.</div></li>
+                <li><p><strong>92.</strong> What is the key deliverable at the end of a Sprint?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans92')">Show Answer</button><div id="ans92" class="answer">A functioning, potentially shippable increment of the product.</div></li>
+                <li><p><strong>93.</strong> What is the focus of Scrum in terms of implementation?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans93')">Show Answer</button><div id="ans93" class="answer">Scrum focuses on the entire organization for its implementation to be a success, not just the development team.</div></li>
+                <li><p><strong>94.</strong> What is the first step in the 'Planning and Architecture' part of Pregame?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans94')">Show Answer</button><div id="ans94" class="answer">Identify the project.</div></li>
+                <li><p><strong>95.</strong> How does Scrum handle functional requirements?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans95')">Show Answer</button><div id="ans95" class="answer">By prioritizing them during the planning phase.</div></li>
+                <li><p><strong>96.</strong> What does "Team Empowerment" mean as a Scrum value?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans96')">Show Answer</button><div id="ans96" class="answer">The development team is self-organizing and is given the autonomy to decide how best to accomplish their work during a Sprint.</div></li>
+                <li><p><strong>97.</strong> Why are "frequent reviews" a core value?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans97')">Show Answer</button><div id="ans97" class="answer">They provide a regular feedback loop with stakeholders, ensuring the product stays aligned with their needs and allowing for course correction.</div></li>
+                <li><p><strong>98.</strong> What does 'Wrap' refer to in the Game phase?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans98')">Show Answer</button><div id="ans98" class="answer">Wrapping up the development activities to prepare the increment for review and delivery.</div></li>
+                <li><p><strong>99.</strong> What is the relationship between Scrum and Agile?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans99')">Show Answer</button><div id="ans99" class="answer">Agile is a set of values and principles, while Scrum is a framework for implementing those principles. Scrum is one of the most popular ways to be Agile.</div></li>
+                <li><p><strong>100.</strong> What is the overall message of the "Software Process Models" presentation?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans100')">Show Answer</button><div id="ans100" class="answer">That there is no single "best" process model. The choice of model (e.g., Waterfall, Iterative, Agile) depends on the nature of the project, the stability of requirements, the level of risk, and the organizational context. Modern development favors iterative and agile approaches to handle change.</div></li>
+            </ol>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <p>Made with love by SS</p>
+    </footer>
+</div>
+</body>
+</html>

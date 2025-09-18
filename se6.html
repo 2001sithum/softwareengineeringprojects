@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT 2402: Software Evolution</title>
+    <style>
+        /* --- Google Font --- */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        /* --- Global Styles & Variables --- */
+        :root {
+            --primary-color: #ffc107; /* Bright Yellow/Gold */
+            --secondary-color: #00bcd4; /* Accent Cyan */
+            --bg-color: #1a1a1a;
+            --card-bg-color: #2c2c2c;
+            --text-color: #e0e0e0;
+            --heading-color: #ffffff;
+            --border-color: #444444;
+            --shadow-color: rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
+        }
+
+        /* --- Layout --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- Header & Navigation --- */
+        .main-header {
+            background: var(--bg-color);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 2px 10px var(--shadow-color);
+        }
+
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .logo svg { width: 32px; height: 32px; }
+
+        .main-nav ul { display: flex; list-style: none; gap: 15px; flex-wrap: wrap; }
+        .main-nav a { color: var(--text-color); text-decoration: none; font-weight: 600; transition: color 0.3s ease; }
+        .main-nav a:hover { color: var(--primary-color); }
+
+        /* --- Hero Section --- */
+        .hero {
+            color: var(--heading-color);
+            padding: 80px 0;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .hero h1 { font-size: 3rem; color: var(--primary-color); margin-bottom: 0.5rem; }
+        .hero p { font-size: 1.8rem; color: var(--secondary-color); font-weight: 400; }
+
+        /* --- Main Content Section Styling --- */
+        main section { padding: 60px 0; border-bottom: 1px solid var(--border-color); }
+        section:last-of-type { border-bottom: none; }
+
+        .section-header { text-align: center; margin-bottom: 40px; }
+        .section-header h2 { font-size: 2.5rem; color: var(--heading-color); display: inline-block; border-bottom: 3px solid var(--primary-color); padding-bottom: 10px; }
+
+        /* --- Card & Grid Styles --- */
+        .grid { display: grid; gap: 30px; }
+        .grid-2 { grid-template-columns: repeat(2, 1fr); }
+        .grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+        .card {
+            background: var(--card-bg-color);
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 15px var(--shadow-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px var(--shadow-color); }
+        .card h3 { color: var(--primary-color); margin-bottom: 15px; display: flex; align-items: center; gap: 10px; font-size: 1.4rem; }
+        .card h4 { color: var(--secondary-color); margin-top: 20px; margin-bottom: 10px; font-size: 1.1rem; }
+        .card ul { list-style-position: inside; padding-left: 5px; }
+        .card li { margin-bottom: 8px; }
+
+        .icon { width: 24px; height: 24px; stroke: var(--primary-color); stroke-width: 2; fill: none; flex-shrink: 0; }
+
+        /* --- Table Styling --- */
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .styled-table th, .styled-table td {
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+        .styled-table th {
+            background-color: #333;
+            color: var(--primary-color);
+        }
+        .styled-table td:first-child { font-weight: 600; }
+
+        /* --- Footer --- */
+        .main-footer {
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 40px;
+            background: var(--card-bg-color);
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .grid-2, .grid-4 { grid-template-columns: 1fr; }
+            .main-header .container { flex-direction: column; gap: 15px; }
+            .main-nav ul { justify-content: center; }
+            .hero h1 { font-size: 2.5rem; }
+            .hero p { font-size: 1.5rem; }
+            .section-header h2 { font-size: 2rem; }
+            .styled-table { display: block; overflow-x: auto; }
+        }
+    </style>
+</head>
+<body>
+<header class="main-header">
+    <div class="container">
+        <a href="#hero" class="logo">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" alt="sithara logo">
+                <title>sithara</title>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z" />
+            </svg>
+            <span>ICT 2402</span>
+        </a>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="#intro">Introduction</a></li>
+                <li><a href="#dynamics">Evolution Dynamics</a></li>
+                <li><a href="#maintenance">Maintenance</a></li>
+                <li><a href="#process">Evolution Process</a></li>
+                <li><a href="#legacy">Legacy Systems</a></li>
+                <li><a href="#cm">Config Mgmt</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <section id="hero" class="hero">
+        <div class="container">
+            <h1>Software Evolution</h1>
+            <p>ICT 2402 Software Engineering</p>
+        </div>
+    </section>
+
+    <section id="intro">
+        <div class="container">
+            <div class="section-header">
+                <h2>The Nature of Software Change</h2>
+            </div>
+            <div class="card">
+                <h3>
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.311a15.045 15.045 0 01-7.5 0C4.508 19.64 2.25 15.224 2.25 10.5 2.25 5.806 5.806 2.25 10.5 2.25c4.694 0 8.25 3.556 8.25 8.25 0 4.724-2.258 9.14-5.25 11.411z" /></svg>
+                    Why Software Must Change
+                </h3>
+                <p>Software change is inevitable. Once deployed, software must evolve to remain useful. The development process doesn't end at delivery; it continues in a spiral of evolution through multiple releases.</p>
+                <h4>Key Drivers for Change:</h4>
+                <ul>
+                    <li><b>New Requirements:</b> Emerge as users interact with the software.</li>
+                    <li><b>Business Environment:</b> The business context changes, requiring new features or processes.</li>
+                    <li><b>Error Repair:</b> Bugs and faults must be fixed.</li>
+                    <li><b>New Equipment:</b> The software must adapt to new hardware or operating systems.</li>
+                    <li><b>Performance Improvement:</b> The system may need to be faster or more reliable.</li>
+                </ul>
+                <p style="margin-top:15px;">A key problem for organizations is managing this constant change to their existing software systems effectively.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="dynamics">
+        <div class="container">
+            <div class="section-header">
+                <h2>Program Evolution Dynamics</h2>
+            </div>
+            <div class="card">
+                <h3>
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 1.5m1-1.5l1 1.5m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6" /></svg>
+                    Lehman's Laws
+                </h3>
+                <p>Program evolution dynamics is the study of system change. Based on empirical studies, Lehman and Belady proposed a set of "laws" that are sensible observations about how large, tailored software systems evolve over time.</p>
+                <table class="styled-table">
+                    <thead>
+                    <tr>
+                        <th>Law</th>
+                        <th>Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Continuing Change</td>
+                        <td>A program used in the real world must change or become progressively less useful.</td>
+                    </tr>
+                    <tr>
+                        <td>Increasing Complexity</td>
+                        <td>As a program evolves, its structure degrades, and complexity increases. Resources must be devoted to preserving and simplifying the structure (refactoring).</td>
+                    </tr>
+                    <tr>
+                        <td>Large Program Evolution</td>
+                        <td>Evolution is a self-regulating process. System attributes like size and time between releases are roughly constant for each release.</td>
+                    </tr>
+                    <tr>
+                        <td>Continuing Growth</td>
+                        <td>Functionality must be continually added to maintain user satisfaction.</td>
+                    </tr>
+                    <tr>
+                        <td>Organisational Stability</td>
+                        <td>Over a program's lifetime, its rate of development is approximately constant.</td>
+                    </tr>
+                    <tr>
+                        <td>Conservation of Familiarity</td>
+                        <td>The incremental change in each release is approximately constant, as radical changes can alienate users.</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section id="maintenance">
+        <div class="container">
+            <div class="section-header">
+                <h2>Software Maintenance</h2>
+            </div>
+            <div class="card">
+                <h3>
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.438.995a6.473 6.473 0 010 1.082c0 .382.145.755.438.995l1.003.827c.48.398.668 1.05.26 1.431l-1.296 2.247a1.125 1.125 0 01-1.37.49l-1.217-.456c-.355-.133-.75-.072-1.075.124a6.57 6.57 0 01-.22.127c-.331.183-.581.495-.645.87l-.213 1.281c-.09.543-.56.94-1.11.94h-2.593c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.063-.374-.313-.686-.645-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.075-.124l-1.217.456a1.125 1.125 0 01-1.37-.49l-1.296-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.437-.995a6.473 6.473 0 010-1.082c0-.382-.145-.755-.437-.995l-1.004-.827a1.125 1.125 0 01-.26-1.431l1.296-2.247a1.125 1.125 0 011.37-.49l1.217.456c.355.133.75.072 1.075-.124.072-.044.146-.087.22-.127.332-.183.582-.495.645-.87l.213-1.281z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                    Types of Maintenance Activities
+                </h3>
+                <p>Maintenance is the process of modifying a program after it has been put into use. It usually involves modifying existing components and adding new ones, rather than major architectural changes.</p>
+                <div class="grid grid-4" style="margin-top:15px;">
+                    <div><h4>Corrective</h4><p>Fixing errors (bugs) found by users or testers after deployment. Often unscheduled and urgent.</p></div>
+                    <div><h4>Adaptive</h4><p>Adapting the software to new operating environments, hardware, or technologies.</p></div>
+                    <div><h4>Perfective</h4><p>Improving functional and non-functional requirements, such as performance or usability, based on user feedback.</p></div>
+                    <div><h4>Preventive</h4><p>Improving the software's structure to enhance future maintainability and reduce future errors (e.g., refactoring).</p></div>
+                </div>
+            </div>
+            <div class="card" style="margin-top: 30px;">
+                <h3>Maintenance Cost Factors</h3>
+                <p>Predicting and controlling maintenance costs is a major challenge. Key factors include:</p>
+                <ul>
+                    <li><b>Team Stability:</b> Costs are lower if the original developers maintain the system.</li>
+                    <li><b>Staff Skills:</b> Maintenance staff are often less experienced, which can increase costs.</li>
+                    <li><b>Program Age & Structure:</b> As programs age, their structure degrades (increasing complexity), making them harder and more expensive to change.</li>
+                    <li><b>Contractual Responsibility:</b> If the original developers have no maintenance contract, they have no incentive to design for future change.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="process">
+        <div class="container">
+            <div class="section-header">
+                <h2>The Evolution Process</h2>
+            </div>
+            <div class="card">
+                <p>The system evolution process is driven by change proposals. It is a continuous loop that lasts for the entire system lifetime.</p>
+                <h4>The General Process:</h4>
+                <ol>
+                    <li><b>Change Requests:</b> A proposal for a change is made.</li>
+                    <li><b>Impact Analysis:</b> The team analyzes the request to understand its effect on the system, the effort required, and the cost.</li>
+                    <li><b>Release Planning:</b> If the change is accepted, it is planned for a future release. This may involve bundling several changes together.</li>
+                    <li><b>Change Implementation:</b> The change is designed, coded, and tested. This follows a mini-SDLC: requirements analysis -> requirements updating -> software development.</li>
+                    <li><b>System Release:</b> A new version of the system is deployed.</li>
+                </ol>
+                <h4>Urgent Changes (Emergency Repair)</h4>
+                <p>Sometimes, urgent changes (e.g., fixing a critical system fault) must be implemented without going through the full formal process. This "quick fix" approach can degrade the system structure and must be followed up with proper re-engineering later.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="legacy">
+        <div class="container">
+            <div class="section-header">
+                <h2>Legacy System Evolution</h2>
+            </div>
+            <div class="card">
+                <h3>
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 14.15v4.07a2.25 2.25 0 01-2.25 2.25h-13.5a2.25 2.25 0 01-2.25-2.25v-4.07m18-4.21v-4.07a2.25 2.25 0 00-2.25-2.25h-13.5a2.25 2.25 0 00-2.25 2.25v4.07m18 4.21c0 1.242-1.008 2.25-2.25 2.25h-13.5c-1.242 0-2.25-1.008-2.25-2.25m18-4.21V8.25a2.25 2.25 0 00-2.25-2.25h-13.5a2.25 2.25 0 00-2.25 2.25v1.69" /></svg>
+                    Evolution Strategies
+                </h3>
+                <p>Organizations must choose a strategy for evolving their critical legacy systems. The choice depends on the system's business value and its technical quality.</p>
+                <div class="grid grid-2" style="margin-top:15px;">
+                    <div>
+                        <h4>Low Quality, Low Business Value</h4>
+                        <p><b>Strategy: Scrap it.</b> These systems are a drain on resources and should be decommissioned.</p>
+                    </div>
+                    <div>
+                        <h4>Low Quality, High Business Value</h4>
+                        <p><b>Strategy: Re-engineer or Replace.</b> These systems are critical but expensive to maintain. Improving their quality through re-engineering or replacing them is essential.</p>
+                    </div>
+                    <div>
+                        <h4>High Quality, Low Business Value</h4>
+                        <p><b>Strategy: Replace with COTS, Scrap, or Maintain.</b> If a commercial off-the-shelf system can do the job, use it. Otherwise, scrap it or perform minimal maintenance.</p>
+                    </div>
+                    <div>
+                        <h4>High Quality, High Business Value</h4>
+                        <p><b>Strategy: Continue Normal Maintenance.</b> These are valuable assets. Continue evolving them through the standard maintenance process.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card" style="margin-top: 30px;">
+                <h3>System Re-engineering</h3>
+                <p>Re-structuring or re-writing part or all of a legacy system <strong>without changing its functionality</strong>. The goal is to improve its structure and documentation to make it easier to maintain.</p>
+                <h4>Advantages:</h4>
+                <ul>
+                    <li><b>Reduced Risk:</b> Avoids the high risks associated with new software development (e.g., staffing, specification problems).</li>
+                    <li><b>Reduced Cost:</b> The cost is often significantly less than developing a brand-new system.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="cm">
+        <div class="container">
+            <div class="section-header">
+                <h2>Configuration Management</h2>
+            </div>
+            <div class="card">
+                <h3>
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z" /></svg>
+                    Managing Evolving Systems
+                </h3>
+                <p>As software evolves, new versions are created for different machines, with different functionality, or for specific users. <b>Software Configuration Management (SCM)</b> is the process of managing these evolving systems.</p>
+                <h4>Key Goals of SCM:</h4>
+                <ul>
+                    <li>Develop and apply procedures to manage a changing software product.</li>
+                    <li>Control the costs and effort involved in making changes.</li>
+                    <li>Manage system change as a team activity, ensuring that changes made by different developers don't conflict.</li>
+                </ul>
+                <p style="margin-top:15px;">A released version of a software system under configuration management is often called a <strong>baseline</strong>, as it serves as a stable starting point for further development.</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="main-footer">
+    <div class="container">
+        <p>Made with love by SS</p>
+    </div>
+</footer>
+</body>
+</html>

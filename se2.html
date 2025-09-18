@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COM 2308: Software Process Models</title>
+    <style>
+        /* --- Google Font --- */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        /* --- Global Styles & Variables --- */
+        :root {
+            --primary-color: #ffc107; /* Bright Yellow/Gold */
+            --secondary-color: #00bcd4; /* Accent Cyan */
+            --bg-color: #1a1a1a;
+            --card-bg-color: #2c2c2c;
+            --text-color: #e0e0e0;
+            --heading-color: #ffffff;
+            --border-color: #444444;
+            --shadow-color: rgba(0, 0, 0, 0.4);
+            --success-color: #4CAF50;
+            --danger-color: #F44336;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
+        }
+
+        /* --- Layout --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- Header & Navigation --- */
+        .main-header {
+            background: var(--bg-color);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 2px 10px var(--shadow-color);
+        }
+
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .logo svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .main-nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        .main-nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .main-nav a:hover {
+            color: var(--primary-color);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            background: linear-gradient(rgba(26,26,26,0.7), rgba(26,26,26,0.7));
+            color: var(--heading-color);
+            padding: 80px 0;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.8rem;
+            color: var(--secondary-color);
+            font-weight: 400;
+        }
+
+        /* --- Main Content Section Styling --- */
+        main section {
+            padding: 60px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        section:last-of-type {
+            border-bottom: none;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--heading-color);
+            display: inline-block;
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+        }
+
+        /* --- Card & Grid Styles --- */
+        .grid { display: grid; gap: 30px; }
+        .grid-2 { grid-template-columns: repeat(2, 1fr); }
+        .grid-3 { grid-template-columns: repeat(3, 1fr); }
+        .grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+        .card {
+            background: var(--card-bg-color);
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 15px var(--shadow-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px var(--shadow-color);
+        }
+
+        .card h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.4rem;
+        }
+
+        .card h4 {
+            color: var(--secondary-color);
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .card ul { list-style-position: inside; padding-left: 5px; }
+        .card li { margin-bottom: 8px; }
+
+        .icon {
+            width: 24px;
+            height: 24px;
+            stroke: var(--primary-color);
+            stroke-width: 2;
+            fill: none;
+            flex-shrink: 0;
+        }
+
+        /* --- Special List Styles for Pros/Cons --- */
+        .pros-cons-list {
+            list-style: none;
+            padding: 0;
+        }
+        .pros-cons-list li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 10px;
+        }
+        .pros-cons-list li::before {
+            position: absolute;
+            left: 0;
+            top: 2px;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        .pros li::before {
+            content: '✓';
+            color: var(--success-color);
+        }
+        .cons li::before {
+            content: '✗';
+            color: var(--danger-color);
+        }
+
+        /* --- Flowchart/Diagram Styling --- */
+        .flow-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            margin-top: 20px;
+        }
+        .flow-diagram.horizontal {
+            flex-direction: row;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .flow-step {
+            background-color: #3e3e3e;
+            border: 1px solid var(--border-color);
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-align: center;
+            width: 80%;
+            max-width: 250px;
+        }
+        .flow-arrow {
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+        }
+        .flow-diagram.horizontal .flow-arrow {
+            align-self: center;
+        }
+
+        /* --- Footer --- */
+        .main-footer {
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 40px;
+            background: var(--card-bg-color);
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .grid-2, .grid-3, .grid-4 {
+                grid-template-columns: 1fr;
+            }
+            .main-header .container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .main-nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+            .hero h1 { font-size: 2.5rem; }
+            .hero p { font-size: 1.5rem; }
+            .section-header h2 { font-size: 2rem; }
+            .flow-diagram.horizontal {
+                flex-direction: column;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="main-header">
+    <div class="container">
+        <a href="#hero" class="logo">
+            <svg xmlns="http://www.w.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" alt="sithara logo">
+                <title>sithara</title>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z" />
+            </svg>
+            <span>COM 2308</span>
+        </a>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="#intro">Introduction</a></li>
+                <li><a href="#waterfall">Waterfall</a></li>
+                <li><a href="#iterative">Iterative Models</a></li>
+                <li><a href="#reuse">Reuse-Oriented</a></li>
+                <li><a href="#other">Other Methods</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+        <div class="container">
+            <h1>Software Process Models</h1>
+            <p>COM 2308 Software Engineering</p>
+        </div>
+    </section>
+
+    <!-- Introduction & Definitions -->
+    <section id="intro">
+        <div class="container">
+            <div class="section-header">
+                <h2>Core Concepts</h2>
+            </div>
+            <div class="grid grid-2">
+                <div class="card">
+                    <h3>
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg>
+                        Learning Objectives
+                    </h3>
+                    <ul>
+                        <li>Categorize different software process models.</li>
+                        <li>Describe three generic process models and their use cases.</li>
+                        <li>Understand and discuss process iteration.</li>
+                        <li>Briefly describe key process activities.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25A2.25 2.25 0 015.25 3h4.5M12 3v12" /></svg>
+                        The Software Process
+                    </h3>
+                    <p>A structured set of activities required to develop a software system. The fundamental activities are:</p>
+                    <ul>
+                        <li><b>Specification:</b> Defining what the system should do.</li>
+                        <li><b>Design & Implementation:</b> Defining the organization of the system and implementing it.</li>
+                        <li><b>Validation:</b> Checking that it does what the customer wants.</li>
+                        <li><b>Evolution (Maintenance):</b> Changing the system in response to changing needs.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card" style="margin-top: 30px;">
+                <h3>What is a Software Process Model?</h3>
+                <p>According to Sommerville: <i>"A software process model is an <strong>abstract representation</strong> of a process. It presents a description of a process from some particular perspective."</i></p>
+                <p style="margin-top: 15px;">In simple terms, it's a simplified roadmap or strategy for how to move through the software process activities from start to finish.</p>
+                <h4>Three Generic Models We Will Cover:</h4>
+                <ol>
+                    <li><b>The Waterfall Model:</b> A sequential, plan-driven approach.</li>
+                    <li><b>Iterative Processes:</b> An evolutionary approach emphasizing feedback and cycles.</li>
+                    <li><b>Component-based Software Engineering:</b> A reuse-oriented approach.</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+    <!-- Waterfall Model -->
+    <section id="waterfall">
+        <div class="container">
+            <div class="section-header">
+                <h2>1. The Waterfall Model</h2>
+            </div>
+            <div class="card">
+                <h3>
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 4.5h14.25M3 9h9.75M3 13.5h9.75m4.5-4.5v12m0 0l-3.75-3.75M17.25 21L21 17.25" /></svg>
+                    Concept: Sequential Flow
+                </h3>
+                <p>The Waterfall model treats the fundamental process activities as separate, distinct phases. The output of one phase is the input to the next, flowing downwards like a waterfall. There is no going back to a previous phase once it's complete.</p>
+                <div class="flow-diagram">
+                    <div class="flow-step">Requirements Analysis</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-step">System & Software Design</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-step">Implementation & Unit Testing</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-step">Integration & System Testing</div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-step">Operation & Maintenance</div>
+                </div>
+            </div>
+
+            <div class="grid grid-2" style="margin-top: 30px;">
+                <div class="card">
+                    <h3>Advantages</h3>
+                    <ul class="pros-cons-list pros">
+                        <li>Enforces a disciplined, structured approach.</li>
+                        <li>Documentation is produced at each stage, improving project visibility and knowledge transfer.</li>
+                        <li>It is more economical if bugs are found early in the process.</li>
+                        <li>Ideal for creating highly reliable systems where requirements are stable.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Criticism & Disadvantages</h3>
+                    <ul class="pros-cons-list cons">
+                        <li>Accommodating change is difficult and costly. It does not respond well to changing customer requirements.</li>
+                        <li>It's often impossible to know all requirements and limitations at the start of a project.</li>
+                        <li>The model implies you can perfect one phase before moving to the next, which is unrealistic.</li>
+                        <li>A working version of the software is not available until late in the project lifecycle.</li>
+                        <li>It does not explicitly cover risk management.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card" style="margin-top: 30px;">
+                <h3>
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    When to Use the Waterfall Model
+                </h3>
+                <ul>
+                    <li><b>Large, complex projects</b> where the system is developed at several sites and coordination is key.</li>
+                    <li><b>Routine projects</b> where the requirements are well-understood and unlikely to change (e.g., building a system similar to one built before).</li>
+                    <li>When the development organization is very familiar with the problem domain.</li>
+                    <li><b>Critical systems</b> (e.g., for NASA, Dept. of Defense) where extensive analysis and design must precede any implementation.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Iterative Processes -->
+    <section id="iterative">
+        <div class="container">
+            <div class="section-header">
+                <h2>2. Iterative Processes</h2>
+            </div>
+            <div class="card">
+                <h3>
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0011.667 0l3.181-3.183m-4.991-2.691V5.25a2.25 2.25 0 00-2.25-2.25L10.5 2.25v4.992m0 0H5.25m5.25 0l-3.182 3.182a8.25 8.25 0 0011.667 0l3.182-3.182" /></svg>
+                    Concept: Evolve and Adapt
+                </h3>
+                <p>Iterative models acknowledge that software requirements often change. Instead of a single linear pass, process activities are repeated in cycles. Specification, development, and validation are interleaved, and the software evolves over multiple versions.</p>
+            </div>
+
+            <h3 style="text-align: center; color: var(--heading-color); margin-top: 40px; margin-bottom: 20px; font-size: 1.8rem;">Key Iterative Models</h3>
+
+            <!-- Incremental Development -->
+            <div class="card">
+                <h4>A. Incremental Development</h4>
+                <p>Based on developing an initial implementation, showing it to users, and evolving it through several versions until the system is complete. Each version (increment) adds more functionality.</p>
+                <div class="grid grid-2" style="margin-top: 20px;">
+                    <div>
+                        <h5>Advantages over Waterfall</h5>
+                        <ul class="pros-cons-list pros">
+                            <li>Reduced cost to accommodate changing requirements.</li>
+                            <li>Easier to get early and frequent customer feedback.</li>
+                            <li>Rapid delivery of useful software, starting with the highest-priority features.</li>
+                            <li>Customers gain value early and don't have to wait for the entire system.</li>
+                            <li>Most important services get the most testing.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h5>Disadvantages</h5>
+                        <ul class="pros-cons-list cons">
+                            <li>Process is not highly visible; managers can find it hard to measure progress without regular deliverables.</li>
+                            <li>System structure can degrade as new increments are added without refactoring.</li>
+                            <li>Can be hard to identify common facilities needed by all increments early on.</li>
+                            <li>Conflicts with procurement models that require a complete system specification upfront.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Spiral Model -->
+            <div class="card" style="margin-top: 30px;">
+                <h4>B. Spiral Development</h4>
+                <p>Represents the process as a spiral, where each loop is a phase. It explicitly incorporates <strong>risk assessment and reduction</strong> at each stage, making it suitable for large, expensive, and complicated projects.</p>
+                <h5>The Four Sectors of Each Spiral Loop:</h5>
+                <ol>
+                    <li><b>Objective Setting:</b> Specific objectives for the phase are identified.</li>
+                    <li><b>Risk Assessment and Reduction:</b> Key risks are assessed, and activities are put in place to reduce them (e.g., prototyping).</li>
+                    <li><b>Development and Validation:</b> A development model (like Waterfall or Incremental) is chosen for this phase of development.</li>
+                    <li><b>Planning:</b> The project is reviewed, and the next loop of the spiral is planned.</li>
+                </ol>
+            </div>
+
+            <!-- Agile Development -->
+            <div class="card" style="margin-top: 30px;">
+                <h4>C. Agile Software Development</h4>
+                <p>A specific type of iterative development that emphasizes flexibility, collaboration, and speed. It focuses on delivering working software in very short timeboxes.</p>
+                <h5>Core Principles:</h5>
+                <ul>
+                    <li>Software is developed in short <strong>iterations</strong> (typically 1-4 weeks).</li>
+                    <li>Working software is the primary measure of progress.</li>
+                    <li>Real-time, face-to-face communication is preferred over extensive documentation.</li>
+                    <li>The team re-evaluates project priorities at the end of each iteration.</li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Reuse-Oriented -->
+    <section id="reuse">
+        <div class="container">
+            <div class="section-header">
+                <h2>3. Reuse-Oriented Engineering</h2>
+            </div>
+            <div class="card">
+                <h3>
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 7.5l.415-.207a.75.75 0 011.085.67V10.5m0 0h6m-6 0a.75.75 0 001.085.67l.415-.207M3 13.5h6m6 0h6m-6 0v6m0-6V7.5m6 6v6m0-6V7.5" /></svg>
+                    Concept: Build from Existing Parts
+                </h3>
+                <p>This approach, also known as Component-Based Software Engineering (CBSE), focuses on integrating existing components or Commercial-Off-The-Shelf (COTS) systems rather than developing everything from scratch. It relies on a large base of reusable software components.</p>
+                <h5>Process Stages:</h5>
+                <div class="flow-diagram horizontal">
+                    <div class="flow-step">Component Analysis</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">Requirements Modification</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">System Design with Reuse</div>
+                    <div class="flow-arrow">→</div>
+                    <div class="flow-step">Development & Integration</div>
+                </div>
+            </div>
+            <div class="grid grid-2" style="margin-top: 30px;">
+                <div class="card">
+                    <h3>Advantages</h3>
+                    <ul class="pros-cons-list pros">
+                        <li>Reduces the amount of software that needs to be developed.</li>
+                        <li>Reduces overall cost and risk.</li>
+                        <li>Allows for faster delivery of software.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Disadvantages</h3>
+                    <ul class="pros-cons-list cons">
+                        <li>Requirements may have to be compromised to fit available components.</li>
+                        <li>The development team does not have full control over the evolution of third-party components (e.g., updates, bugs).</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Other Methodologies -->
+    <section id="other">
+        <div class="container">
+            <div class="section-header">
+                <h2>Related Methodologies & Techniques</h2>
+            </div>
+            <div class="grid grid-2">
+                <div class="card">
+                    <h3>Extreme Programming (XP)</h3>
+                    <p>An influential Agile method that stresses customer satisfaction and empowers developers to respond to change. It is built on five values: Communication, Simplicity, Feedback, Courage, and Respect.</p>
+                    <h4>Key Activities:</h4>
+                    <ul>
+                        <li><b>Listening:</b> To customer needs.</li>
+                        <li><b>Designing:</b> For simplicity and maintainability.</li>
+                        <li><b>Coding:</b> Often done in pairs (Pair Programming).</li>
+                        <li><b>Testing:</b> Automated unit and acceptance tests are written before the code.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Test-Driven Development (TDD)</h3>
+                    <p>A technique where tests are written *before* the code. It is a method of designing software, not just testing it. The cycle is short and rapid.</p>
+                    <h4>The TDD Cycle:</h4>
+                    <ol>
+                        <li><b>Add a test:</b> Write a new automated test for a small piece of functionality.</li>
+                        <li><b>Run tests:</b> See the new test fail (and all others pass).</li>
+                        <li><b>Write code:</b> Write the minimum amount of code to make the new test pass.</li>
+                        <li><b>Run tests:</b> See all tests succeed.</li>
+                        <li><b>Refactor:</b> Clean up the code while keeping the tests green.</li>
+                    </ol>
+                </div>
+                <div class="card">
+                    <h3>Prototyping</h3>
+                    <p>Involves building a mock-up or early version of the system to get user feedback. It helps users understand the system and make design decisions early. However, it has drawbacks:</p>
+                    <ul class="pros-cons-list cons">
+                        <li>Users may expect the polished prototype to be the final product, delivered quickly.</li>
+                        <li>There's a risk of using "patched-together" prototype code in the final system.</li>
+                        <li>Can lead to too much focus on UI design over core functionality.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Cowboy Coding</h3>
+                    <p>An unstructured approach without a defined method, where team members (often a single programmer) do whatever they feel is right. It is only suitable for very small, well-understood problems or for creating a "spike" (a small experiment to test an idea).</p>
+                    <ul class="pros-cons-list cons">
+                        <li>Lacks a clear scope or vision.</li>
+                        <li>Tends to produce low-quality, buggy software.</li>
+                        <li>Lacks version control.</li>
+                        <li>Represents a huge risk to the business for any non-trivial project.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer class="main-footer">
+    <div class="container">
+        <p>COM 2308 Software Process Models Study Guide</p>
+        <p><small>Reference: Ian Sommerville, Software Engineering – 9th Edition, Chapters 2 & 3</small></p>
+    </div>
+</footer>
+
+</body>
+</html>

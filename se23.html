@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100 Practice Questions: Software Project Management</title>
+    <style>
+        /* --- Google Font & W3 Light Theme --- */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        :root {
+            --primary-color: #0078D4;
+            --secondary-color: #555555;
+            --bg-color: #f4f4f4;
+            --card-bg-color: #ffffff;
+            --text-color: #333333;
+            --heading-color: #000000;
+            --border-color: #dddddd;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --answer-bg: #f9f9f9;
+        }
+
+        * { box-sizing: border-box; scroll-behavior: smooth; }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.7; margin: 0; padding: 0; }
+        .container { max-width: 1000px; margin: 20px auto; padding: 0 20px; }
+
+        .main-header { text-align: center; padding: 40px 20px; background: var(--card-bg-color); border-radius: 5px; margin-bottom: 30px; border: 1px solid var(--border-color); }
+        .main-header h1 { color: var(--primary-color); margin: 0; }
+        .main-header p { color: var(--secondary-color); font-size: 1.1rem; }
+
+        #toc { background: var(--card-bg-color); padding: 25px; border-radius: 5px; margin-bottom: 30px; }
+        #toc h2 { text-align: center; margin-top: 0; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        #toc ol { list-style-type: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px; }
+        #toc a { text-decoration: none; color: var(--primary-color); font-weight: 600; }
+        #toc a:hover { text-decoration: underline; }
+
+        .question-section { margin-bottom: 40px; }
+        .question-section h2 { border-bottom: 3px solid var(--primary-color); padding-bottom: 10px; }
+
+        .question-list { list-style-type: none; padding: 0; }
+        .question-list li { background: var(--card-bg-color); padding: 20px; border-radius: 5px; border: 1px solid var(--border-color); margin-bottom: 20px; box-shadow: 0 2px 5px var(--shadow-color); }
+        .question-list p { margin: 0 0 15px 0; }
+
+        .toggle-answer-btn { background-color: var(--primary-color); color: white; border: none; padding: 8px 15px; border-radius: 3px; cursor: pointer; font-weight: 600; font-family: 'Poppins', sans-serif; }
+        .toggle-answer-btn:hover { opacity: 0.9; }
+
+        .answer { display: none; background-color: var(--answer-bg); border: 1px solid var(--border-color); border-left: 5px solid var(--primary-color); padding: 15px; margin-top: 15px; border-radius: 0 5px 5px 0; }
+        .answer ul { padding-left: 20px; }
+
+        .main-footer { text-align: center; padding: 20px; margin-top: 40px; color: var(--secondary-color); }
+    </style>
+    <script>
+        function toggleAnswer(id) {
+            const answerEl = document.getElementById(id);
+            const buttonEl = answerEl.previousElementSibling;
+            if (answerEl.style.display === 'block') {
+                answerEl.style.display = 'none';
+                buttonEl.textContent = 'Show Answer';
+            } else {
+                answerEl.style.display = 'block';
+                buttonEl.textContent = 'Hide Answer';
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <header class="main-header">
+        <h1>100 Practice Questions: Software Project Management</h1>
+        <p>Based on ICT 2402 Course Material</p>
+    </header>
+
+    <nav id="toc">
+        <h2>Table of Contents</h2>
+        <ol>
+            <li><a href="#section1-pm">1. Fundamentals</a></li>
+            <li><a href="#section2-pm">2. Management Activities</a></li>
+            <li><a href="#section3-pm">3. Project Planning</a></li>
+            <li><a href="#section4-pm">4. Project Scheduling</a></li>
+            <li><a href="#section5-pm">5. Risk Management</a></li>
+        </ol>
+    </nav>
+
+    <main>
+        <!-- SECTION 1: Fundamentals -->
+        <section id="section1-pm" class="question-section">
+            <h2>Section 1: Fundamentals of Software Project Management</h2>
+            <ol class="question-list">
+                <li><p><strong>1.</strong> What is the primary concern of software project management?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans1')">Show Answer</button><div id="pm-ans1" class="answer">Ensuring that software is delivered on time, on schedule, and in accordance with the requirements of the organization.</div></li>
+                <li><p><strong>2.</strong> Why is project management particularly needed for software development?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans2')">Show Answer</button><div id="pm-ans2" class="answer">Because software development is always subject to budget and schedule constraints set by the developing organization.</div></li>
+                <li><p><strong>3.</strong> List three key 'distinctions' or challenges that make software management different from other types of engineering management.</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans3')">Show Answer</button><div id="pm-ans3" class="answer">1. The product is intangible. 2. The product is uniquely flexible. 3. The development process is not standardized.</div></li>
+                <li><p><strong>4.</strong> Explain what it means for the software product to be 'intangible'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans4')">Show Answer</button><div id="pm-ans4" class="answer">Unlike a physical product like a bridge, you cannot see or touch the software product itself. Progress is difficult to visualize and measure without formal mechanisms.</div></li>
+                <li><p><strong>5.</strong> Explain what it means for the software product to be 'uniquely flexible'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans5')">Show Answer</button><div id="pm-ans5" class="answer">It is usually possible to change software at any stage of its development, which means requirements are often not stable, making planning difficult.</div></li>
+                <li><p><strong>6.</strong> What does it mean that many software projects are 'one-off' projects?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans6')">Show Answer</button><div id="pm-ans6" class="answer">Each project is often new and different from previous projects, so it is hard to reuse experience and established processes.</div></li>
+                <li><p><strong>7.</strong> Despite its distinctions, what 'commonalities' does software management share with other engineering disciplines?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans7')">Show Answer</button><div id="pm-ans7" class="answer">Many general project management techniques are equally applicable, and technically complex systems in any field tend to suffer from similar problems (e.g., complexity, changing requirements).</div></li>
+                <li><p><strong>8.</strong> Who sets the budget and schedule constraints for a software project?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans8')">Show Answer</button><div id="pm-ans8" class="answer">The organization developing the software.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 2: Management Activities -->
+        <section id="section2-pm" class="question-section">
+            <h2>Section 2: Management Activities</h2>
+            <ol class="question-list">
+                <li><p><strong>9.</strong> List six fundamental management activities.</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans9')">Show Answer</button><div id="pm-ans9" class="answer">1. Proposal writing. 2. Project planning and scheduling. 3. Project costing. 4. Project monitoring and reviews. 5. Personnel selection and evaluation. 6. Report writing and presentations.</div></li>
+                <li><p><strong>10.</strong> What is the purpose of 'proposal writing'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans10')">Show Answer</button><div id="pm-ans10" class="answer">To describe the objectives of a project and how it will be carried out, often as part of a bid to win a contract from an external customer.</div></li>
+                <li><p><strong>11.</strong> What is 'project costing'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans11')">Show Answer</button><div id="pm-ans11" class="answer">The activity of predicting the resources (time, effort, materials) required to carry out the project.</div></li>
+                <li><p><strong>12.</strong> What does 'project monitoring and reviews' involve?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans12')">Show Answer</button><div id="pm-ans12" class="answer">Continuously checking the progress of the project against its plan and reviewing the quality and standards of the software being developed.</div></li>
+                <li><p><strong>13.</strong> What is the main responsibility of a project manager regarding report writing?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans13')">Show Answer</button><div id="pm-ans13" class="answer">To report on the project's progress to both the client and their own contractor organization.</div></li>
+                <li><p><strong>14.</strong> What skills must a manager have for presentations?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans14')">Show Answer</button><div id="pm-ans14" class="answer">They must be able to present critical project information clearly and concisely during progress reviews.</div></li>
+                <li><p><strong>15.</strong> What is 'personnel selection and evaluation'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans15')">Show Answer</button><div id="pm-ans15" class="answer">The activity of choosing the right people for the project team and evaluating their performance.</div></li>
+                <li><p><strong>16.</strong> List three reasons why it might not be possible to appoint the 'ideal' people to a project.</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans16')">Show Answer</button><div id="pm-ans16" class="answer">1. The project budget may not allow for highly-paid staff. 2. Staff with the appropriate experience may not be available. 3. The organization may wish to use the project to develop the skills of junior employees.</div></li>
+                <li><p><strong>17.</strong> What is the most time-consuming project management activity?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans17')">Show Answer</button><div id="pm-ans17" class="answer">Project planning.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 3: Project Planning -->
+        <section id="section3-pm" class="question-section">
+            <h2>Section 3: Project Planning</h2>
+            <ol class="question-list">
+                <li><p><strong>18.</strong> Why is project planning a continuous activity?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans18')">Show Answer</button><div id="pm-ans18" class="answer">Because plans must be regularly revised as new information becomes available and as the project progresses. It is not a one-time, upfront activity.</div></li>
+                <li><p><strong>19.</strong> What is the purpose of the main software project plan?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans19')">Show Answer</button><div id="pm-ans19" class="answer">It is concerned with the overall schedule and budget of the project.</div></li>
+                <li><p><strong>20.</strong> List three types of supporting project plans.</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans20')">Show Answer</button><div id="pm-ans20" class="answer">Quality plan, Validation plan, Configuration management plan, Maintenance plan, Staff development plan.</div></li>
+                <li><p><strong>21.</strong> What are the first three steps in the project planning process?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans21')">Show Answer</button><div id="pm-ans21" class="answer">1. Establish the project constraints. 2. Make initial assessments of the project parameters. 3. Define project milestones and deliverables.</div></li>
+                <li><p><strong>22.</strong> What happens in the main loop of the project planning process?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans22')">Show Answer</button><div id="pm-ans22" class="answer">The manager draws up a schedule, initiates activities, reviews progress, revises estimates, and updates the schedule. This loop continues until the project is complete.</div></li>
+                <li><p><strong>23.</strong> What three things does the main project plan set out?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans23')">Show Answer</button><div id="pm-ans23" class="answer">1. The resources available to the project. 2. The work breakdown. 3. A schedule for the work.</div></li>
+                <li><p><strong>24.</strong> List four key sections of a project plan structure.</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans24')">Show Answer</button><div id="pm-ans24" class="answer">Introduction, Project organisation, Risk analysis, Work breakdown, Project schedule, Monitoring and reporting mechanisms.</div></li>
+                <li><p><strong>25.</strong> What is a 'milestone'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans25')">Show Answer</button><div id="pm-ans25" class="answer">The end-point of a process activity. It is a predictable state where a formal report of progress can be presented to management.</div></li>
+                <li><p><strong>26.</strong> What is a 'deliverable'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans26')">Show Answer</button><div id="pm-ans26" class="answer">A project result that is delivered to customers (e.g., a requirements document, an executable system).</div></li>
+                <li><p><strong>27.</strong> Give an example of a milestone in the requirements engineering process.</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans27')">Show Answer</button><div id="pm-ans27" class="answer">The completion of the 'Feasibility report' or the 'Architectural design' document.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 4: Project Scheduling -->
+        <section id="section4-pm" class="question-section">
+            <h2>Section 4: Project Scheduling</h2>
+            <ol class="question-list">
+                <li><p><strong>28.</strong> What is the first step in project scheduling?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans28')">Show Answer</button><div id="pm-ans28" class="answer">To split the project into tasks and estimate the time and resources required to complete each task.</div></li>
+                <li><p><strong>29.</strong> Why is it important to organize tasks concurrently?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans29')">Show Answer</button><div id="pm-ans29" class="answer">To make optimal use of the workforce, allowing multiple team members to work in parallel.</div></li>
+                <li><p><strong>30.</strong> Why should task dependencies be minimized?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans30')">Show Answer</button><div id="pm-ans30" class="answer">To avoid delays caused by one task having to wait for another to complete.</div></li>
+                <li><p><strong>31.</strong> What does project scheduling often depend on?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans31')">Show Answer</button><div id="pm-ans31" class="answer">The project manager's intuition and experience.</div></li>
+                <li><p><strong>32.</strong> List the steps in the project scheduling process diagram.</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans32')">Show Answer</button><div id="pm-ans32" class="answer">Identify activities -> Identify dependencies -> Estimate resources -> Allocate people -> Create charts.</div></li>
+                <li><p><strong>33.</strong> Why is estimating the cost of developing a solution hard?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans33')">Show Answer</button><div id="pm-ans33" class="answer">Because it is hard to estimate the difficulty of the problems that will be encountered during development.</div></li>
+                <li><p><strong>34.</strong> What is the relationship between productivity and the number of people on a task?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans34')">Show Answer</button><div id="pm-ans34" class="answer">Productivity is not proportional to the number of people working on a task. Doubling the team size does not halve the time.</div></li>
+                <li><p><strong>35.</strong> What is Brooks's Law?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans35')">Show Answer</button><div id="pm-ans35" class="answer">Adding people to a late project makes it later.</div></li>
+                <li><p><strong>36.</strong> Why does adding people to a late project make it later?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans36')">Show Answer</button><div id="pm-ans36" class="answer">Because of the communication overheads required to bring the new staff up to speed and integrate them into the team.</div></li>
+                <li><p><strong>37.</strong> What should a manager always allow for in planning?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans37')">Show Answer</button><div id="pm-ans37" class="answer">Contingency, because the unexpected always happens.</div></li>
+                <li><p><strong>38.</strong> What are bar charts (Gantt charts) used for?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans38')">Show Answer</button><div id="pm-ans38" class="answer">To show the project schedule against calendar time.</div></li>
+                <li><p><strong>39.</strong> What do activity networks (PERT charts) show?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans39')">Show Answer</button><div id="pm-ans39" class="answer">They show the dependencies between tasks and the critical path.</div></li>
+                <li><p><strong>40.</strong> What is the 'critical path'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans40')">Show Answer</button><div id="pm-ans40" class="answer">The sequence of tasks which determines the minimum time to complete the project. Any delay in a critical path task will delay the entire project.</div></li>
+                <li><p><strong>41.</strong> In the example activity timeline (Gantt chart), which task is on the critical path and determines the finish date?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans41-pm')">Show Answer</button><div id="ans41-pm" class="answer">Task T8 is the longest task on the critical path, and its completion date of 19/9/03 determines the project's finish date.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 5: Risk Management -->
+        <section id="section5-pm" class="question-section">
+            <h2>Section 5: Risk Management</h2>
+            <ol class="question-list">
+                <li><p><strong>42.</strong> What is 'risk management'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans42')">Show Answer</button><div id="pm-ans42" class="answer">The process of identifying risks and drawing up plans to minimize their effect on a project.</div></li>
+                <li><p><strong>43.</strong> What is a 'risk'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans43')">Show Answer</button><div id="pm-ans43" class="answer">A probability that some adverse circumstance will occur.</div></li>
+                <li><p><strong>44.</strong> List the three categories of risks.</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans44')">Show Answer</button><div id="pm-ans44" class="answer">1. Project risks. 2. Product risks. 3. Business risks.</div></li>
+                <li><p><strong>45.</strong> What do 'project risks' affect?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans45')">Show Answer</button><div id="pm-ans45" class="answer">The project schedule or resources. Example: Staff turnover, hardware unavailability.</div></li>
+                <li><p><strong>46.</strong> What do 'product risks' affect?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans46')">Show Answer</button><div id="pm-ans46" class="answer">The quality or performance of the software being developed. Example: Requirements change, size underestimate.</div></li>
+                <li><p><strong>47.</strong> What do 'business risks' affect?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans47')">Show Answer</button><div id="pm-ans47" class="answer">The organization developing or procuring the software. Example: Technology change, a competitor releasing a product first.</div></li>
+                <li><p><strong>48.</strong> List the four stages of the risk management process.</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans48')">Show Answer</button><div id="pm-ans48" class="answer">1. Risk identification. 2. Risk analysis. 3. Risk planning. 4. Risk monitoring.</div></li>
+                <li><p><strong>49.</strong> What is 'risk identification'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans49')">Show Answer</button><div id="pm-ans49" class="answer">Identifying potential project, product, and business risks.</div></li>
+                <li><p><strong>50.</strong> What is 'risk analysis'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans50')">Show Answer</button><div id="pm-ans50" class="answer">Assessing the likelihood (probability) and consequences (seriousness) of each risk.</div></li>
+                <li><p><strong>51.</strong> What is 'risk planning'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans51')">Show Answer</button><div id="pm-ans51" class="answer">Drawing up plans and strategies to avoid or minimize the effects of the risk.</div></li>
+                <li><p><strong>52.</strong> What is 'risk monitoring'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans52')">Show Answer</button><div id="pm-ans52" class="answer">Regularly assessing the identified risks throughout the project to see if their probability or impact has changed.</div></li>
+                <li><p><strong>53.</strong> List three types of risks identified during risk identification.</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans53')">Show Answer</button><div id="pm-ans53" class="answer">Technology risks, People risks, Organisational risks, Requirements risks, Estimation risks.</div></li>
+                <li><p><strong>54.</strong> Give an example of a 'People risk'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans54')">Show Answer</button><div id="pm-ans54" class="answer">Key staff are ill and unavailable at critical times; it is impossible to recruit staff with the required skills.</div></li>
+                <li><p><strong>55.</strong> Give an example of an 'Estimation risk'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans55')">Show Answer</button><div id="pm-ans55" class="answer">The time required to develop the software is underestimated; the size of the software is underestimated.</div></li>
+                <li><p><strong>56.</strong> List the possible levels of risk probability.</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans56')">Show Answer</button><div id="pm-ans56" class="answer">Very low, low, moderate, high, or very high.</div></li>
+                <li><p><strong>57.</strong> List the possible levels of risk effect.</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans57')">Show Answer</button><div id="pm-ans57" class="answer">Catastrophic, serious, tolerable, or insignificant.</div></li>
+                <li><p><strong>58.</strong> What are the three types of strategies developed during risk planning?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans58')">Show Answer</button><div id="pm-ans58" class="answer">1. Avoidance strategies. 2. Minimisation strategies. 3. Contingency plans.</div></li>
+                <li><p><strong>59.</strong> What is an 'avoidance strategy'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans59')">Show Answer</button><div id="pm-ans59" class="answer">A strategy where the probability that the risk will arise is reduced (e.g., using a more reliable technology).</div></li>
+                <li><p><strong>60.</strong> What is a 'minimisation strategy'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans60')">Show Answer</button><div id="pm-ans60" class="answer">A strategy where the impact of the risk on the project or product will be reduced if it occurs (e.g., reorganizing the team so there is more knowledge overlap).</div></li>
+                <li><p><strong>61.</strong> What is a 'contingency plan'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans61')">Show Answer</button><div id="pm-ans61" class="answer">A plan to deal with a risk *if* it arises. It is a backup plan.</div></li>
+                <li><p><strong>62.</strong> What is a 'risk indicator'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans62')">Show Answer</button><div id="pm-ans62" class="answer">A potential indicator or warning sign that a particular type of risk may be materializing.</div></li>
+                <li><p><strong>63.</strong> Give an example of a potential indicator for a 'People risk'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans63')">Show Answer</button><div id="pm-ans63" class="answer">Poor staff morale, poor relationships amongst team members, or high job availability in the market (which could lead to staff turnover).</div></li>
+                <li><p><strong>64.</strong> Give an example of a potential indicator for an 'Estimation risk'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans64')">Show Answer</button><div id="pm-ans64" class="answer">Failure to meet the agreed schedule or failure to clear reported defects at the expected rate.</div></li>
+                <li><p><strong>65.</strong> What is a key point about the intangible nature of software?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans65')">Show Answer</button><div id="pm-ans65" class="answer">The intangible nature of software causes significant problems for management in tracking progress and quality.</div></li>
+                <li><p><strong>66.</strong> What are the most significant activities of a software project manager?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans66')">Show Answer</button><div id="pm-ans66" class="answer">Planning, estimating, and scheduling.</div></li>
+                <li><p><strong>67.</strong> What is a key point about a project milestone?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans67')">Show Answer</button><div id="pm-ans67" class="answer">It is a predictable state where a formal report of progress is presented to management.</div></li>
+                <li><p><strong>68.</strong> What is a key point about project scheduling?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans68')">Show Answer</button><div id="pm-ans68" class="answer">It involves preparing various graphical representations (like Gantt and PERT charts) showing project activities, their durations, and staffing.</div></li>
+                <li><p><strong>69.</strong> What is a key point about risk management?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans69')">Show Answer</button><div id="pm-ans69" class="answer">It is concerned with identifying risks and planning to ensure that these risks do not develop into major threats.</div></li>
+                <li><p><strong>70.</strong> Is good project management important for project success?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans70')">Show Answer</button><div id="pm-ans70" class="answer">Yes, the slides state that good project management is essential for project success.</div></li>
+                <li><p><strong>71.</strong> What does "contingency" in planning mean?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans71')">Show Answer</button><div id="pm-ans71" class="answer">Adding extra time or resources to the plan to account for unforeseen problems or risks.</div></li>
+                <li><p><strong>72.</strong> What is a 'work breakdown structure' (WBS)?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans72')">Show Answer</button><div id="pm-ans72" class="answer">A hierarchical decomposition of the total scope of work to be carried out by the project team. It is the output of splitting the project into tasks.</div></li>
+                <li><p><strong>73.</strong> What is a 'Quality Plan'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans73')">Show Answer</button><div id="pm-ans73" class="answer">A supporting plan that describes the quality procedures and standards that will be used in a project.</div></li>
+                <li><p><strong>74.</strong> What is a 'Validation Plan'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans74')">Show Answer</button><div id="pm-ans74" class="answer">A supporting plan that describes the approach, resources, and schedule for system validation and testing.</div></li>
+                <li><p><strong>75.</strong> What is a 'Configuration Management Plan'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans75')">Show Answer</button><div id="pm-ans75" class="answer">A supporting plan that describes the procedures and standards for configuration management.</div></li>
+                <li><p><strong>76.</strong> What is a 'Maintenance Plan'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans76')">Show Answer</button><div id="pm-ans76" class="answer">A supporting plan that predicts the maintenance requirements, costs, and effort needed for the system.</div></li>
+                <li><p><strong>77.</strong> What is a 'Staff Development Plan'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans77')">Show Answer</button><div id="pm-ans77" class="answer">A supporting plan that describes how the skills and experience of the project team members will be developed.</div></li>
+                <li><p><strong>78.</strong> In the activity network diagram, what does an arrow between two tasks represent?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans78')">Show Answer</button><div id="pm-ans78" class="answer">A dependency. The task at the head of the arrow cannot start until the task at the tail of the arrow is complete.</div></li>
+                <li><p><strong>79.</strong> In the activity timeline (Gantt chart), what do the diamonds represent?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans79')">Show Answer</button><div id="pm-ans79" class="answer">Milestones (e.g., M1, M2, M3).</div></li>
+                <li><p><strong>80.</strong> How does the activity timeline show slack or float time?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans80')">Show Answer</button><div id="pm-ans80" class="answer">The light blue portion of the bar represents the slack time for a task—the amount of time it can be delayed without affecting the project finish date. Tasks on the critical path have no slack.</div></li>
+                <li><p><strong>81.</strong> What is a risk management strategy for 'staff illness'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans81')">Show Answer</button><div id="pm-ans81" class="answer">Reorganize the team so there is more overlap of work and people understand each other's jobs, reducing dependency on a single person.</div></li>
+                <li><p><strong>82.</strong> What is a risk management strategy for 'requirements changes'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans82')">Show Answer</button><div id="pm-ans82" class="answer">Derive traceability information to assess the impact of changes, and use design principles like information hiding to minimize the ripple effect of changes.</div></li>
+                <li><p><strong>83.</strong> What is a risk management strategy for 'underestimated development time'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans83')">Show Answer</button><div id="pm-ans83" class="answer">Investigate buying-in pre-made components or using a program generator to accelerate development.</div></li>
+                <li><p><strong>84.</strong> Why is a task size of "a week or two" recommended in scheduling?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans84')">Show Answer</button><div id="pm-ans84" class="answer">If tasks are too small, the overhead of managing them is too high. If they are too large, it is difficult to judge progress accurately. A week or two is a good balance.</div></li>
+                <li><p><strong>85.</strong> What is the input to the 'Identify activities' step in the scheduling process?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans85')">Show Answer</button><div id="pm-ans85" class="answer">The software requirements.</div></li>
+                <li><p><strong>86.</strong> What is the output of the 'Create project charts' step?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans86')">Show Answer</button><div id="pm-ans86" class="answer">Activity charts and bar charts.</div></li>
+                <li><p><strong>87.</strong> In the project planning process loop, what triggers a 'technical review and possible revision'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans87')">Show Answer</button><div id="pm-ans87" class="answer">This is triggered 'if problems arise' during the project's execution.</div></li>
+                <li><p><strong>88.</strong> What is a strategy to handle 'defective components' that were planned for reuse?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans88')">Show Answer</button><div id="pm-ans88" class="answer">Replace the potentially defective components with bought-in components of known reliability.</div></li>
+                <li><p><strong>89.</strong> What is a strategy for dealing with 'recruitment problems'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans89')">Show Answer</button><div id="pm-ans89" class="answer">Alert the customer of potential difficulties and delays, and investigate buying-in components to reduce the amount of development work required.</div></li>
+                <li><p><strong>90.</strong> What is a strategy for mitigating the risk of 'organisational restructuring'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans90')">Show Answer</button><div id="pm-ans90" class="answer">Prepare a briefing document for senior management showing how the project is making a very important contribution to the goals of the business, to ensure its continued support.</div></li>
+                <li><p><strong>91.</strong> What is a potential indicator for a 'Technology' risk?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans91')">Show Answer</button><div id="pm-ans91" class="answer">Late delivery of hardware or support software; many reported technology problems.</div></li>
+                <li><p><strong>92.</strong> What is a potential indicator for a 'Tools' risk?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans92')">Show Answer</button><div id="pm-ans92" class="answer">Reluctance by team members to use tools; complaints about CASE tools; demands for higher-powered workstations.</div></li>
+                <li><p><strong>93.</strong> What is a potential indicator for a 'Requirements' risk?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans93')">Show Answer</button><div id="pm-ans93" class="answer">Many requirements change requests; customer complaints.</div></li>
+                <li><p><strong>94.</strong> What is the main conflict in project staffing?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans94')">Show Answer</button><div id="pm-ans94" class="answer">The need for experienced, ideal staff versus constraints like budget limitations and the desire to develop junior employees.</div></li>
+                <li><p><strong>95.</strong> How is progress judged in activity organization?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans95')">Show Answer</button><div id="pm-ans95" class="answer">Activities should be organized to produce tangible outputs (deliverables and milestones) so that management can judge progress objectively.</div></li>
+                <li><p><strong>96.</strong> What is the key point about the iterative nature of planning?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans96')">Show Answer</button><div id="pm-ans96" class="answer">Planning and estimating are iterative processes which continue throughout the course of a project.</div></li>
+                <li><p><strong>97.</strong> What is the final step in the risk management process before the cycle repeats?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans97')">Show Answer</button><div id="pm-ans97" class="answer">Risk monitoring, which provides feedback (a risk assessment) that can lead back to further risk analysis and planning.</div></li>
+                <li><p><strong>98.</strong> What output from risk analysis feeds into risk planning?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans98')">Show Answer</button><div id="pm-ans98" class="answer">A prioritized risk list.</div></li>
+                <li><p><strong>99.</strong> What is the difference between a task duration and a task dependency?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans99')">Show Answer</button><div id="pm-ans99" class="answer">Duration is the estimated time a task will take to complete (e.g., 8 days). Dependency is the relationship between tasks, specifying which tasks must be completed before another can begin.</div></li>
+                <li><p><strong>100.</strong> What is the overall message of the "Software Project Management" presentation?</p><button class="toggle-answer-btn" onclick="toggleAnswer('pm-ans100')">Show Answer</button><div id="pm-ans100" class="answer">That successful software development requires a disciplined management approach covering planning, scheduling, and risk management to navigate the unique challenges of building intangible, flexible products under budget and time constraints.</div></li>
+            </ol>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <p>Made with love by SS</p>
+    </footer>
+</div>
+</body>
+</html>

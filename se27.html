@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100 Practice Questions: Advanced Process Models</title>
+    <style>
+        /* --- Google Font & W3 Light Theme --- */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        :root {
+            --primary-color: #0078D4;
+            --secondary-color: #555555;
+            --bg-color: #f4f4f4;
+            --card-bg-color: #ffffff;
+            --text-color: #333333;
+            --heading-color: #000000;
+            --border-color: #dddddd;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --answer-bg: #f9f9f9;
+        }
+
+        * { box-sizing: border-box; scroll-behavior: smooth; }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.7; margin: 0; padding: 0; }
+        .container { max-width: 1000px; margin: 20px auto; padding: 0 20px; }
+
+        .main-header { text-align: center; padding: 40px 20px; background: var(--card-bg-color); border-radius: 5px; margin-bottom: 30px; border: 1px solid var(--border-color); }
+        .main-header h1 { color: var(--primary-color); margin: 0; }
+        .main-header p { color: var(--secondary-color); font-size: 1.1rem; }
+
+        #toc { background: var(--card-bg-color); padding: 25px; border-radius: 5px; margin-bottom: 30px; }
+        #toc h2 { text-align: center; margin-top: 0; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        #toc ol { list-style-type: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px; }
+        #toc a { text-decoration: none; color: var(--primary-color); font-weight: 600; }
+        #toc a:hover { text-decoration: underline; }
+
+        .question-section { margin-bottom: 40px; }
+        .question-section h2 { border-bottom: 3px solid var(--primary-color); padding-bottom: 10px; }
+
+        .question-list { list-style-type: none; padding: 0; }
+        .question-list li { background: var(--card-bg-color); padding: 20px; border-radius: 5px; border: 1px solid var(--border-color); margin-bottom: 20px; box-shadow: 0 2px 5px var(--shadow-color); }
+        .question-list p { margin: 0 0 15px 0; }
+
+        .toggle-answer-btn { background-color: var(--primary-color); color: white; border: none; padding: 8px 15px; border-radius: 3px; cursor: pointer; font-weight: 600; font-family: 'Poppins', sans-serif; }
+        .toggle-answer-btn:hover { opacity: 0.9; }
+
+        .answer { display: none; background-color: var(--answer-bg); border: 1px solid var(--border-color); border-left: 5px solid var(--primary-color); padding: 15px; margin-top: 15px; border-radius: 0 5px 5px 0; }
+        .answer ul { padding-left: 20px; }
+
+        .main-footer { text-align: center; padding: 20px; margin-top: 40px; color: var(--secondary-color); }
+    </style>
+    <script>
+        function toggleAnswer(id) {
+            const answerEl = document.getElementById(id);
+            const buttonEl = answerEl.previousElementSibling;
+            if (answerEl.style.display === 'block') {
+                answerEl.style.display = 'none';
+                buttonEl.textContent = 'Show Answer';
+            } else {
+                answerEl.style.display = 'block';
+                buttonEl.textContent = 'Hide Answer';
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <header class="main-header">
+        <h1>100 Practice Questions: Advanced Process Models</h1>
+        <p>Based on ICT 2402 Course Material</p>
+    </header>
+
+    <nav id="toc">
+        <h2>Table of Contents</h2>
+        <ol>
+            <li><a href="#section1-apm">1. Rational Unified Process (RUP)</a></li>
+            <li><a href="#section2-apm">2. Agile Methods & Principles</a></li>
+            <li><a href="#section3-apm">3. Extreme Programming (XP)</a></li>
+            <li><a href="#section4-apm">4. Scrum Development</a></li>
+            <li><a href="#section5-apm">5. Process Improvement & CMMI</a></li>
+        </ol>
+    </nav>
+
+    <main>
+        <!-- SECTION 1: RUP -->
+        <section id="section1-apm" class="question-section">
+            <h2>Section 1: Rational Unified Process (RUP)</h2>
+            <ol class="question-list">
+                <li><p><strong>1.</strong> What is the Rational Unified Process (RUP)?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans1')">Show Answer</button><div id="apm-ans1" class="answer">A modern, iterative software development process model derived from work on the Unified Modeling Language (UML).</div></li>
+                <li><p><strong>2.</strong> From which three perspectives is RUP normally described?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans2')">Show Answer</button><div id="apm-ans2" class="answer">1. A dynamic perspective (phases over time). 2. A static perspective (process activities/workflows). 3. A practice perspective (good practices).</div></li>
+                <li><p><strong>3.</strong> List the four phases of the RUP dynamic perspective.</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans3')">Show Answer</button><div id="apm-ans3" class="answer">Inception, Elaboration, Construction, and Transition.</div></li>
+                <li><p><strong>4.</strong> What is the main goal of the 'Inception' phase in RUP?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans4')">Show Answer</button><div id="apm-ans4" class="answer">To establish the business case for the system and define its scope.</div></li>
+                <li><p><strong>5.</strong> What is the main goal of the 'Elaboration' phase?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans5')">Show Answer</button><div id="apm-ans5" class="answer">To develop an understanding of the problem domain, establish the system architecture, and mitigate key risks.</div></li>
+                <li><p><strong>6.</strong> What is the main goal of the 'Construction' phase?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans6')">Show Answer</button><div id="apm-ans6" class="answer">To perform the main development work: system design, programming, and testing to build the product.</div></li>
+                <li><p><strong>7.</strong> What is the main goal of the 'Transition' phase?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans7')">Show Answer</button><div id="apm-ans7" class="answer">To deploy the system to the end-users' operating environment, including beta testing, training, and data migration.</div></li>
+                <li><p><strong>8.</strong> What is a 'workflow' in the static perspective of RUP?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans8')">Show Answer</button><div id="apm-ans8" class="answer">A process activity or discipline that groups related tasks. Examples include Requirements, Analysis & Design, and Implementation.</div></li>
+                <li><p><strong>9.</strong> Which workflow is concerned with modeling business processes using business use cases?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans9')">Show Answer</button><div id="apm-ans9" class="answer">Business Modeling.</div></li>
+                <li><p><strong>10.</strong> Which workflow involves identifying actors and developing system use cases?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans10')">Show Answer</button><div id="apm-ans10" class="answer">Requirements.</div></li>
+                <li><p><strong>11.</strong> Which workflow is a supporting workflow that manages changes to the system?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans11')">Show Answer</button><div id="apm-ans11" class="answer">Configuration and Change Management.</div></li>
+                <li><p><strong>12.</strong> According to the RUP graph, in which phase is the effort on 'Requirements' typically highest?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans12')">Show Answer</button><div id="apm-ans12" class="answer">The Elaboration phase.</div></li>
+                <li><p><strong>13.</strong> In which phase is the effort on 'Implementation' and 'Test' highest?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans13')">Show Answer</button><div id="apm-ans13" class="answer">The Construction phase.</div></li>
+                <li><p><strong>14.</strong> In which phase is the effort on 'Deployment' highest?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans14')">Show Answer</button><div id="apm-ans14" class="answer">The Transition phase.</div></li>
+                <li><p><strong>15.</strong> List three of the six 'good practices' suggested by the RUP practice perspective.</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans15')">Show Answer</button><div id="apm-ans15" class="answer">Any three of: Develop software iteratively, Manage requirements, Use component-based architectures, Visually model software, Verify software quality, Control changes to software.</div></li>
+                <li><p><strong>16.</strong> What does the "Phase Iteration" arrow in the RUP dynamic model signify?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans16')">Show Answer</button><div id="apm-ans16" class="answer">It signifies that while the project moves through the four major phases sequentially, within each phase (especially Construction), there can be multiple internal iterations to develop the software incrementally.</div></li>
+                <li><p><strong>17.</strong> In RUP, what is the 'Environment' workflow concerned with?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans17')">Show Answer</button><div id="apm-ans17" class="answer">This supporting workflow is concerned with making appropriate software tools (IDEs, version control, etc.) available to the development team.</div></li>
+                <li><p><strong>18.</strong> How does RUP handle testing?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans18')">Show Answer</button><div id="apm-ans18" class="answer">Testing is described as an iterative process that is carried out in conjunction with implementation. It is not a single phase at the end of development.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 2: Agile -->
+        <section id="section2-apm" class="question-section">
+            <h2>Section 2: Agile Methods & Principles</h2>
+            <ol class="question-list">
+                <li><p><strong>19.</strong> What led to the creation of Agile methods?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans19')">Show Answer</button><div id="apm-ans19" class="answer">Dissatisfaction with the overheads, extensive documentation, and rigidity involved in traditional heavyweight design methods like the Waterfall model.</div></li>
+                <li><p><strong>20.</strong> What is the main focus of Agile methods compared to traditional methods?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans20')">Show Answer</button><div id="apm-ans20" class="answer">Agile methods focus on the code and producing working software rather than on extensive upfront design and documentation.</div></li>
+                <li><p><strong>21.</strong> For what size and type of project are Agile methods probably best suited?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans21')">Show Answer</button><div id="apm-ans21" class="answer">Small to medium-sized business systems or PC products where requirements are expected to change.</div></li>
+                <li><p><strong>22.</strong> Explain the Agile principle of 'Customer Involvement'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans22')">Show Answer</button><div id="apm-ans22" class="answer">The customer should be closely involved throughout the development process to provide and prioritize requirements and to evaluate the iterations of the system.</div></li>
+                <li><p><strong>23.</strong> Explain the Agile principle of 'Incremental Delivery'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans23')">Show Answer</button><div id="apm-ans23" class="answer">The software is developed in small increments, with the customer specifying the requirements to be included in each increment.</div></li>
+                <li><p><strong>24.</strong> Explain the Agile principle of 'People, Not Process'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans24')">Show Answer</button><div id="apm-ans24" class="answer">The skills of the development team should be recognized and exploited. The team should be trusted and left to develop their own ways of working without overly prescriptive processes.</div></li>
+                <li><p><strong>25.</strong> Explain the Agile principle of 'Embrace Change'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans25')">Show Answer</button><div id="apm-ans25" class="answer">Expect that system requirements will change and design the system in a way that can accommodate these changes.</div></li>
+                <li><p><strong>26.</strong> Explain the Agile principle of 'Maintain Simplicity'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans26')">Show Answer</button><div id="apm-ans26" class="answer">Focus on simplicity in both the software being developed and the process used. Actively work to eliminate unnecessary complexity.</div></li>
+                <li><p><strong>27.</strong> What is a common problem with the 'Customer Involvement' principle?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans27')">Show Answer</button><div id="apm-ans27" class="answer">It can be difficult to keep the interest and commitment of customers who are required to be involved in the process, as it is a significant time investment for them.</div></li>
+                <li><p><strong>28.</strong> Why might team members struggle with Agile methods?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans28')">Show Answer</button><div id="apm-ans28" class="answer">Some team members may not be able to cope with the intensity of team involvement, collaboration, and rapid pace needed in agile methods.</div></li>
+                <li><p><strong>29.</strong> What is a common problem with contracts in Agile development?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans29')">Show Answer</button><div id="apm-ans29" class="answer">Traditional fixed-price contracts are based on a fixed set of requirements, which conflicts with the Agile principle of embracing change. New, more flexible contract models are often needed.</div></li>
+                <li><p><strong>30.</strong> What is the primary measure of progress in an Agile project?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans30')">Show Answer</button><div id="apm-ans30" class="answer">Working software.</div></li>
+                <li><p><strong>31.</strong> Why is prioritizing changes difficult when there are multiple stakeholders?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans31')">Show Answer</button><div id="apm-ans31" class="answer">Because different stakeholders often have conflicting needs and priorities, making it challenging to reach a consensus on what work is most valuable for the next iteration. This is a key challenge for the Product Owner role.</div></li>
+                <li><p><strong>32.</strong> Does 'Maintain Simplicity' mean taking shortcuts?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans32')">Show Answer</button><div id="apm-ans32" class="answer">No. It means consciously choosing the simplest design that works for the current requirements and continuously refactoring to keep the code clean. It requires extra work and discipline, it is not about being lazy.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 3: XP -->
+        <section id="section3-apm" class="question-section">
+            <h2>Section 3: Extreme Programming (XP)</h2>
+            <ol class="question-list">
+                <li><p><strong>33.</strong> What is Extreme Programming (XP)?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans33')">Show Answer</button><div id="apm-ans33" class="answer">Perhaps the best-known and most widely used Agile method that takes certain good practices of software development to 'extreme' levels.</div></li>
+                <li><p><strong>34.</strong> Give two examples of what makes XP 'extreme'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans34')">Show Answer</button><div id="apm-ans34" class="answer">1. New versions may be built several times per day (extreme integration). 2. Increments are delivered to customers every 2 weeks (extreme small releases). 3. Full-time engagement of the customer (extreme customer involvement).</div></li>
+                <li><p><strong>35.</strong> What is 'Incremental Planning' in XP?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans35')">Show Answer</button><div id="apm-ans35" class="answer">Requirements are recorded on 'Story Cards'. The customer prioritizes stories, and developers break them down into 'Tasks' for planning a release.</div></li>
+                <li><p><strong>36.</strong> What is the 'Small Releases' principle in XP?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans36')">Show Answer</button><div id="apm-ans36" class="answer">The minimal useful set of functionality that provides business value is developed first. Releases are frequent (e.g., every 2 weeks) and incrementally add new functionality.</div></li>
+                <li><p><strong>37.</strong> What is the 'Simple Design' principle in XP?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans37')">Show Answer</button><div id="apm-ans37" class="answer">Only enough design is carried out to meet the *current* requirements and no more. This avoids over-engineering for a future that may not happen.</div></li>
+                <li><p><strong>38.</strong> What is 'Test-First Development' (TDD)?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans38')">Show Answer</button><div id="apm-ans38" class="answer">The practice of writing an automated unit test *before* the functionality is implemented. The code is then written with the goal of making that test pass.</div></li>
+                <li><p><strong>39.</strong> What is 'Refactoring' in XP?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans39')">Show Answer</button><div id="apm-ans39" class="answer">The continuous process of improving the internal structure of the code without changing its external behavior. This keeps the code simple and maintainable.</div></li>
+                <li><p><strong>40.</strong> What is 'Pair Programming'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans40')">Show Answer</button><div id="apm-ans40" class="answer">Two developers work together at one workstation, with one 'driving' (writing code) and the other 'navigating' (reviewing and thinking strategically). It acts as a continuous code review.</div></li>
+                <li><p><strong>41.</strong> What is 'Collective Ownership'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans41')">Show Answer</button><div id="apm-ans41" class="answer">The principle that anyone on the team can change any part of the system's code. This prevents knowledge silos and encourages shared responsibility.</div></li>
+                <li><p><strong>42.</strong> What is 'Continuous Integration'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans42')">Show Answer</button><div id="apm-ans42" class="answer">As soon as a task is complete, the code is integrated into the whole system. After integration, all unit tests in the system must pass.</div></li>
+                <li><p><strong>43.</strong> What is 'Sustainable Pace'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans43')">Show Answer</button><div id="apm-ans43" class="answer">The practice of avoiding overtime, as it leads to burnout and reduced code quality. The team should work at a pace that can be sustained long-term.</div></li>
+                <li><p><strong>44.</strong> What is the 'On-Site Customer'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans44')">Show Answer</button><div id="apm-ans44" class="answer">A representative of the end-user who is available full-time to the XP team to answer questions, write stories, and provide immediate feedback.</div></li>
+                <li><p><strong>45.</strong> What is a 'user story' in XP?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans45')">Show Answer</button><div id="apm-ans45" class="answer">A short, high-level description of a requirement written from the perspective of the user. They are written on cards and used for planning.</div></li>
+                <li><p><strong>46.</strong> How does XP handle changes, as opposed to conventional wisdom?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans46')">Show Answer</button><div id="apm-ans46" class="answer">Conventional wisdom is to design for anticipated future changes. XP maintains this is not worthwhile as changes cannot be reliably anticipated. Instead, it proposes constant refactoring to make the code easy to change when the need arises.</div></li>
+                <li><p><strong>47.</strong> What is the main benefit of Test-First Development?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans47')">Show Answer</button><div id="apm-ans47" class="answer">Writing tests before code clarifies the requirements to be implemented and ensures that all new functionality is covered by automated tests, preventing regression errors.</div></li>
+                <li><p><strong>48.</strong> How does Pair Programming spread knowledge across the team?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans48')">Show Answer</button><div id="apm-ans48" class="answer">As pairs rotate and work on different parts of the system, every developer gains familiarity with the entire codebase, which supports collective code ownership.</div></li>
+                <li><p><strong>49.</strong> How does XP align with the five principles of Agile Methods?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans49')">Show Answer</button><div id="apm-ans49" class="answer"><ul><li><strong>Customer Involvement:</strong> Achieved through the On-Site Customer.</li><li><strong>Incremental Delivery:</strong> Achieved through Small Releases.</li><li><strong>People, Not Process:</strong> Achieved through Pair Programming, Collective Ownership, and Sustainable Pace.</li><li><strong>Embrace Change:</strong> Supported by regular system releases.</li><li><strong>Maintain Simplicity:</strong> Achieved through Simple Design and constant Refactoring.</li></ul></div></li>
+                <li><p><strong>50.</strong> What is the purpose of the XP release cycle?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans50')">Show Answer</button><div id="apm-ans50" class="answer">To provide a structured loop for planning and development: Select stories -> Break into tasks -> Plan release -> Develop/Integrate/Test -> Release -> Evaluate system -> Repeat.</div></li>
+                <li><p><strong>51.</strong> How are schedule and cost estimates derived in XP?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans51')">Show Answer</button><div id="apm-ans51" class="answer">The development team breaks down user stories into implementation tasks, and these tasks form the basis of schedule and cost estimates.</div></li>
+                <li><p><strong>52.</strong> Who chooses the stories for the next release in XP?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans52')">Show Answer</button><div id="apm-ans52" class="answer">The customer chooses the stories based on their priorities and the schedule estimates provided by the development team.</div></li>
+                <li><p><strong>53.</strong> What is a 'task card' in XP?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans53')">Show Answer</button><div id="apm-ans53" class="answer">A card describing a specific technical implementation task derived from a user story, used by developers for planning.</div></li>
+                <li><p><strong>54.</strong> Why is user involvement in test development important in XP?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans54')">Show Answer</button><div id="apm-ans54" class="answer">The user (or customer representative) is involved in writing or specifying the acceptance tests, which ensures that the developers' understanding of the requirements matches the customer's expectations.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 4: Scrum -->
+        <section id="section4-apm" class="question-section">
+            <h2>Section 4: Scrum Development</h2>
+            <ol class="question-list">
+                <li><p><strong>55.</strong> What is Scrum?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans55')">Show Answer</button><div id="apm-ans55" class="answer">An iterative, incremental agile framework for developing any product or managing any work, named after the game of Rugby.</div></li>
+                <li><p><strong>56.</strong> What are the three high-level phases of the Scrum methodology shown in the presentation?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans56')">Show Answer</button><div id="apm-ans56" class="answer">Pregame, Game, and Postgame.</div></li>
+                <li><p><strong>57.</strong> What two activities occur in the 'Pregame' phase?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans57')">Show Answer</button><div id="apm-ans57" class="answer">Planning and System Architecture / High-Level Design.</div></li>
+                <li><p><strong>58.</strong> What is the core activity of the 'Game' phase?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans58')">Show Answer</button><div id="apm-ans58" class="answer">Development occurs in 'Sprints', which are periods of concurrent engineering.</div></li>
+                <li><p><strong>59.</strong> What is a 'Sprint'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans59')">Show Answer</button><div id="apm-ans59" class="answer">A time-boxed iteration (e.g., 30 days) where analysis, design, development, and testing occur concurrently.</div></li>
+                <li><p><strong>60.</strong> What is the outcome of the 'Postgame' phase?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans60')">Show Answer</button><div id="apm-ans60" class="answer">Closure: delivering a functioning deliverable, getting sign-off, and preparing to start the next Sprint.</div></li>
+                <li><p><strong>61.</strong> List the four activities of the 'Planning and Architecture' stage in Pregame.</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans61')">Show Answer</button><div id="apm-ans61" class="answer">1. Identify the project. 2. Prioritize functional requirements. 3. Identify available resources. 4. Establish the target environment.</div></li>
+                <li><p><strong>62.</strong> When does testing occur during a Sprint?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans62')">Show Answer</button><div id="apm-ans62" class="answer">Testing happens throughout the Sprint, not as a separate phase at the end.</div></li>
+                <li><p><strong>63.</strong> What are the "Review" and "Adjust" activities within a Sprint?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans63')">Show Answer</button><div id="apm-ans63" class="answer">Review refers to demonstrating the work to stakeholders (Sprint Review), and Adjust refers to the team reflecting and improving its process (Sprint Retrospective).</div></li>
+                <li><p><strong>64.</strong> List three roles on a Scrum team as per the presentation.</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans64')">Show Answer</button><div id="apm-ans64" class="answer">Scrum Master, Developer, QA, Documentation Member.</div></li>
+                <li><p><strong>65.</strong> List four of the Scrum values mentioned.</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans65')">Show Answer</button><div id="apm-ans65" class="answer">Flexible deliverable, Small teams, Frequent reviews, Collaboration, Team Empowerment, Adaptability.</div></li>
+                <li><p><strong>66.</strong> What does "Team Empowerment" mean as a Scrum value?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans66')">Show Answer</button><div id="apm-ans66" class="answer">It means the development team is self-organizing and is given the autonomy and trust to figure out how to best accomplish their work during a Sprint.</div></li>
+                <li><p><strong>67.</strong> Why is "Adaptability" a key value in Scrum?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans67')">Show Answer</button><div id="apm-ans67" class="answer">Because Scrum is built on the idea that requirements and priorities will change. The process is designed to adapt to these changes every Sprint.</div></li>
+                <li><p><strong>68.</strong> What is the role of the Scrum Master?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans68')">Show Answer</button><div id="apm-ans68" class="answer">To facilitate the Scrum process, remove impediments for the team, and act as a coach for Agile principles. They are a servant-leader, not a traditional project manager.</div></li>
+                <li><p><strong>69.</strong> What is the main artifact that guides the development in a Sprint?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans69')">Show Answer</button><div id="apm-ans69" class="answer">The Sprint Backlog, which is the list of tasks the team has committed to completing during that Sprint.</div></li>
+                <li><p><strong>70.</strong> What is the primary output of a Sprint?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans70')">Show Answer</button><div id="apm-ans70" class="answer">A potentially shippable, "Done" increment of the product.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 5: Process Improvement -->
+        <section id="section5-apm" class="question-section">
+            <h2>Section 5: Process Improvement & CMMI</h2>
+            <ol class="question-list">
+                <li><p><strong>71.</strong> What is 'process improvement'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans71')">Show Answer</button><div id="apm-ans71" class="answer">The activity of understanding existing processes and introducing changes to improve product quality, reduce costs, or accelerate schedules.</div></li>
+                <li><p><strong>72.</strong> What are the three stages of the process improvement cycle?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans72')">Show Answer</button><div id="apm-ans72" class="answer">1. Measure the current process. 2. Analyse the measurements to identify weaknesses. 3. Change the process to address those weaknesses.</div></li>
+                <li><p><strong>73.</strong> What is the purpose of 'Process Measurement'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans73')">Show Answer</button><div id="apm-ans73" class="answer">To measure attributes of the current process to create a baseline for assessing whether future changes are actual improvements.</div></li>
+                <li><p><strong>74.</strong> What is the purpose of 'Process Analysis'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans74')">Show Answer</button><div id="apm-ans74" class="answer">To assess the current process and identify bottlenecks, weaknesses, and areas for improvement.</div></li>
+                <li><p><strong>75.</strong> What does CMMI stand for?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans75')">Show Answer</button><div id="apm-ans75" class="answer">Capability Maturity Model Integration.</div></li>
+                <li><p><strong>76.</strong> What is the CMMI framework?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans76')">Show Answer</button><div id="apm-ans76" class="answer">A framework for process assessment and improvement developed by the Software Engineering Institute (SEI).</div></li>
+                <li><p><strong>77.</strong> List the three main components of the CMMI model.</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans77')">Show Answer</button><div id="apm-ans77" class="answer">Process areas, Goals, and Practices.</div></li>
+                <li><p><strong>78.</strong> In CMMI, what are 'Process Areas'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans78')">Show Answer</button><div id="apm-ans78" class="answer">Clusters of related practices that, when performed collectively, achieve a set of goals considered important for improving process capability (e.g., Project Planning, Requirements Management).</div></li>
+                <li><p><strong>79.</strong> What are 'Goals' in the CMMI model?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans79')">Show Answer</button><div id="apm-ans79" class="answer">Descriptions of desirable organizational states. Each process area has associated goals.</div></li>
+                <li><p><strong>80.</strong> What are 'Practices' in the CMMI model?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans80')">Show Answer</button><div id="apm-ans80" class="answer">Advisory ways of achieving a goal. Other approaches may be used, but the practices describe a typical path to success.</div></li>
+                <li><p><strong>81.</strong> What is the difference between the 'staged' and 'continuous' CMMI models?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans81')">Show Answer</button><div id="apm-ans81" class="answer"><ul><li><strong>Staged:</strong> Assesses an organization's overall maturity on a single 5-level scale. An organization must satisfy all process areas at a lower level before moving to the next.</li><li><strong>Continuous:</strong> A finer-grain model that assesses maturity for each individual process area. This allows organizations to pick and choose which areas to improve based on their specific needs.</li></ul></div></li>
+                <li><p><strong>82.</strong> List the five maturity levels of the staged CMMI model.</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans82')">Show Answer</button><div id="apm-ans82" class="answer">1. Initial, 2. Managed, 3. Defined, 4. Quantitatively Managed, 5. Optimizing.</div></li>
+                <li><p><strong>83.</strong> What does it mean for a process to be at the 'Initial' level?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans83')">Show Answer</button><div id="apm-ans83" class="answer">The process is chaotic, ad-hoc, and unpredictable. Success depends on individual heroics.</div></li>
+                <li><p><strong>84.</strong> What does it mean for a process to be at the 'Managed' level?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans84')">Show Answer</button><div id="apm-ans84" class="answer">Basic project management processes are established to track cost, schedule, and functionality.</div></li>
+                <li><p><strong>85.</strong> What does it mean for a process to be at the 'Defined' level?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans85')">Show Answer</button><div id="apm-ans85" class="answer">The process is documented, standardized, and integrated into an organizational standard.</div></li>
+                <li><p><strong>86.</strong> What does it mean for a process to be at the 'Quantitatively Managed' level?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans86')">Show Answer</button><div id="apm-ans86" class="answer">The organization uses statistical and other quantitative techniques to manage and control the process and product quality.</div></li>
+                <li><p><strong>87.</strong> What does it mean for a process to be at the 'Optimizing' level?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans87')">Show Answer</button><div id="apm-ans87" class="answer">The organization focuses on continual process improvement through quantitative feedback and piloting of innovative new ideas.</div></li>
+                <li><p><strong>88.</strong> What is a 'process capability profile'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans88')">Show Answer</button><div id="apm-ans88" class="answer">A graphical representation from the continuous CMMI model that shows the organization's maturity level for each individual process area, highlighting strengths and weaknesses.</div></li>
+                <li><p><strong>89.</strong> What is the primary focus of most process improvement work so far?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans89')">Show Answer</button><div id="apm-ans89" class="answer">Defect reduction, reflecting the industry's increasing focus on quality.</div></li>
+                <li><p><strong>90.</strong> What is the main advantage of the continuous CMMI model?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans90')">Show Answer</button><div id="apm-ans90" class="answer">It allows organizations to prioritize and improve specific process areas according to their local needs and business goals, rather than following a rigid, one-size-fits-all path.</div></li>
+                <li><p><strong>91.</strong> What is a 'generic goal' in CMMI?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans91')">Show Answer</button><div id="apm-ans91" class="answer">A goal that applies to multiple process areas, such as "The process is institutionalized as a defined process."</div></li>
+                <li><p><strong>92.</strong> Name two process areas under the 'Project Management' category in CMMI.</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans92')">Show Answer</button><div id="apm-ans92" class="answer">Project Planning, Project Monitoring and Control, Risk Management.</div></li>
+                <li><p><strong>93.</strong> Name two process areas under the 'Engineering' category in CMMI.</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans93')">Show Answer</button><div id="apm-ans93" class="answer">Requirements Management, Requirements Development, Technical Solution, Verification, Validation.</div></li>
+                <li><p><strong>94.</strong> Name two process areas under the 'Support' category in CMMI.</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans94')">Show Answer</button><div id="apm-ans94" class="answer">Configuration Management, Measurement and Analysis.</div></li>
+                <li><p><strong>95.</strong> What is a CMMI assessment?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans95')">Show Answer</button><div id="apm-ans95" class="answer">An examination of the processes used in an organization to assess their maturity in each process area, based on a 6-point scale.</div></li>
+                <li><p><strong>96.</strong> What does "Not Performed" mean in a CMMI assessment?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans96')">Show Answer</button><div id="apm-ans96" class="answer">It means the process area is either not performed or does not completely achieve its goals. It is equivalent to Level 0.</div></li>
+                <li><p><strong>97.</strong> What is the relationship between RUP and Agile?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans97')">Show Answer</button><div id="apm-ans97" class="answer">Both are iterative process frameworks. RUP is often seen as more formal and heavyweight, while Agile methods like Scrum and XP are more lightweight and people-centric. A project can tailor RUP to be quite agile.</div></li>
+                <li><p><strong>98.</strong> Why are "User Stories" used in XP instead of formal requirement documents?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans98')">Show Answer</button><div id="apm-ans98" class="answer">They are lightweight, easy to understand, and encourage conversation between developers and the customer. They represent a "promise for a conversation" rather than a rigid specification.</div></li>
+                <li><p><strong>99.</strong> Can a project use both Scrum and XP practices?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans99')">Show Answer</button><div id="apm-ans99" class="answer">Yes. Scrum is a management framework, while XP provides a set of engineering practices. Many teams use Scrum for their overall process and adopt XP practices like TDD and Pair Programming to improve their development work.</div></li>
+                <li><p><strong>100.</strong> What is the overall message of the "Advanced Process Models" presentation?</p><button class="toggle-answer-btn" onclick="toggleAnswer('apm-ans100')">Show Answer</button><div id="apm-ans100" class="answer">That modern software development has moved towards iterative, agile, and structured frameworks like RUP, XP, and Scrum to better handle complexity and changing requirements. Furthermore, continuous process improvement, often guided by models like CMMI, is essential for organizational maturity.</div></li>
+            </ol>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <p>Made with love by SS</p>
+    </footer>
+</div>
+</body>
+</html>

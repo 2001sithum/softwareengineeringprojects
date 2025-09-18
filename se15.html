@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COM 2308 - Software Engineering Mock Exam Paper (with Python Explanations)</title>
+    <style>
+        /* --- Google Font & W3 Light Theme --- */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+        :root {
+            --primary-color: #0078D4;
+            --secondary-color: #555555;
+            --bg-color: #f4f4f4;
+            --card-bg-color: #ffffff;
+            --text-color: #333333;
+            --heading-color: #000000;
+            --border-color: #dddddd;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --code-bg: #2d2d2d;
+            --answer-bg: #f9f9f9;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        .exam-header {
+            background: var(--card-bg-color);
+            padding: 25px;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .exam-header h1 {
+            color: var(--primary-color);
+            margin: 0;
+        }
+        .exam-header h2 {
+            color: var(--heading-color);
+            font-weight: 600;
+            margin: 10px 0;
+        }
+        .exam-header p {
+            color: var(--secondary-color);
+            margin: 5px 0;
+        }
+        .exam-header ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 15px;
+            text-align: left;
+            display: inline-block;
+        }
+
+        .question-block {
+            background: var(--card-bg-color);
+            padding: 25px;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px var(--shadow-color);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .question-header h3 {
+            color: var(--heading-color);
+            margin: 0;
+            font-size: 1.4rem;
+        }
+
+        .marks {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .question-text {
+            margin-bottom: 20px;
+        }
+
+        .answer-section {
+            background-color: var(--answer-bg);
+            border: 1px solid var(--border-color);
+            border-left: 5px solid var(--primary-color);
+            padding: 20px;
+            border-radius: 0 5px 5px 0;
+            margin-top: 15px;
+        }
+
+        .answer-section h4 {
+            color: var(--primary-color);
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            border-radius: 5px;
+            padding: 15px;
+            overflow-x: auto;
+            color: #dcdcdc;
+        }
+        code {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.95rem;
+        }
+        .code-comment { color: #6a9955; }
+        .code-keyword { color: #569cd6; }
+        .code-function { color: #dcdcaa; }
+        .code-string { color: #ce9178; }
+        .code-class { color: #4ec9b0; }
+
+        .main-footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            color: var(--secondary-color);
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="exam-header">
+        <p>RAJARATA UNIVERSITY OF SRI LANKA</p>
+        <p>FACULTY OF APPLIED SCIENCES</p>
+        <h1>Bachelor of Science in Applied Sciences</h1>
+        <h2>COM 2308 - SOFTWARE ENGINEERING</h2>
+        <p>Second Year - Semester II Examination – February - April 2025</p>
+        <hr style="margin: 15px 0; border: 0; border-top: 1px solid var(--border-color);">
+        <p><strong>Time:</strong> Three (03) hours</p>
+        <ul>
+            <li>This paper consists of five (05) questions on four (04) pages.</li>
+            <li>Answer <strong>ALL</strong> questions.</li>
+        </ul>
+    </div>
+
+    <main>
+        <!-- Question 1 -->
+        <div class="question-block">
+            <div class="question-header"><h3>Question 1</h3></div>
+
+            <h4>a) Describe how Agile methods accommodate changing requirements.</h4>
+            <p class="question-text"></p>
+            <div class="marks">(05 marks)</div>
+            <div class="answer-section">
+                <h4>Answer & Explanation</h4>
+                <p>Agile methods are fundamentally designed to embrace and accommodate change. They achieve this through several core practices:</p>
+                <ul>
+                    <li><strong>Iterative Development:</strong> Work is broken down into small, time-boxed iterations (e.g., Sprints in Scrum). At the end of each iteration, stakeholders review a working increment of the software and can provide feedback, which allows requirements to be adjusted for the next iteration.</li>
+                    <li><strong>Prioritized Backlog:</strong> Requirements are maintained in a prioritized list (Product Backlog). This list is dynamic and can be re-prioritized at the start of each new iteration, allowing new or changed requirements to be moved up in priority.</li>
+                    <li><strong>Customer Collaboration:</strong> Agile values constant communication with the customer. An on-site customer representative provides immediate clarification and makes decisions about changing requirements, preventing delays.</li>
+                    <li><strong>Embracing Change as a Principle:</strong> The Agile Manifesto explicitly states "Responding to change over following a plan." This mindset encourages teams to expect and welcome changes rather than resisting them.</li>
+                    <li><strong>Simple Design & Refactoring:</strong> Agile teams avoid "Big Design Upfront" (BDUF). They create the simplest design that works for the current requirements and continuously refactor (improve the internal structure of) the code to make it easier to modify as requirements evolve.</li>
+                </ul>
+            </div>
+
+            <h4>b) Explain why cowboy coding is considered suitable for problems that are small and well understood.</h4>
+            <p class="question-text"></p>
+            <div class="marks">(04 marks)</div>
+            <div class="answer-section">
+                <h4>Answer & Explanation</h4>
+                <p>Cowboy coding, an unstructured approach where developers (often a single programmer) implement solutions without a formal process, is suitable for small, well-understood problems because:</p>
+                <ul>
+                    <li><strong>Low Communication Overhead:</strong> For a single developer or a very small, co-located team, the need for formal documentation, meetings, and planning is minimal. The developer has a complete mental model of the simple problem.</li>
+                    <li><strong>Speed of Delivery:</strong> It allows for extremely rapid development of a solution. For a small, urgent problem, the overhead of a formal process would be counterproductive and slow down delivery.</li>
+                    <li><strong>Prototyping/Spikes:</strong> It is ideal for creating quick prototypes or "spikes" to test a technical idea or explore a solution. The goal is learning, not building a production-ready system.</li>
+                    <li><strong>Minimal Risk:</strong> Because the problem is small and well-understood, the risks of failure, budget overruns, or creating an unmaintainable system are very low.</li>
+                </ul>
+                <p>However, this approach fails completely for large, complex, or poorly understood problems where structure, planning, and collaboration are essential.</p>
+            </div>
+
+            <!-- ... other parts of Question 1 ... -->
+        </div>
+
+        <!-- Question 2 with Python -->
+        <div class="question-block">
+            <div class="question-header"><h3>Question 2</h3></div>
+
+            <h4>c) Write the C++ or Python code corresponding to the class diagram segment given below. Writing the function bodies are not required.</h4>
+            <img src="https://i.imgur.com/8QZJ7eM.png" alt="Class Diagram showing an Order and Product class" style="width:100%; max-width:500px; display:block; margin: 15px 0;">
+            <div class="marks">(06 marks)</div>
+
+            <div class="answer-section">
+                <h4>Answer & Explanation (Python)</h4>
+                <p>The class diagram shows two classes, <code>Product</code> and <code>Order</code>, with an association between them. An <code>Order</code> can contain multiple <code>Product</code> items. The code below translates this structure into Python classes. As function bodies are not required, we use the <code>pass</code> statement as a placeholder.</p>
+                <pre><code><span class="code-comment"># First, define the Product class as the Order class will reference it.</span>
+<span class="code-keyword">class</span> <span class="code-class">Product</span>:
+    <span class="code-keyword">def</span> <span class="code-function">__init__</span>(<span class="code-keyword">self</span>, product_id: int, price: float):
+        <span class="code-keyword">self</span>.product_id = product_id
+        <span class="code-keyword">self</span>.price = price
+
+    <span class="code-keyword">def</span> <span class="code-function">get_price</span>(<span class="code-keyword">self</span>) -> float:
+        <span class="code-keyword">pass</span>
+
+
+<span class="code-comment"># Now, define the Order class.</span>
+<span class="code-keyword">class</span> <span class="code-class">Order</span>:
+    <span class="code-keyword">def</span> <span class="code-function">__init__</span>(<span class="code-keyword">self</span>, order_id: int, customer_name: str, order_date: str):
+        <span class="code-keyword">self</span>.order_id = order_id
+        <span class="code-keyword">self</span>.customer_name = customer_name
+        <span class="code-keyword">self</span>.order_date = order_date
+        <span class="code-comment"># This list will hold Product objects, representing the association.</span>
+        <span class="code-keyword">self</span>.products = []
+
+    <span class="code-keyword">def</span> <span class="code-function">add_product</span>(<span class="code-keyword">self</span>, product: Product):
+        <span class="code-keyword">pass</span>
+
+    <span class="code-keyword">def</span> <span class="code-function">calculate_total</span>(<span class="code-keyword">self</span>) -> float:
+        <span class="code-keyword">pass</span>
+</code></pre>
+            </div>
+
+            <h4>d) The following is a simple Python function that calculates the factorial of a number. Identify and explain the code quality issues present in the function.</h4>
+            <pre><code><span class="code-keyword">def</span> <span class="code-function">factorial</span>(x):
+    <span class="code-comment"># this function calculates factorial</span>
+    result = 1
+    i = 1
+    <span class="code-keyword">while</span> i <= x:
+        result = result * i
+        i = i + 1
+    <span class="code-keyword">return</span> result
+</code></pre>
+            <div class="marks">(06 marks)</div>
+
+            <div class="answer-section">
+                <h4>Answer & Explanation</h4>
+                <p>While the function is logically correct for positive integers, it has several code quality issues related to readability, robustness, and standard Python practices:</p>
+                <ol>
+                    <li><strong>Poor Variable Naming:</strong> The parameter name <code>x</code> is not descriptive. A name like <code>n</code> or <code>number</code> would be clearer and more conventional for a mathematical function.</li>
+                    <li><strong>Lack of Proper Documentation:</strong> The single-line comment is minimal. A proper Python docstring should be used to explain the function's purpose, its parameters, what it returns, and any exceptions it might raise.</li>
+                    <li><strong>No Input Validation:</strong> The function does not handle edge cases or invalid inputs. For example:
+                        <ul>
+                            <li>If a negative number is passed, the loop condition <code>i <= x</code> will be immediately false, and it will incorrectly return 1.</li>
+                            <li>If a non-integer (like a float or string) is passed, it will raise a <code>TypeError</code> at runtime.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Un-Pythonic Loop:</strong> Using a <code>while</code> loop with a manual counter (<code>i</code>) is less "Pythonic" than using a <code>for</code> loop with <code>range()</code>, which is generally more readable and less prone to off-by-one errors.</li>
+                </ol>
+
+                <h4>Refactored Code Example:</h4>
+                <pre><code><span class="code-keyword">def</span> <span class="code-function">calculate_factorial</span>(n: int) -> int:
+    <span class="code-string">"""Calculates the factorial of a non-negative integer.
+
+    Args:
+        n: A non-negative integer.
+
+    Returns:
+        The factorial of n.
+
+    Raises:
+        ValueError: If n is a negative integer.
+        TypeError: If n is not an integer.
+    """</span>
+    <span class="code-keyword">if not</span> <span class="code-function">isinstance</span>(n, int):
+        <span class="code-keyword">raise</span> <span class="code-class">TypeError</span>(<span class="code-string">"Input must be an integer."</span>)
+    <span class="code-keyword">if</span> n < 0:
+        <span class="code-keyword">raise</span> <span class="code-class">ValueError</span>(<span class="code-string">"Factorial is not defined for negative numbers."</span>)
+
+    factorial_result = 1
+    <span class="code-keyword">for</span> i <span class="code-keyword">in</span> <span class="code-function">range</span>(1, n + 1):
+        factorial_result *= i
+
+    <span class="code-keyword">return</span> factorial_result
+</code></pre>
+            </div>
+        </div>
+
+        <!-- Question 3 with Python -->
+        <div class="question-block">
+            <div class="question-header"><h3>Question 3</h3></div>
+
+            <h4>a) The following is a Python function to check if a `username` string meets certain criteria (must be between 5 and 15 characters). Using partition testing, explain the different classes of numbers you would consider as inputs to test this function. Assume `username` is an integer.</h4>
+            <pre><code><span class="code-keyword">def</span> <span class="code-function">validate_username</span>(username: str) -> bool:
+    length = <span class="code-function">len</span>(username)
+    <span class="code-keyword">return</span> 5 <= length <= 15
+</code></pre>
+            <div class="marks">(05 marks)</div>
+
+            <div class="answer-section">
+                <h4>Answer & Explanation</h4>
+                <p><strong>Partition Testing</strong> (or Equivalence Partitioning) is a black-box testing technique where input data is divided into partitions of equivalent data from which test cases can be derived. All inputs in a partition are expected to be processed in the same way.</p>
+                <p>For the condition <code>5 <= length <= 15</code>, we can identify three main partitions:</p>
+                <ol>
+                    <li><strong>Valid Partition (length is between 5 and 15 inclusive):</strong>
+                        <ul>
+                            <li><strong>Description:</strong> This class includes all usernames that should return <code>True</code>.</li>
+                            <li><strong>Example Test Cases:</strong> A username with length 5 ("abcde"), length 10 ("abcdefghij"), and length 15.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Invalid Partition 1 (length < 5):</strong>
+                        <ul>
+                            <li><strong>Description:</strong> This class includes all usernames that are too short and should return <code>False</code>.</li>
+                            <li><strong>Example Test Cases:</strong> A username with length 4 ("abcd") and an empty string with length 0 ("").</li>
+                        </ul>
+                    </li>
+                    <li><strong>Invalid Partition 2 (length > 15):</strong>
+                        <ul>
+                            <li><strong>Description:</strong> This class includes all usernames that are too long and should return <code>False</code>.</li>
+                            <li><strong>Example Test Cases:</strong> A username with length 16 ("1234567890123456").</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>Additionally, using <strong>Boundary Value Analysis (BVA)</strong>, we would specifically test the values at and around the boundaries (5 and 15):</p>
+                <ul>
+                    <li>Length 4 (below the lower boundary)</li>
+                    <li>Length 5 (on the lower boundary)</li>
+                    <li>Length 15 (on the upper boundary)</li>
+                    <li>Length 16 (above the upper boundary)</li>
+                </ul>
+            </div>
+
+            <!-- ... other parts of Question 3 ... -->
+        </div>
+
+        <!-- Questions 4 & 5 (Theoretical) -->
+        <!-- ... Omitted for brevity, but would follow the same card structure ... -->
+
+    </main>
+
+    <footer class="main-footer">
+        <p>Made with love by SS</p>
+    </footer>
+</div>
+</body>
+</html>

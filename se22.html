@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100 Practice Questions: Configuration Management</title>
+    <style>
+        /* --- Google Font & W3 Light Theme --- */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        :root {
+            --primary-color: #0078D4;
+            --secondary-color: #555555;
+            --bg-color: #f4f4f4;
+            --card-bg-color: #ffffff;
+            --text-color: #333333;
+            --heading-color: #000000;
+            --border-color: #dddddd;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --answer-bg: #f9f9f9;
+        }
+
+        * { box-sizing: border-box; scroll-behavior: smooth; }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.7; margin: 0; padding: 0; }
+        .container { max-width: 1000px; margin: 20px auto; padding: 0 20px; }
+
+        .main-header { text-align: center; padding: 40px 20px; background: var(--card-bg-color); border-radius: 5px; margin-bottom: 30px; border: 1px solid var(--border-color); }
+        .main-header h1 { color: var(--primary-color); margin: 0; }
+        .main-header p { color: var(--secondary-color); font-size: 1.1rem; }
+
+        #toc { background: var(--card-bg-color); padding: 25px; border-radius: 5px; margin-bottom: 30px; }
+        #toc h2 { text-align: center; margin-top: 0; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        #toc ol { list-style-type: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px; }
+        #toc a { text-decoration: none; color: var(--primary-color); font-weight: 600; }
+        #toc a:hover { text-decoration: underline; }
+
+        .question-section { margin-bottom: 40px; }
+        .question-section h2 { border-bottom: 3px solid var(--primary-color); padding-bottom: 10px; }
+
+        .question-list { list-style-type: none; padding: 0; }
+        .question-list li { background: var(--card-bg-color); padding: 20px; border-radius: 5px; border: 1px solid var(--border-color); margin-bottom: 20px; box-shadow: 0 2px 5px var(--shadow-color); }
+        .question-list p { margin: 0 0 15px 0; }
+
+        .toggle-answer-btn { background-color: var(--primary-color); color: white; border: none; padding: 8px 15px; border-radius: 3px; cursor: pointer; font-weight: 600; font-family: 'Poppins', sans-serif; }
+        .toggle-answer-btn:hover { opacity: 0.9; }
+
+        .answer { display: none; background-color: var(--answer-bg); border: 1px solid var(--border-color); border-left: 5px solid var(--primary-color); padding: 15px; margin-top: 15px; border-radius: 0 5px 5px 0; }
+        .answer ul { padding-left: 20px; }
+
+        .main-footer { text-align: center; padding: 20px; margin-top: 40px; color: var(--secondary-color); }
+    </style>
+    <script>
+        function toggleAnswer(id) {
+            const answerEl = document.getElementById(id);
+            const buttonEl = answerEl.previousElementSibling;
+            if (answerEl.style.display === 'block') {
+                answerEl.style.display = 'none';
+                buttonEl.textContent = 'Show Answer';
+            } else {
+                answerEl.style.display = 'block';
+                buttonEl.textContent = 'Hide Answer';
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <header class="main-header">
+        <h1>100 Practice Questions: Configuration Management</h1>
+        <p>Based on ICT 2402 Course Material</p>
+    </header>
+
+    <nav id="toc">
+        <h2>Table of Contents</h2>
+        <ol>
+            <li><a href="#section1-cm">1. CM Fundamentals</a></li>
+            <li><a href="#section2-cm">2. CM Planning & The CM Plan</a></li>
+            <li><a href="#section3-cm">3. Change Management</a></li>
+            <li><a href="#section4-cm">4. Version Management</a></li>
+            <li><a href="#section5-cm">5. Release Management</a></li>
+            <li><a href="#section6-cm">6. System Building</a></li>
+            <li><a href="#section7-cm">7. CASE Tools for CM</a></li>
+        </ol>
+    </nav>
+
+    <main>
+        <!-- SECTION 1: CM Fundamentals -->
+        <section id="section1-cm" class="question-section">
+            <h2>Section 1: Configuration Management Fundamentals</h2>
+            <ol class="question-list">
+                <li><p><strong>1.</strong> What is Configuration Management (CM)?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans1')">Show Answer</button><div id="cm-ans1" class="answer">The process of managing evolving software systems, especially when maintained by teams. It involves tracking and controlling changes to all software artifacts.</div></li>
+                <li><p><strong>2.</strong> List three reasons why new versions of software systems are created.</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans2')">Show Answer</button><div id="cm-ans2" class="answer">1. To support different machines/OS. 2. To offer different functionality. 3. To fix bugs.</div></li>
+                <li><p><strong>3.</strong> What is a 'baseline' in CM?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans3')">Show Answer</button><div id="cm-ans3" class="answer">A stable, formally approved version of a software system or component that serves as a starting point for further development.</div></li>
+                <li><p><strong>4.</strong> How does CM relate to quality management processes like ISO 9000?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans4')">Show Answer</button><div id="cm-ans4" class="answer">The definition and use of CM standards for traceability and control are essential for achieving ISO 9000 certification. CM is considered a key part of a general quality management process.</div></li>
+                <li><p><strong>5.</strong> What should CM standards define?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans5')">Show Answer</button><div id="cm-ans5" class="answer">They should define how configuration items are identified, how changes are controlled, and how new versions are managed.</div></li>
+                <li><p><strong>6.</strong> Why are new CM standards needed for Agile Development?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans6')">Show Answer</button><div id="cm-ans6" class="answer">Because traditional standards are often based on a Waterfall process. Agile relies on concurrent development and testing, requiring standards that support frequent system building and integration.</div></li>
+                <li><p><strong>7.</strong> Describe the process of concurrent development and testing in an Agile context.</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans7')">Show Answer</button><div id="cm-ans7" class="answer">A time is agreed for delivery of components. A new system version is built from these components. This new version is delivered for testing with pre-defined tests. Faults are documented and returned to developers.</div></li>
+                <li><p><strong>8.</strong> What are the two main advantages of frequent system building?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans8')">Show Answer</button><div id="cm-ans8" class="answer">1. It is easier to find problems from component interactions early. 2. It encourages thorough unit testing, as developers are under pressure not to 'break the build'.</div></li>
+                <li><p><strong>9.</strong> What is required to support frequent system building?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans9')">Show Answer</button><div id="cm-ans9" class="answer">A stringent change management process to keep track of discovered and repaired problems.</div></li>
+                <li><p><strong>10.</strong> What is a 'configuration item'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans10')">Show Answer</button><div id="cm-ans10" class="answer">Any product of the software process that is managed under CM, such as a specification, design document, source code file, or test data.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 2: CM Planning -->
+        <section id="section2-cm" class="question-section">
+            <h2>Section 2: CM Planning & The CM Plan</h2>
+            <ol class="question-list">
+                <li><p><strong>11.</strong> Why is CM planning necessary for large projects?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans11')">Show Answer</button><div id="cm-ans11" class="answer">Because large projects can generate thousands of separate documents (specifications, designs, code, manuals) that must all be managed in a controlled and consistent way.</div></li>
+                <li><p><strong>12.</strong> What is a CM plan?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans12')">Show Answer</button><div id="cm-ans12" class="answer">A document that defines the standards, procedures, tools, and responsibilities for configuration management on a specific project.</div></li>
+                <li><p><strong>13.</strong> List four key things that a CM plan defines.</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans13')">Show Answer</button><div id="cm-ans13" class="answer">1. The types of documents to be managed and their naming scheme. 2. Who is responsible for CM procedures. 3. Policies for change control and version management. 4. The CM records that must be maintained.</div></li>
+                <li><p><strong>14.</strong> What information about tools should be included in the CM plan?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans14')">Show Answer</button><div id="cm-ans14" class="answer">The plan should describe the tools to be used, any limitations on their use, and the defined process for using them.</div></li>
+                <li><p><strong>15.</strong> Why is a unique identification scheme for configuration items important?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans15')">Show Answer</button><div id="cm-ans15" class="answer">To avoid ambiguity. With thousands of documents, a unique identifier ensures that everyone is referring to and working with the correct item and version.</div></li>
+                <li><p><strong>16.</strong> What is the most flexible approach for a document naming scheme?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans16')">Show Answer</button><div id="cm-ans16" class="answer">A hierarchical scheme with multi-level names, so that related documents have related names (e.g., `PCL-TOOLS/EDIT/FORMS/DISPLAY/CODE`).</div></li>
+                <li><p><strong>17.</strong> What is a configuration database (or CMDB)?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans17')">Show Answer</button><div id="cm-ans17" class="answer">A database where all CM information is maintained. It stores metadata about components, users, changes, faults, and execution platforms.</div></li>
+                <li><p><strong>18.</strong> Give two examples of queries a configuration database should be able to answer.</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans18')">Show Answer</button><div id="cm-ans18" class="answer">1. Which customer has a particular system version? 2. What versions are affected by a change to component X?</div></li>
+                <li><p><strong>19.</strong> How should a CM database ideally be linked to the software being managed?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans19')">Show Answer</button><div id="cm-ans19" class="answer">It should be part of an integrated development environment, where the database and the managed documents are all maintained on the same system.</div></li>
+                <li><p><strong>20.</strong> What is a common practical implementation for a CM database?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans20')">Show Answer</button><div id="cm-ans20" class="answer">Often, the files themselves are maintained in a Version Control System (like Git or CVS), while the metadata about those files is stored in a separate CM database, as fully integrated CASE tools can be expensive.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 3: Change Management -->
+        <section id="section3-cm" class="question-section">
+            <h2>Section 3: Change Management</h2>
+            <ol class="question-list">
+                <li><p><strong>21.</strong> What is the primary concern of change management?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans21')">Show Answer</button><div id="cm-ans21" class="answer">Keeping track of continual change requests and ensuring that they are implemented in the most cost-effective way.</div></li>
+                <li><p><strong>22.</strong> List three sources of change requests.</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans22')">Show Answer</button><div id="cm-ans22" class="answer">From users, from developers, and from market forces.</div></li>
+                <li><p><strong>23.</strong> What is the first step in the change management process?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans23')">Show Answer</button><div id="cm-ans23" class="answer">Requesting a change by completing a change request form.</div></li>
+                <li><p><strong>24.</strong> What is the role of the Change Control Board (CCB)?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans24')">Show Answer</button><div id="cm-ans24" class="answer">An external group that reviews change requests to decide if they are cost-effective from a strategic and organizational viewpoint, rather than a purely technical one. They approve or reject changes.</div></li>
+                <li><p><strong>25.</strong> Why should the CCB be independent of the project team?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans25')">Show Answer</button><div id="cm-ans25" class="answer">To provide an objective assessment of whether a change is beneficial for the organization as a whole, rather than just being technically interesting or convenient for the project team.</div></li>
+                <li><p><strong>26.</strong> What information is recorded on a change request form?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans26')">Show Answer</button><div id="cm-ans26" class="answer">It records the proposed change, the requestor, the reason, urgency, impact analysis, cost estimate, and the final decision/recommendations.</div></li>
+                <li><p><strong>27.</strong> What is the purpose of change tracking tools?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans27')">Show Answer</button><div id="cm-ans27" class="answer">To keep track of the status of each change request and automatically route the requests to the right people at the right time (e.g., via email integration).</div></li>
+                <li><p><strong>28.</strong> What is a 'derivation history'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans28')">Show Answer</button><div id="cm-ans28" class="answer">A record of changes applied to a specific document or code component. It typically includes the change made, the rationale, who made it, and when.</div></li>
+                <li><p><strong>29.</strong> Where is the derivation history often stored?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans29')">Show Answer</button><div id="cm-ans29" class="answer">It is often included as a comment header in the source code file itself.</div></li>
+                <li><p><strong>30.</strong> What is the 'if change is accepted then...' loop in the change process?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans30')">Show Answer</button><div id="cm-ans30" class="answer">It is the implementation loop: make changes to software, submit for quality approval, and repeat this process until the quality is adequate, at which point a new system version is created.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 4: Version Management -->
+        <section id="section4-cm" class="question-section">
+            <h2>Section 4: Version Management</h2>
+            <ol class="question-list">
+                <li><p><strong>31.</strong> What are the four key activities of version management?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans31')">Show Answer</button><div id="cm-ans31" class="answer">1. Invent an identification scheme. 2. Plan when new versions are produced. 3. Ensure procedures and tools are properly applied. 4. Plan and distribute new system releases.</div></li>
+                <li><p><strong>32.</strong> Define 'Version'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans32')">Show Answer</button><div id="cm-ans32" class="answer">An instance of a system that is functionally distinct in some way from other system instances (e.g., V1.1 has a new feature that V1.0 does not).</div></li>
+                <li><p><strong>33.</strong> Define 'Variant'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans33')">Show Answer</button><div id="cm-ans33" class="answer">An instance of a system that is functionally identical but is designed for different hardware or software configurations (e.g., a Windows variant vs. a macOS variant).</div></li>
+                <li><p><strong>34.</strong> Define 'Release'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans34')">Show Answer</button><div id="cm-ans34" class="answer">An instance of a system that is distributed to users outside of the development team.</div></li>
+                <li><p><strong>35.</strong> What are the three basic techniques for component version identification?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans35')">Show Answer</button><div id="cm-ans35" class="answer">1. Version numbering. 2. Attribute-based identification. 3. Change-oriented identification.</div></li>
+                <li><p><strong>36.</strong> What is a major drawback of simple version numbering (e.g., V1.1, V1.2)?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans36')">Show Answer</button><div id="cm-ans36" class="answer">The names are not meaningful, and the actual derivation structure is a tree or network (with branches and merges), not a simple linear sequence.</div></li>
+                <li><p><strong>37.</strong> What is attribute-based identification?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans37')">Show Answer</button><div id="cm-ans37" class="answer">Associating a version with a combination of attributes (e.g., Date, Creator, Language, Status) that uniquely identify it.</div></li>
+                <li><p><strong>38.</strong> What is the main advantage of attribute-based identification?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans38')">Show Answer</button><div id="cm-ans38" class="answer">It is very flexible and can support powerful queries, such as "find the most recent version for the XP platform written in Java."</div></li>
+                <li><p><strong>39.</strong> What is change-oriented identification?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans39')">Show Answer</button><div id="cm-ans39" class="answer">A system that integrates versions with the specific changes ('change sets') that were applied to create them. This allows a version to be created by applying an arbitrary sequence of change sets.</div></li>
+                <li><p><strong>40.</strong> What is the primary function of a Version Management tool regarding storage?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans40')">Show Answer</button><div id="cm-ans40" class="answer">Storage management. Modern systems typically store the differences (deltas) between versions rather than a full copy of every version, which saves a large amount of disk space.</div></li>
+                <li><p><strong>41.</strong> How do version management tools support independent development?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans41')">Show Answer</button><div id="cm-ans41" class="answer">They manage check-outs and check-ins, often allowing only one person to modify a file at a time (locking) or by providing tools to merge parallel changes made to different versions (branching and merging).</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 5: Release Management -->
+        <section id="section5-cm" class="question-section">
+            <h2>Section 5: Release Management</h2>
+            <ol class="question-list">
+                <li><p><strong>42.</strong> What is the main concern of release management?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans42')">Show Answer</button><div id="cm-ans42" class="answer">Planning when to issue a system version as a formal release to customers.</div></li>
+                <li><p><strong>43.</strong> What are the two main types of changes that a release must incorporate?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans43')">Show Answer</button><div id="cm-ans43" class="answer">1. Changes forced on the system (e.g., bug fixes, hardware changes). 2. New system functionality.</div></li>
+                <li><p><strong>44.</strong> List three items, other than executable programs, that are typically included in a system release.</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans44')">Show Answer</button><div id="cm-ans44" class="answer">1. Configuration files. 2. Data files needed for operation. 3. An installation program. (Also: documentation, packaging).</div></li>
+                <li><p><strong>45.</strong> What is a potential problem with releasing a new version to a customer?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans45')">Show Answer</button><div id="cm-ans45" class="answer">The customer may not want a new release. They may be happy with their current system, and the new version might provide unwanted or disruptive functionality.</div></li>
+                <li><p><strong>46.</strong> What should release management *not* assume about previous releases?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans46')">Show Answer</button><div id="cm-ans46" class="answer">It should not assume that all previous releases have been accepted and installed by the customer. A new release should be a complete installation.</div></li>
+                <li><p><strong>47.</strong> List three factors that influence release decision making.</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans47')">Show Answer</button><div id="cm-ans47" class="answer">Technical quality of the system, competition, marketing requirements, and customer change requests.</div></li>
+                <li><p><strong>48.</strong> What is the purpose of release creation?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans48')">Show Answer</button><div id="cm-ans48" class="answer">To collect all the necessary files and documentation, write configuration and installation scripts, and create the final package for distribution.</div></li>
+                <li><p><strong>49.</strong> Why is it important to document exactly what files were used to create a specific release?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans49')">Show Answer</button><div id="cm-ans49" class="answer">So that the release can be perfectly re-created if necessary, for example, to investigate a bug reported in that specific version.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 6: System Building -->
+        <section id="section6-cm" class="question-section">
+            <h2>Section 6: System Building</h2>
+            <ol class="question-list">
+                <li><p><strong>50.</strong> What is 'system building'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans50')">Show Answer</button><div id="cm-ans50" class="answer">The process of compiling and linking software components into a final executable system.</div></li>
+                <li><p><strong>51.</strong> How is the system building process automated?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans51')">Show Answer</button><div id="cm-ans51" class="answer">It is supported by automated tools that are driven by 'build scripts', such as a Makefile.</div></li>
+                <li><p><strong>52.</strong> Describe a common system building problem related to component versions.</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans52')">Show Answer</button><div id="cm-ans52" class="answer">Specifying the wrong version of a component in the build script. The system may build and work initially, but fail after delivery due to an incompatibility.</div></li>
+                <li><p><strong>53.</strong> Why is embedding absolute file paths in code a system building problem?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans53')">Show Answer</button><div id="cm-ans53" class="answer">Because naming conventions and directory structures differ from place to place (e.g., between a developer's machine and a production server), causing the build to fail.</div></li>
+                <li><p><strong>54.</strong> How can different compiler versions cause system building problems?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans54')">Show Answer</button><div id="cm-ans54" class="answer">Different compiler versions may generate slightly different code, causing the compiled component to exhibit different, unexpected behavior, which can lead to subtle bugs.</div></li>
+                <li><p><strong>55.</strong> What is the purpose of the 'clean' target in a Makefile?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans55')">Show Answer</button><div id="cm-ans55" class="answer">To remove all compiled object files and the final executable, allowing for a fresh build from scratch.</div></li>
+                <li><p><strong>56.</strong> In the system building diagram, what is the role of the 'Version management system'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans56')">Show Answer</button><div id="cm-ans56" class="answer">It provides the correct versions of the source code components to the compilers, as specified by the build script.</div></li>
+                <li><p><strong>57.</strong> What is 'delta-based versioning'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans57')">Show Answer</button><div id="cm-ans57" class="answer">A storage management technique where a version control system stores only the differences (deltas) between versions of a file, rather than a full copy of each version, to save space.</div></li>
+                <li><p><strong>58.</strong> Why is building a large system computationally expensive?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans58')">Show Answer</button><div id="cm-ans58" class="answer">Because it can involve compiling and linking hundreds or thousands of files, a process which can take several hours on a powerful machine.</div></li>
+                <li><p><strong>59.</strong> What is 'distributed compilation'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans59')">Show Answer</button><div id="cm-ans59" class="answer">A feature of advanced system building tools that uses multiple machines on a network to compile different parts of the system in parallel, speeding up the build process.</div></li>
+                <li><p><strong>60.</strong> What does a 'linker' do in the build process?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans60')">Show Answer</button><div id="cm-ans60" class="answer">It takes the compiled object code from all the different components and combines them into a single executable system.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 7: CASE Tools for CM -->
+        <section id="section7-cm" class="question-section">
+            <h2>Section 7: CASE Tools for Configuration Management</h2>
+            <ol class="question-list">
+                <li><p><strong>61.</strong> Why is CASE tool support essential for CM?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans61')">Show Answer</button><div id="cm-ans61" class="answer">Because CM processes are standardized and involve managing large amounts of data, making manual tracking impractical and error-prone. Tools are essential for automation and control.</div></li>
+                <li><p><strong>62.</strong> What is the range of available CASE tools for CM?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans62')">Show Answer</button><div id="cm-ans62" class="answer">They range from stand-alone tools (like a version control system) to fully integrated CM workbenches.</div></li>
+                <li><p><strong>63.</strong> List three features of a change management tool.</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans63')">Show Answer</button><div id="cm-ans63" class="answer">1. A form editor for change request forms. 2. A workflow system to automate information transfer. 3. A change database to manage proposals.</div></li>
+                <li><p><strong>64.</strong> List three features of a version management tool.</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans64')">Show Answer</button><div id="cm-ans64" class="answer">1. Version and release identification. 2. Storage management (e.g., delta-based). 3. Change history recording.</div></li>
+                <li><p><strong>65.</strong> What does a workflow system in a change management tool do?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans65')">Show Answer</button><div id="cm-ans65" class="answer">It defines who does what in the change process and automates the transfer of information, for example, by emailing a change request to the next person in the approval chain.</div></li>
+                <li><p><strong>66.</strong> What is the benefit of a change database being linked to a version management system?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans66')">Show Answer</button><div id="cm-ans66" class="answer">It provides full traceability, allowing you to link a specific change proposal directly to the versions of the code files that were modified to implement it.</div></li>
+                <li><p><strong>67.</strong> What is "project support" in the context of version management tools?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans67')">Show Answer</button><div id="cm-ans67" class="answer">The ability of the tool to manage groups of files associated with a project (or a release) as a single logical unit, rather than just managing individual files.</div></li>
+                <li><p><strong>68.</strong> What is the purpose of dependency specification language in a system building tool?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans68')">Show Answer</button><div id="cm-ans68" class="answer">To allow developers to define the relationships between components, so the tool knows which components need to be recompiled when another component changes (e.g., the rules in a Makefile).</div></li>
+                <li><p><strong>69.</strong> What is 'derived object management' in a system building tool?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans69')">Show Answer</button><div id="cm-ans69" class="answer">The ability of the tool to manage and clean up the intermediate files created during a build (like object files), ensuring that outdated objects are not accidentally linked into a new build.</div></li>
+                <li><p><strong>70.</strong> What is the most common and fundamental CASE tool for CM?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans70')">Show Answer</button><div id="cm-ans70" class="answer">A Version Management System or Version Control System (VCS), such as Git, Subversion, or CVS.</div></li>
+                <li><p><strong>71.</strong> What is the key point about system releases?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans71')">Show Answer</button><div id="cm-ans71" class="answer">System releases include not just executable code, but also data, configuration files, and documentation.</div></li>
+                <li><p><strong>72.</strong> What is the key point about version identification?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans72')">Show Answer</button><div id="cm-ans72" class="answer">A consistent scheme should be established using version numbers, attributes, or change sets.</div></li>
+                <li><p><strong>73.</strong> What is the key point about the configuration database?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans73')">Show Answer</button><div id="cm-ans73" class="answer">It should record information about changes and change requests.</div></li>
+                <li><p><strong>74.</strong> What is the key point about document management in CM?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans74')">Show Answer</button><div id="cm-ans74" class="answer">A formal document naming scheme should be established, and documents should be managed in a database.</div></li>
+                <li><p><strong>75.</strong> What is the overall definition of CM from the key points?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans75')">Show Answer</button><div id="cm-ans75" class="answer">Configuration management is the management of system change to software products.</div></li>
+                <li><p><strong>76.</strong> Why is a hierarchical naming scheme like `PCL-TOOLS/EDIT/FORMS/...` considered flexible?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans76')">Show Answer</button><div id="cm-ans76" class="answer">It allows for the logical grouping of related components and makes it easy to understand the context and purpose of a file from its name alone.</div></li>
+                <li><p><strong>77.</strong> What is the advantage of a version control system storing only the differences (deltas)?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans77')">Show Answer</button><div id="cm-ans77" class="answer">It significantly reduces the amount of storage space required to maintain the complete history of a project, especially for text-based files like source code.</div></li>
+                <li><p><strong>78.</strong> How does a Makefile know which files to recompile?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans78')">Show Answer</button><div id="cm-ans78" class="answer">It checks the modification timestamps. If a source file (like `main.c`) is newer than its corresponding object file (`main.o`), it knows it needs to be recompiled.</div></li>
+                <li><p><strong>79.</strong> What is the final output of the system building process?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans79')">Show Answer</button><div id="cm-ans79" class="answer">A single executable system.</div></li>
+                <li><p><strong>80.</strong> What is the relationship between the CM Plan and the CM Database?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans80')">Show Answer</button><div id="cm-ans80" class="answer">The CM Plan *defines* the structure and purpose of the CM Database that will be used to record configuration information for the project.</div></li>
+                <li><p><strong>81.</strong> What does "independent development" support in a version management tool prevent?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans81')">Show Answer</button><div id="cm-ans81" class="answer">It helps prevent conflicting changes, where two developers might unknowingly overwrite each other's work on the same file.</div></li>
+                <li><p><strong>82.</strong> What problem does a change tracking tool solve?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans82')">Show Answer</button><div id="cm-ans82" class="answer">The major problem of tracking the status of numerous change requests, ensuring none are lost and that they are routed to the correct people in a timely manner.</div></li>
+                <li><p><strong>83.</strong> Who typically makes up a Change Control Board (CCB)?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans83')">Show Answer</button><div id="cm-ans83" class="answer">It may include representatives from both the client and contractor staff to provide a balanced strategic view.</div></li>
+                <li><p><strong>84.</strong> Why is release decision making described as an "expensive process"?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans84')">Show Answer</button><div id="cm-ans84" class="answer">Because it involves not just building the software, but also creating documentation, installation packages, marketing materials, and coordinating distribution and support.</div></li>
+                <li><p><strong>85.</strong> What information is typically found in a component header for CM purposes?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans85')">Show Answer</button><div id="cm-ans85" class="answer">Project name, component name/path, author, creation date, and a modification history (version, modifier, date, change, reason).</div></li>
+                <li><p><strong>86.</strong> Can a 'release' contain multiple 'versions' of different components?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans86')">Show Answer</button><div id="cm-ans86" class="answer">Yes. A system release is composed of a specific, defined set of versions of all its constituent components.</div></li>
+                <li><p><strong>87.</strong> What is the main purpose of a 'build script'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans87')">Show Answer</button><div id="cm-ans87" class="answer">To automate the entire system building process, ensuring it is repeatable, consistent, and less prone to human error.</div></li>
+                <li><p><strong>88.</strong> Why is it important that a build not rely on "standard" data files?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans88')">Show Answer</button><div id="cm-ans88" class="answer">Because "standard" can vary from one machine or environment to another. All required data files should be explicitly included and managed as part of the configuration to ensure a consistent build.</div></li>
+                <li><p><strong>89.</strong> How are version management and change management integrated?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans89')">Show Answer</button><div id="cm-ans89" class="answer">They are integrated by linking change requests from a change management system to the specific code versions in the version management system that implement those changes, providing full traceability.</div></li>
+                <li><p><strong>90.</strong> What is the difference between a 'configuration item' and a 'component'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans90')">Show Answer</button><div id="cm-ans90" class="answer">A 'component' usually refers to a part of the software (like a source file). A 'configuration item' is a broader term for *any* artifact under CM control, including documents, test plans, and manuals, in addition to components.</div></li>
+                <li><p><strong>91.</strong> What is the goal of a hierarchical configuration scheme?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans91')">Show Answer</button><div id="cm-ans91" class="answer">To organize thousands of documents so that related items have related names, making the system structure easier to understand and navigate.</div></li>
+                <li><p><strong>92.</strong> What is the fundamental problem that CM addresses in team-based development?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans92')">Show Answer</button><div id="cm-ans92" class="answer">It addresses the problem of multiple people working on and changing a complex system concurrently, ensuring that changes are controlled, integrated smoothly, and do not conflict.</div></li>
+                <li><p><strong>93.</strong> Why must a CM plan define responsibilities?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans93')">Show Answer</button><div id="cm-ans93" class="answer">To ensure accountability. It clarifies who has the authority to approve changes, create baselines, and manage the CM process, preventing chaos.</div></li>
+                <li><p><strong>94.</strong> What is the role of the 'linker' in system building?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans94')">Show Answer</button><div id="cm-ans94" class="answer">After individual components are compiled into object code, the linker combines these object files and resolves dependencies between them to create a single executable file.</div></li>
+                <li><p><strong>95.</strong> What is the difference between an object file and an executable file?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans95')">Show Answer</button><div id="cm-ans95" class="answer">An object file is the result of compiling a single source code file. An executable file is the result of linking multiple object files together into a runnable program.</div></li>
+                <li><p><strong>96.</strong> Can a 'variant' also have different 'versions'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans96')">Show Answer</button><div id="cm-ans96" class="answer">Yes. For example, you could have Version 1.1 and Version 1.2 of the Windows variant of your software.</div></li>
+                <li><p><strong>97.</strong> What is the primary advantage of storing change history?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans97')">Show Answer</button><div id="cm-ans97" class="answer">It provides an audit trail, allowing developers to understand *why* a change was made, which is crucial for future maintenance and debugging.</div></li>
+                <li><p><strong>98.</strong> How do CASE tools for CM support concurrent development?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans98')">Show Answer</button><div id="cm-ans98" class="answer">Version control systems, a key CASE tool, provide features like branching and merging, which allow developers to work in parallel on different features and then integrate their changes in a controlled manner.</div></li>
+                <li><p><strong>99.</strong> What is the relationship between the 'build script' and the 'system builder' tool?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans99')">Show Answer</button><div id="cm-ans99" class="answer">The 'build script' (e.g., Makefile) contains the instructions, and the 'system builder' (e.g., the `make` utility) is the tool that reads and executes those instructions to build the system.</div></li>
+                <li><p><strong>100.</strong> What is the overall message of the "Configuration Management" presentation?</p><button class="toggle-answer-btn" onclick="toggleAnswer('cm-ans100')">Show Answer</button><div id="cm-ans100" class="answer">That managing change in software development is a complex but essential activity that requires a planned, standardized, and tool-supported process covering change control, versioning, releasing, and system building to ensure the integrity and quality of an evolving software product.</div></li>
+            </ol>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <p>Made with love by SS</p>
+    </footer>
+</div>
+</body>
+</html>

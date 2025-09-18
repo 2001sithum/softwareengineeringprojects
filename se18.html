@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100 Practice Questions: Overview of Software Engineering</title>
+    <style>
+        /* --- Google Font & W3 Light Theme --- */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        :root {
+            --primary-color: #0078D4;
+            --secondary-color: #555555;
+            --bg-color: #f4f4f4;
+            --card-bg-color: #ffffff;
+            --text-color: #333333;
+            --heading-color: #000000;
+            --border-color: #dddddd;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --answer-bg: #f9f9f9;
+        }
+
+        * { box-sizing: border-box; scroll-behavior: smooth; }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.7; margin: 0; padding: 0; }
+        .container { max-width: 1000px; margin: 20px auto; padding: 0 20px; }
+
+        .main-header { text-align: center; padding: 40px 20px; background: var(--card-bg-color); border-radius: 5px; margin-bottom: 30px; border: 1px solid var(--border-color); }
+        .main-header h1 { color: var(--primary-color); margin: 0; }
+        .main-header p { color: var(--secondary-color); font-size: 1.1rem; }
+
+        #toc { background: var(--card-bg-color); padding: 25px; border-radius: 5px; margin-bottom: 30px; }
+        #toc h2 { text-align: center; margin-top: 0; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        #toc ol { list-style-type: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px; }
+        #toc a { text-decoration: none; color: var(--primary-color); font-weight: 600; }
+        #toc a:hover { text-decoration: underline; }
+
+        .question-section { margin-bottom: 40px; }
+        .question-section h2 { border-bottom: 3px solid var(--primary-color); padding-bottom: 10px; }
+
+        .question-list { list-style-type: none; padding: 0; }
+        .question-list li { background: var(--card-bg-color); padding: 20px; border-radius: 5px; border: 1px solid var(--border-color); margin-bottom: 20px; box-shadow: 0 2px 5px var(--shadow-color); }
+        .question-list p { margin: 0 0 15px 0; }
+
+        .toggle-answer-btn { background-color: var(--primary-color); color: white; border: none; padding: 8px 15px; border-radius: 3px; cursor: pointer; font-weight: 600; font-family: 'Poppins', sans-serif; }
+        .toggle-answer-btn:hover { opacity: 0.9; }
+
+        .answer { display: none; background-color: var(--answer-bg); border: 1px solid var(--border-color); border-left: 5px solid var(--primary-color); padding: 15px; margin-top: 15px; border-radius: 0 5px 5px 0; }
+        .answer ul { padding-left: 20px; }
+
+        .main-footer { text-align: center; padding: 20px; margin-top: 40px; color: var(--secondary-color); }
+    </style>
+    <script>
+        function toggleAnswer(id) {
+            const answerEl = document.getElementById(id);
+            const buttonEl = answerEl.previousElementSibling;
+            if (answerEl.style.display === 'block') {
+                answerEl.style.display = 'none';
+                buttonEl.textContent = 'Show Answer';
+            } else {
+                answerEl.style.display = 'block';
+                buttonEl.textContent = 'Hide Answer';
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <header class="main-header">
+        <h1>100 Practice Questions: An Overview of Software Engineering</h1>
+        <p>Based on COM 2308 Course Material</p>
+    </header>
+
+    <nav id="toc">
+        <h2>Table of Contents</h2>
+        <ol>
+            <li><a href="#section1">1. Core Definitions</a></li>
+            <li><a href="#section2">2. Software Categories & Types</a></li>
+            <li><a href="#section3">3. The Software Crisis</a></li>
+            <li><a href="#section4">4. The Software Process & SDLC</a></li>
+            <li><a href="#section5">5. Engineering Disciplines</a></li>
+            <li><a href="#section6">6. Software Attributes & Objectives</a></li>
+            <li><a href="#section7">7. Key Challenges in SE</a></li>
+            <li><a href="#section8">8. Professional & Ethical Responsibilities</a></li>
+        </ol>
+    </nav>
+
+    <main>
+        <!-- SECTION 1: Core Definitions -->
+        <section id="section1" class="question-section">
+            <h2>Section 1: Core Definitions</h2>
+            <ol class="question-list">
+                <li><p><strong>1.</strong> Define 'Software' according to Ian Sommerville.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans1')">Show Answer</button><div id="ans1" class="answer">Computer programs, associated documentation, and configuration data required to make these programs operate correctly.</div></li>
+                <li><p><strong>2.</strong> List the three essential components that constitute 'software'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans2')">Show Answer</button><div id="ans2" class="answer">Programs, Documentation, and Configuration Data.</div></li>
+                <li><p><strong>3.</strong> Define 'Software Engineering'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans3')">Show Answer</button><div id="ans3" class="answer">An engineering discipline that is concerned with all aspects of software production from system specification through to system maintenance.</div></li>
+                <li><p><strong>4.</strong> What does the term 'all aspects of software production' encompass?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans4')">Show Answer</button><div id="ans4" class="answer">It includes not only the technical processes of development but also project management and the development of tools and methods to support software production.</div></li>
+                <li><p><strong>5.</strong> What is a 'software process model'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans5')">Show Answer</button><div id="ans5" class="answer">A simplified representation or abstraction of a software process, viewed from a particular perspective.</div></li>
+                <li><p><strong>6.</strong> What is the 'Software Development Life Cycle' (SDLC)?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans6')">Show Answer</button><div id="ans6" class="answer">A series of steps, stages, or phases in which software is produced, typically including requirements, design, implementation, testing, and maintenance.</div></li>
+                <li><p><strong>7.</strong> Explain the concept of a 'software engineering method'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans7')">Show Answer</button><div id="ans7" class="answer">A structured approach to developing high-quality software in a cost-effective way, consisting of system models, notations, rules, and process guidance.</div></li>
+                <li><p><strong>8.</strong> What are CASE tools?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans8')">Show Answer</button><div id="ans8" class="answer">Computer-Aided Software Engineering tools are software systems designed to support software process activities like analysis, design, implementation, and testing.</div></li>
+                <li><p><strong>9.</strong> What does it mean for software engineering to be an 'engineering discipline'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans9')">Show Answer</button><div id="ans9" class="answer">It means engineers selectively apply theories, methods, and tools appropriate for the project, but also recognize that some systems require creative, informal approaches.</div></li>
+                <li><p><strong>10.</strong> What is the role of 'configuration data' in software?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans10')">Show Answer</button><div id="ans10" class="answer">Configuration data consists of settings and files needed for the program to operate correctly in a specific environment, separate from the core executable code.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 2: Software Categories & Types -->
+        <section id="section2" class="question-section">
+            <h2>Section 2: Software Categories & Types</h2>
+            <ol class="question-list">
+                <li><p><strong>11.</strong> Differentiate between 'generic' and 'bespoke' software.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans11')">Show Answer</button><div id="ans11" class="answer"><ul><li><strong>Generic:</strong> Stand-alone products sold on the open market (e.g., MS Office).</li><li><strong>Bespoke:</strong> Custom software developed for a specific client (e.g., a company's inventory system).</li></ul></div></li>
+                <li><p><strong>12.</strong> Provide two examples of generic software.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans12')">Show Answer</button><div id="ans12" class="answer">Spreadsheet applications (Excel), database systems (MySQL), text editors (VS Code).</div></li>
+                <li><p><strong>13.</strong> Provide two examples of bespoke software.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans13')">Show Answer</button><div id="ans13" class="answer">Air traffic control systems, embedded systems in a specific car model, a custom business process automation tool.</div></li>
+                <li><p><strong>14.</strong> Differentiate between 'system' and 'application' software.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans14')">Show Answer</button><div id="ans14" class="answer"><ul><li><strong>System Software:</strong> Manages computer resources and supports other programs (e.g., OS, compilers, drivers).</li><li><strong>Application Software:</strong> Performs a specific function directly for the end-user (e.g., word processor, web browser).</li></ul></div></li>
+                <li><p><strong>15.</strong> Is a Database Management System (DBMS) system software or application software? Explain.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans15')">Show Answer</button><div id="ans15" class="answer">It is system software because it manages a core computer resource (data storage and retrieval) and provides services to other application programs.</div></li>
+                <li><p><strong>16.</strong> List three examples of system software.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans16')">Show Answer</button><div id="ans16" class="answer">Operating Systems (Windows, Linux), Network Management Software, Compilers/Debuggers.</div></li>
+                <li><p><strong>17.</strong> List three distinct categories of application software.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans17')">Show Answer</button><div id="ans17" class="answer">General business productivity (spreadsheets), Home use (games), Cross-industry (accounting software), Vertical market (hospital management system).</div></li>
+                <li><p><strong>18.</strong> What is 'vertical market' application software? Provide an example.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans18')">Show Answer</button><div id="ans18" class="answer">Software for a specific industry. Example: A system for managing patient records in healthcare, or a system for managing telecommunication network billing.</div></li>
+                <li><p><strong>19.</strong> What are the three ways of creating new software systems?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans19')">Show Answer</button><div id="ans19" class="answer">1. Develop new software programs from scratch. 2. Configure generic software to suit an organization. 3. Re-use existing software components.</div></li>
+                <li><p><strong>20.</strong> Classify antivirus software and explain your reasoning.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans20')">Show Answer</button><div id="ans20" class="answer">It is a type of 'Utilities Software,' which is a sub-category of Application Software. While it interacts with the system at a low level, its primary function is to provide a specific utility directly to the end-user.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 3: The Software Crisis -->
+        <section id="section3" class="question-section">
+            <h2>Section 3: The Software Crisis</h2>
+            <ol class="question-list">
+                <li><p><strong>21.</strong> In what year was the term 'software engineering' first proposed as a response to the 'software crisis'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans21')">Show Answer</button><div id="ans21" class="answer">1968.</div></li>
+                <li><p><strong>22.</strong> What was the fundamental cause of the software crisis?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans22')">Show Answer</button><div id="ans22" class="answer">Computer hardware technology was advancing rapidly, allowing for the creation of much more complex software. However, the methods and practices for developing software had not kept up with this increase in complexity.</div></li>
+                <li><p><strong>23.</strong> List three common problems that characterized projects during the software crisis.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans23')">Show Answer</button><div id="ans23" class="answer">1. Projects were running over budget and over schedule. 2. The resulting software was of low quality. 3. The software often did not meet the user's requirements.</div></li>
+                <li><p><strong>24.</strong> How did 'maintainability' suffer during the software crisis?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans24')">Show Answer</button><div id="ans24" class="answer">Projects were often unmanageable, and the code was poorly structured and difficult to maintain.</div></li>
+                <li><p><strong>25.</strong> What was the proposed "answer" to the software crisis?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans25')">Show Answer</button><div id="ans25" class="answer">The introduction of 'software engineering'—a disciplined, structured, and systematic approach to software development, inspired by traditional engineering fields.</div></li>
+                <li><p><strong>26.</strong> What does it mean for a software project to be "unmanageable"?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans26')">Show Answer</button><div id="ans26" class="answer">It means there were no standard methods to plan, track, and control the project's progress, leading to chaos, schedule slips, and budget overruns.</div></li>
+                <li><p><strong>27.</strong> Why did the quality of software suffer during this period?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans27')">Show Answer</button><div id="ans27" class="answer">Without standard practices for design, testing, and quality assurance, software was often unreliable, inefficient, and full of errors (bugs).</div></li>
+                <li><p><strong>28.</strong> What was the most extreme outcome for some projects during the software crisis?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans28')">Show Answer</button><div id="ans28" class="answer">Some projects were never delivered at all, collapsing under their own complexity and lack of management.</div></li>
+                <li><p><strong>29.</strong> How did the software crisis relate to user requirements?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans29')">Show Answer</button><div id="ans29" class="answer">Without a disciplined process for gathering and managing requirements, the final software often failed to meet the actual needs of the users.</div></li>
+                <li><p><strong>30.</strong> What was the relationship between hardware and software advancements at the time?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans30')">Show Answer</button><div id="ans30" class="answer">Hardware advanced rapidly, creating the potential for large, complex systems. Software development practices lagged far behind, unable to reliably deliver on that potential.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 4: The Software Process & SDLC -->
+        <section id="section4" class="question-section">
+            <h2>Section 4: The Software Process & SDLC</h2>
+            <ol class="question-list">
+                <li><p><strong>31.</strong> List the four fundamental stages of the software process.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans31')">Show Answer</button><div id="ans31" class="answer">1. Software Specification. 2. Software Development. 3. Software Validation. 4. Software Evolution.</div></li>
+                <li><p><strong>32.</strong> What two activities occur during Software Specification?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans32')">Show Answer</button><div id="ans32" class="answer">Analysis and Specification.</div></li>
+                <li><p><strong>33.</strong> What three activities occur during Software Development?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans33')">Show Answer</button><div id="ans33" class="answer">Design, Implementation, and Documentation.</div></li>
+                <li><p><strong>34.</strong> What two activities occur during Software Validation?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans34')">Show Answer</button><div id="ans34" class="answer">Testing and Debugging.</div></li>
+                <li><p><strong>35.</strong> What is the main activity during Software Evolution?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans35')">Show Answer</button><div id="ans35" class="answer">Maintenance.</div></li>
+                <li><p><strong>36.</strong> List the five shared steps/phases of almost all Software Development Life Cycles (SDLCs).</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans36')">Show Answer</button><div id="ans36" class="answer">Requirements, Design, Implementation, Testing, and Maintenance.</div></li>
+                <li><p><strong>37.</strong> What are the four main goals of each step/stage/phase in an SDLC?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans37')">Show Answer</button><div id="ans37" class="answer">1. Mark out a clear set of steps to perform. 2. Produce a tangible item (e.g., a document, code). 3. Allow for review of work. 4. Specify actions for the next phase.</div></li>
+                <li><p><strong>38.</strong> Name two examples of life cycle models (or process models).</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans38')">Show Answer</button><div id="ans38" class="answer">Waterfall model and Spiral model. (Iterative and Component-based are also correct).</div></li>
+                <li><p><strong>39.</strong> Explain the difference between 'Structured Analysis' and 'Object-Oriented' methods.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans39')">Show Answer</button><div id="ans39" class="answer"><ul><li><strong>Structured Analysis:</strong> Breaks a system down into a set of functional components (processes and data flows).</li><li><strong>Object-Oriented:</strong> Models the system as a collection of interacting objects that represent real-world entities.</li></ul></div></li>
+                <li><p><strong>40.</strong> What is the purpose of the 'Requirements' phase in the SDLC?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans40')">Show Answer</button><div id="ans40" class="answer">To define what the system should do, capturing the needs of the users and stakeholders.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 5: Engineering Disciplines -->
+        <section id="section5" class="question-section">
+            <h2>Section 5: Engineering Disciplines (CS, SE, System Eng.)</h2>
+            <ol class="question-list">
+                <li><p><strong>41.</strong> What is the primary focus of Computer Science?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans41')">Show Answer</button><div id="ans41" class="answer">Theory and fundamentals of computation, algorithms, data structures, and the principles of computing.</div></li>
+                <li><p><strong>42.</strong> How does Software Engineering differ from Computer Science?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans42')">Show Answer</button><div id="ans42" class="answer">Software Engineering is focused on the practical application of Computer Science principles, along with project management and engineering discipline, to produce reliable and maintainable software systems.</div></li>
+                <li><p><strong>43.</strong> What is System Engineering?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans43')">Show Answer</button><div id="ans43" class="answer">A broader engineering field concerned with the development and evolution of *all* system components, including hardware, software, policies, and processes.</div></li>
+                <li><p><strong>44.</strong> How does Software Engineering relate to System Engineering?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans44')">Show Answer</button><div id="ans44" class="answer">Software Engineering is a *part* of System Engineering. While System Engineering covers all components, Software Engineering focuses on the software components in greater depth.</div></li>
+                <li><p><strong>45.</strong> List two components that System Engineering is concerned with that Software Engineering is not.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans45')">Show Answer</button><div id="ans45" class="answer">Hardware development and Policy/process design.</div></li>
+                <li><p><strong>46.</strong> What are 'ad hoc approaches' in the context of Software Engineering?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans46')">Show Answer</button><div id="ans46" class="answer">Practical, case-by-case methods or solutions that are not necessarily derived from formal theory but are used to solve specific problems during software production.</div></li>
+                <li><p><strong>47.</strong> Differentiate between 'Upper-CASE' and 'Lower-CASE' tools.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans47')">Show Answer</button><div id="ans47" class="answer"><ul><li><strong>Upper-CASE:</strong> Support early phases of the SDLC, such as requirements analysis and design.</li><li><strong>Lower-CASE:</strong> Support later phases, such as implementation, testing, and maintenance.</li></ul></div></li>
+                <li><p><strong>48.</strong> Provide an example of an Upper-CASE tool's function.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans48')">Show Answer</button><div id="ans48" class="answer">A tool for creating UML diagrams or for managing and tracing requirements.</div></li>
+                <li><p><strong>49.</strong> Provide an example of a Lower-CASE tool's function.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans49')">Show Answer</button><div id="ans49" class="answer">A compiler, a debugger, or an automated testing framework.</div></li>
+                <li><p><strong>50.</strong> Why is the distinction between these engineering fields important?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans50')">Show Answer</button><div id="ans50" class="answer">It clarifies roles and responsibilities. A software engineer needs to understand CS theory but must focus on practical delivery, and they must work within the broader context set by system engineers on large projects.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 6: Software Attributes & Objectives -->
+        <section id="section6" class="question-section">
+            <h2>Section 6: Software Attributes & Objectives</h2>
+            <ol class="question-list">
+                <li><p><strong>51.</strong> Define 'Maintainability' as a software attribute.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans51')">Show Answer</button><div id="ans51" class="answer">The ability of the software to evolve to meet changing requirements, fix bugs, or adapt to new environments.</div></li>
+                <li><p><strong>52.</strong> Define 'Dependability' as a software attribute.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans52')">Show Answer</button><div id="ans52" class="answer">The software should be reliable, safe, and secure, and should not cause damage when the system fails.</div></li>
+                <li><p><strong>53.</strong> Define 'Efficiency' as a software attribute.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans53')">Show Answer</button><div id="ans53" class="answer">The software should not waste system resources such as memory (RAM) or processor cycles (CPU time).</div></li>
+                <li><p><strong>54.</strong> Define 'Usability' as a software attribute.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans54')">Show Answer</button><div id="ans54" class="answer">The ability for end-users to use the software easily and without hassle to achieve their goals.</div></li>
+                <li><p><strong>55.</strong> List seven key objectives of software engineering.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans55')">Show Answer</button><div id="ans55" class="answer">Maintainability, Correctness, Reusability, Testability, Reliability, Portability, and Adaptability.</div></li>
+                <li><p><strong>56.</strong> What is 'Correctness'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans56')">Show Answer</button><div id="ans56" class="answer">The extent to which the software conforms to its specification and is free from faults.</div></li>
+                <li><p><strong>57.</strong> What is 'Reusability'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans57')">Show Answer</button><div id="ans57" class="answer">The extent to which parts of the software can be used in other applications.</div></li>
+                <li><p><strong>58.</strong> What is 'Testability'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans58')">Show Answer</button><div id="ans58" class="answer">The ease with which the software can be tested to ensure that it is correct and meets its requirements.</div></li>
+                <li><p><strong>59.</strong> What is 'Portability'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans59')">Show Answer</button><div id="ans59" class="answer">The ease with which software can be transferred from one hardware or software environment to another.</div></li>
+                <li><p><strong>60.</strong> What is 'Adaptability'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans60')">Show Answer</button><div id="ans60" class="answer">The ability of the software to be adapted to different environments or to accommodate changes in requirements without major restructuring.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 7: Key Challenges -->
+        <section id="section7" class="question-section">
+            <h2>Section 7: Key Challenges in Software Engineering</h2>
+            <ol class="question-list">
+                <li><p><strong>61.</strong> What is the 'Legacy Challenge'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans61')">Show Answer</button><div id="ans61" class="answer">The challenge of maintaining and evolving old, valuable systems that were developed long ago using outdated technologies, which are often critical to business operations.</div></li>
+                <li><p><strong>62.</strong> What is the 'Heterogeneity Challenge'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans62')">Show Answer</button><div id="ans62" class="answer">The challenge of developing and maintaining systems that are distributed across networks and must operate on a diverse range of hardware platforms and operating systems.</div></li>
+                <li><p><strong>63.</strong> What is the 'Delivery Challenge'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans63')">Show Answer</button><div id="ans63" class="answer">The challenge of delivering systems quickly enough to meet the rapidly changing demands of the business and market, without sacrificing quality.</div></li>
+                <li><p><strong>64.</strong> Why is maintaining legacy systems often difficult?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans64')">Show Answer</button><div id="ans64" class="answer">They may lack documentation, use obsolete programming languages, have a degraded structure, and the original developers may no longer be available.</div></li>
+                <li><p><strong>65.</strong> How do modern architectures like microservices relate to the Heterogeneity Challenge?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans65')">Show Answer</button><div id="ans65" class="answer">They embrace heterogeneity by allowing different services within a single application to be built with different technologies, but this also increases the complexity of maintaining the overall distributed system.</div></li>
+                <li><p><strong>66.</strong> Which type of software process model is best suited to address the Delivery Challenge?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans66')">Show Answer</button><div id="ans66" class="answer">Iterative and Agile models are best suited, as they focus on delivering working software in small, frequent increments, allowing for rapid delivery of value.</div></li>
+                <li><p><strong>67.</strong> Is it always best to replace a legacy system?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans67')">Show Answer</button><div id="ans67" class="answer">No. If the legacy system is stable and still provides significant business value, the cost and risk of replacing it may be much higher than the cost of continuing to maintain it.</div></li>
+                <li><p><strong>68.</strong> How does cloud computing impact the Heterogeneity Challenge?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans68')">Show Answer</button><div id="ans68" class="answer">It can both simplify and complicate it. It simplifies by abstracting away hardware differences, but complicates it by introducing complex distributed network environments.</div></li>
+                <li><p><strong>69.</strong> What is the main trade-off in the Delivery Challenge?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans69')">Show Answer</button><div id="ans69" class="answer">The primary trade-off is between speed of delivery, cost, and the quality/reliability of the software. Moving faster often increases cost or reduces quality.</div></li>
+                <li><p><strong>70.</strong> How are these three challenges interconnected?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans70')">Show Answer</button><div id="ans70" class="answer">A legacy system (Legacy Challenge) that needs to connect to modern services (Heterogeneity Challenge) often needs changes delivered quickly to stay competitive (Delivery Challenge). Addressing one often impacts the others.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 8: Professional & Ethical Responsibilities -->
+        <section id="section8" class="question-section">
+            <h2>Section 8: Professional & Ethical Responsibilities</h2>
+            <ol class="question-list">
+                <li><p><strong>71.</strong> Which two major professional bodies collaborated on the Software Engineering Code of Ethics?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans71')">Show Answer</button><div id="ans71" class="answer">The IEEE-CS (Institute of Electrical and Electronics Engineers - Computer Society) and the ACM (Association for Computing Machinery).</div></li>
+                <li><p><strong>72.</strong> How many guiding principles are there in the code of ethics?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans72')">Show Answer</button><div id="ans72" class="answer">There are 8 guiding principles.</div></li>
+                <li><p><strong>73.</strong> What is the 'Public' principle?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans73')">Show Answer</button><div id="ans73" class="answer">Software engineers shall act consistently with the public interest.</div></li>
+                <li><p><strong>74.</strong> Explain the principle related to 'Client and Employer'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans74')">Show Answer</button><div id="ans74" class="answer">Engineers shall act in a manner that is in the best interest of their client and employer, *consistent* with the public interest. This means public interest comes first.</div></li>
+                <li><p><strong>75.</strong> What is the 'Product' principle?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans75')">Show Answer</button><div id="ans75" class="answer">Engineers shall ensure that their products and related modifications meet the highest professional standards possible.</div></li>
+                <li><p><strong>76.</strong> What is the 'Judgment' principle?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans76')">Show Answer</button><div id="ans76" class="answer">Engineers shall maintain integrity and independence in their professional judgment.</div></li>
+                <li><p><strong>77.</strong> What is the 'Management' principle?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans77')">Show Answer</button><div id="ans77" class="answer">Software engineering managers and leaders shall subscribe to and promote an ethical approach to the management of software development and maintenance.</div></li>
+                <li><p><strong>78.</strong> What is the 'Profession' principle?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans78')">Show Answer</button><div id="ans78" class="answer">Engineers shall advance the integrity and reputation of the profession consistent with the public interest.</div></li>
+                <li><p><strong>79.</strong> What is the 'Colleagues' principle?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans79')">Show Answer</button><div id="ans79" class="answer">Engineers shall be fair to and supportive of their colleagues.</div></li>
+                <li><p><strong>80.</strong> What is the 'Self' principle?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans80')">Show Answer</button><div id="ans80" class="answer">Engineers shall participate in lifelong learning regarding the practice of their profession and shall promote an ethical approach.</div></li>
+                <li><p><strong>81.</strong> According to the code, what should an engineer do if their judgment is overruled in a way that endangers the public?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans81')">Show Answer</button><div id="ans81" class="answer">They must report the situation to higher management and potentially to the appropriate authorities, as the 'Public' principle takes precedence.</div></li>
+                <li><p><strong>82.</strong> How does the 'Product' principle relate to software quality?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans82')">Show Answer</button><div id="ans82" class="answer">It obligates engineers to strive for high quality, reliability, and security in the software they produce, beyond just meeting the minimum requirements.</div></li>
+                <li><p><strong>83.</strong> Why is "lifelong learning" considered an ethical responsibility?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans83')">Show Answer</button><div id="ans83" class="answer">Because technology changes rapidly, and engineers have an ethical duty to keep their skills and knowledge current to ensure they are building safe and effective software.</div></li>
+                <li><p><strong>84.</strong> Give an example of a conflict between the 'Client' and 'Public' principles.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans84')">Show Answer</button><div id="ans84" class="answer">A client might ask an engineer to cut corners on security testing to save money and meet a deadline, but doing so could endanger the public's data. The engineer is ethically bound to prioritize public safety.</div></li>
+                <li><p><strong>85.</strong> What does "independence in professional judgment" mean?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans85')">Show Answer</button><div id="ans85" class="answer">It means an engineer's technical decisions should be based on merit and professional standards, and not be improperly influenced by managers or clients.</div></li>
+                <li><p><strong>86.</strong> What is the key point of the key points section about software engineering?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans86')">Show Answer</button><div id="ans86" class="answer">Software Engineering is an engineering discipline concerned with all aspects of software production.</div></li>
+                <li><p><strong>87.</strong> What is the key point about software?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans87')">Show Answer</button><div id="ans87" class="answer">Software = programs + documentation + configuration data.</div></li>
+                <li><p><strong>88.</strong> What is the key point about the software process?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans88')">Show Answer</button><div id="ans88" class="answer">The software process involves specification, development, validation & evolution.</div></li>
+                <li><p><strong>89.</strong> What are the key software attributes mentioned in the summary?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans89')">Show Answer</button><div id="ans89" class="answer">Maintainability, dependability, efficiency, and usability.</div></li>
+                <li><p><strong>90.</strong> What is an objective for completing this lesson, regarding software categories?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans90')">Show Answer</button><div id="ans90" class="answer">To be able to describe different categories of software.</div></li>
+                <li><p><strong>91.</strong> What is an objective regarding the scope of software engineering?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans91')">Show Answer</button><div id="ans91" class="answer">To be able to describe the scope of software engineering, including its objectives.</div></li>
+                <li><p><strong>92.</strong> How does the lecture define the scope of system engineering vs. software engineering?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans92')">Show Answer</button><div id="ans92" class="answer">System engineering involves the development of ALL system components (software, hardware, policy), while software engineering focuses in greater depth on the software components.</div></li>
+                <li><p><strong>93.</strong> According to the lecture, what is the relationship between the Waterfall and Spiral models?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans93')">Show Answer</button><div id="ans93" class="answer">The lecture presents them as examples of software process models. Waterfall represents process activities as separate phases, while Spiral is a form of iterative development.</div></li>
+                <li><p><strong>94.</strong> What is the main message about creating new software?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans94')">Show Answer</button><div id="ans94" class="answer">It can be done by developing new programs, configuring generic software, or re-using existing software.</div></li>
+                <li><p><strong>95.</strong> What is the primary role of documentation in the definition of software?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans95')">Show Answer</button><div id="ans95" class="answer">It is an essential, associated part of the software, not just an afterthought. It includes user manuals and technical guides.</div></li>
+                <li><p><strong>96.</strong> Why are ethics a topic in a software engineering overview?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans96')">Show Answer</button><div id="ans96" class="answer">Because software engineers have responsibilities not just to their clients but also to their profession and society as a whole, and these responsibilities must guide their work.</div></li>
+                <li><p><strong>97.</strong> What kind of approach does an "engineering discipline" suggest?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans97')">Show Answer</button><div id="ans97" class="answer">A systematic and organized approach where theories, methods, and tools are applied selectively and appropriately, rather than a chaotic or purely creative process.</div></li>
+                <li><p><strong>98.</strong> What is the connection between the "software crisis" and "project management"?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans98')">Show Answer</button><div id="ans98" class="answer">A major cause of the software crisis was a lack of project management, leading to projects being over budget and behind schedule. Software engineering introduced project management as a key aspect of production.</div></li>
+                <li><p><strong>99.</strong> In the key points summary, what is the relationship between dependability and efficiency?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans99')">Show Answer</button><div id="ans99" class="answer">They are both listed as key, desirable attributes of good software. A system should be both trustworthy (dependable) and not wasteful of resources (efficient).</div></li>
+                <li><p><strong>100.</strong> What is the overall message of the "Overview of Software Engineering" presentation?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans100')">Show Answer</button><div id="ans100" class="answer">That software development is a complex activity that requires a disciplined, managed, and ethical engineering approach to create high-quality, reliable, and maintainable systems that meet user needs.</div></li>
+            </ol>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <p>Made with love by SS</p>
+    </footer>
+</div>
+</body>
+</html>

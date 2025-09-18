@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT 2402: Software Project Management</title>
+    <style>
+        /* --- Google Font --- */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+        /* --- Global Styles & Variables --- */
+        :root {
+            --primary-color: #ffc107; /* Bright Yellow/Gold */
+            --secondary-color: #00bcd4; /* Accent Cyan */
+            --bg-color: #1a1a1a;
+            --card-bg-color: #2c2c2c;
+            --text-color: #e0e0e0;
+            --heading-color: #ffffff;
+            --border-color: #444444;
+            --shadow-color: rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
+        }
+
+        /* --- Layout --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- Header & Navigation --- */
+        .main-header {
+            background: var(--bg-color);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 2px 10px var(--shadow-color);
+        }
+
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .logo svg { width: 32px; height: 32px; }
+
+        .main-nav ul { display: flex; list-style: none; gap: 15px; flex-wrap: wrap; }
+        .main-nav a { color: var(--text-color); text-decoration: none; font-weight: 600; transition: color 0.3s ease; }
+        .main-nav a:hover { color: var(--primary-color); }
+
+        /* --- Hero Section --- */
+        .hero {
+            color: var(--heading-color);
+            padding: 80px 0;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .hero h1 { font-size: 3rem; color: var(--primary-color); margin-bottom: 0.5rem; }
+        .hero p { font-size: 1.8rem; color: var(--secondary-color); font-weight: 400; }
+
+        /* --- Main Content Section Styling --- */
+        main section { padding: 60px 0; border-bottom: 1px solid var(--border-color); }
+        section:last-of-type { border-bottom: none; }
+
+        .section-header { text-align: center; margin-bottom: 40px; }
+        .section-header h2 { font-size: 2.5rem; color: var(--heading-color); display: inline-block; border-bottom: 3px solid var(--primary-color); padding-bottom: 10px; }
+
+        /* --- Card & Grid Styles --- */
+        .grid { display: grid; gap: 30px; }
+        .grid-2 { grid-template-columns: repeat(2, 1fr); }
+        .grid-3 { grid-template-columns: repeat(3, 1fr); }
+
+        .card {
+            background: var(--card-bg-color);
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 15px var(--shadow-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px var(--shadow-color); }
+        .card h3 { color: var(--primary-color); margin-bottom: 15px; display: flex; align-items: center; gap: 10px; font-size: 1.4rem; }
+        .card h4 { color: var(--secondary-color); margin-top: 20px; margin-bottom: 10px; font-size: 1.1rem; }
+        .card ul { list-style-position: inside; padding-left: 5px; }
+        .card li { margin-bottom: 8px; }
+
+        .icon { width: 24px; height: 24px; stroke: var(--primary-color); stroke-width: 2; fill: none; flex-shrink: 0; }
+
+        /* --- Table Styling --- */
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            overflow-x: auto;
+            display: block;
+        }
+        .styled-table th, .styled-table td {
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+        .styled-table th {
+            background-color: #333;
+            color: var(--primary-color);
+        }
+
+        /* --- Code Block for Process --- */
+        .process-code {
+            background-color: #222;
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+        }
+        .process-code .keyword { color: #c586c0; } /* Purple */
+        .process-code .comment { color: #6a9955; } /* Green */
+
+        /* --- Footer --- */
+        .main-footer {
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 40px;
+            background: var(--card-bg-color);
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+            .main-header .container { flex-direction: column; gap: 15px; }
+            .main-nav ul { justify-content: center; }
+            .hero h1 { font-size: 2.5rem; }
+            .hero p { font-size: 1.5rem; }
+            .section-header h2 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+<header class="main-header">
+    <div class="container">
+        <a href="#hero" class="logo">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" alt="sithara logo">
+                <title>sithara</title>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z" />
+            </svg>
+            <span>ICT 2402</span>
+        </a>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="#intro">Introduction</a></li>
+                <li><a href="#planning">Planning</a></li>
+                <li><a href="#scheduling">Scheduling</a></li>
+                <li><a href="#risk">Risk Management</a></li>
+                <li><a href="#recap">Recap</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <section id="hero" class="hero">
+        <div class="container">
+            <h1>Software Project Management</h1>
+            <p>ICT 2402 Software Engineering</p>
+        </div>
+    </section>
+
+    <section id="intro">
+        <div class="container">
+            <div class="section-header">
+                <h2>The Role of Management</h2>
+            </div>
+            <div class="card">
+                <h3>What is Software Project Management?</h3>
+                <p>It is concerned with all activities involved in ensuring that software is delivered:</p>
+                <ul>
+                    <li>On time and on schedule.</li>
+                    <li>In accordance with the requirements of the organization.</li>
+                </ul>
+                <p>It's essential because software development is always subject to budget and schedule constraints.</p>
+            </div>
+            <div class="grid grid-2" style="margin-top: 30px;">
+                <div class="card">
+                    <h4>Unique Challenges (Distinctions)</h4>
+                    <ul>
+                        <li><b>The product is intangible:</b> Progress is hard to see and measure.</li>
+                        <li><b>The product is uniquely flexible:</b> Requirements can change easily, complicating the process.</li>
+                        <li><b>The process is not standardized:</b> Unlike traditional engineering, many projects are 'one-off'.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>Management Activities</h4>
+                    <ul>
+                        <li>Proposal writing</li>
+                        <li>Project planning and scheduling</li>
+                        <li>Project costing</li>
+                        <li>Project monitoring and reviews</li>
+                        <li>Personnel selection and evaluation</li>
+                        <li>Report writing and presentations</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="planning">
+        <div class="container">
+            <div class="section-header">
+                <h2>Project Planning</h2>
+            </div>
+            <div class="card">
+                <h3>
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0011.667 0l3.181-3.183m-4.991-2.691V5.25a2.25 2.25 0 00-2.25-2.25L10.5 2.25v4.992m0 0H5.25m5.25 0l-3.182 3.182a8.25 8.25 0 0011.667 0l3.182-3.182" /></svg>
+                    A Continuous Process
+                </h3>
+                <p>Project planning is the most time-consuming management activity. It's not a one-time event but a continuous process from the initial concept through to system delivery. Plans must be regularly revised as new information becomes available.</p>
+                <h4>The Project Planning Process Loop:</h4>
+                <div class="process-code">
+                    Establish project constraints
+                    <br>Make initial assessments of project parameters
+                    <br>Define project milestones and deliverables
+                    <br><span class="keyword">while</span> (project is active) {
+                    <br>  Draw up project schedule
+                    <br>  Initiate activities
+                    <br>  <span class="comment">// Wait for progress</span>
+                    <br>  Review project progress
+                    <br>  Revise estimates of parameters
+                    <br>  Update the project schedule
+                    <br>  Re-negotiate constraints and deliverables
+                    <br>  <span class="keyword">if</span> (problems arise) {
+                    <br>    Initiate technical review and revision
+                    <br>  }
+                    <br>}
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 30px;">
+                <h3>
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg>
+                    The Project Plan
+                </h3>
+                <p>The main project plan sets out the resources, work breakdown, and schedule. It has a defined structure and is supported by several other types of plans.</p>
+                <div class="grid grid-2" style="margin-top: 15px;">
+                    <div>
+                        <h4>Project Plan Structure</h4>
+                        <ul>
+                            <li>Introduction</li>
+                            <li>Project Organisation</li>
+                            <li>Risk Analysis</li>
+                            <li>Hardware & Software Resources</li>
+                            <li>Work Breakdown</li>
+                            <li>Project Schedule</li>
+                            <li>Monitoring & Reporting</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Supporting Plan Types</h4>
+                        <ul>
+                            <li>Quality Plan</li>
+                            <li>Validation Plan</li>
+                            <li>Configuration Management Plan</li>
+                            <li>Maintenance Plan</li>
+                            <li>Staff Development Plan</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="scheduling">
+        <div class="container">
+            <div class="section-header">
+                <h2>Project Scheduling</h2>
+            </div>
+            <div class="card">
+                <h3>
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" /></svg>
+                    Organizing the Work
+                </h3>
+                <p>Scheduling involves breaking the project into tasks and organizing them to make optimal use of the workforce and resources. The key goals are:</p>
+                <ul>
+                    <li>Split the project into tasks and estimate their time and resource needs.</li>
+                    <li>Organize tasks to be done concurrently where possible.</li>
+                    <li>Minimize task dependencies to avoid delays.</li>
+                </ul>
+                <h4>Scheduling Problems</h4>
+                <ul>
+                    <li>Estimating the difficulty and cost of software development is inherently hard.</li>
+                    <li>Productivity is not proportional to team size (Brooks's Law: adding people to a late project makes it later due to communication overhead).</li>
+                    <li>The unexpected always happens, so contingency must be built into the plan.</li>
+                </ul>
+            </div>
+            <div class="card" style="margin-top: 30px;">
+                <h3>Scheduling Tools: Charts and Networks</h3>
+                <p>Graphical notations are used to illustrate the project schedule.</p>
+                <div class="grid grid-2" style="margin-top: 15px;">
+                    <div>
+                        <h4>Activity Networks (PERT Charts)</h4>
+                        <p>These charts show the dependencies between tasks. They are excellent for identifying the <b>critical path</b>—the sequence of tasks that determines the shortest possible duration for the project. Any delay in a critical path task directly delays the entire project.</p>
+                    </div>
+                    <div>
+                        <h4>Bar Charts (Gantt Charts)</h4>
+                        <p>These charts show the project schedule against calendar time. Each task is represented by a bar, showing its start date, end date, and duration. They provide a clear visual timeline for the project and are excellent for tracking progress.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="risk">
+        <div class="container">
+            <div class="section-header">
+                <h2>Risk Management</h2>
+            </div>
+            <div class="card">
+                <h3>
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
+                    Identifying and Planning for Adversity
+                </h3>
+                <p>Risk management is concerned with identifying risks and drawing up plans to minimize their effect on a project. A risk is a probability that some adverse circumstance will occur.</p>
+                <h4>Types of Risk:</h4>
+                <div class="grid grid-3" style="margin-top: 15px;">
+                    <div><b>Project Risks:</b> Affect the schedule or resources (e.g., staff turnover, hardware unavailability).</div>
+                    <div><b>Product Risks:</b> Affect the quality or performance of the software (e.g., requirement changes, size underestimate).</div>
+                    <div><b>Business Risks:</b> Affect the organization developing the software (e.g., technology change, product competition).</div>
+                </div>
+            </div>
+            <div class="card" style="margin-top: 30px;">
+                <h3>The Risk Management Process</h3>
+                <p>A structured approach to handling risks throughout the project.</p>
+                <ol>
+                    <li><b>Risk Identification:</b> Identify potential project, product, and business risks. (e.g., technology, people, estimation risks).</li>
+                    <li><b>Risk Analysis:</b> Assess the likelihood (probability) and seriousness (effects) of each risk. Classify probability (e.g., low, moderate, high) and effect (e.g., tolerable, serious, catastrophic).</li>
+                    <li><b>Risk Planning:</b> Develop strategies to manage each risk.
+                        <ul>
+                            <li><b>Avoidance Strategies:</b> Reduce the probability that the risk will arise.</li>
+                            <li><b>Minimisation Strategies:</b> Reduce the impact of the risk if it occurs.</li>
+                            <li><b>Contingency Plans:</b> Have a plan ready to deal with the risk if it materializes.</li>
+                        </ul>
+                    </li>
+                    <li><b>Risk Monitoring:</b> Regularly assess identified risks to see if their probability or impact has changed. Discuss key risks at progress meetings.</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+    <section id="recap">
+        <div class="container">
+            <div class="section-header">
+                <h2>Key Points</h2>
+            </div>
+            <div class="grid grid-2">
+                <div class="card">
+                    <ul>
+                        <li>Good project management is essential for project success.</li>
+                        <li>The intangible nature of software presents unique challenges for management.</li>
+                        <li>Planning, estimating, and scheduling are the most significant and iterative management activities.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <ul>
+                        <li>A milestone is a predictable state where progress is formally reported.</li>
+                        <li>Graphical representations like Gantt charts and activity networks are crucial for scheduling.</li>
+                        <li>Risk management is a proactive process to identify and plan for threats to the project.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="main-footer">
+    <div class="container">
+        <p>Made with love by SS</p>
+    </div>
+</footer>
+</body>
+</html>

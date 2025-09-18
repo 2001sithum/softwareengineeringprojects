@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100 Practice Questions: Software Evolution</title>
+    <style>
+        /* --- Google Font & W3 Light Theme --- */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        :root {
+            --primary-color: #0078D4;
+            --secondary-color: #555555;
+            --bg-color: #f4f4f4;
+            --card-bg-color: #ffffff;
+            --text-color: #333333;
+            --heading-color: #000000;
+            --border-color: #dddddd;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --answer-bg: #f9f9f9;
+        }
+
+        * { box-sizing: border-box; scroll-behavior: smooth; }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.7; margin: 0; padding: 0; }
+        .container { max-width: 1000px; margin: 20px auto; padding: 0 20px; }
+
+        .main-header { text-align: center; padding: 40px 20px; background: var(--card-bg-color); border-radius: 5px; margin-bottom: 30px; border: 1px solid var(--border-color); }
+        .main-header h1 { color: var(--primary-color); margin: 0; }
+        .main-header p { color: var(--secondary-color); font-size: 1.1rem; }
+
+        #toc { background: var(--card-bg-color); padding: 25px; border-radius: 5px; margin-bottom: 30px; }
+        #toc h2 { text-align: center; margin-top: 0; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        #toc ol { list-style-type: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px; }
+        #toc a { text-decoration: none; color: var(--primary-color); font-weight: 600; }
+        #toc a:hover { text-decoration: underline; }
+
+        .question-section { margin-bottom: 40px; }
+        .question-section h2 { border-bottom: 3px solid var(--primary-color); padding-bottom: 10px; }
+
+        .question-list { list-style-type: none; padding: 0; }
+        .question-list li { background: var(--card-bg-color); padding: 20px; border-radius: 5px; border: 1px solid var(--border-color); margin-bottom: 20px; box-shadow: 0 2px 5px var(--shadow-color); }
+        .question-list p { margin: 0 0 15px 0; }
+
+        .toggle-answer-btn { background-color: var(--primary-color); color: white; border: none; padding: 8px 15px; border-radius: 3px; cursor: pointer; font-weight: 600; font-family: 'Poppins', sans-serif; }
+        .toggle-answer-btn:hover { opacity: 0.9; }
+
+        .answer { display: none; background-color: var(--answer-bg); border: 1px solid var(--border-color); border-left: 5px solid var(--primary-color); padding: 15px; margin-top: 15px; border-radius: 0 5px 5px 0; }
+        .answer ul { padding-left: 20px; }
+
+        .main-footer { text-align: center; padding: 20px; margin-top: 40px; color: var(--secondary-color); }
+    </style>
+    <script>
+        function toggleAnswer(id) {
+            const answerEl = document.getElementById(id);
+            const buttonEl = answerEl.previousElementSibling;
+            if (answerEl.style.display === 'block') {
+                answerEl.style.display = 'none';
+                buttonEl.textContent = 'Show Answer';
+            } else {
+                answerEl.style.display = 'block';
+                buttonEl.textContent = 'Hide Answer';
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <header class="main-header">
+        <h1>100 Practice Questions: Software Evolution</h1>
+        <p>Based on ICT 2402 Course Material</p>
+    </header>
+
+    <nav id="toc">
+        <h2>Table of Contents</h2>
+        <ol>
+            <li><a href="#section1-ev">1. Evolution Fundamentals</a></li>
+            <li><a href="#section2-ev">2. Lehman's Laws</a></li>
+            <li><a href="#section3-ev">3. Software Maintenance</a></li>
+            <li><a href="#section4-ev">4. The Evolution Process</a></li>
+            <li><a href="#section5-ev">5. System Re-engineering</a></li>
+            <li><a href="#section6-ev">6. Legacy System Evolution</a></li>
+            <li><a href="#section7-ev">7. Configuration Management</a></li>
+        </ol>
+    </nav>
+
+    <main>
+        <!-- SECTION 1: Evolution Fundamentals -->
+        <section id="section1-ev" class="question-section">
+            <h2>Section 1: Evolution Fundamentals</h2>
+            <ol class="question-list">
+                <li><p><strong>1.</strong> Why is software change considered inevitable?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans1')">Show Answer</button><div id="ev-ans1" class="answer">Because new requirements emerge as software is used, the business environment changes, errors must be repaired, and the system must adapt to new hardware and technology to remain useful.</div></li>
+                <li><p><strong>2.</strong> What is the key problem for organizations regarding their existing software?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans2')">Show Answer</button><div id="ev-ans2" class="answer">Implementing and managing change to their existing software systems in a controlled and cost-effective way.</div></li>
+                <li><p><strong>3.</strong> How does the spiral model represent development and evolution?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans3')">Show Answer</button><div id="ev-ans3" class="answer">It shows development and evolution as a continuous spiral process, where initial development leads to Release 1, which then undergoes further specification, implementation, and validation to become Release 2, and so on.</div></li>
+                <li><p><strong>4.</strong> What is 'program evolution dynamics'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans4')">Show Answer</button><div id="ev-ans4" class="answer">It is the study of the processes of system change.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 2: Lehman's Laws -->
+        <section id="section2-ev" class="question-section">
+            <h2>Section 2: Lehman's Laws of Software Evolution</h2>
+            <ol class="question-list">
+                <li><p><strong>5.</strong> What did Lehman and Belady propose after their empirical studies?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans5')">Show Answer</button><div id="ev-ans5" class="answer">They proposed a number of 'laws' (better described as observations) which applied to all large systems as they evolved.</div></li>
+                <li><p><strong>6.</strong> Explain Lehman's Law of 'Continuing Change'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans6')">Show Answer</button><div id="ev-ans6" class="answer">A program used in a real-world environment must change, or it will become progressively less useful.</div></li>
+                <li><p><strong>7.</strong> Explain Lehman's Law of 'Increasing Complexity'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans7')">Show Answer</button><div id="ev-ans7" class="answer">As an evolving program changes, its structure tends to become more complex. Extra resources must be devoted to preserving and simplifying the structure (i.e., refactoring).</div></li>
+                <li><p><strong>8.</strong> Explain Lehman's Law of 'Large Program Evolution'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans8')">Show Answer</button><div id="ev-ans8" class="answer">Program evolution is a self-regulating process. System attributes like size and time between releases are approximately invariant for each release.</div></li>
+                <li><p><strong>9.</strong> Explain Lehman's Law of 'Organisational Stability'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans9')">Show Answer</button><div id="ev-ans9" class="answer">Over a program's lifetime, its rate of development is approximately constant and independent of the resources devoted to it.</div></li>
+                <li><p><strong>10.</strong> Explain Lehman's Law of 'Conservation of Familiarity'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans10')">Show Answer</button><div id="ev-ans10" class="answer">The incremental change in each release is approximately constant, as users cannot cope with too much change at once.</div></li>
+                <li><p><strong>11.</strong> Explain Lehman's Law of 'Continuing Growth'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans11')">Show Answer</button><div id="ev-ans11" class="answer">The functionality offered by systems has to continually increase to maintain user satisfaction.</div></li>
+                <li><p><strong>12.</strong> Explain Lehman's Law of 'Declining Quality'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans12')">Show Answer</button><div id="ev-ans12" class="answer">The quality of systems will appear to be declining unless they are actively adapted to changes in their operational environment.</div></li>
+                <li><p><strong>13.</strong> Explain Lehman's Law of 'Feedback System'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans13')">Show Answer</button><div id="ev-ans13" class="answer">Evolution processes must be treated as multi-loop feedback systems to achieve significant product improvement.</div></li>
+                <li><p><strong>14.</strong> To what types of systems are Lehman's laws most applicable?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans14')">Show Answer</button><div id="ev-ans14" class="answer">To large, tailored (bespoke) systems developed by large organizations.</div></li>
+                <li><p><strong>15.</strong> For what types of software is it unclear how Lehman's laws should be modified?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans15')">Show Answer</button><div id="ev-ans15" class="answer">Shrink-wrapped software products, systems with many COTS components, and systems developed by small organizations.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 3: Software Maintenance -->
+        <section id="section3-ev" class="question-section">
+            <h2>Section 3: Software Maintenance</h2>
+            <ol class="question-list">
+                <li><p><strong>16.</strong> What is 'software maintenance'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans16')">Show Answer</button><div id="ev-ans16" class="answer">Modifying a program after it has been put into use.</div></li>
+                <li><p><strong>17.</strong> Does maintenance normally involve major architectural changes?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans17')">Show Answer</button><div id="ev-ans17" class="answer">No, maintenance does not normally involve major changes to the system's architecture. Changes are implemented by modifying existing components and adding new ones.</div></li>
+                <li><p><strong>18.</strong> List the four types of scheduled maintenance activities.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans18')">Show Answer</button><div id="ev-ans18" class="answer">Adaptive, Preventive, Perfective, and Corrective.</div></li>
+                <li><p><strong>19.</strong> What is 'Adaptive maintenance'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans19')">Show Answer</button><div id="ev-ans19" class="answer">Adapting the software to a new operating environment, new hardware, or new technology.</div></li>
+                <li><p><strong>20.</strong> What is 'Corrective maintenance'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans20')">Show Answer</button><div id="ev-ans20" class="answer">Diagnosing and making changes to fix software errors (bugs).</div></li>
+                <li><p><strong>21.</strong> What is 'Perfective maintenance'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans21')">Show Answer</button><div id="ev-ans21" class="answer">Making changes to improve both functional and non-functional requirements, such as enhancing performance or usability.</div></li>
+                <li><p><strong>22.</strong> What is 'Preventive maintenance'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans22')">Show Answer</button><div id="ev-ans22" class="answer">Making software changes to improve future maintainability and reduce the future discovery of errors. This includes activities like refactoring and re-engineering.</div></li>
+                <li><p><strong>23.</strong> What is 'emergency maintenance'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans23')">Show Answer</button><div id="ev-ans23" class="answer">Unscheduled corrective maintenance to deal with a critical error that must be dealt with immediately.</div></li>
+                <li><p><strong>24.</strong> What is the approximate distribution of maintenance effort according to the lecture?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans24')">Show Answer</button><div id="ev-ans24" class="answer">75% are adaptive and preventive; 20% corrective, 5% perfective.</div></li>
+                <li><p><strong>25.</strong> How does 'team stability' affect maintenance costs?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans25')">Show Answer</button><div id="ev-ans25" class="answer">Maintenance costs are reduced if the same staff who developed the system also maintain it, as they have domain knowledge and understand the code.</div></li>
+                <li><p><strong>26.</strong> How does 'contractual responsibility' affect maintenance?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans26')">Show Answer</button><div id="ev-ans26" class="answer">If the original developers have no contractual responsibility for maintenance, they have no incentive to design the system for future change, increasing later maintenance costs.</div></li>
+                <li><p><strong>27.</strong> How do 'staff skills' typically affect maintenance costs?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans27')">Show Answer</button><div id="ev-ans27" class="answer">Maintenance staff are often less experienced and have limited domain knowledge, which can make understanding and changing the code more difficult and costly.</div></li>
+                <li><p><strong>28.</strong> How do 'program age and structure' affect maintenance?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans28')">Show Answer</button><div id="ev-ans28" class="answer">As programs age, their structure tends to degrade (see Lehman's Law of Increasing Complexity), and they become harder to understand and change.</div></li>
+                <li><p><strong>29.</strong> What is 'maintenance prediction' concerned with?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans29')">Show Answer</button><div id="ev-ans29" class="answer">Assessing which parts of a system may cause problems and have high maintenance costs in the future.</div></li>
+                <li><p><strong>30.</strong> What is the relationship between maintainability and change acceptance?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans30')">Show Answer</button><div id="ev-ans30" class="answer">The decision to accept a proposed change depends on the maintainability of the components affected by that change. If the code is easy to change, the cost is lower and the change is more likely to be accepted.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 4: The Evolution Process -->
+        <section id="section4-ev" class="question-section">
+            <h2>Section 4: The Evolution Process</h2>
+            <ol class="question-list">
+                <li><p><strong>31.</strong> What is the main driver for system evolution?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans31')">Show Answer</button><div id="ev-ans31" class="answer">Proposals for change (change requests).</div></li>
+                <li><p><strong>32.</strong> What three factors do evolution processes depend on?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans32')">Show Answer</button><div id="ev-ans32" class="answer">1. The type of software being maintained. 2. The development processes used. 3. The skills and experience of the people involved.</div></li>
+                <li><p><strong>33.</strong> Describe the cycle of change identification and evolution.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans33')">Show Answer</button><div id="ev-ans33" class="answer">A new system is created, which leads to a change identification process that generates change proposals. These proposals feed into the software evolution process, which results in a new version of the system, and the cycle repeats.</div></li>
+                <li><p><strong>34.</strong> List the five main stages of the system evolution process.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans34')">Show Answer</button><div id="ev-ans34" class="answer">1. Change Requests -> 2. Impact Analysis -> 3. Release Planning -> 4. Change Implementation -> 5. System Release.</div></li>
+                <li><p><strong>35.</strong> What is 'impact analysis'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans35')">Show Answer</button><div id="ev-ans35" class="answer">The process of assessing the effect of a proposed change on the rest of the system, including estimating the cost and effort required to implement it.</div></li>
+                <li><p><strong>36.</strong> What is 'release planning'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans36')">Show Answer</button><div id="ev-ans36" class="answer">The process of deciding which validated change requests will be implemented in the next release of the system.</div></li>
+                <li><p><strong>37.</strong> What are the three outputs of the release planning stage?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans37')">Show Answer</button><div id="ev-ans37" class="answer">Fault repair, Platform adaptation, and System enhancement.</div></li>
+                <li><p><strong>38.</strong> List the four stages of the 'change implementation' sub-process.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans38')">Show Answer</button><div id="ev-ans38" class="answer">Proposed changes -> Requirements analysis -> Requirements updating -> Software development.</div></li>
+                <li><p><strong>39.</strong> List three situations that might require an urgent change request.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans39')">Show Answer</button><div id="ev-ans39" class="answer">1. A serious system fault has to be repaired. 2. A change to the system's environment (e.g., an OS upgrade) has unexpected effects. 3. A business change requires a very rapid response (e.g., a competitor's release).</div></li>
+                <li><p><strong>40.</strong> How does the process for an urgent change (emergency repair) differ from the standard process?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans40')">Show Answer</button><div id="ev-ans40" class="answer">It may have to be implemented without going through all the stages of the software engineering process. The process is often shortened to: Analyze source code -> Modify source code -> Deliver modified system.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 5: Re-engineering -->
+        <section id="section5-ev" class="question-section">
+            <h2>Section 5: System Re-engineering</h2>
+            <ol class="question-list">
+                <li><p><strong>41.</strong> What is 'system re-engineering'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans41')">Show Answer</button><div id="ev-ans41" class="answer">Re-structuring or re-writing part or all of a legacy system *without* changing its functionality.</div></li>
+                <li><p><strong>42.</strong> What is the primary goal of re-engineering?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans42')">Show Answer</button><div id="ev-ans42" class="answer">To make the system easier to maintain by improving its structure and documentation.</div></li>
+                <li><p><strong>43.</strong> What is the main advantage of re-engineering regarding risk?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans43')">Show Answer</button><div id="ev-ans43" class="answer">It has reduced risk compared to new software development because the requirements of the system are already well-understood.</div></li>
+                <li><p><strong>44.</strong> What is the main advantage of re-engineering regarding cost?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans44')">Show Answer</button><div id="ev-ans44" class="answer">The cost of re-engineering is often significantly less than the cost of developing new software from scratch.</div></li>
+                <li><p><strong>45.</strong> Differentiate between 'forward engineering' and 're-engineering'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans45')">Show Answer</button><div id="ev-ans45" class="answer"><ul><li><strong>Forward Engineering:</strong> The standard process of moving from a system specification to design and implementation to create a new system.</li><li><strong>Re-engineering:</strong> Starts with an *existing* software system, which is understood and transformed to create a re-engineered system with the same functionality.</li></ul></div></li>
+                <li><p><strong>46.</strong> List five key activities in the re-engineering process.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans46')">Show Answer</button><div id="ev-ans46" class="answer">1. Source code translation. 2. Reverse engineering. 3. Program structure improvement. 4. Program modularization. 5. Data re-engineering.</div></li>
+                <li><p><strong>47.</strong> What is 'reverse engineering' in this context?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans47')">Show Answer</button><div id="ev-ans47" class="answer">Analyzing the program to understand its structure and functionality, often by creating abstract models from the source code.</div></li>
+                <li><p><strong>48.</strong> What is 'program structure improvement'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans48')">Show Answer</button><div id="ev-ans48" class="answer">Automatically restructuring the code to improve its understandability (e.g., replacing complex control structures with simpler ones).</div></li>
+                <li><p><strong>49.</strong> What is 'program modularization'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans49')">Show Answer</button><div id="ev-ans49" class="answer">Reorganizing the program structure to create more cohesive and loosely coupled modules.</div></li>
+                <li><p><strong>50.</strong> What is 'data re-engineering'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans50')">Show Answer</button><div id="ev-ans50" class="answer">Cleaning up and restructuring the system's data, which may involve migrating it to a new database schema.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 6: Legacy Systems -->
+        <section id="section6-ev" class="question-section">
+            <h2>Section 6: Legacy System Evolution</h2>
+            <ol class="question-list">
+                <li><p><strong>51.</strong> What is a 'legacy system'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans51')">Show Answer</button><div id="ev-ans51" class="answer">An older software system that remains in use because it is critical to business operations, but is often difficult to maintain and evolve.</div></li>
+                <li><p><strong>52.</strong> List the four main strategies for evolving legacy systems.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans52')">Show Answer</button><div id="ev-ans52" class="answer">1. Scrap the system completely. 2. Continue maintaining the system. 3. Transform the system by re-engineering. 4. Replace the system with a new system.</div></li>
+                <li><p><strong>53.</strong> What two factors should the chosen strategy for a legacy system depend on?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans53')">Show Answer</button><div id="ev-ans53" class="answer">The system's technical quality and its business value.</div></li>
+                <li><p><strong>54.</strong> What is the recommended strategy for a system with low quality and low business value?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans54')">Show Answer</button><div id="ev-ans54" class="answer">These systems should be scrapped.</div></li>
+                <li><p><strong>55.</strong> What is the recommended strategy for a system with low quality but high business value?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans55')">Show Answer</button><div id="ev-ans55" class="answer">These systems should be re-engineered to improve quality or replaced if a suitable alternative is available.</div></li>
+                <li><p><strong>56.</strong> What is the recommended strategy for a system with high quality but low business value?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans56')">Show Answer</button><div id="ev-ans56" class="answer">These systems are candidates for replacement with a COTS system, being scrapped, or simply maintained with minimal effort.</div></li>
+                <li><p><strong>57.</strong> What is the recommended strategy for a system with high quality and high business value?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans57')">Show Answer</button><div id="ev-ans57" class="answer">These systems are valuable business assets and should continue in operation using normal system maintenance.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 7: Configuration Management -->
+        <section id="section7-ev" class="question-section">
+            <h2>Section 7: Software Configuration Management (SCM)</h2>
+            <ol class="question-list">
+                <li><p><strong>58.</strong> What is Software Configuration Management (SCM)?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans58')">Show Answer</button><div id="ev-ans58" class="answer">The process of managing evolving software systems, concerned with controlling the costs and effort involved in making changes to a system.</div></li>
+                <li><p><strong>59.</strong> Why is SCM particularly important for team-based development?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans59')">Show Answer</button><div id="ev-ans59" class="answer">Because system change is a team activity, and SCM is needed to coordinate the work of multiple developers to prevent conflicts and maintain system integrity.</div></li>
+                <li><p><strong>60.</strong> What is a 'baseline' in SCM?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ev-ans60')">Show Answer</button><div id="ev-ans60" class="answer">A version of a software system that has been formally released to CM and serves as a starting point for further development.</div></li>
+                <li><p><strong>61.</strong> What does "Configuration Management Planning" involve?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans61-ev')">Show Answer</button><div id="ans61-ev" class="answer">Defining the items to be managed, the procedures for change control, the tools to be used, and assigning responsibilities.</div></li>
+                <li><p><strong>62.</strong> What are "Configuration Items"?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans62-ev')">Show Answer</button><div id="ans62-ev" class="answer">All products of the software process that are placed under CM control, including specifications, designs, source code, and user manuals.</div></li>
+                <li><p><strong>63.</strong> Define "Change Control."</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans63-ev')">Show Answer</button><div id="ans63-ev" class="answer">The process of managing how changes are proposed, evaluated, approved, and implemented in a controlled way.</div></li>
+                <li><p><strong>64.</strong> What is "Version Control"?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans64-ev')">Show Answer</button><div id="ans64-ev" class="answer">The process of managing different versions of configuration items, allowing for tracking of changes and retrieval of previous versions.</div></li>
+                <li><p><strong>65.</strong> What is a "System Build"?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans65-ev')">Show Answer</button><div id="ans65-ev" class="answer">The process of creating an executable system from a specific set of versions of its components.</div></li>
+                <li><p><strong>66.</strong> What is "Release Management" in the context of SCM?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans66-ev')">Show Answer</button><div id="ans66-ev" class="answer">The process of planning, building, documenting, and distributing a system release to customers.</div></li>
+                <li><p><strong>67.</strong> Why does an organization need a strategy for legacy systems?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans67-ev')">Show Answer</button><div id="ans67-ev" class="answer">Because legacy systems are often critical to the business. A clear strategy is needed to decide whether to invest in maintaining, improving, or replacing them to balance business value against technical debt.</div></li>
+                <li><p><strong>68.</strong> What is the main risk of an 'emergency repair' process?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans68-ev')">Show Answer</button><div id="ans68-ev" class="answer">By bypassing the formal process, it often leads to a quick-and-dirty fix that degrades the program structure, making future maintenance more difficult and costly.</div></li>
+                <li><p><strong>69.</strong> What is the relationship between the evolution process and maintenance activities?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans69-ev')">Show Answer</button><div id="ans69-ev" class="answer">Software maintenance (corrective, adaptive, etc.) is the set of activities that are carried out *within* the broader software evolution process to implement change.</div></li>
+                <li><p><strong>70.</strong> According to Lehman's laws, can you stop a system from growing in functionality?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans70-ev')">Show Answer</button><div id="ans70-ev" class="answer">No. According to the Law of Continuing Growth, the functionality must continually increase to maintain user satisfaction. If it stops growing, it will be perceived as declining in quality.</div></li>
+                <li><p><strong>71.</strong> What does "self-regulating process" mean in Lehman's laws?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans71-ev')">Show Answer</button><div id="ans71-ev" class="answer">It means that organizational and feedback dynamics tend to make the rate of evolution (e.g., features per release) settle into a stable, predictable pattern.</div></li>
+                <li><p><strong>72.</strong> Is it a good idea to accept a development contract without a maintenance contract?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans72-ev')">Show Answer</button><div id="ans72-ev" class="answer">From the client's perspective, it's a risk. If the developers have no contractual responsibility for maintenance, they have no incentive to design for future change, potentially leading to very high maintenance costs.</div></li>
+                <li><p><strong>73.</strong> What is the simplest type of software error to fix?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans73-ev')">Show Answer</button><div id="ans73-ev" class="answer">Coding errors are generally the simplest to fix, as opposed to requirement or design errors which may require more extensive rework.</div></li>
+                <li><p><strong>74.</strong> Who can initiate perfective maintenance?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans74-ev')">Show Answer</button><div id="ans74-ev" class="answer">It can be initiated by external users (requesting new features or enhancements) or internally by developers (e.g., wanting to improve an algorithm).</div></li>
+                <li><p><strong>75.</strong> What is the primary difference between perfective and preventive maintenance?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans75-ev')">Show Answer</button><div id="ans75-ev" class="answer">Perfective maintenance improves the system's visible functionality or performance. Preventive maintenance improves the system's *internal* quality (e.g., structure, documentation) to make future maintenance easier.</div></li>
+                <li><p><strong>76.</strong> What happens to the cost of change as a system's structure degrades?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans76-ev')">Show Answer</button><div id="ans76-ev" class="answer">The cost of implementing future changes increases because the code is harder to understand and modify without introducing new bugs.</div></li>
+                <li><p><strong>77.</strong> What is the role of a Change Log or Derivation History?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans77-ev')">Show Answer</button><div id="ans77-ev" class="answer">To maintain a record of what changes were made, why they were made, who made them, and when. This is critical for understanding the evolution of a component.</div></li>
+                <li><p><strong>78.</strong> Is it better to re-engineer an entire legacy system or just parts of it?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans78-ev')">Show Answer</button><div id="ans78-ev" class="answer">It's often better to re-engineer only the sub-systems that require frequent maintenance. Re-engineering the entire system can be prohibitively expensive.</div></li>
+                <li><p><strong>79.</strong> What is the first step in the re-engineering process for an old program?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans79-ev')">Show Answer</button><div id="ans79-ev" class="answer">Source code translation (if the code is in an obsolete language) and/or Reverse engineering to understand the program.</div></li>
+                <li><p><strong>80.</strong> Why is it important for an organization to choose a legacy system strategy?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans80-ev')">Show Answer</button><div id="ans80-ev" class="answer">To make a conscious, planned decision about the future of critical systems, rather than letting them decay passively, which can lead to business failure.</div></li>
+                <li><p><strong>81.</strong> What does SCM aim to control?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans81-ev')">Show Answer</button><div id="ans81-ev" class="answer">The costs and effort involved in making changes to a system.</div></li>
+                <li><p><strong>82.</strong> What does it mean for a system to be "under configuration management"?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans82-ev')">Show Answer</button><div id="ans82-ev" class="answer">It means that all changes to the system must follow the defined procedures for change control, versioning, and release management.</div></li>
+                <li><p><strong>83.</strong> What is the relationship between the spiral model and evolution?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans83-ev')">Show Answer</button><div id="ans83-ev" class="answer">The spiral model is a natural representation of evolution, where each loop of the spiral can represent a new release or version of the system, continually cycling through specification, implementation, and validation.</div></li>
+                <li><p><strong>84.</strong> Can you apply Lehman's laws to a small startup's first product?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans84-ev')">Show Answer</button><div id="ans84-ev" class="answer">It is less applicable. The laws were derived from large systems in large organizations with established processes. A small startup's development is often more chaotic and less self-regulating.</div></li>
+                <li><p><strong>85.</strong> What triggers an adaptive maintenance activity?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans85-ev')">Show Answer</button><div id="ans85-ev" class="answer">A change in the software's external environment, such as a new OS release, new hardware, or a dependency on a new third-party service.</div></li>
+                <li><p><strong>86.</strong> A user requests a new report feature. What type of maintenance is this?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans86-ev')">Show Answer</button><div id="ans86-ev" class="answer">Perfective maintenance, as it involves improving or adding to the system's functionality.</div></li>
+                <li><p><strong>87.</strong> A developer refactors a complex module to make it easier to understand. What type of maintenance is this?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans87-ev')">Show Answer</button><div id="ans87-ev" class="answer">Preventive maintenance, as it improves future maintainability.</div></li>
+                <li><p><strong>88.</strong> Why does change implementation itself follow a mini-development cycle?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans88-ev')">Show Answer</button><div id="ans88-ev" class="answer">Because even a small change needs to be properly understood (analysis), designed, implemented (coded), and tested to ensure it is done correctly without introducing new problems.</div></li>
+                <li><p><strong>89.</strong> What is the main risk of not having a formal change identification process?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans89-ev')">Show Answer</button><div id="ans89-ev" class="answer">Change requests can get lost, be misunderstood, or be implemented in an ad-hoc way, leading to chaos and a system that does not meet stakeholder needs.</div></li>
+                <li><p><strong>90.</strong> What is the key difference between maintenance and re-engineering?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans90-ev')">Show Answer</button><div id="ans90-ev" class="answer">Maintenance typically involves small, incremental changes. Re-engineering is a larger-scale activity focused on fundamentally improving the structure and quality of the system to make future maintenance easier.</div></li>
+                <li><p><strong>91.</strong> If a system has high business value but is of low quality, why might you re-engineer it instead of replacing it?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans91-ev')">Show Answer</button><div id="ans91-ev" class="answer">Because the risk and cost of a complete replacement are often very high. Re-engineering preserves the proven business logic while reducing future maintenance costs.</div></li>
+                <li><p><strong>92.</strong> What is the ultimate goal of SCM?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans92-ev')">Show Answer</button><div id="ans92-ev" class="answer">To provide a framework for controlling the evolution of a software system, ensuring that changes are made in a coordinated and traceable manner.</div></li>
+                <li><p><strong>93.</strong> Give an example of how the evolution process might differ for a shrink-wrapped product versus a bespoke system.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans93-ev')">Show Answer</button><div id="ans93-ev" class="answer">For a bespoke system, change proposals come from a single client. For a shrink-wrapped product, change proposals come from many customers and market analysis, and must be prioritized for the entire user base.</div></li>
+                <li><p><strong>94.</strong> What is the relationship between 'increasing complexity' and 'preventive maintenance'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans94-ev')">Show Answer</button><div id="ans94-ev" class="answer">Preventive maintenance (like refactoring) is the activity used to combat the law of increasing complexity. It is the work done to simplify the structure that naturally degrades over time.</div></li>
+                <li><p><strong>95.</strong> Why is 'documentation must be updated' a key point in corrective maintenance?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans95-ev')">Show Answer</button><div id="ans95-ev" class="answer">If the documentation is not updated after a bug fix, it becomes inaccurate. Inaccurate documentation can cause future developers to misunderstand the code, leading to new bugs.</div></li>
+                <li><p><strong>96.</strong> What does "design recovery" mean in the context of preventive maintenance?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans96-ev')">Show Answer</button><div id="ans96-ev" class="answer">It is another term for reverse engineering, where developers analyze existing code to create an abstract model of its design, which may have been lost over time.</div></li>
+                <li><p><strong>97.</strong> Is it possible for a corrective maintenance activity (a bug fix) to cause the need for another corrective maintenance activity later?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans97-ev')">Show Answer</button><div id="ans97" class="answer">Yes. A poorly implemented bug fix can introduce new, subtle bugs (regressions) that are discovered later, requiring another round of corrective maintenance.</div></li>
+                <li><p><strong>98.</strong> What is the output of the "Impact analysis" stage?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans98-ev')">Show Answer</button><div id="ans98-ev" class="answer">An assessment of the cost, effort, and technical effects of a proposed change, which is used by the release planning stage to decide whether to approve the change.</div></li>
+                <li><p><strong>99.</strong> Why might an organization choose to just "continue maintaining" a legacy system?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans99-ev')">Show Answer</button><div id="ans99-ev" class="answer">If the system is high quality and has high business value, the cost and risk of re-engineering or replacing it are not justified. Normal maintenance is the most cost-effective strategy.</div></li>
+                <li><p><strong>100.</strong> What is the overall message of the "Software Evolution" presentation?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans100')">Show Answer</button><div id="ans100" class="answer">That software is not static; it is destined to change. Successful software engineering requires a planned, managed process for this evolution, covering maintenance, re-engineering, and configuration management, to ensure systems remain valuable over their lifetime.</div></li>
+            </ol>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <p>Made with love by SS</p>
+    </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT 2402: User Interface Design</title>
+    <style>
+        /* --- Google Font --- */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        /* --- W3 Light Theme Variables --- */
+        :root {
+            --primary-color: #0078D4; /* A professional blue */
+            --secondary-color: #555555; /* Darker grey for accents */
+            --bg-color: #f4f4f4;
+            --card-bg-color: #ffffff;
+            --text-color: #333333;
+            --heading-color: #000000;
+            --border-color: #dddddd;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
+        }
+
+        /* --- Layout --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- Header & Navigation --- */
+        .main-header {
+            background: var(--card-bg-color);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 2px 5px var(--shadow-color);
+        }
+
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .logo svg { width: 32px; height: 32px; }
+
+        .main-nav ul { display: flex; list-style: none; gap: 20px; flex-wrap: wrap; }
+        .main-nav a { color: var(--secondary-color); text-decoration: none; font-weight: 600; transition: color 0.3s ease; }
+        .main-nav a:hover { color: var(--primary-color); }
+
+        /* --- Hero Section --- */
+        .hero {
+            background: var(--primary-color);
+            color: #ffffff;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .hero h1 { font-size: 3rem; margin-bottom: 0.5rem; }
+        .hero p { font-size: 1.8rem; font-weight: 300; opacity: 0.9; }
+
+        /* --- Main Content Section Styling --- */
+        main section { padding: 60px 0; }
+
+        .section-header { text-align: center; margin-bottom: 40px; }
+        .section-header h2 { font-size: 2.5rem; color: var(--heading-color); display: inline-block; border-bottom: 3px solid var(--primary-color); padding-bottom: 10px; }
+
+        /* --- Card & Grid Styles --- */
+        .grid { display: grid; gap: 30px; }
+        .grid-2 { grid-template-columns: repeat(2, 1fr); }
+        .grid-3 { grid-template-columns: repeat(3, 1fr); }
+
+        .card {
+            background: var(--card-bg-color);
+            padding: 25px;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 8px var(--shadow-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px var(--shadow-color); }
+        .card h3 { color: var(--primary-color); margin-bottom: 15px; display: flex; align-items: center; gap: 10px; font-size: 1.4rem; }
+        .card h4 { color: var(--secondary-color); margin-top: 20px; margin-bottom: 10px; font-size: 1.1rem; }
+        .card ul { list-style-position: inside; padding-left: 5px; }
+        .card li { margin-bottom: 8px; }
+
+        .icon { width: 24px; height: 24px; stroke: var(--primary-color); stroke-width: 2; fill: none; flex-shrink: 0; }
+
+        /* --- Table Styling --- */
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .styled-table th, .styled-table td {
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+        .styled-table th {
+            background-color: #f2f2f2;
+            color: var(--heading-color);
+            font-weight: 600;
+        }
+        .styled-table tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+        .styled-table td:first-child { font-weight: 600; }
+
+        .callout-box {
+            background-color: #e7f3fe;
+            border-left: 5px solid var(--primary-color);
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 0 5px 5px 0;
+        }
+
+        /* --- Footer --- */
+        .main-footer {
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 40px;
+            background: var(--card-bg-color);
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+            .main-header .container { flex-direction: column; gap: 15px; }
+            .main-nav ul { justify-content: center; }
+            .hero h1 { font-size: 2.5rem; }
+            .hero p { font-size: 1.5rem; }
+            .section-header h2 { font-size: 2rem; }
+            .styled-table { display: block; overflow-x: auto; }
+        }
+    </style>
+</head>
+<body>
+<header class="main-header">
+    <div class="container">
+        <a href="#hero" class="logo">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" alt="sithara logo">
+                <title>sithara</title>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 100 15 7.5 7.5 0 000-15zM21 21l-5.197-5.197" />
+            </svg>
+            <span>ICT 2402</span>
+        </a>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="#intro">Introduction</a></li>
+                <li><a href="#principles">Principles</a></li>
+                <li><a href="#process">Design Process</a></li>
+                <li><a href="#info">Information Presentation</a></li>
+                <li><a href="#evaluation">Evaluation</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <section id="hero" class="hero">
+        <div class="container">
+            <h1>User Interface Design</h1>
+            <p>Creating Effective and Usable Software</p>
+        </div>
+    </section>
+
+    <section id="intro">
+        <div class="container">
+            <div class="section-header">
+                <h2>The Importance of the User Interface</h2>
+            </div>
+            <div class="card">
+                <h3>
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.042 21.672L13.684 16.6m0 0l-2.51 2.225.569-9.47 5.227 7.917-3.286-.672zm-7.518-.267A8.25 8.25 0 1120.25 10.5M8.288 14.212A8.25 8.25 0 1110.5 2.25" /></svg>
+                    Why UI Design Matters
+                </h3>
+                <p>The User Interface (UI) is the bridge between the user and the computer system. Its design is critical for the success of any software project.</p>
+                <ul>
+                    <li>Users often judge a system by its <strong>interface</strong> rather than its underlying functionality.</li>
+                    <li>A poorly designed interface can cause users to make <strong>catastrophic errors</strong>.</li>
+                    <li>Poor UI design is a primary reason why many software systems are <strong>never used</strong>.</li>
+                    <li>The mantra is: <strong>Keep it simple!</strong> Low usability leads to user errors, data corruption, and ultimately, system rejection.</li>
+                </ul>
+                <h4>Who Designs the UI?</h4>
+                <p>While software engineers are involved, effective interface design is a multidisciplinary field requiring specialists like Human-Computer Interaction (HCI) experts, human factor specialists, and interface architects.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="principles">
+        <div class="container">
+            <div class="section-header">
+                <h2>UI Design Principles</h2>
+            </div>
+            <div class="card">
+                <h3>
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0l-.07.002-.018.002-.006.001c-.004.001-.007.001-.011.001H4.25l-.009-.001-.006-.001-.018-.002-.07-.002a49.998 49.998 0 00-4.252 0l-.07.002-.018.002-.006.001c-.004.001-.007.001-.011.001H.752l-.009-.001-.006-.001-.018-.002-.07-.002a49.998 49.998 0 014.252 0z" /></svg>
+                    Foundations of Good Design
+                </h3>
+                <p>Good UI design takes into account the needs, experience, and capabilities of its users. It acknowledges human limitations and anticipates user mistakes.</p>
+                <table class="styled-table">
+                    <thead>
+                    <tr>
+                        <th>Principle</th>
+                        <th>Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>User Familiarity</td>
+                        <td>Use terms and concepts from the user's domain, not computer-centric jargon (e.g., 'folders' and 'documents' instead of 'directories' and 'files').</td>
+                    </tr>
+                    <tr>
+                        <td>Consistency</td>
+                        <td>Comparable operations should look and act the same way. Menus, commands, and layouts should be consistent throughout the application.</td>
+                    </tr>
+                    <tr>
+                        <td>Minimal Surprise</td>
+                        <td>The behavior of the system should be predictable. Users should not be surprised by the outcome of an action.</td>
+                    </tr>
+                    <tr>
+                        <td>Recoverability</td>
+                        <td>Provide mechanisms to recover from errors, such as 'undo', confirmation for destructive actions, and checkpointing.</td>
+                    </tr>
+                    <tr>
+                        <td>User Guidance</td>
+                        <td>Provide meaningful feedback, help systems, and on-line manuals to guide the user.</td>
+                    </tr>
+                    <tr>
+                        <td>User Diversity</td>
+                        <td>Support different types of users. For example, provide keyboard shortcuts for experts and accessible options (like larger text) for users with visual difficulties.</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section id="process">
+        <div class="container">
+            <div class="section-header">
+                <h2>The UI Design Process</h2>
+            </div>
+            <div class="card">
+                <h3>An Iterative Approach</h3>
+                <p>UI design is not a linear process. It involves a continuous cycle of analysis, prototyping, and evaluation with close collaboration between designers and end-users.</p>
+                <h4>The 3 Core Activities:</h4>
+                <div class="grid grid-3" style="margin-top: 20px;">
+                    <div>
+                        <h4>1. User Analysis</h4>
+                        <p>Understand who the users are and what they need to do with the system. Without this, designing an effective interface is impossible. Techniques include:</p>
+                        <ul>
+                            <li><b>Task Analysis:</b> Modeling the steps involved in completing a task.</li>
+                            <li><b>Interviews & Questionnaires:</b> Asking users about their work.</li>
+                            <li><b>Ethnography:</b> Observing users in their natural work environment.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>2. UI Prototyping</h4>
+                        <p>Develop a series of prototypes to allow users to gain direct experience with the interface. This is crucial for judging usability.</p>
+                        <ul>
+                            <li><b>Paper Prototypes:</b> Early-stage sketches and storyboards to get quick feedback on concepts.</li>
+                            <li><b>Automated Prototypes:</b> Increasingly sophisticated interactive mock-ups using tools like Figma, Visual Basic, or web technologies.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>3. Interface Evaluation</h4>
+                        <p>Experiment with the prototypes with real users to assess the design's suitability and identify problems.</p>
+                        <ul>
+                            <li><b>Usability Testing:</b> Observing users as they attempt to complete tasks with the prototype.</li>
+                            <li><b>Questionnaires:</b> Gathering subjective feedback from users.</li>
+                            <li><b>Online Feedback:</b> Collecting data directly from within the software.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="info">
+        <div class="container">
+            <div class="section-header">
+                <h2>Information Presentation</h2>
+            </div>
+            <div class="card">
+                <h3>Displaying Data Effectively</h3>
+                <p>This area of UI design is concerned with presenting system information to users in a clear and understandable way. Information can be static (doesn't change during a session) or dynamic (changes frequently).</p>
+                <div class="grid grid-2">
+                    <div>
+                        <h4>Use of Color</h4>
+                        <ul>
+                            <li>Use for highlighting and showing relationships (e.g., layers).</li>
+                            <li><b>Guidelines:</b> Limit the number of colors, use color consistently, and avoid poor color pairings.</li>
+                            <li><b>Crucially:</b> Do not rely on color alone to convey meaning, as 10% of men and 2% of women are color-blind.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Use of Fonts</h4>
+                        <ul>
+                            <li><b>Serif fonts</b> (like Times New Roman) are generally better for reading large blocks of text.</li>
+                            <li><b>Sans-serif fonts</b> (like Arial) are generally better for headings and presenting information on screens.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 30px;">
+                <h3>Error Messages</h3>
+                <p>Error message design is critically important. Poor messages frustrate users and can lead them to reject a system.</p>
+                <h4>Good Error Messages Are:</h4>
+                <ul>
+                    <li><b>User-Oriented:</b> Use plain language, not system-specific error codes like "Error #27".</li>
+                    <li><b>Polite & Constructive:</b> Be polite, avoid beeps/noises, and suggest how to correct the error.</li>
+                    <li><b>Concise:</b> Give enough information without being overwhelming.</li>
+                    <li><b>Positive & Active:</b> Frame messages positively and use an active voice.</li>
+                </ul>
+                <div class="callout-box">
+                    <p><b>Bad:</b> "Error #27: Invalid patient id entered."</p>
+                    <p><b>Good:</b> "Patient J. Bates is not registered. Click 'Patients' for a list of registered patients or click 'Retry' to re-enter the name."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="evaluation">
+        <div class="container">
+            <div class="section-header">
+                <h2>Interface Evaluation</h2>
+            </div>
+            <div class="card">
+                <h3>Assessing Usability</h3>
+                <p>Some form of evaluation must be carried out to assess a UI's suitability. This involves measuring key usability attributes.</p>
+                <table class="styled-table">
+                    <thead>
+                    <tr>
+                        <th>Attribute</th>
+                        <th>Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Learnability</td>
+                        <td>How long does it take a new user to become productive with the system?</td>
+                    </tr>
+                    <tr>
+                        <td>Speed of Operation</td>
+                        <td>How well does the system response time match the user's work practices?</td>
+                    </tr>
+                    <tr>
+                        <td>Robustness</td>
+                        <td>How tolerant is the system of user error?</td>
+                    </tr>
+                    <tr>
+                        <td>Recoverability</td>
+                        <td>How good is the system at recovering from user errors?</td>
+                    </tr>
+                    <tr>
+                        <td>Adaptability</td>
+                        <td>How easily can the system be tailored to individual user workflows?</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="main-footer">
+    <div class="container">
+        <p>Made with love by SS</p>
+    </div>
+</footer>
+</body>
+</html>

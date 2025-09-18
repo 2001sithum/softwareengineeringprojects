@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT 2402: Advanced Process Models</title>
+    <style>
+        /* --- Google Font --- */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        /* --- W3 Light Theme Variables --- */
+        :root {
+            --primary-color: #0078D4; /* A professional blue */
+            --secondary-color: #555555; /* Darker grey for accents */
+            --bg-color: #f4f4f4;
+            --card-bg-color: #ffffff;
+            --text-color: #333333;
+            --heading-color: #000000;
+            --border-color: #dddddd;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
+        }
+
+        /* --- Layout --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- Header & Navigation --- */
+        .main-header {
+            background: var(--card-bg-color);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 2px 5px var(--shadow-color);
+        }
+
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .logo svg { width: 32px; height: 32px; }
+
+        .main-nav ul { display: flex; list-style: none; gap: 20px; flex-wrap: wrap; }
+        .main-nav a { color: var(--secondary-color); text-decoration: none; font-weight: 600; transition: color 0.3s ease; }
+        .main-nav a:hover { color: var(--primary-color); }
+
+        /* --- Hero Section --- */
+        .hero {
+            background: var(--primary-color);
+            color: #ffffff;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .hero h1 { font-size: 3rem; margin-bottom: 0.5rem; }
+        .hero p { font-size: 1.8rem; font-weight: 300; opacity: 0.9; }
+
+        /* --- Main Content Section Styling --- */
+        main section { padding: 60px 0; }
+
+        .section-header { text-align: center; margin-bottom: 40px; }
+        .section-header h2 { font-size: 2.5rem; color: var(--heading-color); display: inline-block; border-bottom: 3px solid var(--primary-color); padding-bottom: 10px; }
+
+        /* --- Card & Grid Styles --- */
+        .grid { display: grid; gap: 30px; }
+        .grid-2 { grid-template-columns: repeat(2, 1fr); }
+
+        .card {
+            background: var(--card-bg-color);
+            padding: 25px;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 8px var(--shadow-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover { transform: translateY(-5px); box-shadow: 0 5px 15px var(--shadow-color); }
+        .card h3 { color: var(--primary-color); margin-bottom: 15px; display: flex; align-items: center; gap: 10px; font-size: 1.4rem; }
+        .card h4 { color: var(--secondary-color); margin-top: 20px; margin-bottom: 10px; font-size: 1.1rem; }
+        .card ul { list-style-position: inside; padding-left: 5px; }
+        .card li { margin-bottom: 8px; }
+
+        .icon { width: 24px; height: 24px; stroke: var(--primary-color); stroke-width: 2; fill: none; flex-shrink: 0; }
+
+        /* --- Table Styling --- */
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .styled-table th, .styled-table td {
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+        .styled-table th {
+            background-color: #f2f2f2;
+            color: var(--heading-color);
+            font-weight: 600;
+        }
+        .styled-table tr:nth-child(even) { background-color: #fafafa; }
+        .styled-table td:first-child { font-weight: 600; }
+
+        /* --- Footer --- */
+        .main-footer {
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 40px;
+            background: var(--card-bg-color);
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            .main-header .container { flex-direction: column; gap: 15px; }
+            .main-nav ul { justify-content: center; }
+            .hero h1 { font-size: 2.5rem; }
+            .hero p { font-size: 1.5rem; }
+            .section-header h2 { font-size: 2rem; }
+            .styled-table { display: block; overflow-x: auto; }
+        }
+    </style>
+</head>
+<body>
+<header class="main-header">
+    <div class="container">
+        <a href="#hero" class="logo">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" alt="sithara logo">
+                <title>sithara</title>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 100 15 7.5 7.5 0 000-15zM21 21l-5.197-5.197" />
+            </svg>
+            <span>ICT 2402</span>
+        </a>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="#rup">RUP</a></li>
+                <li><a href="#agile">Agile Methods</a></li>
+                <li><a href="#xp">Extreme Programming</a></li>
+                <li><a href="#scrum">Scrum</a></li>
+                <li><a href="#improvement">Process Improvement</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <section id="hero" class="hero">
+        <div class="container">
+            <h1>Advanced Process Models</h1>
+            <p>Exploring Modern Software Development Methodologies</p>
+        </div>
+    </section>
+
+    <section id="rup">
+        <div class="container">
+            <div class="section-header">
+                <h2>The Rational Unified Process (RUP)</h2>
+            </div>
+            <div class="card">
+                <h3>
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V5.63M3 9l9 6 9-6" /></svg>
+                    A Framework for Iterative Development
+                </h3>
+                <p>RUP is a modern process model derived from the work on UML. It is an adaptable framework, intended to be tailored by development organizations. It is typically described from three perspectives:</p>
+                <ul>
+                    <li><b>Dynamic Perspective (Phases):</b> Shows how the project progresses over time.</li>
+                    <li><b>Static Perspective (Workflows):</b> Shows the process activities or disciplines involved.</li>
+                    <li><b>Practice Perspective:</b> Suggests good practices that should be used throughout the process.</li>
+                </ul>
+            </div>
+
+            <div class="grid grid-2" style="margin-top: 30px;">
+                <div class="card">
+                    <h4>Dynamic Perspective: The Four Phases</h4>
+                    <ol>
+                        <li><b>Inception:</b> Establish the business case for the system. (Is this project feasible and worthwhile?)</li>
+                        <li><b>Elaboration:</b> Develop an understanding of the problem domain and establish the system architecture.</li>
+                        <li><b>Construction:</b> System design, programming, and testing. The bulk of the development work happens here.</li>
+                        <li><b>Transition:</b> Deploy the system to its end-users.</li>
+                    </ol>
+                </div>
+                <div class="card">
+                    <h4>Practice Perspective: RUP Good Practices</h4>
+                    <ul>
+                        <li>Develop software iteratively</li>
+                        <li>Manage requirements systematically</li>
+                        <li>Use component-based architectures</li>
+                        <li>Visually model software (using UML)</li>
+                        <li>Continuously verify software quality</li>
+                        <li>Control changes to software</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 30px;">
+                <h4>Static Perspective: Workflows (Disciplines)</h4>
+                <p>The RUP framework identifies several key workflows. The effort dedicated to each workflow varies depending on the current phase of the project.</p>
+                <table class="styled-table">
+                    <thead><tr><th>Workflow</th><th>Description</th></tr></thead>
+                    <tbody>
+                    <tr><td>Business Modeling</td><td>Model the business processes using use cases.</td></tr>
+                    <tr><td>Requirements</td><td>Identify actors and develop use cases to model system requirements.</td></tr>
+                    <tr><td>Analysis and Design</td><td>Create architectural, component, and object models for the system.</td></tr>
+                    <tr><td>Implementation</td><td>Implement and structure the system components.</td></tr>
+                    <tr><td>Test</td><td>An iterative process carried out in conjunction with implementation.</td></tr>
+                    <tr><td>Deployment</td><td>Create a product release and install it for users.</td></tr>
+                    <tr><td>Project Management</td><td>A supporting workflow that manages the system development.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section id="agile">
+        <div class="container">
+            <div class="section-header">
+                <h2>Agile Methods</h2>
+            </div>
+            <div class="card">
+                <h3>
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0011.667 0l3.181-3.183m-4.991-2.691V5.25a2.25 2.25 0 00-2.25-2.25L10.5 2.25v4.992m0 0H5.25m5.25 0l-3.182 3.182a8.25 8.25 0 0011.667 0l3.182-3.182" /></svg>
+                    Responding to Change
+                </h3>
+                <p>Agile methods were created out of dissatisfaction with the overheads of heavyweight, design-heavy processes. They are best suited for small to medium-sized projects where requirements are expected to change.</p>
+                <h4>Core Characteristics:</h4>
+                <ul>
+                    <li>Focus on the <b>code</b> rather than extensive upfront design.</li>
+                    <li>Based on an <b>iterative</b> approach to development.</li>
+                    <li>Intended to deliver <b>working software quickly</b> and evolve it to meet changing requirements.</li>
+                </ul>
+                <table class="styled-table">
+                    <thead><tr><th>Agile Principle</th><th>Description</th></tr></thead>
+                    <tbody>
+                    <tr><td>Customer Involvement</td><td>The customer is closely involved throughout, providing and prioritizing requirements and evaluating iterations.</td></tr>
+                    <tr><td>Incremental Delivery</td><td>The software is developed in small increments, with the customer specifying requirements for each.</td></tr>
+                    <tr><td>People, Not Process</td><td>The skills of the team are recognized and exploited. Teams develop their own ways of working.</td></tr>
+                    <tr><td>Embrace Change</td><td>Expect requirements to change and design the system to accommodate this.</td></tr>
+                    <tr><td>Maintain Simplicity</td><td>Focus on simplicity in both the software and the development process. Actively work to eliminate complexity.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section id="xp">
+        <div class="container">
+            <div class="section-header">
+                <h2>Extreme Programming (XP)</h2>
+            </div>
+            <div class="card">
+                <h3>
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>
+                    An 'Extreme' Agile Approach
+                </h3>
+                <p>XP is one of the best-known and most widely used agile methods. It takes certain agile practices to 'extreme' levels.</p>
+                <ul>
+                    <li>New versions may be built several times per day.</li>
+                    <li>Increments (small releases) are delivered to customers every 2 weeks.</li>
+                    <li>Requires full-time engagement of an on-site customer representative.</li>
+                </ul>
+                <h4>Key XP Practices</h4>
+                <div class="grid grid-2" style="margin-top: 20px;">
+                    <div>
+                        <ul>
+                            <li><b>Incremental Planning:</b> Requirements are captured as 'user stories' on cards.</li>
+                            <li><b>Small Releases:</b> The smallest useful set of functionality is developed and released first.</li>
+                            <li><b>Simple Design:</b> Do just enough design to meet the current requirements and no more.</li>
+                            <li><b>Test-First Development:</b> Write an automated test *before* writing the code to implement a feature.</li>
+                            <li><b>Refactoring:</b> Continuously improve the internal structure of the code without changing its external behavior.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <ul>
+                            <li><b>Pair Programming:</b> Developers work in pairs, checking each other's work in real-time.</li>
+                            <li><b>Collective Ownership:</b> Anyone can change any part of the code. This spreads knowledge and prevents information silos.</li>
+                            <li><b>Continuous Integration:</b> Integrate and test code into the whole system as soon as a task is complete.</li>
+                            <li><b>Sustainable Pace:</b> Overtime is discouraged as it leads to burnout and reduced quality.</li>
+                            <li><b>On-Site Customer:</b> The customer is a full-time member of the development team.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="scrum">
+        <div class="container">
+            <div class="section-header">
+                <h2>Scrum</h2>
+            </div>
+            <div class="card">
+                <h3>
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-4.67c.12-.318.239-.636.354-.961" /></svg>
+                    A Framework for Managing Complex Work
+                </h3>
+                <p>Scrum is an iterative and incremental agile framework for developing products or managing any work. It is named after the rugby formation where a group works together to move the ball forward.</p>
+                <h4>Scrum Phases & Processes:</h4>
+                <ul>
+                    <li><b>Pregame (Planning):</b> Identify the project scope, prioritize initial requirements (in the Product Backlog), and establish the target environment.</li>
+                    <li><b>Game (Sprints):</b> The core of Scrum. Development happens in time-boxed iterations called Sprints, which typically last 1-4 weeks. Each Sprint includes analysis, design, development, and testing.</li>
+                    <li><b>Postgame (Closure):</b> At the end of a Sprint, a functioning increment of the product is delivered. The team conducts a review and prepares for the next Sprint.</li>
+                </ul>
+                <h4>Scrum Roles & Values</h4>
+                <p>Scrum emphasizes team empowerment and collaboration. Key roles include the Scrum Master (facilitator), Developer, QA, etc. Core values are flexibility, frequent reviews, collaboration, and adaptability.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="improvement">
+        <div class="container">
+            <div class="section-header">
+                <h2>Process Improvement</h2>
+            </div>
+            <div class="card">
+                <h3>
+                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" /></svg>
+                    The Improvement Cycle
+                </h3>
+                <p>Process improvement involves understanding existing processes and introducing changes to improve product quality, reduce costs, or accelerate schedules. It follows a continuous cycle:</p>
+                <ol>
+                    <li><b>Process Measurement:</b> Attributes of the current process are measured to establish a baseline.</li>
+                    <li><b>Process Analysis:</b> The current process is assessed to identify bottlenecks and weaknesses.</li>
+                    <li><b>Process Change:</b> Changes are introduced to address the weaknesses found during analysis.</li>
+                </ol>
+                <h4>The CMMI Framework</h4>
+                <p>The Capability Maturity Model Integration (CMMI) is a widely used framework for process assessment and improvement. It provides a structured way for organizations to benchmark and improve their processes.</p>
+                <h5>CMMI Staged Model Levels:</h5>
+                <ol>
+                    <li><b>Initial:</b> Processes are chaotic and ad-hoc.</li>
+                    <li><b>Managed:</b> Basic project management processes are established.</li>
+                    <li><b>Defined:</b> Processes are documented, standardized, and integrated into an organizational standard.</li>
+                    <li><b>Quantitatively Managed:</b> The organization and projects establish quantitative objectives for quality and process performance.</li>
+                    <li><b>Optimizing:</b> The organization focuses on continual process improvement through quantitative feedback and piloting innovative ideas.</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="main-footer">
+    <div class="container">
+        <p>Made with love by SS</p>
+    </div>
+</footer>
+</body>
+</html>

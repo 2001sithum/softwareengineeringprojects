@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100 Practice Questions: Implementation, V&V</title>
+    <style>
+        /* --- Google Font & W3 Light Theme --- */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        :root {
+            --primary-color: #0078D4;
+            --secondary-color: #555555;
+            --bg-color: #f4f4f4;
+            --card-bg-color: #ffffff;
+            --text-color: #333333;
+            --heading-color: #000000;
+            --border-color: #dddddd;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --answer-bg: #f9f9f9;
+        }
+
+        * { box-sizing: border-box; scroll-behavior: smooth; }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.7; margin: 0; padding: 0; }
+        .container { max-width: 1000px; margin: 20px auto; padding: 0 20px; }
+
+        .main-header { text-align: center; padding: 40px 20px; background: var(--card-bg-color); border-radius: 5px; margin-bottom: 30px; border: 1px solid var(--border-color); }
+        .main-header h1 { color: var(--primary-color); margin: 0; }
+        .main-header p { color: var(--secondary-color); font-size: 1.1rem; }
+
+        #toc { background: var(--card-bg-color); padding: 25px; border-radius: 5px; margin-bottom: 30px; }
+        #toc h2 { text-align: center; margin-top: 0; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        #toc ol { list-style-type: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px; }
+        #toc a { text-decoration: none; color: var(--primary-color); font-weight: 600; }
+        #toc a:hover { text-decoration: underline; }
+
+        .question-section { margin-bottom: 40px; }
+        .question-section h2 { border-bottom: 3px solid var(--primary-color); padding-bottom: 10px; }
+
+        .question-list { list-style-type: none; padding: 0; }
+        .question-list li { background: var(--card-bg-color); padding: 20px; border-radius: 5px; border: 1px solid var(--border-color); margin-bottom: 20px; box-shadow: 0 2px 5px var(--shadow-color); }
+        .question-list p { margin: 0 0 15px 0; }
+
+        .toggle-answer-btn { background-color: var(--primary-color); color: white; border: none; padding: 8px 15px; border-radius: 3px; cursor: pointer; font-weight: 600; font-family: 'Poppins', sans-serif; }
+        .toggle-answer-btn:hover { opacity: 0.9; }
+
+        .answer { display: none; background-color: var(--answer-bg); border: 1px solid var(--border-color); border-left: 5px solid var(--primary-color); padding: 15px; margin-top: 15px; border-radius: 0 5px 5px 0; }
+        .answer ul { padding-left: 20px; }
+
+        .main-footer { text-align: center; padding: 20px; margin-top: 40px; color: var(--secondary-color); }
+    </style>
+    <script>
+        function toggleAnswer(id) {
+            const answerEl = document.getElementById(id);
+            const buttonEl = answerEl.previousElementSibling;
+            if (answerEl.style.display === 'block') {
+                answerEl.style.display = 'none';
+                buttonEl.textContent = 'Show Answer';
+            } else {
+                answerEl.style.display = 'block';
+                buttonEl.textContent = 'Hide Answer';
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <header class="main-header">
+        <h1>100 Practice Questions: Implementation, Verification & Validation</h1>
+        <p>Based on ICT 2402 Course Material</p>
+    </header>
+
+    <nav id="toc">
+        <h2>Table of Contents</h2>
+        <ol>
+            <li><a href="#section1">1. V&V and Implementation Fundamentals</a></li>
+            <li><a href="#section2">2. Implementation Practices</a></li>
+            <li><a href="#section3">3. Secure Coding & Fault Tolerance</a></li>
+            <li><a href="#section4">4. Static Verification (Inspections)</a></li>
+            <li><a href="#section5">5. Dynamic Verification (Testing)</a></li>
+            <li><a href="#section6">6. Testing Levels, Types & Planning</a></li>
+            <li><a href="#section7">7. Test Case Design & Automation</a></li>
+        </ol>
+    </nav>
+
+    <main>
+        <!-- SECTION 1: V&V and Implementation Fundamentals -->
+        <section id="section1" class="question-section">
+            <h2>Section 1: V&V and Implementation Fundamentals</h2>
+            <ol class="question-list">
+                <li><p><strong>1.</strong> What is the core question of 'Verification'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans1')">Show Answer</button><div id="ans1" class="answer">"Are we building the product right?" (i.e., does it conform to its specification?).</div></li>
+                <li><p><strong>2.</strong> What is the core question of 'Validation'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans2')">Show Answer</button><div id="ans2" class="answer">"Are we building the right product?" (i.e., does it meet the user's real needs?).</div></li>
+                <li><p><strong>3.</strong> When does the software implementation phase typically begin?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans3')">Show Answer</button><div id="ans3" class="answer">After the software design has been finalized, reviewed, and approved.</div></li>
+                <li><p><strong>4.</strong> What are the two principal objectives of the V&V process?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans4')">Show Answer</button><div id="ans4" class="answer">1. The discovery of defects in a system. 2. The assessment of whether the system is useful and usable in an operational situation.</div></li>
+                <li><p><strong>5.</strong> What does it mean for the V&V process to establish that software is "fit for purpose"?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans5')">Show Answer</button><div id="ans5" class="answer">It means establishing confidence that the software is good enough for its intended use, which is different from proving it is completely free of defects.</div></li>
+                <li><p><strong>6.</strong> Differentiate between 'static verification' and 'dynamic verification'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans6')">Show Answer</button><div id="ans6" class="answer"><ul><li><strong>Static:</strong> Analysis of system representations (code, documents) *without* executing the program. E.g., code inspections.</li><li><strong>Dynamic:</strong> Exercising and observing the program's behavior by *executing* it with test data. E.g., software testing.</li></ul></div></li>
+                <li><p><strong>7.</strong> List three factors that determine the required level of V&V confidence.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans7')">Show Answer</button><div id="ans7" class="answer">1. System's purpose (how critical it is). 2. User expectations. 3. Marketing environment (e.g., speed to market vs. perfection).</div></li>
+                <li><p><strong>8.</strong> What is the purpose of V&V planning?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans8')">Show Answer</button><div id="ans8" class="answer">To carefully plan the testing and inspection processes to get the most out of them, and to identify the right balance between static verification and dynamic testing.</div></li>
+                <li><p><strong>9.</strong> What is the V-model of development?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans9')">Show Answer</button><div id="ans9" class="answer">A model that illustrates how V&V activities can be integrated throughout the development life cycle, showing how test plans for each development stage are created in parallel.</div></li>
+                <li><p><strong>10.</strong> What are the two main causes of software errors mentioned in the implementation lecture?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans10')">Show Answer</button><div id="ans10" class="answer">1. Poor implementation (coding errors). 2. Poor testing that fails to detect those errors.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 2: Implementation Practices -->
+        <section id="section2" class="question-section">
+            <h2>Section 2: Implementation Practices (Coding Standards, Reuse, APIs)</h2>
+            <ol class="question-list">
+                <li><p><strong>11.</strong> List four factors that influence the selection of a programming language.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans11')">Show Answer</button><div id="ans11" class="answer">Nature of the application, Cost (licensing), Available resources (team skills), and Client expectations.</div></li>
+                <li><p><strong>12.</strong> What is a 'coding standard' and why is it important?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans12')">Show Answer</button><div id="ans12" class="answer">A set of guidelines for writing code in a specific language. It is important because it improves code understandability, which in turn improves long-term maintainability.</div></li>
+                <li><p><strong>13.</strong> Name the three main areas that can be standardized in coding.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans13')">Show Answer</button><div id="ans13" class="answer">Naming standards, Commenting standards, and Formatting standards (indentation, spacing).</div></li>
+                <li><p><strong>14.</strong> Why is it crucial for comments to be updated during maintenance?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans14')">Show Answer</button><div id="ans14" class="answer">Outdated comments are misleading and can cause future developers to misunderstand the code, leading to new bugs. An incorrect comment is often worse than no comment at all.</div></li>
+                <li><p><strong>15.</strong> What is the primary benefit of reusing well-tested software components?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans15')">Show Answer</button><div id="ans15" class="answer">It increases the reliability of the new software, as the reused components have already been proven to work correctly.</div></li>
+                <li><p><strong>16.</strong> What is an Application Programming Interface (API)?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans16')">Show Answer</button><div id="ans16" class="answer">An API is the key to reusability. It defines a contract or a set of rules for how a software component can be used by other components, hiding its internal implementation details.</div></li>
+                <li><p><strong>17.</strong> List four characteristics of a good API.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans17')">Show Answer</button><div id="ans17" class="answer">Easy to learn and use, secure and hard to misuse, stable over a long time, and easy to extend.</div></li>
+                <li><p><strong>18.</strong> What is the purpose of an API documentation template?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans18')">Show Answer</button><div id="ans18" class="answer">To ensure that all necessary information for using the API (e.g., name, syntax, parameters, return values, exceptions) is documented in a consistent and thorough manner.</div></li>
+                <li><p><strong>19.</strong> Explain the trade-off between short-term cost and long-term saving for coding standards.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans19')">Show Answer</button><div id="ans19" class="answer">Adhering to coding standards may take slightly more time upfront (a short-term cost), but it saves a huge amount of time and money in the long term by making the code easier to read, debug, and maintain.</div></li>
+                <li><p><strong>20.</strong> What is a code review?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans20')">Show Answer</button><div id="ans20" class="answer">A non-automatic, formal meeting where code is examined by peers to find defects, improve quality, and ensure adherence to standards.</div></li>
+                <li><p><strong>21.</strong> List four typical participants in a code review.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans21')">Show Answer</button><div id="ans21" class="answer">The original programmer (author), a designer, a tester, and a Software Quality Assurance (SQA) representative.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 3: Secure Coding & Fault Tolerance -->
+        <section id="section3" class="question-section">
+            <h2>Section 3: Secure Coding & Fault Tolerance</h2>
+            <ol class="question-list">
+                <li><p><strong>22.</strong> Define 'software fault tolerance'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans22')">Show Answer</button><div id="ans22" class="answer">The ability of a software system to detect and recover from errors and abnormal conditions, allowing it to continue operation.</div></li>
+                <li><p><strong>23.</strong> Describe the 'Checkpointing' approach to fault tolerance.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans23')">Show Answer</button><div id="ans23" class="answer">Periodically saving the 'state' of the software. If a failure occurs, the system can be restored to the last saved checkpoint (backward recovery).</div></li>
+                <li><p><strong>24.</strong> Describe the 'N-version programming' approach.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans24')">Show Answer</button><div id="ans24" class="answer">N independent teams provide N implementations of the same design. The results are passed to an arbiter that takes a majority vote.</div></li>
+                <li><p><strong>25.</strong> What is the primary weakness of N-version programming?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans25')">Show Answer</button><div id="ans25" class="answer">It fails if the original design itself is incorrect or if the majority of the implementations are faulty.</div></li>
+                <li><p><strong>26.</strong> Describe the 'Recovery block' approach.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans26')">Show Answer</button><div id="ans26" class="answer">A valid state is saved, and then several different versions (implementations) of an operation are tried in sequence. A 'judge' procedure accepts the first successful result. If all versions fail, an error is invoked.</div></li>
+                <li><p><strong>27.</strong> What is 'exception handling' used for?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans27')">Show Answer</button><div id="ans27" class="answer">For dealing with simple run-time errors in a structured way, such as divide by zero, invalid array index, or null pointer exceptions.</div></li>
+                <li><p><strong>28.</strong> What is the purpose of the `try`, `catch`, and `finally` blocks?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans28')">Show Answer</button><div id="ans28" class="answer"><ul><li><strong>try:</strong> Contains code that may cause an exception.</li><li><strong>catch:</strong> Contains the code to handle the exception if it occurs.</li><li><strong>finally:</strong> Contains cleanup code that is *always* executed, whether an exception occurred or not.</li></ul></div></li>
+                <li><p><strong>29.</strong> What is a 'Buffer Overflow' vulnerability?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans29')">Show Answer</button><div id="ans29" class="answer">A serious security error where writing data to a buffer overruns its boundary and overwrites adjacent memory, which can be exploited by attackers.</div></li>
+                <li><p><strong>30.</strong> What is a 'Command Injection' attack?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans30')">Show Answer</button><div id="ans30" class="answer">An attack where malicious code (e.g., SQL commands, shell commands) is injected into the system through improperly validated input data.</div></li>
+                <li><p><strong>31.</strong> Explain 'API abuse' as a security vulnerability.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans31')">Show Answer</button><div id="ans31" class="answer">When a caller's module deviates from the API's contract, for example, by ignoring a returned error value. This can lead to unexpected and insecure system behavior.</div></li>
+                <li><p><strong>32.</strong> List three common coding errors that affect code quality and can be detected by static checking.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans32')">Show Answer</button><div id="ans32" class="answer">Dead code, Unused variables, Uninitialized variables, Memory leak, Type mismatch.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 4: Static Verification -->
+        <section id="section4" class="question-section">
+            <h2>Section 4: Static Verification (Inspections & Analysis)</h2>
+            <ol class="question-list">
+                <li><p><strong>33.</strong> What is a software inspection?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans33')">Show Answer</button><div id="ans33" class="answer">A formal process where people examine source code or documents to discover anomalies and defects. They do not require the system to be executed.</div></li>
+                <li><p><strong>34.</strong> Why are inspections considered effective for discovering program errors?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans34')">Show Answer</button><div id="ans34" class="answer">Many different types of defects can be discovered in a single session. Unlike testing, one defect does not mask another, and reviewers can use their experience to spot common error patterns.</div></li>
+                <li><p><strong>35.</strong> Are inspections and testing opposing techniques?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans35')">Show Answer</button><div id="ans35" class="answer">No, they are complementary. Both should be used during the V&V process for comprehensive coverage.</div></li>
+                <li><p><strong>36.</strong> What can inspections check that testing cannot, and vice-versa?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans36')">Show Answer</button><div id="ans36" class="answer">Inspections can check conformance with a specification and standards, but cannot check non-functional characteristics like performance. Testing is required for non-functional characteristics and validation against real user needs.</div></li>
+                <li><p><strong>37.</strong> What is the main purpose of a program inspection: defect detection or defect correction?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans37')">Show Answer</button><div id="ans37" class="answer">Defect detection only. The correction is done by the author *after* the inspection meeting.</div></li>
+                <li><p><strong>38.</strong> List three essential pre-conditions for a successful inspection.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans38')">Show Answer</button><div id="ans38" class="answer">1. A precise specification must be available. 2. The code must be syntactically correct. 3. Management must not use inspections for staff appraisal.</div></li>
+                <li><p><strong>39.</strong> List the key roles in an inspection team.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans39')">Show Answer</button><div id="ans39" class="answer">Author, Inspector, Reader, Scribe, and Moderator.</div></li>
+                <li><p><strong>40.</strong> What is the purpose of an inspection checklist?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans40')">Show Answer</button><div id="ans40" class="answer">To guide the inspection by providing a list of common errors to look for, specific to the language and domain (e.g., check for uninitialized variables, array bounds errors).</div></li>
+                <li><p><strong>41.</strong> What is automated static analysis?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans41')">Show Answer</button><div id="ans41" class="answer">The use of software tools to parse source code and discover potentially erroneous conditions, acting as an aid to inspections.</div></li>
+                <li><p><strong>42.</strong> Describe 'data use analysis' as a stage of static analysis.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans42')">Show Answer</button><div id="ans42" class="answer">It detects potential errors related to variables, such as uninitialized variables, variables that are declared but never used, or variables written to twice without an intervening read.</div></li>
+                <li><p><strong>43.</strong> Why are static analysis tools less cost-effective for languages like Java compared to C?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans43')">Show Answer</button><div id="ans43" class="answer">Because Java has strong type checking, its compiler already detects many of the errors (like type mismatches) that a static analysis tool would need to find in a weakly-typed language like C.</div></li>
+                <li><p><strong>44.</strong> What are 'formal methods' in the context of static verification?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans44')">Show Answer</button><div id="ans44" class="answer">They are the "ultimate" static verification technique, involving detailed mathematical analysis of a system's specification to develop formal arguments that a program conforms to that specification. They are very expensive and require specialized skills.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 5: Dynamic Verification -->
+        <section id="section5" class="question-section">
+            <h2>Section 5: Dynamic Verification (Testing Fundamentals)</h2>
+            <ol class="question-list">
+                <li><p><strong>45.</strong> What is the fundamental truth about program testing regarding errors?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans45')">Show Answer</button><div id="ans45" class="answer">It can reveal the *presence* of errors, but it can NOT prove their *absence*.</div></li>
+                <li><p><strong>46.</strong> For which type of requirements is testing the only validation technique?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans46')">Show Answer</button><div id="ans46" class="answer">Non-functional requirements (such as performance and reliability), because the software must be executed to see how it behaves under load.</div></li>
+                <li><p><strong>47.</strong> Differentiate between 'defect testing' and 'validation testing'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans47')">Show Answer</button><div id="ans47" class="answer"><ul><li><strong>Defect Testing:</strong> Aims to discover system defects. A successful test is one that makes the system fail and reveals a bug.</li><li><strong>Validation Testing:</strong> Aims to show that the software meets its requirements. A successful test shows that a requirement has been properly implemented.</li></ul></div></li>
+                <li><p><strong>48.</strong> What is the difference between 'testing' and 'debugging'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans48')">Show Answer</button><div id="ans48" class="answer">Testing is the process of finding the existence of defects. Debugging is the process of locating the source of those defects and repairing them.</div></li>
+                <li><p><strong>49.</strong> What is the first step in the debugging process after a test fails?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans49')">Show Answer</button><div id="ans49" class="answer">Locate the error (the specific part of the code causing the failure).</div></li>
+                <li><p><strong>50.</strong> What is a 'test plan'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans50')">Show Answer</button><div id="ans50" class="answer">A document that describes the standards for the testing process, including the scope, approach, resources, and schedule of intended testing activities.</div></li>
+                <li><p><strong>51.</strong> List four key sections of a software test plan.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans51')">Show Answer</button><div id="ans51" class="answer">The testing process, Requirements traceability, Testing schedule, and Test recording procedures.</div></li>
+                <li><p><strong>52.</strong> What is 'requirements traceability' in a test plan?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans52')">Show Answer</button><div id="ans52" class="answer">The process of ensuring that every requirement in the specification has at least one corresponding test case designed to validate it.</div></li>
+                <li><p><strong>53.</strong> What is the purpose of test recording procedures?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans53')">Show Answer</button><div id="ans53" class="answer">To ensure the results of tests are systematically recorded so that the testing process can be audited and repeated.</div></li>
+                <li><p><strong>54.</strong> Explain what a 'test case' is.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans54')">Show Answer</button><div id="ans54" class="answer">A set of inputs, execution conditions, and expected outputs designed to test a particular aspect of a system.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 6: Testing Levels, Types & Planning -->
+        <section id="section6" class="question-section">
+            <h2>Section 6: Testing Levels, Types & Planning</h2>
+            <ol class="question-list">
+                <li><p><strong>55.</strong> What is 'Component testing' (or Unit testing)?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans55')">Show Answer</button><div id="ans55" class="answer">The process of testing individual program components (e.g., functions, classes) in isolation. It is usually the responsibility of the component's developer.</div></li>
+                <li><p><strong>56.</strong> What is 'System testing'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans56')">Show Answer</button><div id="ans56" class="answer">The process of testing groups of components that have been integrated to create a system or sub-system. It is usually the responsibility of an independent testing team.</div></li>
+                <li><p><strong>57.</strong> What are the two phases of system testing?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans57')">Show Answer</button><div id="ans57" class="answer">1. Integration testing. 2. Release testing.</div></li>
+                <li><p><strong>58.</strong> What is 'Integration testing'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans58')">Show Answer</button><div id="ans58" class="answer">Building a system from its components and testing it for problems caused by component interactions. It is often done incrementally (top-down or bottom-up).</div></li>
+                <li><p><strong>59.</strong> What is 'Release testing'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans59')">Show Answer</button><div id="ans59" class="answer">The process of testing a release of a system that will be distributed to customers. Its primary goal is to increase stakeholder confidence.</div></li>
+                <li><p><strong>60.</strong> Is release testing typically 'black-box' or 'white-box' testing? Explain.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans60')">Show Answer</button><div id="ans60" class="answer">It is typically 'black-box' testing. This means the testers base their tests on the system specification only and do not have knowledge of, or access to, the internal source code.</div></li>
+                <li><p><strong>61.</strong> What is 'Performance testing'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans61')">Show Answer</button><div id="ans61" class="answer">A type of testing that involves planning a series of tests where the load on the system is steadily increased until its performance becomes unacceptable.</div></li>
+                <li><p><strong>62.</strong> What is 'Stress testing'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans62')">Show Answer</button><div id="ans62" class="answer">Exercising the system *beyond* its maximum design load to see how it behaves when it fails. It checks for catastrophic failures and unacceptable loss of service or data.</div></li>
+                <li><p><strong>63.</strong> Why does inheritance make object class testing more difficult?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans63')">Show Answer</button><div id="ans63" class="answer">Because a class inherits all the operations from its super-class(es). The test suite for the subclass must test all inherited operations, as well as any new or overriding operations.</div></li>
+                <li><p><strong>64.</strong> Who is typically responsible for component testing?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans64')">Show Answer</button><div id="ans64" class="answer">The developer who wrote the component.</div></li>
+                <li><p><strong>65.</strong> Who is typically responsible for system testing?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans65')">Show Answer</button><div id="ans65" class="answer">An independent testing team.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 7: Test Case Design & Automation -->
+        <section id="section7" class="question-section">
+            <h2>Section 7: Test Case Design & Automation</h2>
+            <ol class="question-list">
+                <li><p><strong>66.</strong> What is the main goal of test case design?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans66')">Show Answer</button><div id="ans66" class="answer">To create a set of tests that are effective in both validation (checking requirements) and defect testing (finding faults) without being exhaustive.</div></li>
+                <li><p><strong>67.</strong> List the three design approaches for test cases.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans67')">Show Answer</button><div id="ans67" class="answer">1. Requirements-based testing. 2. Partition testing. 3. Structural testing.</div></li>
+                <li><p><strong>68.</strong> What is 'Requirements-based testing'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans68')">Show Answer</button><div id="ans68" class="answer">A validation testing technique where you derive a set of tests for each individual requirement to ensure it has been implemented.</div></li>
+                <li><p><strong>69.</strong> What is an 'equivalence partition'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans69')">Show Answer</button><div id="ans69" class="answer">A class or domain of input data where the program is expected to behave in an equivalent way for every member of that class (e.g., all positive numbers).</div></li>
+                <li><p><strong>70.</strong> What is the core idea of partition testing?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans70')">Show Answer</button><div id="ans70" class="answer">To choose test cases from each identified equivalence partition and at the boundaries between partitions, as this is an effective way to find errors.</div></li>
+                <li><p><strong>71.</strong> What is 'Structural testing' also known as?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans71')">Show Answer</button><div id="ans71" class="answer">White-box testing.</div></li>
+                <li><p><strong>72.</strong> What is the objective of structural testing?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans72')">Show Answer</button><div id="ans72" class="answer">To use knowledge of the program's internal structure (code) to derive test cases with the objective of exercising all program statements or paths.</div></li>
+                <li><p><strong>73.</strong> What is 'Path testing'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans73')">Show Answer</button><div id="ans73" class="answer">A structural testing technique where the objective is to ensure that the set of test cases executes every independent path through the program at least once.</div></li>
+                <li><p><strong>74.</strong> What is a 'testing workbench'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans74')">Show Answer</button><div id="ans74" class="answer">A collection of tools designed to reduce the time and cost of testing by supporting activities like automatic execution, test data generation, and results comparison.</div></li>
+                <li><p><strong>75.</strong> What is a test 'oracle' in a testing workbench?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans75')">Show Answer</button><div id="ans75" class="answer">A component that generates predictions of the expected test results, which can then be compared against the actual results.</div></li>
+                <li><p><strong>76.</strong> What is the role of a 'file comparator' in a workbench?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans76')">Show Answer</button><div id="ans76" class="answer">It compares the actual output of a program test with the expected output (from the oracle or previous test results) and reports any differences.</div></li>
+                <li><p><strong>77.</strong> What is the purpose of a 'dynamic analyzer'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans77')">Show Answer</button><div id="ans77" class="answer">It adds code (instruments the program) to count the number of times each statement has been executed, helping to measure test coverage.</div></li>
+                <li><p><strong>78.</strong> What is a 'test manager' tool used for?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans78')">Show Answer</button><div id="ans78" class="answer">Managing the running of program tests, including scheduling, execution, and logging results.</div></li>
+                <li><p><strong>79.</strong> What is Software Quality Assurance (SQA)?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans79')">Show Answer</button><div id="ans79" class="answer">A broad set of activities that ensure a project is completed based on its agreed-upon specifications without defects. It is about managing the quality of the *process*.</div></li>
+                <li><p><strong>80.</strong> List three activities of an SQA group.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans80')">Show Answer</button><div id="ans80" class="answer">1. Training of testers. 2. Review of test plans. 3. Adherence to testing standards.</div></li>
+                <li><p><strong>81.</strong> What is the relationship between SQA and testing?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans81')">Show Answer</button><div id="ans81" class="answer">Testing is an activity to find defects in the *product*. SQA is a broader set of activities to ensure the quality of the entire *process*, which includes managing the testing activities.</div></li>
+                <li><p><strong>82.</strong> What is a 'stub' in testing?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans82')">Show Answer</button><div id="ans82" class="answer">A dummy piece of code used to stand in for a lower-level module that has not yet been developed. It is used in top-down integration testing.</div></li>
+                <li><p><strong>83.</strong> What is a 'driver' in testing?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans83')">Show Answer</button><div id="ans83" class="answer">A piece of code that calls a lower-level component being tested and passes it test data. It is used in bottom-up integration testing.</div></li>
+                <li><p><strong>84.</strong> What is 'regression testing'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans84')">Show Answer</button><div id="ans84" class="answer">The process of re-running existing tests after a change has been made to the software to ensure that the change has not introduced new bugs or broken existing functionality.</div></li>
+                <li><p><strong>85.</strong> Why is test automation crucial for regression testing?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans85')">Show Answer</button><div id="ans85" class="answer">The number of regression tests grows with every new feature. Manually running them all after every change is impractical. Automation makes it feasible to run the full suite of tests frequently.</div></li>
+                <li><p><strong>86.</strong> What is 'black-box' testing?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans86')">Show Answer</button><div id="ans86" class="answer">A testing technique where the tester does not have any knowledge of the internal code structure. Tests are based solely on the requirements and specifications.</div></li>
+                <li><p><strong>87.</strong> In which testing phase is black-box testing most common?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans87')">Show Answer</button><div id="ans87" class="answer">System testing and Release testing.</div></li>
+                <li><p><strong>88.</strong> In which testing phase is white-box testing most common?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans88')">Show Answer</button><div id="ans88" class="answer">Component (Unit) testing, where the developer has full knowledge of the code.</div></li>
+                <li><p><strong>89.</strong> What is the main benefit of top-down integration testing?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans89')">Show Answer</button><div id="ans89" class="answer">It allows for early demonstration of a working, albeit skeletal, version of the system, which can be good for user feedback and morale.</div></li>
+                <li><p><strong>90.</strong> What is the main benefit of bottom-up integration testing?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans90')">Show Answer</button><div id="ans90" class="answer">It allows for thorough testing of critical, low-level components first before they are integrated into the larger system.</div></li>
+                <li><p><strong>91.</strong> What does "test coverage" measure?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans91')">Show Answer</button><div id="ans91" class="answer">The degree to which the source code of a program has been executed by a particular test suite. It can be measured in terms of statement coverage, branch coverage, or path coverage.</div></li>
+                <li><p><strong>92.</strong> Is 100% test coverage sufficient to guarantee a bug-free program?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans92')">Show Answer</button><div id="ans92" class="answer">No. 100% coverage means every line of code was executed, but it does not mean it was executed with every possible input or in every possible state. It also cannot find missing requirements.</div></li>
+                <li><p><strong>93.</strong> What is the primary role of a 'debugger' tool?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans93')">Show Answer</button><div id="ans93" class="answer">To help a programmer locate a bug by allowing them to execute code line-by-line, inspect the values of variables, and set breakpoints.</div></li>
+                <li><p><strong>94.</strong> What is 'alpha' testing?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans94')">Show Answer</button><div id="ans94" class="answer">A type of acceptance testing performed by users/testers *within* the development organization, but outside the development team.</div></li>
+                <li><p><strong>95.</strong> What is 'beta' testing?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans95')">Show Answer</button><div id="ans95" class="answer">A type of acceptance testing where a release is distributed to a number of existing customers who use it in their own environment and report any problems.</div></li>
+                <li><p><strong>96.</strong> What is the primary purpose of acceptance testing?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans96')">Show Answer</button><div id="ans96" class="answer">To enable the customer to determine whether or not to accept the system.</div></li>
+                <li><p><strong>97.</strong> What is 'usability testing'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans97')">Show Answer</button><div id="ans97" class="answer">A form of testing that focuses on assessing how easy the software is to use by observing real users as they attempt to complete tasks.</div></li>
+                <li><p><strong>98.</strong> What is a 'test harness'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans98')">Show Answer</button><div id="ans98" class="answer">A collection of software and test data configured to test a program unit by running it under varying conditions and monitoring its behavior and outputs. It includes stubs and drivers.</div></li>
+                <li><p><strong>99.</strong> What is the primary benefit of having an independent testing team?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans99')">Show Answer</button><div id="ans99" class="answer">An independent team is not subject to the same pressures as the development team and can be more objective. Developers can be psychologically resistant to finding errors in their own code.</div></li>
+                <li><p><strong>100.</strong> What is the overall message of the "Verification & Validation" presentation?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans100')">Show Answer</button><div id="ans100" class="answer">That V&V is a whole-lifecycle process critical for building confidence in software. It requires careful planning and a combination of complementary techniques, including static methods like inspections and dynamic methods like multi-level testing, to be effective.</div></li>
+            </ol>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <p>Made with love by SS</p>
+    </footer>
+</div>
+</body>
+</html>

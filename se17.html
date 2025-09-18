@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Software Engineering Exam Guide</title>
+    <style>
+        /* --- Google Font & W3 Light Theme --- */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap');
+
+        :root {
+            --primary-color: #0078D4;
+            --secondary-color: #555555;
+            --bg-color: #f4f4f4;
+            --card-bg-color: #ffffff;
+            --text-color: #333333;
+            --heading-color: #000000;
+            --border-color: #dddddd;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --answer-bg: #f9f9f9;
+        }
+
+        * { box-sizing: border-box; scroll-behavior: smooth; }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.7; margin: 0; padding: 0; }
+        .container { max-width: 1000px; margin: 20px auto; padding: 0 20px; }
+
+        .main-header { text-align: center; padding: 40px 20px; background: var(--card-bg-color); border-radius: 5px; margin-bottom: 30px; border: 1px solid var(--border-color); }
+        .main-header h1 { color: var(--primary-color); margin: 0; }
+        .main-header p { color: var(--secondary-color); font-size: 1.1rem; }
+
+        #toc { background: var(--card-bg-color); padding: 25px; border-radius: 5px; margin-bottom: 30px; }
+        #toc h2 { text-align: center; margin-top: 0; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        #toc ol { list-style-type: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px; }
+        #toc a { text-decoration: none; color: var(--primary-color); font-weight: 600; }
+        #toc a:hover { text-decoration: underline; }
+
+        .question-section { margin-bottom: 40px; }
+        .question-section h2 { border-bottom: 3px solid var(--primary-color); padding-bottom: 10px; }
+
+        .question-list { list-style-type: none; padding: 0; }
+        .question-list li { background: var(--card-bg-color); padding: 20px; border-radius: 5px; border: 1px solid var(--border-color); margin-bottom: 20px; box-shadow: 0 2px 5px var(--shadow-color); }
+        .question-list p { margin: 0 0 15px 0; }
+
+        .toggle-answer-btn { background-color: var(--primary-color); color: white; border: none; padding: 8px 15px; border-radius: 3px; cursor: pointer; font-weight: 600; font-family: 'Poppins', sans-serif; }
+        .toggle-answer-btn:hover { opacity: 0.9; }
+
+        .answer { display: none; background-color: var(--answer-bg); border: 1px solid var(--border-color); border-left: 5px solid var(--primary-color); padding: 15px; margin-top: 15px; border-radius: 0 5px 5px 0; }
+        .answer ul { padding-left: 20px; }
+
+        pre { background-color: #2d2d2d; border-radius: 5px; padding: 15px; overflow-x: auto; color: #dcdcdc; }
+        code { font-family: 'Fira Code', monospace; font-size: 0.95rem; }
+
+        .main-footer { text-align: center; padding: 20px; margin-top: 40px; color: var(--secondary-color); }
+    </style>
+    <script>
+        function toggleAnswer(id) {
+            const answerEl = document.getElementById(id);
+            const buttonEl = answerEl.previousElementSibling;
+            if (answerEl.style.display === 'block') {
+                answerEl.style.display = 'none';
+                buttonEl.textContent = 'Show Answer';
+            } else {
+                answerEl.style.display = 'block';
+                buttonEl.textContent = 'Hide Answer';
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <header class="main-header">
+        <h1>Software Engineering - Final Exam Study Guide</h1>
+        <p>Most Probable Questions from COM 2308 & ICT 2402</p>
+    </header>
+
+    <nav id="toc">
+        <h2>Topics Covered</h2>
+        <ol>
+            <li><a href="#section1">SE Fundamentals</a></li>
+            <li><a href="#section2">Process Models (Agile, RUP, etc.)</a></li>
+            <li><a href="#section3">Project Management & Cost Estimation</a></li>
+            <li><a href="#section4">V&V and Software Testing</a></li>
+            <li><a href="#section5">Implementation & Code Quality</a></li>
+            <li><a href="#section6">User Interface (UI) Design</a></li>
+            <li><a href="#section7">Evolution & Configuration Management</a></li>
+        </ol>
+    </nav>
+
+    <main>
+        <!-- SECTION 1: SE Fundamentals -->
+        <section id="section1" class="question-section">
+            <h2>1. Software Engineering Fundamentals</h2>
+            <ol class="question-list">
+                <li><p><strong>1.</strong> Differentiate between 'generic' and 'bespoke' software products.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans1')">Show Answer</button><div id="ans1" class="answer"><ul><li><strong>Generic:</strong> Stand-alone products sold on an open market to any customer (e.g., Microsoft Excel, Adobe Photoshop).</li><li><strong>Bespoke (Custom):</strong> Software commissioned and developed for a specific customer to meet their unique needs (e.g., an air traffic control system, a company's internal HR portal).</li></ul></div></li>
+                <li><p><strong>2.</strong> List the four essential attributes of good software.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans2')">Show Answer</button><div id="ans2" class="answer"><ul><li><strong>Maintainability:</strong> Software should be able to evolve to meet changing needs.</li><li><strong>Dependability & Reliability:</strong> Software should be trustworthy, secure, and safe.</li><li><strong>Efficiency:</strong> Software should not make wasteful use of system resources like memory or CPU cycles.</li><li><strong>Usability:</strong> Software must be usable, without undue effort, by the users for whom it was designed.</li></ul></div></li>
+                <li><p><strong>3.</strong> What are the two main principles of the ACM/IEEE Code of Ethics regarding public and client interest?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans3')">Show Answer</button><div id="ans3" class="answer"><ul><li><strong>Public:</strong> Software engineers shall act consistently with the public interest.</li><li><strong>Client and Employer:</strong> Software engineers shall act in a manner that is in the best interests of their client and employer, *consistent* with the public interest.</li></ul></div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 2: Process Models -->
+        <section id="section2" class="question-section">
+            <h2>2. Process Models (Agile, RUP, etc.)</h2>
+            <ol class="question-list">
+                <li><p><strong>4.</strong> Explain how Agile methods accommodate changing requirements.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans4')">Show Answer</button><div id="ans4" class="answer">Agile accommodates change through short iterations (Sprints), a dynamic and prioritized backlog, constant customer collaboration for immediate feedback, and a core principle of "responding to change over following a plan."</div></li>
+                <li><p><strong>5.</strong> Describe the four main phases of the Rational Unified Process (RUP).</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans5')">Show Answer</button><div id="ans5" class="answer"><ul><li><strong>Inception:</strong> Establish the business case and scope.</li><li><strong>Elaboration:</strong> Understand the problem, establish the architecture, and handle key risks.</li><li><strong>Construction:</strong> The main development phase involving coding and testing.</li><li><strong>Transition:</strong> Deploy the system to end-users.</li></ul></div></li>
+                <li><p><strong>6.</strong> Explain the core practices of 'Pair Programming' and 'Test-First Development' in Extreme Programming (XP).</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans6')">Show Answer</button><div id="ans6" class="answer"><ul><li><strong>Pair Programming:</strong> Two developers work at one computer. The 'driver' writes code while the 'navigator' reviews it in real-time, acting as a continuous code review and knowledge sharing mechanism.</li><li><strong>Test-First Development (TDD):</strong> An automated unit test is written *before* the code to implement a feature. The goal is to write code only to pass that test, which clarifies requirements and builds a regression safety net.</li></ul></div></li>
+                <li><p><strong>7.</strong> Explain the purpose of a Sprint Retrospective in Scrum.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans7')">Show Answer</button><div id="ans7" class="answer">The Sprint Retrospective is a meeting held at the end of a Sprint for the Scrum Team to inspect itself and create a plan for improvements to its process, tools, and collaboration for the next Sprint. Its focus is on improving the *process*, not the product.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 3: Project Management -->
+        <section id="section3" class="question-section">
+            <h2>3. Project Management & Cost Estimation</h2>
+            <ol class="question-list">
+                <li><p><strong>8.</strong> Differentiate between 'costing' and 'pricing' a software project.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans8')">Show Answer</button><div id="ans8" class="answer"><ul><li><strong>Costing:</strong> The process of estimating the total cost to the *developer* to produce the software (salaries, overheads, tools).</li><li><strong>Pricing:</strong> The process of determining the amount the *customer* is charged. This is influenced by business factors (market opportunity, competition) and is not simply cost + profit.</li></ul></div></li>
+                <li><p><strong>9.</strong> Why is 'Lines of Code' (LOC) generally considered a poor productivity metric?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans9')">Show Answer</button><div id="ans9" class="answer">Because it is language-dependent (a high-level language needs fewer lines than a low-level one for the same function) and it rewards verbose, inefficient coding over concise, elegant solutions.</div></li>
+                <li><p><strong>10.</strong> Describe the four stages of the risk management process.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans10')">Show Answer</button><div id="ans10" class="answer"><ul><li><strong>Risk Identification:</strong> Identifying potential project, product, and business risks.</li><li><strong>Risk Analysis:</strong> Assessing the likelihood and impact of each identified risk.</li><li><strong>Risk Planning:</strong> Developing strategies (avoidance, minimization, contingency) for each risk.</li><li><strong>Risk Monitoring:</strong> Continuously tracking the risks throughout the project.</li></ul></div></li>
+                <li><p><strong>11.</strong> Explain the difference between 'top-down' and 'bottom-up' estimation.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans11')">Show Answer</button><div id="ans11" class="answer"><ul><li><strong>Top-down:</strong> Starts at the system level, assessing overall functionality. Good for early estimates but can miss low-level technical complexity.</li><li><strong>Bottom-up:</strong> Starts by estimating effort for each individual component and summing them up. More accurate with a detailed design, but can miss system-level costs like integration.</li></ul></div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 4: V&V and Software Testing -->
+        <section id="section4" class="question-section">
+            <h2>4. Verification & Validation (V&V) and Software Testing</h2>
+            <ol class="question-list">
+                <li><p><strong>12.</strong> Differentiate between Verification and Validation.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans12')">Show Answer</button><div id="ans12" class="answer"><ul><li><strong>Verification:</strong> "Are we building the product right?" Checks if the software conforms to its specification.</li><li><strong>Validation:</strong> "Are we building the right product?" Checks if the software meets the actual needs of the user.</li></ul></div></li>
+                <li><p><strong>13.</strong> Explain why software inspections are complementary to, not a replacement for, software testing.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans13')">Show Answer</button><div id="ans13" class="answer">Inspections (static analysis) are good at finding logical errors, standard violations, and defects in documentation. Testing (dynamic analysis) is required to find run-time errors, performance issues, and validate that the software meets real-world user expectations. Both are needed for comprehensive quality assurance.</div></li>
+                <li><p><strong>14.</strong> Explain the concept of 'partition testing' and provide an example for testing a function that accepts an integer age (valid range 18-99).</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans14')">Show Answer</button><div id="ans14" class="answer"><p>Partition testing divides inputs into classes where all members are expected to behave similarly. For an age range of 18-99, the partitions are:</p><ul><li><strong>Partition 1 (Invalid):</strong> age < 18 (e.g., test with 17)</li><li><strong>Partition 2 (Valid):</strong> 18 <= age <= 99 (e.g., test with 50)</li><li><strong>Partition 3 (Invalid):</strong> age > 99 (e.g., test with 100)</li></ul><p>Boundary values (17, 18, 99, 100) are also tested.</p></div></li>
+                <li><p><strong>15.</strong> What is the importance of 'stress testing' in e-commerce systems?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans15')">Show Answer</button><div id="ans15" class="answer">E-commerce systems experience extreme load spikes (e.g., during a flash sale). Stress testing pushes the system beyond its expected maximum load to see how it fails. The goal is to ensure it fails gracefully (e.g., shows a "try again later" message) rather than catastrophically (e.g., crashing, losing data, processing payments incorrectly).</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 5: Implementation & Code Quality -->
+        <section id="section5" class="question-section">
+            <h2>5. Implementation & Code Quality</h2>
+            <ol class="question-list">
+                <li><p><strong>16.</strong> Write Python code for the class diagram below. Function bodies are not required.</p><img src="https://i.imgur.com/2s3j4fK.png" alt="Class diagram with Manager and Department" style="max-width:500px; display:block; margin: 15px auto;"><button class="toggle-answer-btn" onclick="toggleAnswer('ans16')">Show Answer</button><div id="ans16" class="answer"><pre><code># Assume Employee class is already defined
+# class Employee:
+#     pass
+
+class Department:
+    def __init__(self, name: str):
+        self._department_name = name # Use _ for private attribute
+
+    def get_dept_name(self) -> str:
+        pass
+
+class Manager(Employee):
+    def __init__(self):
+        self._team_member = [] # List of strings
+        self.department = None # Placeholder for Department object
+
+    def add_team_member(self, member_name: str):
+        pass
+
+    def conduct_meeting(self):
+        pass
+</code></pre></div></li>
+                <li><p><strong>17.</strong> Identify and explain the code quality issues in the Python function below.</p><pre><code>def func_2(a):
+    b = False
+    c = a
+    if a == "admin":
+        b = True
+    return b
+</code></pre><button class="toggle-answer-btn" onclick="toggleAnswer('ans17')">Show Answer</button><div id="ans17" class="answer"><ul><li><strong>Poor Naming:</strong> `func_2`, `a`, `b`, and `c` are meaningless. They should be descriptive, like `is_admin`, `username`, and `is_authorized`.</li><li><strong>Unused Variable:</strong> The variable `c` is assigned the value of `a` but is never used again. This is redundant code.</li><li><strong>Unnecessary Complexity:</strong> The function can be simplified to a single line. The multi-line boolean assignment is verbose and less Pythonic. A better version is: `return username == "admin"`.</li></ul></div></li>
+                <li><p><strong>18.</strong> Describe the coding error in the segment below and its impact.</p><pre><code>class ItemSet:
+    def __init__(self):
+        self.data = [0] * 1000000 # Allocate a large list
+
+def create_item():
+    items = []
+    while True:
+        obj = ItemSet()
+        items.append(obj)
+        print(f"Objects in list: {len(items)}")
+</code></pre><button class="toggle-answer-btn" onclick="toggleAnswer('ans18')">Show Answer</button><div id="ans18" class="answer">The code creates an infinite `while` loop that continuously allocates large `ItemSet` objects (each with a list of a million integers) and appends them to the `items` list. This is a classic **memory leak**. The program will consume all available system memory, slow down the system, and eventually crash with an `OutOfMemoryError`.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 6: UI Design -->
+        <section id="section6" class="question-section">
+            <h2>6. User Interface (UI) Design</h2>
+            <ol class="question-list">
+                <li><p><strong>19.</strong> Explain three key UI design principles and why they are important.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans19')">Show Answer</button><div id="ans19" class="answer"><ul><li><strong>Consistency:</strong> Ensures that similar elements have a similar appearance and function, reducing the user's cognitive load and making the system predictable.</li><li><strong>User Familiarity:</strong> Uses concepts and terms from the user's world, not technical jargon. This makes the interface intuitive and easy to learn.</li><li><strong>Recoverability:</strong> Allows users to undo mistakes easily. This gives users the confidence to explore the system without fear of causing irreversible damage.</li></ul></div></li>
+                <li><p><strong>20.</strong> Discuss the impact of user diversity on the design of a national-level system (e.g., a system for all citizens to maintain a personal account).</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans20')">Show Answer</button><div id="ans20" class="answer">A national system must cater to extreme diversity. The UI must be accessible to people with disabilities (visual, motor, cognitive), support multiple languages, be intuitive for users with low technical literacy and varying ages, and work on a wide range of devices, from old desktops to modern smartphones. Simplicity and accessibility are paramount.</div></li>
+                <li><p><strong>21.</strong> Why are good error messages critical for usability?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans21')">Show Answer</button><div id="ans21" class="answer">Poor error messages (e.g., "Error #501") are frustrating and unhelpful, causing users to abandon the system. Good messages are polite, use plain language, explain the problem, and suggest a constructive solution, guiding the user towards success and building their confidence.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 7: Evolution & Config Management -->
+        <section id="section7" class="question-section">
+            <h2>7. Evolution & Configuration Management</h2>
+            <ol class="question-list">
+                <li><p><strong>22.</strong> Describe why re-engineering is considered less risky than forward engineering (building a new system from scratch).</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans22')">Show Answer</button><div id="ans22" class="answer">Forward engineering carries high risks of specification problems (misunderstanding requirements), staffing issues, and unforeseen development challenges. Re-engineering starts with a system whose requirements are already understood and proven in the real world, significantly reducing the risk of functional failure.</div></li>
+                <li><p><strong>23.</strong> How does an emergency repair process differ from a standard change implementation process?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans23')">Show Answer</button><div id="ans23" class="answer">A standard process involves formal analysis, review by a Change Control Board, and thorough testing. An emergency repair (hotfix) bypasses these stages to fix a critical fault quickly. The code is modified and deployed directly, with formal processes and documentation completed later.</div></li>
+                <li><p><strong>24.</strong> Explain the necessity of a Configuration Management Database (CMDB) or equivalent tool in large projects.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans24')">Show Answer</button><div id="ans24" class="answer">A CMDB acts as a single source of truth for all system components (code, documents, hardware). It is necessary to track changes, manage different versions and variants, understand the relationships between components, and answer critical questions about which versions are deployed to which customers, ensuring control and traceability in a complex environment.</div></li>
+            </ol>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <p>Made with love by SS</p>
+    </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100 Software Engineering Practice Questions</title>
+    <style>
+        /* --- Google Font & W3 Light Theme --- */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        :root {
+            --primary-color: #0078D4;
+            --secondary-color: #555555;
+            --bg-color: #f4f4f4;
+            --card-bg-color: #ffffff;
+            --text-color: #333333;
+            --heading-color: #000000;
+            --border-color: #dddddd;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --answer-bg: #f9f9f9;
+        }
+
+        * { box-sizing: border-box; scroll-behavior: smooth; }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.7; margin: 0; padding: 0; }
+        .container { max-width: 1000px; margin: 20px auto; padding: 0 20px; }
+
+        .main-header { text-align: center; padding: 40px 20px; background: var(--card-bg-color); border-radius: 5px; margin-bottom: 30px; border: 1px solid var(--border-color); }
+        .main-header h1 { color: var(--primary-color); margin: 0; }
+        .main-header p { color: var(--secondary-color); font-size: 1.1rem; }
+
+        #toc { background: var(--card-bg-color); padding: 25px; border-radius: 5px; margin-bottom: 30px; }
+        #toc h2 { text-align: center; margin-top: 0; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        #toc ol { list-style-type: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px; }
+        #toc a { text-decoration: none; color: var(--primary-color); font-weight: 600; }
+        #toc a:hover { text-decoration: underline; }
+
+        .question-section { margin-bottom: 40px; }
+        .question-section h2 { border-bottom: 3px solid var(--primary-color); padding-bottom: 10px; }
+
+        .question-list { list-style-type: none; padding: 0; }
+        .question-list li { background: var(--card-bg-color); padding: 20px; border-radius: 5px; border: 1px solid var(--border-color); margin-bottom: 20px; box-shadow: 0 2px 5px var(--shadow-color); }
+        .question-list p { margin: 0 0 15px 0; }
+
+        .toggle-answer-btn { background-color: var(--primary-color); color: white; border: none; padding: 8px 15px; border-radius: 3px; cursor: pointer; font-weight: 600; font-family: 'Poppins', sans-serif; }
+        .toggle-answer-btn:hover { opacity: 0.9; }
+
+        .answer { display: none; background-color: var(--answer-bg); border: 1px solid var(--border-color); border-left: 5px solid var(--primary-color); padding: 15px; margin-top: 15px; border-radius: 0 5px 5px 0; }
+        .answer ul { padding-left: 20px; }
+
+        .main-footer { text-align: center; padding: 20px; margin-top: 40px; color: var(--secondary-color); }
+    </style>
+    <script>
+        function toggleAnswer(id) {
+            const answerEl = document.getElementById(id);
+            const buttonEl = answerEl.previousElementSibling;
+            if (answerEl.style.display === 'block') {
+                answerEl.style.display = 'none';
+                buttonEl.textContent = 'Show Answer';
+            } else {
+                answerEl.style.display = 'block';
+                buttonEl.textContent = 'Hide Answer';
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <header class="main-header">
+        <h1>100 Software Engineering Practice Questions</h1>
+        <p>Based on COM 2308 / ICT 2402 Course Material</p>
+    </header>
+
+    <nav id="toc">
+        <h2>Table of Contents</h2>
+        <ol>
+            <li><a href="#section1">1. SE Fundamentals</a></li>
+            <li><a href="#section2">2. Process Models</a></li>
+            <li><a href="#section3">3. Agile & Scrum</a></li>
+            <li><a href="#section4">4. Extreme Programming (XP)</a></li>
+            <li><a href="#section5">5. Verification & Validation (V&V)</a></li>
+            <li><a href="#section6">6. Software Testing</a></li>
+            <li><a href="#section7">7. User Interface (UI) Design</a></li>
+            <li><a href="#section8">8. Project Management</a></li>
+            <li><a href="#section9">9. Cost Estimation</a></li>
+            <li><a href="#section10">10. Evolution & Config Management</a></li>
+        </ol>
+    </nav>
+
+    <main>
+        <!-- SECTION 1: SE Fundamentals -->
+        <section id="section1" class="question-section">
+            <h2>Section 1: Software Engineering Fundamentals</h2>
+            <ol class="question-list">
+                <li><p><strong>1.</strong> Define Software Engineering according to Sommerville.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans1')">Show Answer</button><div id="ans1" class="answer">An engineering discipline concerned with all aspects of software production from system specification to maintenance.</div></li>
+                <li><p><strong>2.</strong> What are the three essential components of 'software'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans2')">Show Answer</button><div id="ans2" class="answer"><ul><li>Computer programs (the code).</li><li>Associated documentation.</li><li>Configuration data.</li></ul></div></li>
+                <li><p><strong>3.</strong> What was the 'software crisis' of the late 1960s?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans3')">Show Answer</button><div id="ans3" class="answer">A period where software projects were consistently over budget, behind schedule, of low quality, and difficult to maintain due to growing complexity and a lack of disciplined methods.</div></li>
+                <li><p><strong>4.</strong> Differentiate between 'Generic' and 'Bespoke' software.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans4')">Show Answer</button><div id="ans4" class="answer"><ul><li><strong>Generic:</strong> Stand-alone products sold on the open market (e.g., MS Office).</li><li><strong>Bespoke:</strong> Custom software developed for a specific client (e.g., a company's internal inventory system).</li></ul></div></li>
+                <li><p><strong>5.</strong> Compare Computer Science and Software Engineering.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans5')">Show Answer</button><div id="ans5" class="answer"><ul><li><strong>CS:</strong> Focuses on theory and fundamentals (algorithms, computation).</li><li><strong>SE:</strong> Focuses on the practical application of CS and engineering principles to build reliable, large-scale software.</li></ul></div></li>
+                <li><p><strong>6.</strong> List the four fundamental activities of the software process.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans6')">Show Answer</button><div id="ans6" class="answer">Specification, Development, Validation, and Evolution.</div></li>
+                <li><p><strong>7.</strong> Name four key attributes of good software.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans7')">Show Answer</button><div id="ans7" class="answer">Maintainability, Dependability, Efficiency, and Usability.</div></li>
+                <li><p><strong>8.</strong> What is the 'public interest' principle in software engineering ethics?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans8')">Show Answer</button><div id="ans8" class="answer">It states that software engineers shall act consistently with the public interest, placing the health, safety, and welfare of the public above the interests of their client or employer.</div></li>
+                <li><p><strong>9.</strong> Explain the 'Heterogeneity Challenge' in modern software engineering.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans9')">Show Answer</button><div id="ans9" class="answer">The challenge of developing and maintaining systems that are distributed across various networks and must run on a wide variety of devices (desktops, mobile, servers).</div></li>
+                <li><p><strong>10.</strong> Differentiate between System Software and Application Software.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans10')">Show Answer</button><div id="ans10" class="answer"><ul><li><strong>System Software:</strong> Manages computer resources (e.g., OS, drivers).</li><li><strong>Application Software:</strong> Performs specific functions for the end-user (e.g., Word processor, web browser).</li></ul></div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 2: Process Models -->
+        <section id="section2" class="question-section">
+            <h2>Section 2: Process Models</h2>
+            <ol class="question-list">
+                <li><p><strong>11.</strong> What is a software process model?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans11')">Show Answer</button><div id="ans11" class="answer">An abstract representation or simplified description of a software development process, viewed from a particular perspective.</div></li>
+                <li><p><strong>12.</strong> Describe the core concept of the Waterfall model.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans12')">Show Answer</button><div id="ans12" class="answer">A sequential process where development flows steadily downwards through distinct phases: requirements, design, implementation, testing, and maintenance. Each phase must be fully completed before the next begins.</div></li>
+                <li><p><strong>13.</strong> What is the main disadvantage of the Waterfall model?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans13')">Show Answer</button><div id="ans13" class="answer">Its inflexibility. It is very difficult and costly to respond to changing customer requirements once a phase is complete.</div></li>
+                <li><p><strong>14.</strong> In what type of project is the Waterfall model most applicable?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans14')">Show Answer</button><div id="ans14" class="answer">Large-scale systems where requirements are well-understood and stable, or in safety-critical systems where extensive upfront analysis is mandatory.</div></li>
+                <li><p><strong>15.</strong> What is the fundamental idea behind iterative development?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans15')">Show Answer</button><div id="ans15" class="answer">To develop and deliver software in increments, allowing for user feedback on each increment to guide the development of the next. Specification, development, and validation are interleaved.</div></li>
+                <li><p><strong>16.</strong> What key activity does the Spiral model explicitly add to each iteration?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans16')">Show Answer</button><div id="ans16" class="answer">Risk assessment and reduction. It is a risk-driven process model.</div></li>
+                <li><p><strong>17.</strong> List the four main phases of the Rational Unified Process (RUP).</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans17')">Show Answer</button><div id="ans17" class="answer">Inception, Elaboration, Construction, and Transition.</div></li>
+                <li><p><strong>18.</strong> What is the purpose of the 'Elaboration' phase in RUP?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans18')">Show Answer</button><div id="ans18" class="answer">To understand the problem domain, establish the system architecture, and mitigate key risks.</div></li>
+                <li><p><strong>19.</strong> What is Component-Based Software Engineering (CBSE)?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans19')">Show Answer</button><div id="ans19" class="answer">A reuse-oriented approach where systems are built by integrating existing components (COTS) rather than developing everything from scratch.</div></li>
+                <li><p><strong>20.</strong> What is a major drawback of CBSE?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans20')">Show Answer</button><div id="ans20" class="answer">Requirements may have to be compromised to fit available components, and the development team has less control over the evolution of third-party components.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 3: Agile & Scrum -->
+        <section id="section3" class="question-section">
+            <h2>Section 3: Agile & Scrum</h2>
+            <ol class="question-list">
+                <li><p><strong>21.</strong> What is the primary motivation behind Agile methods?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans21')">Show Answer</button><div id="ans21" class="answer">Dissatisfaction with the overheads and rigidity of traditional heavyweight methods, and the need to respond quickly to changing requirements.</div></li>
+                <li><p><strong>22.</strong> Name three of the four core values of the Agile Manifesto.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans22')">Show Answer</button><div id="ans22" class="answer">Any three of: Individuals and interactions over processes and tools; Working software over comprehensive documentation; Customer collaboration over contract negotiation; Responding to change over following a plan.</div></li>
+                <li><p><strong>23.</strong> What is a 'Sprint' in Scrum?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans23')">Show Answer</button><div id="ans23" class="answer">A time-boxed iteration, typically 1-4 weeks long, during which a usable and potentially releasable product increment is created.</div></li>
+                <li><p><strong>24.</strong> What is the role of the 'Scrum Master'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans24')">Show Answer</button><div id="ans24" class="answer">A servant-leader who facilitates the Scrum process, removes impediments for the development team, and ensures Scrum principles are followed. They do not manage the team.</div></li>
+                <li><p><strong>25.</strong> What is the role of the 'Product Owner'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans25')">Show Answer</button><div id="ans25" class="answer">To represent the stakeholders and be the voice of the customer. They are responsible for managing and prioritizing the Product Backlog to maximize the value of the product.</div></li>
+                <li><p><strong>26.</strong> Differentiate between the 'Product Backlog' and the 'Sprint Backlog'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans26')">Show Answer</button><div id="ans26" class="answer"><ul><li><strong>Product Backlog:</strong> The master list of all desired features and requirements for the entire product, prioritized by the Product Owner.</li><li><strong>Sprint Backlog:</strong> The subset of items from the Product Backlog that the Development Team commits to completing in a single Sprint.</li></ul></div></li>
+                <li><p><strong>27.</strong> What is the purpose of the 'Daily Scrum' (or Daily Stand-up)?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans27')">Show Answer</button><div id="ans27" class="answer">A short, daily meeting for the Development Team to synchronize activities and create a plan for the next 24 hours. It is not a status report for management.</div></li>
+                <li><p><strong>28.</strong> What happens during a 'Sprint Review'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans28')">Show Answer</button><div id="ans28" class="answer">The Scrum Team demonstrates the working increment of the product to stakeholders to get feedback. The Product Backlog may be adjusted based on this feedback.</div></li>
+                <li><p><strong>29.</strong> What is the purpose of the 'Sprint Retrospective'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans29')">Show Answer</button><div id="ans29" class="answer">An internal meeting for the Scrum Team to inspect itself and create a plan for improvements to be enacted during the next Sprint. It focuses on the process, not the product.</div></li>
+                <li><p><strong>30.</strong> What is a potential problem with customer involvement in Agile projects?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans30')">Show Answer</button><div id="ans30" class="answer">It can be difficult to maintain the customer's interest and commitment throughout the entire project, as it requires a significant time investment from them.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 4: Extreme Programming (XP) -->
+        <section id="section4" class="question-section">
+            <h2>Section 4: Extreme Programming (XP)</h2>
+            <ol class="question-list">
+                <li><p><strong>31.</strong> What is a 'User Story' in XP?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans31')">Show Answer</button><div id="ans31" class="answer">A short, simple description of a feature told from the perspective of the person who desires it (usually a user or customer). They are written on cards and used for planning.</div></li>
+                <li><p><strong>32.</strong> Explain the concept of 'Test-First Development' (TDD).</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans32')">Show Answer</button><div id="ans32" class="answer">The practice of writing an automated test *before* writing the code that fulfills that test. This clarifies requirements and ensures a comprehensive suite of regression tests is built.</div></li>
+                <li><p><strong>33.</strong> What is 'Refactoring'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans33')">Show Answer</button><div id="ans33" class="answer">Improving the internal structure of existing code without changing its external behavior. It's done to improve readability, reduce complexity, and make the code easier to maintain and change.</div></li>
+                <li><p><strong>34.</strong> Describe 'Pair Programming'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans34')">Show Answer</button><div id="ans34" class="answer">Two programmers work together at one workstation. One, the 'driver', writes code while the other, the 'navigator', reviews each line as it's typed. It serves as a continuous code review and spreads knowledge.</div></li>
+                <li><p><strong>35.</strong> What is 'Collective Code Ownership'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans35')">Show Answer</button><div id="ans35" class="answer">The principle that anyone on the team can change any part of the codebase at any time. This encourages shared responsibility and prevents knowledge silos.</div></li>
+                <li><p><strong>36.</strong> What is 'Continuous Integration' (CI)?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans36')">Show Answer</button><div id="ans36" class="answer">The practice of frequently integrating code changes from multiple developers into a central repository, where automated builds and tests are run.</div></li>
+                <li><p><strong>37.</strong> What is the goal of the 'Sustainable Pace' practice?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans37')">Show Answer</button><div id="ans37" class="answer">To avoid developer burnout and maintain high-quality work by discouraging overtime. The team should work at a pace that they can sustain indefinitely.</div></li>
+                <li><p><strong>38.</strong> How does XP handle 'design for change'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans38')">Show Answer</button><div id="ans38" class="answer">XP argues that anticipating future changes is unreliable. Instead, it proposes constant code improvement (refactoring) to keep the code simple and easy to change when the need actually arises.</div></li>
+                <li><p><strong>39.</strong> What is the 'On-Site Customer' practice in XP?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans39')">Show Answer</button><div id="ans39" class="answer">A representative of the end-user who is available full-time to the development team to answer questions, prioritize stories, and provide immediate feedback.</div></li>
+                <li><p><strong>40.</strong> What is the purpose of the XP 'release cycle'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans40')">Show Answer</button><div id="ans40" class="answer">To provide a structured, iterative process for selecting user stories, breaking them into tasks, planning a release, developing and testing the software, and evaluating the result before the next cycle begins.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 5: V&V -->
+        <section id="section5" class="question-section">
+            <h2>Section 5: Verification & Validation (V&V)</h2>
+            <ol class="question-list">
+                <li><p><strong>41.</strong> In V&V, what is the core question asked by 'Verification'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans41')">Show Answer</button><div id="ans41" class="answer">"Are we building the product right?" (i.e., does it conform to its specification?).</div></li>
+                <li><p><strong>42.</strong> In V&V, what is the core question asked by 'Validation'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans42')">Show Answer</button><div id="ans42" class="answer">"Are we building the right product?" (i.e., does it do what the user really requires?).</div></li>
+                <li><p><strong>43.</strong> What is the ultimate goal of the V&V process?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans43')">Show Answer</button><div id="ans43" class="answer">To establish confidence that the software is 'fit for purpose', which does not necessarily mean it is completely free of defects.</div></li>
+                <li><p><strong>44.</strong> Differentiate between 'Static' and 'Dynamic' verification.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans44')">Show Answer</button><div id="ans44" class="answer"><ul><li><strong>Static:</strong> Analysis of the system representation (code, documents) without executing the code. Examples: inspections, static analysis tools.</li><li><strong>Dynamic:</strong> Observing system behavior by executing the code with test data. Example: testing.</li></ul></div></li>
+                <li><p><strong>45.</strong> What is a software inspection?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans45')">Show Answer</button><div id="ans45" class="answer">A formal process where people examine source code or documents to discover anomalies and defects. It is for defect *detection*, not correction.</div></li>
+                <li><p><strong>46.</strong> Why are inspections and testing considered complementary?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans46')">Show Answer</button><div id="ans46" class="answer">Inspections are good at finding logical errors and non-conformance to standards (verification), while testing is necessary to check non-functional requirements and conformance with real user needs (validation).</div></li>
+                <li><p><strong>47.</strong> Name three pre-conditions for a successful inspection.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans47')">Show Answer</button><div id="ans47" class="answer">Any three of: A precise specification is available; Team members are familiar with standards; The code is syntactically correct; An error checklist is prepared; Management accepts the early cost.</div></li>
+                <li><p><strong>48.</strong> What is the purpose of an inspection checklist?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans48')">Show Answer</button><div id="ans48" class="answer">To drive the inspection process by providing a list of common errors to look for, specific to the programming language and application domain (e.g., check for null pointers, array bounds).</div></li>
+                <li><p><strong>49.</strong> What is automated static analysis?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans49')">Show Answer</button><div id="ans49" class="answer">The use of software tools to parse and analyze source code to discover potentially erroneous conditions, such as unreachable code or uninitialized variables.</div></li>
+                <li><p><strong>50.</strong> Why is static analysis particularly valuable for languages like C?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans50')">Show Answer</button><div id="ans50" class="answer">Because C has weak type checking, so many common errors (like type mismatches) are not detected by the compiler. Static analysis tools can find these errors before execution.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 6: Testing -->
+        <section id="section6" class="question-section">
+            <h2>Section 6: Software Testing</h2>
+            <ol class="question-list">
+                <li><p><strong>51.</strong> What fundamental limitation does all testing have?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans51')">Show Answer</button><div id="ans51" class="answer">Testing can reveal the presence of errors, but NOT their absence.</div></li>
+                <li><p><strong>52.</strong> Differentiate between 'Defect testing' and 'Validation testing'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans52')">Show Answer</button><div id="ans52" class="answer"><ul><li><strong>Defect testing:</strong> Aims to discover system defects. A successful test is one that finds a bug.</li><li><strong>Validation testing:</strong> Aims to show that the software meets its requirements. A successful test shows that a requirement is properly implemented.</li></ul></div></li>
+                <li><p><strong>53.</strong> What is the difference between testing and debugging?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans53')">Show Answer</button><div id="ans53" class="answer">Testing is the process of finding defects. Debugging is the process of locating and repairing those defects.</div></li>
+                <li><p><strong>54.</strong> What is 'Component testing' (or Unit testing)?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans54')">Show Answer</button><div id="ans54" class="answer">The process of testing individual components (functions, classes) in isolation from the rest of the system.</div></li>
+                <li><p><strong>55.</strong> What is 'Integration testing'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans55')">Show Answer</button><div id="ans55" class="answer">Testing the system as components are combined to ensure they interact correctly and to find problems caused by these interactions.</div></li>
+                <li><p><strong>56.</strong> Describe 'Release testing'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans56')">Show Answer</button><div id="ans56" class="answer">Testing a complete version of the system that will be distributed to customers. It is usually a form of black-box testing conducted by a separate test team.</div></li>
+                <li><p><strong>57.</strong> What is 'Stress testing'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans57')">Show Answer</button><div id="ans57" class="answer">Exercising the system beyond its maximum design load to see how it behaves when it fails. It checks for catastrophic failures and unacceptable loss of service or data.</div></li>
+                <li><p><strong>58.</strong> Explain 'Partition testing' (Equivalence Partitioning).</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans58')">Show Answer</button><div id="ans58" class="answer">A test case design technique where input data is divided into classes (partitions) where all members are expected to be processed similarly. Test cases are chosen from each partition and their boundaries.</div></li>
+                <li><p><strong>59.</strong> What is 'Structural testing' (White-box testing)?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans59')">Show Answer</button><div id="ans59" class="answer">A test case design technique that uses knowledge of the program's internal structure (code) to derive test cases, with the objective of exercising all program statements or paths.</div></li>
+                <li><p><strong>60.</strong> What is the primary goal of test automation?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans60')">Show Answer</button><div id="ans60" class="answer">To reduce the time and cost of testing by providing tools (e.g., JUnit) that support the automatic execution of tests, especially regression tests.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 7: UI Design -->
+        <section id="section7" class="question-section">
+            <h2>Section 7: User Interface (UI) Design</h2>
+            <ol class="question-list">
+                <li><p><strong>61.</strong> Why is good UI design crucial for software success?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans61')">Show Answer</button><div id="ans61" class="answer">Users often judge a system by its interface, not its functionality. A poor UI leads to errors, frustration, and system rejection.</div></li>
+                <li><p><strong>62.</strong> List the five main characteristics of a Graphical User Interface (GUI).</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans62')">Show Answer</button><div id="ans62" class="answer">Windows, Icons, Menus, Pointing devices, and Graphics.</div></li>
+                <li><p><strong>63.</strong> Name four key human factors that must be considered in interface design.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans63')">Show Answer</button><div id="ans63" class="answer">Limited short-term memory (Miller's Law ~7 items), people make mistakes, people are physically different, and people have different interaction preferences (visual vs. text).</div></li>
+                <li><p><strong>64.</strong> Explain the UI design principle of 'Consistency'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans64')">Show Answer</button><div id="ans64" class="answer">Comparable operations should be activated in the same way. Commands, menus, and visual elements should have the same format and behavior throughout the system.</div></li>
+                <li><p><strong>65.</strong> Explain the UI design principle of 'Recoverability'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans65')">Show Answer</button><div id="ans65" class="answer">The system should be resilient to user errors and allow users to recover from them easily, for example, through an 'undo' facility or confirmation of destructive actions.</div></li>
+                <li><p><strong>66.</strong> List three common interaction styles.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans66')">Show Answer</button><div id="ans66" class="answer">Any three of: Direct manipulation, Menu selection, Form fill-in, Command language, Natural language.</div></li>
+                <li><p><strong>67.</strong> What is the Model-View-Controller (MVC) approach used for?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans67')">Show Answer</button><div id="ans67" class="answer">It is an architectural pattern for supporting multiple presentations (Views) of the same underlying data (Model), decoupling the UI from the business logic.</div></li>
+                <li><p><strong>68.</strong> Why should color not be the only way to convey meaning in a UI?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans68')">Show Answer</button><div id="ans68" class="answer">Because a significant portion of the population is color-blind (approx. 10% of men). Using only color for meaning makes the interface inaccessible to them.</div></li>
+                <li><p><strong>69.</strong> What are the three core activities in the UI design process?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans69')">Show Answer</button><div id="ans69" class="answer">User analysis, System prototyping, and Interface evaluation.</div></li>
+                <li><p><strong>70.</strong> What is the purpose of 'paper prototyping'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans70')">Show Answer</button><div id="ans70" class="answer">To get rapid, low-cost user feedback on early design concepts and interaction flows before investing time in building automated prototypes.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 8: Project Management -->
+        <section id="section8" class="question-section">
+            <h2>Section 8: Project Management</h2>
+            <ol class="question-list">
+                <li><p><strong>71.</strong> What is the primary goal of software project management?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans71')">Show Answer</button><div id="ans71" class="answer">To ensure that software is delivered on time, on schedule, and in accordance with the requirements of the organization.</div></li>
+                <li><p><strong>72.</strong> Why is managing software projects uniquely challenging?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans72')">Show Answer</button><div id="ans72" class="answer">Because the product is intangible, making progress difficult to measure. It is also uniquely flexible, so requirements are prone to change.</div></li>
+                <li><p><strong>73.</strong> List four key management activities.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans73')">Show Answer</button><div id="ans73" class="answer">Project planning, Project scheduling, Project costing, and Risk management.</div></li>
+                <li><p><strong>74.</strong> Why is project planning a continuous activity?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans74')">Show Answer</button><div id="ans74" class="answer">Because plans must be regularly revised as new information becomes available and as the project progresses. It is not a one-time, upfront activity.</div></li>
+                <li><p><strong>75.</strong> What is the difference between a 'milestone' and a 'deliverable'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans75')">Show Answer</button><div id="ans75" class="answer"><ul><li><strong>Milestone:</strong> An end-point of a process activity; a point in time used to judge progress (e.g., "Design phase complete").</li><li><strong>Deliverable:</strong> A tangible project result that is delivered to the customer (e.g., a requirements document, an executable prototype).</li></ul></div></li>
+                <li><p><strong>76.</strong> Explain the main problem with adding more people to a late software project.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans76')">Show Answer</button><div id="ans76" class="answer">This is known as Brooks's Law. It makes the project even later due to the increased communication and coordination overhead required to bring the new people up to speed.</div></li>
+                <li><p><strong>77.</strong> What is the purpose of a Gantt chart in project scheduling?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans77')">Show Answer</button><div id="ans77" class="answer">To illustrate the project schedule against calendar time. It shows the start and end dates for tasks, their durations, and their parallel execution.</div></li>
+                <li><p><strong>78.</strong> What is the 'critical path' in an activity network (PERT chart)?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans78')">Show Answer</button><div id="ans78" class="answer">The sequence of dependent tasks that determines the shortest possible duration for the entire project. Any delay on a critical path task will delay the whole project.</div></li>
+                <li><p><strong>79.</strong> What are the three main categories of risk in risk management?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans79')">Show Answer</button><div id="ans79" class="answer">Project risks, Product risks, and Business risks.</div></li>
+                <li><p><strong>80.</strong> List the four stages of the risk management process.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans80')">Show Answer</button><div id="ans80" class="answer">Risk identification, Risk analysis, Risk planning, and Risk monitoring.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 9: Cost Estimation -->
+        <section id="section9" class="question-section">
+            <h2>Section 9: Cost Estimation</h2>
+            <ol class="question-list">
+                <li><p><strong>81.</strong> What is the dominant cost component in most software projects?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans81')">Show Answer</button><div id="ans81" class="answer">Effort costs, which primarily consist of the salaries of the engineers and associated overheads.</div></li>
+                <li><p><strong>82.</strong> Why is software 'price' not simply 'cost + profit'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans82')">Show Answer</button><div id="ans82" class="answer">Because pricing is influenced by business factors like market opportunity, contractual terms, financial health of the developer, and requirements volatility.</div></li>
+                <li><p><strong>83.</strong> What is 'software productivity'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans83')">Show Answer</button><div id="ans83" class="answer">A measure of the rate at which engineers produce useful functionality per unit of time (e.g., function points per person-month).</div></li>
+                <li><p><strong>84.</strong> Name two types of productivity measures.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans84')">Show Answer</button><div id="ans84" class="answer">Size-related measures (e.g., Lines of Code - LOC) and Function-related measures (e.g., Function Points - FP).</div></li>
+                <li><p><strong>85.</strong> Why is LOC a poor measure for comparing productivity across different programming languages?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans85')">Show Answer</button><div id="ans85" class="answer">Because implementing the same functionality requires far more lines of code in a low-level language (like Assembly) than in a high-level language (like Python), making the low-level programmer appear more "productive".</div></li>
+                <li><p><strong>86.</strong> What are 'Function Points' based on?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans86')">Show Answer</button><div id="ans86" class="answer">A combination of program characteristics, including external inputs/outputs, user interactions, external interfaces, and files used by the system.</div></li>
+                <li><p><strong>87.</strong> Describe the 'estimation by analogy' technique.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans87')">Show Answer</button><div id="ans87" class="answer">The cost of a new project is computed by comparing it to a similar, completed project in the same application domain. It requires a database of historical project data.</div></li>
+                <li><p><strong>88.</strong> Explain 'Parkinson's Law' in the context of cost estimation.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans88')">Show Answer</button><div id="ans88" class="answer">"Work expands to fill the time available." The project costs whatever resources are available. The system is often unfinished as a result.</div></li>
+                <li><p><strong>89.</strong> What is 'pricing to win'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans89')">Show Answer</button><div id="ans89" class="answer">The project costs whatever the customer has to spend. While this may win the contract, the customer is unlikely to get the system they truly need.</div></li>
+                <li><p><strong>90.</strong> What is algorithmic cost modelling?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans90')">Show Answer</button><div id="ans90" class="answer">A technique where cost is estimated using a mathematical function (e.g., COCOMO) based on attributes like software size, product complexity, and team experience.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 10: Evolution & CM -->
+        <section id="section10" class="question-section">
+            <h2>Section 10: Evolution & Configuration Management</h2>
+            <ol class="question-list">
+                <li><p><strong>91.</strong> Why is software change considered inevitable?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans91')">Show Answer</button><div id="ans91" class="answer">Because new requirements emerge, the business environment changes, errors must be repaired, and the system must adapt to new technology to remain useful.</div></li>
+                <li><p><strong>92.</strong> Explain Lehman's Law of 'Increasing Complexity'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans92')">Show Answer</button><div id="ans92" class="answer">As an evolving program changes, its structure tends to degrade and become more complex unless specific effort is devoted to preserving and simplifying it (i.e., refactoring).</div></li>
+                <li><p><strong>93.</strong> Differentiate between 'Corrective' and 'Perfective' maintenance.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans93')">Show Answer</button><div id="ans93" class="answer"><ul><li><strong>Corrective:</strong> Diagnosing and fixing software errors (bugs).</li><li><strong>Perfective:</strong> Improving functional and non-functional requirements, such as performance or usability.</li></ul></div></li>
+                <li><p><strong>94.</strong> What is 'Adaptive' maintenance?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans94')">Show Answer</button><div id="ans94" class="answer">Modifying the software to adapt to changes in its external environment, such as a new operating system or hardware.</div></li>
+                <li><p><strong>95.</strong> What is system 're-engineering'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans95')">Show Answer</button><div id="ans95" class="answer">Re-structuring or re-writing part or all of a legacy system *without* changing its functionality, with the goal of improving its maintainability.</div></li>
+                <li><p><strong>96.</strong> What is the main purpose of Software Configuration Management (CM)?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans96')">Show Answer</button><div id="ans96" class="answer">To manage the process of change in evolving software systems, controlling the costs and effort involved, and ensuring integrity when multiple people are working on the system.</div></li>
+                <li><p><strong>97.</strong> In CM, what is a 'baseline'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans97')">Show Answer</button><div id="ans97" class="answer">A stable, formally approved version of a software component or system that serves as a fixed point of reference and a starting point for further development.</div></li>
+                <li><p><strong>98.</strong> What is the role of a Change Control Board (CCB)?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans98')">Show Answer</button><div id="ans98" class="answer">To review proposed changes from a strategic and organizational viewpoint, deciding whether they are cost-effective and should be approved for implementation.</div></li>
+                <li><p><strong>99.</strong> Differentiate between a 'version' and a 'variant' in version management.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans99')">Show Answer</button><div id="ans99" class="answer"><ul><li><strong>Version:</strong> An instance of a system that is functionally distinct from others.</li><li><strong>Variant:</strong> An instance that is functionally identical but compiled or configured for a different platform (e.g., Windows vs. Linux).</li></ul></div></li>
+                <li><p><strong>100.</strong> What is the purpose of 'system building'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ans100')">Show Answer</button><div id="ans100" class="answer">The process of compiling and linking all the correct versions of software components into an executable system. This is typically automated with build scripts.</div></li>
+            </ol>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <p>Made with love by SS</p>
+    </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100 Practice Questions: User Interface Design</title>
+    <style>
+        /* --- Google Font & W3 Light Theme --- */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        :root {
+            --primary-color: #0078D4;
+            --secondary-color: #555555;
+            --bg-color: #f4f4f4;
+            --card-bg-color: #ffffff;
+            --text-color: #333333;
+            --heading-color: #000000;
+            --border-color: #dddddd;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --answer-bg: #f9f9f9;
+        }
+
+        * { box-sizing: border-box; scroll-behavior: smooth; }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.7; margin: 0; padding: 0; }
+        .container { max-width: 1000px; margin: 20px auto; padding: 0 20px; }
+
+        .main-header { text-align: center; padding: 40px 20px; background: var(--card-bg-color); border-radius: 5px; margin-bottom: 30px; border: 1px solid var(--border-color); }
+        .main-header h1 { color: var(--primary-color); margin: 0; }
+        .main-header p { color: var(--secondary-color); font-size: 1.1rem; }
+
+        #toc { background: var(--card-bg-color); padding: 25px; border-radius: 5px; margin-bottom: 30px; }
+        #toc h2 { text-align: center; margin-top: 0; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
+        #toc ol { list-style-type: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px; }
+        #toc a { text-decoration: none; color: var(--primary-color); font-weight: 600; }
+        #toc a:hover { text-decoration: underline; }
+
+        .question-section { margin-bottom: 40px; }
+        .question-section h2 { border-bottom: 3px solid var(--primary-color); padding-bottom: 10px; }
+
+        .question-list { list-style-type: none; padding: 0; }
+        .question-list li { background: var(--card-bg-color); padding: 20px; border-radius: 5px; border: 1px solid var(--border-color); margin-bottom: 20px; box-shadow: 0 2px 5px var(--shadow-color); }
+        .question-list p { margin: 0 0 15px 0; }
+
+        .toggle-answer-btn { background-color: var(--primary-color); color: white; border: none; padding: 8px 15px; border-radius: 3px; cursor: pointer; font-weight: 600; font-family: 'Poppins', sans-serif; }
+        .toggle-answer-btn:hover { opacity: 0.9; }
+
+        .answer { display: none; background-color: var(--answer-bg); border: 1px solid var(--border-color); border-left: 5px solid var(--primary-color); padding: 15px; margin-top: 15px; border-radius: 0 5px 5px 0; }
+        .answer ul { padding-left: 20px; }
+
+        .main-footer { text-align: center; padding: 20px; margin-top: 40px; color: var(--secondary-color); }
+    </style>
+    <script>
+        function toggleAnswer(id) {
+            const answerEl = document.getElementById(id);
+            const buttonEl = answerEl.previousElementSibling;
+            if (answerEl.style.display === 'block') {
+                answerEl.style.display = 'none';
+                buttonEl.textContent = 'Show Answer';
+            } else {
+                answerEl.style.display = 'block';
+                buttonEl.textContent = 'Hide Answer';
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <header class="main-header">
+        <h1>100 Practice Questions: User Interface Design</h1>
+        <p>Based on ICT 2402 Course Material</p>
+    </header>
+
+    <nav id="toc">
+        <h2>Table of Contents</h2>
+        <ol>
+            <li><a href="#section1-ui">1. UI Fundamentals</a></li>
+            <li><a href="#section2-ui">2. Human Factors & Design Principles</a></li>
+            <li><a href="#section3-ui">3. Interaction Styles & Information Presentation</a></li>
+            <li><a href="#section4-ui">4. The UI Design Process</a></li>
+            <li><a href="#section5-ui">5. User Analysis & Prototyping</a></li>
+            <li><a href="#section6-ui">6. Interface Evaluation</a></li>
+        </ol>
+    </nav>
+
+    <main>
+        <!-- SECTION 1: UI Fundamentals -->
+        <section id="section1-ui" class="question-section">
+            <h2>Section 1: UI Fundamentals</h2>
+            <ol class="question-list">
+                <li><p><strong>1.</strong> What are the three essential design components of any computer system?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans1')">Show Answer</button><div id="ui-ans1" class="answer">Hardware design, Software design, and Interface design.</div></li>
+                <li><p><strong>2.</strong> Who is typically responsible for interface design in most organizations?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans2')">Show Answer</button><div id="ui-ans2" class="answer">While software engineers are heavily involved, it is a multidisciplinary field requiring specialists like HCI experts, human factor specialists, and interface architects.</div></li>
+                <li><p><strong>3.</strong> Why is good user interface design critically important?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans3')">Show Answer</button><div id="ui-ans3" class="answer">Because users often judge a system by its interface, a poor UI can cause catastrophic errors, and it is a primary reason why many software systems are never used.</div></li>
+                <li><p><strong>4.</strong> What is the most important mantra for user interface design?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans4')">Show Answer</button><div id="ui-ans4" class="answer">Keep it simple!</div></li>
+                <li><p><strong>5.</strong> What is the consequence of low usability?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans5')">Show Answer</button><div id="ui-ans5" class="answer">Low usability leads to user errors and misunderstandings, which can cause data corruption and ultimately lead to users rejecting the system.</div></li>
+                <li><p><strong>6.</strong> Name the two main types of user interfaces (UIs).</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans6')">Show Answer</button><div id="ui-ans6" class="answer">Command line interfaces and Graphical User Interfaces (GUIs).</div></li>
+                <li><p><strong>7.</strong> Which type of UI is more popular for interactive systems?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans7')">Show Answer</button><div id="ui-ans7" class="answer">Graphical User Interfaces (GUIs).</div></li>
+                <li><p><strong>8.</strong> List the five main characteristics of a GUI.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans8')">Show Answer</button><div id="ui-ans8" class="answer">Windows, Icons, Menus, Pointing devices, and Graphics.</div></li>
+                <li><p><strong>9.</strong> What is the purpose of 'Windows' in a GUI?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans9')">Show Answer</button><div id="ui-ans9" class="answer">To display different information simultaneously and allow users to switch between tasks.</div></li>
+                <li><p><strong>10.</strong> What is the purpose of 'Icons' in a GUI?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans10')">Show Answer</button><div id="ui-ans10" class="answer">To represent different data types or actions visually.</div></li>
+                <li><p><strong>11.</strong> What is the purpose of 'Menus' in a GUI?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans11')">Show Answer</button><div id="ui-ans11" class="answer">To provide a structured way for users to select commands.</div></li>
+                <li><p><strong>12.</strong> What is the purpose of 'Pointing devices' in a GUI?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans12')">Show Answer</button><div id="ui-ans12" class="answer">To allow users to select items and access any point on the screen directly.</div></li>
+                <li><p><strong>13.</strong> List three main advantages of GUIs.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans13')">Show Answer</button><div id="ui-ans13" class="answer">1. They are easy to learn and use. 2. Windows help users to switch between tasks. 3. Pointing devices give fast access to any point on the screen.</div></li>
+                <li><p><strong>14.</strong> What is a 'user-centered design' approach?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans14')">Show Answer</button><div id="ui-ans14" class="answer">A design philosophy that emphasizes the heavy involvement of end-users throughout the design process, both as evaluators and as members of the design team.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 2: Human Factors & Design Principles -->
+        <section id="section2-ui" class="question-section">
+            <h2>Section 2: Human Factors & Design Principles</h2>
+            <ol class="question-list">
+                <li><p><strong>15.</strong> Why is 'limited short-term memory' a critical human factor in UI design?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans15')">Show Answer</button><div id="ui-ans15" class="answer">Because people can only remember about 7 items of information at once. Presenting more than this increases cognitive load and makes users more liable to make mistakes.</div></li>
+                <li><p><strong>16.</strong> How should a UI be designed to account for the fact that 'people make mistakes'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans16')">Show Answer</button><div id="ui-ans16" class="answer">The UI should be designed to be forgiving. It should provide mechanisms for recovery (like 'undo') and use clear, calm messages to reduce stress when errors occur.</div></li>
+                <li><p><strong>17.</strong> How should designers account for the fact that 'people are different'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans17')">Show Answer</button><div id="ui-ans17" class="answer">Designers should not just design for their own capabilities. They must account for a wide range of physical abilities (e.g., provide accessibility options) and different interaction preferences (e.g., offering both graphical and textual ways to perform tasks).</div></li>
+                <li><p><strong>18.</strong> What is the core idea behind all UI design principles?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans18')">Show Answer</button><div id="ui-ans18" class="answer">That UI design must take into account the needs, experience, and capabilities of the system users, and be aware of human limitations.</div></li>
+                <li><p><strong>19.</strong> Explain the principle of 'User Familiarity'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans19')">Show Answer</button><div id="ui-ans19" class="answer">The interface should use terms and concepts drawn from the user's real-world experience, not computer-oriented concepts (e.g., an office system should use 'folders' and 'documents', not 'directories' and 'files').</div></li>
+                <li><p><strong>20.</strong> Explain the principle of 'Consistency'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans20')">Show Answer</button><div id="ui-ans20" class="answer">Wherever possible, comparable operations should be activated in the same way. Menus, commands, and visual elements should have the same format and behavior throughout the system.</div></li>
+                <li><p><strong>21.</strong> Explain the principle of 'Minimal Surprise'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans21')">Show Answer</button><div id="ui-ans21" class="answer">Users should never be surprised by the behavior of a system. If a command operates in a known way, the user should be able to predict the operation of comparable commands.</div></li>
+                <li><p><strong>22.</strong> Explain the principle of 'Recoverability'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans22')">Show Answer</button><div id="ui-ans22" class="answer">The interface should include mechanisms to allow users to recover from errors. This might include an 'undo' facility, confirmation of destructive actions, or checkpointing.</div></li>
+                <li><p><strong>23.</strong> Explain the principle of 'User Guidance'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans23')">Show Answer</button><div id="ui-ans23" class="answer">The interface should provide meaningful feedback when errors occur and provide context-sensitive user help facilities and on-line manuals.</div></li>
+                <li><p><strong>24.</strong> Explain the principle of 'User Diversity'.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans24')">Show Answer</button><div id="ui-ans24" class="answer">The interface should provide appropriate interaction facilities for different types of users. For example, offering keyboard shortcuts for experts and larger text for users with seeing difficulties.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 3: Interaction Styles & Information Presentation -->
+        <section id="section3-ui" class="question-section">
+            <h2>Section 3: Interaction Styles & Information Presentation</h2>
+            <ol class="question-list">
+                <li><p><strong>25.</strong> List the five main interaction styles.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans25')">Show Answer</button><div id="ui-ans25" class="answer">Direct manipulation, Menu selection, Form fill-in, Command language, and Natural language.</div></li>
+                <li><p><strong>26.</strong> What is 'Direct Manipulation'? Give an example application.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans26')">Show Answer</button><div id="ui-ans26" class="answer">An interaction style where users interact with visual objects on the screen, providing fast and intuitive interaction. Examples: Video games, CAD systems, dragging a file into a folder.</div></li>
+                <li><p><strong>27.</strong> What is a major disadvantage of 'Menu Selection'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans27')">Show Answer</button><div id="ui-ans27" class="answer">It can be slow for experienced users who know the commands they want to use.</div></li>
+                <li><p><strong>28.</strong> For what type of task is 'Form Fill-in' most suitable?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans28')">Show Answer</button><div id="ui-ans28" class="answer">For simple data entry tasks. Examples: Stock control, personal loan processing.</div></li>
+                <li><p><strong>29.</strong> What is the main advantage of a 'Command Language' interface?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans29')">Show Answer</button><div id="ui-ans29" class="answer">It is powerful and flexible, allowing experienced users to perform complex tasks quickly and create scripts for automation.</div></li>
+                <li><p><strong>30.</strong> What is a major disadvantage of 'Natural Language' interfaces?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans30')">Show Answer</button><div id="ui-ans30" class="answer">Natural language understanding systems are often unreliable and can misinterpret the user's intent.</div></li>
+                <li><p><strong>31.</strong> What is 'information presentation' concerned with?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans31')">Show Answer</button><div id="ui-ans31" class="answer">Presenting system information to system users in a clear and effective way, either directly (text) or transformed (graphics).</div></li>
+                <li><p><strong>32.</strong> What is the Model-View-Controller (MVC) approach?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans32')">Show Answer</button><div id="ui-ans32" class="answer">An architectural pattern that separates the data model, the user interface (view), and the control logic. It is a way of supporting multiple presentations (views) of the same data.</div></li>
+                <li><p><strong>33.</strong> When presenting information graphically, list four factors to consider.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans33')">Show Answer</button><div id="ui-ans33" class="answer">1. The need for precise information vs. relationships. 2. The dynamicity of the values. 3. The required user response to information changes. 4. Whether the information is textual or numerical.</div></li>
+                <li><p><strong>34.</strong> What are the disadvantages of presenting information textually?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans34')">Show Answer</button><div id="ui-ans34" class="answer">It cannot be read "at-a-glance" and is not efficient for showing trends or changes in dynamic data.</div></li>
+                <li><p><strong>35.</strong> Differentiate between 'static' and 'dynamic' information.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans35')">Show Answer</button><div id="ui-ans35" class="answer"><ul><li><strong>Static:</strong> Initialized at the beginning of a session and does not change (e.g., user's name).</li><li><strong>Dynamic:</strong> Changes during a session and these changes must be communicated to the user (e.g., a progress bar).</li></ul></div></li>
+                <li><p><strong>36.</strong> How is dynamic data best represented?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans36')">Show Answer</button><div id="ui-ans36" class="answer">Graphically, using representations like dials, pie charts, thermometers, or horizontal bars.</div></li>
+                <li><p><strong>37.</strong> Why is an analogue representation often better than a digital one for showing relative values?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans37')">Show Answer</button><div id="ui-ans37" class="answer">An analogue representation (like a horizontal bar) makes it easy to see the value's position within its possible range at a glance, which is harder to do with just a digital number.</div></li>
+                <li><p><strong>38.</strong> What is the most important rule when representing numerical values in a list?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans38')">Show Answer</button><div id="ui-ans38" class="answer">Good alignment. Numbers should be right-aligned (or aligned on the decimal point) to make them easy to compare.</div></li>
+                <li><p><strong>39.</strong> List three guidelines for using color in interfaces.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans39')">Show Answer</button><div id="ui-ans39" class="answer">1. Limit the number of colors. 2. Use color consistently. 3. Avoid poor color pairings (e.g., red on blue).</div></li>
+                <li><p><strong>40.</strong> What is the critical accessibility reason for not using color as the sole means of conveying information?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans40')">Show Answer</button><div id="ui-ans40" class="answer">Because a significant portion of the population (10% of men, 2% of women) is color-blind.</div></li>
+                <li><p><strong>41.</strong> Differentiate between serif and sans-serif fonts and their best uses.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans41')">Show Answer</button><div id="ui-ans41" class="answer"><ul><li><strong>Serif (splayed ends, e.g., Times New Roman):</strong> Good for reading large blocks of printed text.</li><li><strong>Sans-serif (squared ends, e.g., Arial):</strong> Good for presenting information on computer screens.</li></ul></div></li>
+                <li><p><strong>42.</strong> What are the two types of user help requests?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans42')">Show Answer</button><div id="ui-ans42" class="answer">1. "Help!" (I need help, I'm stuck). 2. "Help?" (I need more information).</div></li>
+                <li><p><strong>43.</strong> List three forms of user help and guidance.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans43')">Show Answer</button><div id="ui-ans43" class="answer">1. System messages responding to user actions. 2. Online help systems. 3. System documentation.</div></li>
+                <li><p><strong>44.</strong> List three characteristics of good error messages.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans44')">Show Answer</button><div id="ui-ans44" class="answer">They should be polite, concise, consistent, and constructive.</div></li>
+                <li><p><strong>45.</strong> What is the difference between a system-oriented and a user-oriented error message?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans45')">Show Answer</button><div id="ui-ans45" class="answer">A system-oriented message uses technical jargon and error codes (e.g., "Error #27: Invalid patient id"). A user-oriented message uses plain language, explains the problem in the user's context, and suggests a solution (e.g., "Patient J. Bates is not registered. Click Retry to re-input a patient name.").</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 4: The UI Design Process -->
+        <section id="section4-ui" class="question-section">
+            <h2>Section 4: The UI Design Process</h2>
+            <ol class="question-list">
+                <li><p><strong>46.</strong> Is the UI design process linear or iterative?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans46')">Show Answer</button><div id="ui-ans46" class="answer">It is an iterative process involving close liaisons between users and designers.</div></li>
+                <li><p><strong>47.</strong> What are the three core activities in the UI design process?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans47')">Show Answer</button><div id="ui-ans47" class="answer">1. User analysis. 2. System prototyping. 3. Interface evaluation.</div></li>
+                <li><p><strong>48.</strong> What is the goal of 'user analysis'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans48')">Show Answer</button><div id="ui-ans48" class="answer">To understand what the users will do with the system.</div></li>
+                <li><p><strong>49.</strong> What is the goal of 'system prototyping'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans49')">Show Answer</button><div id="ui-ans49" class="answer">To develop a series of prototypes for users to experiment with.</div></li>
+                <li><p><strong>50.</strong> What is the goal of 'interface evaluation'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans50')">Show Answer</button><div id="ui-ans50" class="answer">To experiment with these prototypes with users to assess their suitability.</div></li>
+                <li><p><strong>51.</strong> Describe the flow of the UI design process as shown in the diagram.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans51')">Show Answer</button><div id="ui-ans51" class="answer">It is a cycle: Analyse user activities -> Produce paper prototype -> Evaluate with users -> Design dynamic prototype -> Evaluate with users -> Produce executable prototype -> Implement final UI. Evaluation feedback loops back into the design stages.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 5: User Analysis & Prototyping -->
+        <section id="section5-ui" class="question-section">
+            <h2>Section 5: User Analysis & Prototyping</h2>
+            <ol class="question-list">
+                <li><p><strong>52.</strong> Why is user analysis fundamental to effective interface design?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans52')">Show Answer</button><div id="ui-ans52" class="answer">If you don't understand what the users want to do with a system, you have no realistic prospect of designing an effective interface.</div></li>
+                <li><p><strong>53.</strong> What is a 'scenario' in user analysis?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans53')">Show Answer</button><div id="ui-ans53" class="answer">A narrative description of a typical episode of use, which helps describe the user's goals and context in an understandable way.</div></li>
+                <li><p><strong>54.</strong> List three analysis techniques for understanding users.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans54')">Show Answer</button><div id="ui-ans54" class="answer">1. Task analysis. 2. Interviewing and questionnaires. 3. Ethnography.</div></li>
+                <li><p><strong>55.</strong> What is 'task analysis'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans55')">Show Answer</button><div id="ui-ans55" class="answer">A technique that models the steps involved in completing a task, often hierarchically.</div></li>
+                <li><p><strong>56.</strong> What is 'ethnography'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans56')">Show Answer</button><div id="ui-ans56" class="answer">A technique that involves an external observer watching users at work and questioning them in an unscripted way.</div></li>
+                <li><p><strong>57.</strong> Why is ethnography particularly valuable?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans57')">Show Answer</button><div id="ui-ans57" class="answer">Because many user tasks are intuitive, and users find them very difficult to describe and explain. Observation reveals what they actually do, not just what they say they do.</div></li>
+                <li><p><strong>58.</strong> What is the main aim of user interface prototyping?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans58')">Show Answer</button><div id="ui-ans58" class="answer">To allow users to gain direct experience with the interface, as it is impossible to judge usability without it.</div></li>
+                <li><p><strong>59.</strong> What is 'paper prototyping'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans59')">Show Answer</button><div id="ui-ans59" class="answer">Working through scenarios using sketches of the interface, often with a storyboard to present a series of interactions.</div></li>
+                <li><p><strong>60.</strong> What is 'script-driven prototyping'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans60')">Show Answer</button><div id="ui-ans60" class="answer">Developing a set of predefined scripts and screens. When the user interacts (e.g., clicks a button), the screen changes to the next pre-scripted display.</div></li>
+                <li><p><strong>61.</strong> What is 'visual programming' for prototyping?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans61')">Show Answer</button><div id="ui-ans61" class="answer">Using a language and environment designed for rapid development of GUIs, such as Visual Basic.</div></li>
+            </ol>
+        </section>
+
+        <!-- SECTION 6: Interface Evaluation -->
+        <section id="section6-ui" class="question-section">
+            <h2>Section 6: Interface Evaluation</h2>
+            <ol class="question-list">
+                <li><p><strong>62.</strong> Why is some form of evaluation necessary?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans62')">Show Answer</button><div id="ui-ans62" class="answer">To assess the suitability and usability of a user interface design.</div></li>
+                <li><p><strong>63.</strong> Why is full-scale evaluation often impractical?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans63')">Show Answer</button><div id="ui-ans63" class="answer">It is very expensive and time-consuming for most systems.</div></li>
+                <li><p><strong>64.</strong> Ideally, what should an interface be evaluated against?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans64')">Show Answer</button><div id="ui-ans64" class="answer">A usability specification, though it is rare for such formal specifications to be produced.</div></li>
+                <li><p><strong>65.</strong> List the five main usability attributes.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans65')">Show Answer</button><div id="ui-ans65" class="answer">Learnability, Speed of operation, Robustness, Recoverability, and Adaptability.</div></li>
+                <li><p><strong>66.</strong> Define the 'Learnability' attribute.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans66')">Show Answer</button><div id="ui-ans66" class="answer">How long does it take a new user to become productive with the system?</div></li>
+                <li><p><strong>67.</strong> Define the 'Speed of operation' attribute.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans67')">Show Answer</button><div id="ui-ans67" class="answer">How well does the system response match the user's work practice?</div></li>
+                <li><p><strong>68.</strong> Define the 'Robustness' attribute.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans68')">Show Answer</button><div id="ui-ans68" class="answer">How tolerant is the system of user error?</div></li>
+                <li><p><strong>69.</strong> Define the 'Recoverability' attribute.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans69')">Show Answer</button><div id="ui-ans69" class="answer">How good is the system at helping a user recover from errors?</div></li>
+                <li><p><strong>70.</strong> Define the 'Adaptability' attribute.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans70')">Show Answer</button><div id="ui-ans70" class="answer">How closely is the system tied to a single model of work? Can it be adapted to different workflows?</div></li>
+                <li><p><strong>71.</strong> List four simple evaluation techniques.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans71')">Show Answer</button><div id="ui-ans71" class="answer">1. Questionnaires for user feedback. 2. Video recording of system use. 3. Direct observation of users. 4. Collecting on-line user feedback via code in the software.</div></li>
+                <li><p><strong>72.</strong> What is the advantage of video recording system use?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans72')">Show Answer</button><div id="ui-ans72" class="answer">It allows for detailed, post-session analysis of user behavior, hesitations, and errors that might be missed during live observation.</div></li>
+                <li><p><strong>73.</strong> What is the purpose of collecting on-line user feedback?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans73')">Show Answer</button><div id="ui-ans73" class="answer">To gather quantitative data on how the interface is actually used, such as which features are used most frequently or where users most often encounter errors.</div></li>
+                <li><p><strong>74.</strong> Why are open-ended questions useful in interviews and questionnaires?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans74')">Show Answer</button><div id="ui-ans74" class="answer">They allow users to provide information that they think is essential, not just information that the designer has thought of asking about.</div></li>
+                <li><p><strong>75.</strong> What is the overall message of the "User Interface Design" presentation?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans75')">Show Answer</button><div id="ui-ans75" class="answer">That user interface design is a critical, iterative, and user-centered process. A successful UI must be built on sound design principles, an understanding of human factors, and be continuously refined through prototyping and evaluation with real users.</div></li>
+                <li><p><strong>76.</strong> What is the main drawback of 'form fill-in' interfaces?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans76')">Show Answer</button><div id="ui-ans76" class="answer">They take up a lot of screen space and can cause problems when user options do not neatly match the available form fields.</div></li>
+                <li><p><strong>77.</strong> What is the main drawback of 'direct manipulation' interfaces?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans77')">Show Answer</button><div id="ui-ans77" class="answer">They can be hard to implement and are only suitable where there is a clear visual metaphor for the tasks and objects involved.</div></li>
+                <li><p><strong>78.</strong> How can a GUI help with a user's limited short-term memory?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans78')">Show Answer</button><div id="ui-ans78" class="answer">By making operations and options visible (e.g., in menus and toolbars), the interface relies on recognition rather than recall, reducing the memory load on the user.</div></li>
+                <li><p><strong>79.</strong> In the MVC pattern, what is the role of the 'Model'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans79')">Show Answer</button><div id="ui-ans79" class="answer">The Model manages the application's data and business logic. It is independent of the user interface.</div></li>
+                <li><p><strong>80.</strong> In the MVC pattern, what is the role of the 'View'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans80')">Show Answer</button><div id="ui-ans80" class="answer">The View is the presentation of the data from the Model in a particular format (e.g., a chart, a table).</div></li>
+                <li><p><strong>81.</strong> In the MVC pattern, what is the role of the 'Controller'?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans81')">Show Answer</button><div id="ui-ans81" class="answer">The Controller handles user input and translates it into commands for the Model or View.</div></li>
+                <li><p><strong>82.</strong> Give an example of why it's important to have good alignment for numerical values.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans82')">Show Answer</button><div id="ui-ans82" class="answer">With poor alignment, it is very difficult to quickly compare numbers. For example, it's hard to tell at a glance if 120 is larger than 75 if they are not right-aligned.</div></li>
+                <li><p><strong>83.</strong> What is a 'storyboard' in the context of paper prototyping?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans83')">Show Answer</button><div id="ui-ans83" class="answer">A series of sketches or panels that show the sequence of interactions a user has with the interface to complete a task.</div></li>
+                <li><p><strong>84.</strong> Why would you use a focus group or group interview for user analysis?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans84')">Show Answer</button><div id="ui-ans84" class="answer">It allows users to discuss their work with each other, which can reveal shared tasks, workflows, and pain points that might not come up in a one-on-one interview.</div></li>
+                <li><p><strong>85.</strong> What does "context-sensitive user help" mean?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans85')">Show Answer</button><div id="ui-ans85" class="answer">The help system provides information that is directly relevant to the specific task the user is currently performing or the part of the interface they are interacting with.</div></li>
+                <li><p><strong>86.</strong> What is the main benefit of a command line interface?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans86')">Show Answer</button><div id="ui-ans86" class="answer">It is powerful, flexible, and fast for expert users, and it can be easily scripted to automate repetitive tasks.</div></li>
+                <li><p><strong>87.</strong> In the user interaction scenario, what is the primary problem Jane faces?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans87')">Show Answer</button><div id="ui-ans87" class="answer">She doesn't know the appropriate search terms to find the materials she needs. This highlights a requirement for the system to assist users in choosing search terms.</div></li>
+                <li><p><strong>88.</strong> From the scenario, list two specific requirements for the library search system.</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans88')">Show Answer</button><div id="ui-ans88" class="answer">1. Users need to be able to select specific collections to search. 2. Users need to be able to request copies of relevant material.</div></li>
+                <li><p><strong>89.</strong> What does 'hierarchical task analysis' break down?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans89')">Show Answer</button><div id="ui-ans89" class="answer">It breaks down a high-level user goal (e.g., "Retrieve pictures") into a hierarchy of smaller, more detailed sub-tasks and the plans for executing them.</div></li>
+                <li><p><strong>90.</strong> What is one reason a bar chart is more effective than text for dynamic data?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans90')">Show Answer</button><div id="ui-ans90" class="answer">A bar chart allows for "at-a-glance" comparison and trend-spotting, which is very difficult to do with a table of changing numbers.</div></li>
+                <li><p><strong>91.</strong> What does the "positive, not negative" guideline for error message style mean?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans91')">Show Answer</button><div id="ui-ans91" class="answer">It means phrasing messages constructively. Instead of "You did not enter a valid date," say "Please enter the date in DD/MM/YYYY format."</div></li>
+                <li><p><strong>92.</strong> What does the "active, not passive" guideline for error messages mean?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans92')">Show Answer</button><div id="ui-ans92" class="answer">Using an active voice is more direct and clear. For example, "The system will save your file" is better than "Your file will be saved by the system."</div></li>
+                <li><p><strong>93.</strong> Why should error messages not be insulting or funny?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans93')">Show Answer</button><div id="ui-ans93" class="answer">Because a user encountering an error is already likely frustrated. Insulting or humorous messages can increase this frustration and make the software seem unprofessional.</div></li>
+                <li><p><strong>94.</strong> What is the difference between fixed-pitch and variable-pitch fonts?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans94')">Show Answer</button><div id="ui-ans94" class="answer">In a fixed-pitch font (like Courier), every character takes up the same amount of horizontal space. In a variable-pitch font (like Times New Roman), characters have different widths (e.g., 'i' is narrower than 'm').</div></li>
+                <li><p><strong>95.</strong> When would you use a fixed-pitch font?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans95')">Show Answer</button><div id="ui-ans95" class="answer">It is primarily used for displaying code or tabular data where vertical alignment of characters is important.</div></li>
+                <li><p><strong>96.</strong> What is the main benefit of an 'undo' facility?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans96')">Show Answer</button><div id="ui-ans96" class="answer">It directly supports the 'Recoverability' principle, giving users the confidence to experiment and perform actions without fear of making irreversible mistakes.</div></li>
+                <li><p><strong>97.</strong> What is the danger of designers only designing for their own capabilities?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans97')">Show Answer</button><div id="ui-ans97" class="answer">They are likely to be expert users with full physical capabilities. This can lead to an interface that is too complex for novice users and inaccessible to users with disabilities.</div></li>
+                <li><p><strong>98.</strong> How can providing "on-line user feedback" be implemented?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans98')">Show Answer</button><div id="ui-ans98" class="answer">By including code in the software to log user actions (with their permission), track common errors, or provide a simple "Send Feedback" button.</div></li>
+                <li><p><strong>99.</strong> What is the most crucial takeaway about the UI design process?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans99')">Show Answer</button><div id="ui-ans99" class="answer">That it must be iterative and involve close collaboration with end-users at every stage.</div></li>
+                <li><p><strong>100.</strong> If a system has low usability, what is the ultimate consequence?</p><button class="toggle-answer-btn" onclick="toggleAnswer('ui-ans100')">Show Answer</button><div id="ui-ans100" class="answer">Users will reject the system.</div></li>
+            </ol>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <p>Made with love by SS</p>
+    </footer>
+</div>
+</body>
+</html>
