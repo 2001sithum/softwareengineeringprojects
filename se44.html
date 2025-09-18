@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consumer Behavior - Principles of Marketing</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary-navy: #2c3e50;
+            --color-text-body: #34495e;
+            --color-accent-teal: #45b8ac;
+            --color-accent-orange: #f39c12;
+            --color-accent-green: #2ecc71;
+            --color-bg-light: #ffffff;
+            --color-border: #ecf0f1;
+            --font-serif: 'Merriweather', serif;
+            --font-sans: 'Lato', sans-serif;
+            --shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            line-height: 1.7;
+            color: var(--color-text-body);
+            background-color: var(--color-bg-light);
+            background-image:
+                    linear-gradient(rgba(220, 220, 220, 0.5) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(220, 220, 220, 0.5) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        header {
+            text-align: left;
+            padding: 4rem 2rem;
+            margin: 2rem auto;
+            background-color: var(--color-bg-light);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .header-text {
+            flex: 1 1 400px;
+        }
+
+        header h1 {
+            font-family: var(--font-serif);
+            font-size: 3.5rem;
+            line-height: 1.2;
+            color: var(--color-primary-navy);
+            margin-bottom: 1.5rem;
+        }
+
+        header .subtitle {
+            font-size: 1.2rem;
+            color: var(--color-text-body);
+            font-weight: 700;
+        }
+
+        .header-viz {
+            flex: 1 1 400px;
+        }
+
+        section {
+            margin-bottom: 3rem;
+            padding: 3rem;
+            background-color: var(--color-bg-light);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        section::before {
+            content: '';
+            position: absolute;
+            top: 2.5rem;
+            left: -10px;
+            width: 20px;
+            height: 20px;
+            background-color: var(--color-accent-teal);
+            transform: rotate(45deg);
+        }
+
+        h2 {
+            font-family: var(--font-serif);
+            font-size: 2.5rem;
+            color: var(--color-primary-navy);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--color-border);
+        }
+
+        h3 {
+            font-family: var(--font-sans);
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--color-primary-navy);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        ul li {
+            padding-left: 1.75rem;
+            position: relative;
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        ul li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--color-accent-teal);
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+
+        .highlight {
+            background-color: #fff176; /* Yellow highlight from slide */
+            padding: 0.1em 0.3em;
+            border-radius: 4px;
+        }
+
+        .centered-svg {
+            display: block;
+            margin: 2rem auto;
+            max-width: 100%;
+            height: auto;
+        }
+
+        blockquote {
+            font-size: 1.1rem;
+            border-left: 4px solid var(--color-accent-teal);
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            background-color: #f8f9fa;
+            border-radius: 0 8px 8px 0;
+        }
+
+        cite {
+            display: block;
+            text-align: right;
+            font-weight: bold;
+            font-style: italic;
+            margin-top: 1rem;
+            font-size: 1rem;
+            color: var(--color-primary-navy);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            font-size: 1rem;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 1rem;
+            border: 1px solid var(--color-border);
+        }
+
+        th {
+            background-color: #f8f9fa;
+            font-weight: 700;
+            color: var(--color-primary-navy);
+        }
+
+        thead th {
+            text-align: center;
+            border-bottom: 2px solid var(--color-primary-navy);
+        }
+
+        .role-list dt {
+            font-weight: bold;
+            color: var(--color-primary-navy);
+            font-size: 1.1rem;
+        }
+
+        .role-list dd {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .buying-process-step {
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            background: #f8f9fa;
+        }
+
+        .buying-process-step h4 {
+            font-weight: 700;
+            color: var(--color-primary-navy);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 4rem;
+            margin: 2rem auto;
+            background-color: var(--color-bg-light);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            color: var(--color-primary-navy);
+        }
+
+        @media (max-width: 900px) {
+            header {
+                flex-direction: column;
+                text-align: center;
+            }
+            .header-text {
+                flex-basis: auto;
+            }
+        }
+
+        @media (max-width: 600px) {
+            section { padding: 2rem 1.5rem; }
+            header h1 { font-size: 2.8rem; }
+            h2 { font-size: 2rem; }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="header-text">
+            <h1>Consumer Behavior</h1>
+            <p class="subtitle">IDC 2203 Principles and Practices of Marketing</p>
+        </div>
+        <div class="header-viz">
+            <svg viewBox="0 0 350 200" class="centered-svg" aria-labelledby="header-title">
+                <title id="header-title">Illustration of a consumer shopping in a store with data points for 99% satisfaction and NPS score of 7.</title>
+                <defs><clipPath id="circleClip"><circle cx="45" cy="45" r="20"/></clipPath></defs>
+                <!-- Shelves -->
+                <rect x="150" y="50" width="180" height="100" fill="#eaf6ff" rx="5"/>
+                <path d="M160 70h160 M160 90h160 M160 110h160 M160 130h160" stroke="#d4eaff" stroke-width="2"/>
+                <!-- Shopper -->
+                <g transform="translate(180, 70)">
+                    <path fill="#3498db" d="M30,10 a10,10 0 1,1 -20,0 a10,10 0 1,1 20,0z M10,15 L10,30 L30,30 L30,15z" transform="scale(1.2) translate(0,-2)"/>
+                    <rect x="12" y="55" width="16" height="40" fill="#2c3e50" rx="2"/>
+                    <circle cx="20" cy="15" r="7" fill="#2c3e50"/>
+                </g>
+                <!-- Cart -->
+                <g transform="translate(130, 110)">
+                    <rect x="0" y="0" width="60" height="35" fill="none" stroke="#7f8c8d" stroke-width="2" rx="3"/>
+                    <path d="M5 5h50 M10 10h40 M15 15h30 M20 20h20" stroke="#bdc3c7" stroke-width="1"/>
+                    <path d="M60 15h10v10" stroke="#7f8c8d" stroke-width="2" fill="none"/>
+                    <circle cx="15" cy="45" r="5" fill="#34495e"/><circle cx="50" cy="45" r="5" fill="#34495e"/>
+                </g>
+                <!-- 99% Gauge -->
+                <g transform="translate(45,45)">
+                    <circle cx="0" cy="0" r="22" fill="none" stroke="#e0f7fa" stroke-width="6"/>
+                    <path d="M 0 -22 A 22 22 0 1 1 -0.44 -21.99" stroke="#00bcd4" stroke-width="6" stroke-linecap="round"/>
+                    <text x="0" y="5" text-anchor="middle" font-family="var(--font-sans)" font-weight="bold" font-size="12">99%</text>
+                </g>
+                <path d="M70 45 C 90 45, 100 60, 120 75" stroke="#95a5a6" stroke-width="2" fill="none" stroke-dasharray="3"/>
+                <!-- NPS Gauge -->
+                <g transform="translate(290, 150)">
+                    <path d="M-22 0 A 22 22 0 0 1 22 0" fill="none" stroke="#e8f5e9" stroke-width="8"/>
+                    <path d="M-22 0 A 22 22 0 0 1 10 -20" fill="none" stroke="#4caf50" stroke-width="8" stroke-linecap="round"/>
+                    <path d="M-22 0 A 22 22 0 0 1 -18 -13" fill="none" stroke="#f44336" stroke-width="8" stroke-linecap="round"/>
+                    <text x="0" y="-5" text-anchor="middle" font-family="var(--font-sans)" font-weight="bold" font-size="14">7</text>
+                    <text x="0" y="8" text-anchor="middle" font-family="var(--font-sans)" font-size="8">NPS</text>
+                </g>
+                <path d="M265 150 C 245 150, 240 130, 220 110" stroke="#95a5a6" stroke-width="2" fill="none" stroke-dasharray="3"/>
+            </svg>
+        </div>
+    </header>
+
+    <main>
+        <section>
+            <h2>Learning Outcomes</h2>
+            <ul>
+                <li>Define the consumer market.</li>
+                <li>Understand Consumer Behavior as a Process.</li>
+                <li>Understand Consumer roles.</li>
+                <li>Understand Major types of consumers.</li>
+                <li>The Customer Development Process.</li>
+                <li>Consumer Buying Process.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>What is Consumer Behavior?</h2>
+            <p>Consumer behavior refers to the actions and decisions that people make when they are purchasing or using products.</p>
+            <p>More specifically, consumer behavior is the actions and decisions that people or households make when they <span class="highlight">choose, buy, use, and dispose of a product or service.</span></p>
+
+            <h3>Alternative Definitions</h3>
+            <blockquote>
+                The decision process and physical activities individuals engage in when evaluating, acquiring, using, or disposing of goods and services.
+                <cite>Loudon & Bitta (1993)</cite>
+            </blockquote>
+            <blockquote>
+                The dynamic interaction of affect and cognition, behavior, and environmental events by which human beings conduct the exchange aspect of their lives.
+                <cite>Peter (1996)</cite>
+            </blockquote>
+            <blockquote>
+                CB is the study of individuals, groups or organizations and processes they use to select, secure, use and dispose of products, services, experiences or ideas to satisfy needs and impacts that these processes have on the consumer and the society.
+                <cite>Hawkins (2005)</cite>
+            </blockquote>
+        </section>
+
+        <section>
+            <h2>Consumer Behavior as a Process</h2>
+            <p>Consumer behavior can be viewed as a three-stage process, with different issues and questions arising from both the consumer's and the marketer's perspective at each stage.</p>
+            <table>
+                <thead>
+                <tr>
+                    <th>STAGE</th>
+                    <th>CONSUMER'S PERSPECTIVE</th>
+                    <th>MARKETER'S PERSPECTIVE</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><strong>PRE-PURCHASE ISSUES</strong></td>
+                    <td>How does a consumer decide about needing a product?</td>
+                    <td>How are consumer attitudes formed/changed?</td>
+                </tr>
+                <tr>
+                    <td><strong>PURCHASE ISSUES</strong></td>
+                    <td>Is product acquisition a stressful or pleasant experience?</td>
+                    <td>How do situational factors affect purchase decision?</td>
+                </tr>
+                <tr>
+                    <td><strong>POST-PURCHASE ISSUES</strong></td>
+                    <td>Does the product provide pleasure or perform its function? How is the product disposed of?</td>
+                    <td>What determines customer satisfaction and repurchase?</td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <h2>Consumer Roles and Types</h2>
+            <h3>Roles: Buyers, Payers, and Users</h3>
+            <p>The marketplace activities of individuals entail three distinct functions:</p>
+            <dl class="role-list">
+                <dt>1. The Consumer (User)</dt>
+                <dd>Who consumes or uses the product.</dd>
+                <dt>2. The Buyer</dt>
+                <dd>Who undertakes activities to procure or obtain the product.</dd>
+                <dt>3. The Payer</dt>
+                <dd>Who provides the money (or other value) to obtain the product.</dd>
+            </dl>
+
+            <h3>Major Types of Consumers</h3>
+            <ul>
+                <li><strong>Personal Consumers:</strong> Individuals who purchase products for their own use or for their household (end-users).</li>
+                <li><strong>Organizational Consumers:</strong> Entities that buy products to help run their operations. This includes:
+                    <ul>
+                        <li>Business organizations (for-profit)</li>
+                        <li>Non-profit organizations</li>
+                        <li>Government agencies</li>
+                        <li>Institutional buyers (e.g., schools, hospitals)</li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>The Wheel of Consumer Analysis</h2>
+            <p>A successful marketing strategy depends on understanding the dynamic interplay between what consumers think and feel, what they do, and what is happening in the world around them.</p>
+            <h3>The Three Core Elements</h3>
+            <ul>
+                <li><strong>Affect and Cognition:</strong> Refers to the internal, psychological responses consumers have, including feelings (e.g., love, anger) and thinking (e.g., beliefs, knowledge).</li>
+                <li><strong>Behavior:</strong> Refers to the overt acts or actions of consumers, such as buying, visiting a store, or watching commercials.</li>
+                <li><strong>Environment:</strong> Refers to the complex physical and social stimuli in the external world, including things, places, and people that influence consumers.</li>
+            </ul>
+            <svg viewBox="0 0 300 250" class="centered-svg" aria-labelledby="wheel-title">
+                <title id="wheel-title">A circular diagram showing Marketing Strategy at the center, influenced by a cycle of Consumer Behavior, Consumer Environment, and Affect & Cognition.</title>
+                <text x="150" y="120" text-anchor="middle" font-family="var(--font-serif)" font-weight="bold" font-size="16">Marketing</text>
+                <text x="150" y="140" text-anchor="middle" font-family="var(--font-serif)" font-weight="bold" font-size="16">Strategy</text>
+                <!-- Nodes -->
+                <g>
+                    <circle cx="150" cy="40" r="35" fill="#26a69a"/>
+                    <text x="150" y="35" text-anchor="middle" fill="white" font-size="8">Consumer</text>
+                    <text x="150" y="45" text-anchor="middle" fill="white" font-size="8">Behavior</text>
+                    <circle cx="150" cy="40" r="10" fill="white" stroke="#26a69a" stroke-width="2"/>
+                    <text x="150" y="43" text-anchor="middle" font-size="8" font-weight="bold">01</text>
+                </g>
+                <g>
+                    <circle cx="235" cy="180" r="35" fill="#8bc34a"/>
+                    <text x="235" y="175" text-anchor="middle" fill="white" font-size="8">Consumer</text>
+                    <text x="235" y="185" text-anchor="middle" fill="white" font-size="8">Environment</text>
+                    <circle cx="235" cy="180" r="10" fill="white" stroke="#8bc34a" stroke-width="2"/>
+                    <text x="235" y="183" text-anchor="middle" font-size="8" font-weight="bold">02</text>
+                </g>
+                <g>
+                    <circle cx="65" cy="180" r="35" fill="#ffb74d"/>
+                    <text x="65" y="175" text-anchor="middle" fill="white" font-size="8">Affect &</text>
+                    <text x="65" y="185" text-anchor="middle" fill="white" font-size="8">Cognition</text>
+                    <circle cx="65" cy="180" r="10" fill="white" stroke="#ffb74d" stroke-width="2"/>
+                    <text x="65" y="183" text-anchor="middle" font-size="8" font-weight="bold">03</text>
+                </g>
+                <!-- Arrows -->
+                <defs>
+                    <marker id="arrowhead" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#34495e" /></marker>
+                </defs>
+                <path d="M 175 70 A 80 80 0 0 1 220 145" stroke="#34495e" fill="none" stroke-width="3" marker-end="url(#arrowhead)"/>
+                <path d="M 200 200 A 80 80 0 0 1 100 200" stroke="#34495e" fill="none" stroke-width="3" marker-end="url(#arrowhead)"/>
+                <path d="M 80 150 A 80 80 0 0 1 125 70" stroke="#34495e" fill="none" stroke-width="3" marker-end="url(#arrowhead)"/>
+            </svg>
+        </section>
+
+        <section>
+            <h2>The Consumer Buying Process</h2>
+            <p>The consumer buying process is a five-stage model that illustrates the steps a consumer typically takes when making a purchase decision.</p>
+            <svg viewBox="0 0 600 120" class="centered-svg" aria-labelledby="buying-process-title">
+                <title id="buying-process-title">A five-step flowchart of the Consumer Buying Process: Need Recognition, Information Search, Evaluation of Alternatives, Purchase, Post-Purchase Evaluation.</title>
+                <path d="M 10 20 H 590 L 560 60 L 590 100 H 10 Z" fill="#ecf0f1"/>
+                <path d="M 500 20 L 590 20 L 560 60 L 590 100 L 500 100 L 530 60 Z" fill="#3498db"/>
+                <g>
+                    <rect x="20" y="30" width="100" height="60" rx="8" fill="#3498db"/>
+                    <text x="70" y="55" text-anchor="middle" fill="white" font-size="12">Need</text>
+                    <text x="70" y="70" text-anchor="middle" fill="white" font-size="12">Recognition</text>
+                </g>
+                <g>
+                    <rect x="130" y="30" width="100" height="60" rx="8" fill="#3498db"/>
+                    <text x="180" y="55" text-anchor="middle" fill="white" font-size="12">Information</text>
+                    <text x="180" y="70" text-anchor="middle" fill="white" font-size="12">Search</text>
+                </g>
+                <g>
+                    <rect x="240" y="30" width="100" height="60" rx="8" fill="#3498db"/>
+                    <text x="290" y="48" text-anchor="middle" fill="white" font-size="12">Evaluation</text>
+                    <text x="290" y="63" text-anchor="middle" fill="white" font-size="12">of</text>
+                    <text x="290" y="78" text-anchor="middle" fill="white" font-size="12">Alternatives</text>
+                </g>
+                <g>
+                    <rect x="350" y="30" width="100" height="60" rx="8" fill="#3498db"/>
+                    <text x="400" y="63" text-anchor="middle" fill="white" font-size="12">Purchase</text>
+                </g>
+                <g>
+                    <rect x="460" y="30" width="100" height="60" rx="8" fill="#3498db"/>
+                    <text x="510" y="48" text-anchor="middle" fill="white" font-size="12">Post-</text>
+                    <text x="510" y="63" text-anchor="middle" fill="white" font-size="12">Purchase</text>
+                    <text x="510" y="78" text-anchor="middle" fill="white" font-size="12">Evaluation</text>
+                </g>
+            </svg>
+
+            <div class="buying-process-step">
+                <h4>1. Problem Recognition</h4>
+                <p>This is the first step where a person notices they need something or have a problem to solve. It could be because they ran out of a product, want a better version, or have a specific issue to fix.</p>
+            </div>
+            <div class="buying-process-step">
+                <h4>2. Information Search</h4>
+                <p>After realizing they need something, consumers begin looking for information. They may search online, ask friends and family for advice, read product reviews, or pay attention to ads.</p>
+            </div>
+            <div class="buying-process-step">
+                <h4>3. Evaluation of Alternatives</h4>
+                <p>At this stage, consumers look at different options or brands that can meet their needs. They compare the advantages and disadvantages of each and usually narrow down their choices.</p>
+            </div>
+            <div class="buying-process-step">
+                <h4>4. Purchase Decision</h4>
+                <p>After comparing their options, consumers decide what to buy. Their choice can be influenced by things like product availability, price, discounts, and personal preferences.</p>
+            </div>
+            <div class="buying-process-step">
+                <h4>5. Post-Purchase Evaluation & Behavior</h4>
+                <p>Consumers think about whether they are happy with what they bought. They check if the product met their expectations. If satisfied, they may buy again; if not, they might return it or leave a negative review. This also includes sharing experiences through reviews or referrals.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>A Simple Model of Consumer Decision Making</h2>
+            <p>This model integrates the buying process with external influences (like marketing and culture) and internal psychological factors to provide a comprehensive view of how consumers make decisions.</p>
+            <svg viewBox="0 0 550 450" class="centered-svg" aria-labelledby="decision-model-title">
+                <title id="decision-model-title">A detailed flowchart model of consumer decision making, showing Input (Marketing Efforts, Sociocultural Environment), Process (Decision Making, Psychological Field), and Output (Purchase Behavior).</title>
+                <style>.model-title{font-family:var(--font-sans);font-weight:700;font-size:12px;}.model-box{fill:#f5f5f5;stroke:#bdc3c7;stroke-width:1;}.model-text{font-size:10px;font-family:var(--font-sans);}</style>
+                <!-- Main Containers -->
+                <rect class="model-box" x="10" y="10" width="530" height="130" fill="#e3f2fd"/>
+                <text class="model-title" x="20" y="30">Input</text>
+                <rect class="model-box" x="10" y="150" width="530" height="200" fill="#e8f5e9"/>
+                <text class="model-title" x="20" y="170">Process</text>
+                <rect class="model-box" x="10" y="360" width="530" height="80" fill="#fffde7"/>
+                <text class="model-title" x="20" y="380">Output</text>
+                <!-- Input Section -->
+                <text class="model-title" x="175" y="40" text-anchor="middle">External Influences</text>
+                <rect class="model-box" x="30" y="50" width="290" height="80" />
+                <text class="model-text" x="40" y="65" font-weight="bold">Firm's Marketing Efforts</text>
+                <text class="model-text" x="40" y="80">1. Product</text><text class="model-text" x="40" y="95">2. Promotion</text>
+                <text class="model-text" x="40" y="110">3. Price</text><text class="model-text" x="40" y="125">4. Channels of distribution</text>
+                <rect class="model-box" x="330" y="50" width="200" height="80" />
+                <text class="model-text" x="340" y="65" font-weight="bold">Sociocultural Environment</text>
+                <text class="model-text" x="340" y="80">1. Family</text><text class="model-text" x="340" y="95">2. Informal sources</text>
+                <text class="model-text" x="340" y="110">3. Other noncommercial sources</text>
+                <text class="model-text" x="340" y="125">4. Social class / 5. Culture</text>
+                <!-- Process Section -->
+                <text class="model-title" x="175" y="180" text-anchor="middle">Consumer Decision Making</text>
+                <rect class="model-box" x="30" y="190" width="250" height="150" />
+                <text class="model-text" font-weight="bold" x="155" y="230" text-anchor="middle">Need Recognition</text>
+                <text class="model-text" x="155" y="260" text-anchor="middle">Prepurchase Search</text>
+                <text class="model-text" x="155" y="290" text-anchor="middle">Evaluation of Alternatives</text>
+                <rect class="model-box" x="300" y="190" width="150" height="120" />
+                <text class="model-text" font-weight="bold" x="375" y="205" text-anchor="middle">Psychological Field</text>
+                <text class="model-text" x="310" y="225">1. Motivation</text><text class="model-text" x="310" y="240">2. Perception</text>
+                <text class="model-text" x="310" y="255">3. Learning</text><text class="model-text" x="310" y="270">4. Personality</text>
+                <text class="model-text" x="310" y="285">5. Attitudes</text>
+                <rect class="model-box" x="300" y="315" width="150" height="25" />
+                <text class="model-text" font-weight="bold" x="375" y="330" text-anchor="middle">Experience</text>
+                <!-- Output Section -->
+                <text class="model-title" x="175" y="375" text-anchor="middle">Postdecision Behavior</text>
+                <rect class="model-box" x="100" y="385" width="150" height="50" />
+                <text class="model-text" font-weight="bold" x="175" y="400" text-anchor="middle">Purchase</text>
+                <text class="model-text" x="110" y="415">1. Trial</text><text class="model-text" x="110" y="430">2. Repeat purchase</text>
+                <rect class="model-box" x="300" y="385" width="150" height="50" />
+                <text class="model-text" font-weight="bold" x="375" y="410" text-anchor="middle">Postpurchase Evaluation</text>
+                <!-- Arrows -->
+                <defs><marker id="model-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#34495e" /></marker></defs>
+                <path d="M275 140 v 10" stroke="#34495e" stroke-width="1.5" marker-start="url(#model-arrow)" marker-end="url(#model-arrow)"/>
+                <path d="M275 350 v 10" stroke="#34495e" stroke-width="1.5" marker-start="url(#model-arrow)" marker-end="url(#model-arrow)"/>
+                <path d="M280 250 H 300" stroke="#34495e" stroke-width="1.5" marker-end="url(#model-arrow)"/>
+                <path d="M280 290 H 300" stroke="#34495e" stroke-width="1.5" marker-end="url(#model-arrow)"/>
+                <path d="M300 327 H 280" stroke="#34495e" stroke-width="1.5" marker-start="url(#model-arrow)"/>
+                <path d="M250 410 H 300" stroke="#34495e" stroke-width="1.5" marker-end="url(#model-arrow)"/>
+                <path d="M375 340 v 45" stroke="#34495e" stroke-width="1.5" marker-end="url(#model-arrow)"/>
+            </svg>
+        </section>
+    </main>
+
+
+</div>
+</body>
+</html>

@@ -1,0 +1,683 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What is Marketing? - A Deep Dive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Montserrat:wght@300;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary-red: #d32f2f;
+            --color-primary-dark: #b71c1c;
+            --color-accent-blue: #1976D2;
+            --color-accent-green: #388E3C;
+            --color-accent-yellow: #fbc02d;
+            --color-text-dark: #212121;
+            --color-text-body: #424242;
+            --color-bg-light: #f5f5f5;
+            --color-bg-white: #ffffff;
+            --color-border: #e0e0e0;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Lato', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.8;
+            color: var(--color-text-body);
+            background-color: var(--color-bg-light);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        main {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        header {
+            text-align: center;
+            padding: 4rem 1rem;
+            margin-bottom: 3rem;
+            background-color: var(--color-bg-white);
+            border-bottom: 4px solid var(--color-primary-red);
+        }
+
+        header h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 300;
+            color: var(--color-text-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        header h1 .number {
+            font-size: 5rem;
+            font-weight: 700;
+            color: var(--color-primary-red);
+        }
+
+        header .subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            color: var(--color-primary-red);
+            font-weight: 600;
+        }
+
+        section {
+            margin-bottom: 4rem;
+            padding: 3rem;
+            background-color: var(--color-bg-white);
+            border-radius: 12px;
+            border: 1px solid var(--color-border);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+        }
+
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.75rem;
+            color: var(--color-text-dark);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            font-weight: 600;
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background-color: var(--color-primary-red);
+            border-radius: 2px;
+        }
+
+        h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.75rem;
+            color: var(--color-text-dark);
+            margin-top: 2.5rem;
+            margin-bottom: 1.25rem;
+            font-weight: 600;
+        }
+
+        h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--color-primary-red);
+        }
+
+        p, ul, li {
+            font-size: 1.1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        ul li {
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        ul li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--color-primary-red);
+            font-weight: bold;
+        }
+
+        .highlight {
+            background-color: var(--color-accent-yellow);
+            padding: 0.2em 0.4em;
+            border-radius: 4px;
+            font-weight: 700;
+            color: var(--color-text-dark);
+        }
+
+        .centered-svg {
+            display: block;
+            margin: 2.5rem auto;
+            max-width: 100%;
+            height: auto;
+        }
+
+        blockquote {
+            font-size: 1.3rem;
+            font-style: italic;
+            border-left: 5px solid var(--color-accent-blue);
+            padding: 1.5rem 2.5rem;
+            margin: 2.5rem 0;
+            background-color: var(--color-bg-light);
+            border-radius: 0 8px 8px 0;
+        }
+
+        cite {
+            display: block;
+            text-align: right;
+            font-weight: bold;
+            font-style: normal;
+            margin-top: 1.5rem;
+            font-size: 1.1rem;
+            color: var(--color-text-dark);
+        }
+
+        .flex-center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .card {
+            background-color: var(--color-bg-white);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--color-border);
+            box-shadow: var(--shadow-sm);
+            flex: 1;
+            min-width: 280px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2.5rem 0;
+            box-shadow: var(--shadow-sm);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        th {
+            background-color: var(--color-text-dark);
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        tr {
+            transition: background-color 0.2s ease;
+        }
+
+        tr:nth-child(even) {
+            background-color: var(--color-bg-light);
+        }
+
+        tr:hover {
+            background-color: #e3f2fd;
+        }
+
+        .final-section {
+            text-align: center;
+            background: none;
+            border: none;
+            box-shadow: none;
+            padding: 0;
+        }
+
+        .final-section h2 {
+            font-size: 3rem;
+            border: none;
+            color: var(--color-text-dark);
+        }
+
+        .final-section h2::after {
+            display: none;
+        }
+
+        .philosophy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .philosophy-card {
+            background-color: var(--color-bg-white);
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid var(--color-border);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .philosophy-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+        }
+
+        .philosophy-card .icon {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 1.5rem;
+        }
+
+        .philosophy-card h3 {
+            font-size: 1.4rem;
+            margin-top: 0;
+            color: var(--color-text-dark);
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem;
+            margin-top: 4rem;
+            background-color: var(--color-text-dark);
+            color: var(--color-bg-light);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5rem;
+                gap: 1rem;
+            }
+            header h1 .number {
+                font-size: 3.5rem;
+            }
+            h2 {
+                font-size: 2.2rem;
+            }
+            section {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <h1><span class="number">01</span> WHAT IS MARKETING</h1>
+        <p class="subtitle">What It Is and Why It Matters to You</p>
+    </div>
+</header>
+
+<main class="container">
+    <!-- SECTION: DEFINITIONS -->
+    <section>
+        <h2>Defining Marketing</h2>
+        <div class="card" style="margin-bottom: 2rem; border-left: 4px solid var(--color-primary-red);">
+            <h4>Marketing?</h4>
+            <p>The art and science of creating, communicating, and delivering <span class="highlight">value</span> to satisfy the needs of a target market.</p>
+        </div>
+        <div class="card" style="border-left: 4px solid var(--color-accent-blue);">
+            <h4>Marketing Management?</h4>
+            <p>Coordination of strategic planning, implementation, and control of activities designed to bring about desired exchanges with target markets.</p>
+        </div>
+
+        <blockquote>
+            "Marketing is the process by which companies create value for customers and build strong customer relationships in order to capture value in return."
+            <cite>- Philip Kotler</cite>
+        </blockquote>
+    </section>
+
+    <!-- SECTION: MARKETING vs SELLING/ADVERTISING -->
+    <section>
+        <h2>Marketing vs. Selling & Advertising</h2>
+        <h3>The Iceberg Concept</h3>
+        <p>What people often see (selling and advertising) is just the "tip of the iceberg." The majority of marketing work—research, strategy, product development, pricing—happens below the surface.</p>
+        <svg viewBox="0 0 300 200" class="centered-svg" style="max-width: 400px;" aria-labelledby="iceberg-title">
+            <title id="iceberg-title">Iceberg diagram showing Selling is the tip and Marketing is the larger submerged part.</title>
+            <path d="M 50 75 H 250" stroke="#3498db" stroke-width="2" stroke-dasharray="4"/>
+            <path d="M 150 75 L 120 40 L 160 50 L 170 30 L 180 75 Z" fill="#e0f7fa" stroke="#0288d1" stroke-width="1.5"/>
+            <path d="M 150 75 L 120 100 L 100 120 L 130 150 L 150 180 L 170 140 L 200 110 L 180 75 Z" fill="#3498db" stroke="#0277bd" stroke-width="1.5"/>
+            <text x="260" y="65" font-family="'Montserrat', sans-serif" font-size="14" fill="#2c3e50">Selling</text>
+            <text x="255" y="115" font-family="'Montserrat', sans-serif" font-size="14" fill="#2c3e50">Marketing</text>
+        </svg>
+
+        <h3>Advertising vs. Marketing</h3>
+        <p>Advertising is a component of marketing, not the whole thing. It is a subset focused specifically on communicating a promotional message to a target audience.</p>
+        <div class="flex-center">
+            <svg viewBox="0 0 200 120" width="300" aria-labelledby="venn-title">
+                <title id="venn-title">Venn diagram showing Advertising is a small circle inside the larger circle of Marketing.</title>
+                <circle cx="80" cy="60" r="55" fill="#424242"/>
+                <circle cx="105" cy="70" r="20" fill="#1976D2"/>
+                <text x="140" y="40" font-family="'Lato', sans-serif" font-size="10" fill="#212121">Marketing</text>
+                <line x1="138" y1="42" x2="118" y2="50" stroke="#212121" stroke-width="1"/>
+                <text x="140" y="85" font-family="'Lato', sans-serif" font-size="10" fill="#212121">Advertising</text>
+                <line x1="138" y1="83" x2="125" y2="75" stroke="#212121" stroke-width="1"/>
+            </svg>
+        </div>
+        <h4>Advertising Scope Includes:</h4>
+        <ul>
+            <li>TV/radio commercials</li>
+            <li>Print ads (newspapers, magazines)</li>
+            <li>Online ads (social media, Google, banners)</li>
+            <li>Outdoor ads (billboards, transit)</li>
+            <li>Influencer or celebrity endorsements</li>
+        </ul>
+    </section>
+
+    <!-- SECTION: CORE CONCEPTS -->
+    <section>
+        <h2>Core Marketing Concepts</h2>
+        <p>Marketing revolves around a core set of interconnected concepts that form a continuous cycle.</p>
+        <svg viewBox="0 0 350 250" class="centered-svg" style="max-width: 600px;" aria-labelledby="core-concepts-title">
+            <title id="core-concepts-title">A circular flow diagram of core marketing concepts: Needs, wants and demands -> Products and Services -> Value, satisfaction, and quality -> Exchange, transactions, and relationships -> Markets -> back to Needs.</title>
+            <!-- Center Box -->
+            <rect x="135" y="105" width="80" height="40" rx="5" fill="#fbc02d"/>
+            <text x="175" y="120" text-anchor="middle" font-size="8" font-family="'Montserrat', sans-serif" fill="#424242">Core</text>
+            <text x="175" y="132" text-anchor="middle" font-size="8" font-family="'Montserrat', sans-serif" fill="#424242">Marketing</text>
+            <!-- Top Box -->
+            <rect x="125" y="10" width="100" height="40" rx="5" fill="#e57373"/>
+            <text x="175" y="25" text-anchor="middle" font-size="8" font-family="'Lato', sans-serif">Needs, wants</text>
+            <text x="175" y="37" text-anchor="middle" font-size="8" font-family="'Lato', sans-serif">and demands</text>
+            <!-- Right Box -->
+            <rect x="250" y="85" width="90" height="40" rx="5" fill="#64b5f6"/>
+            <text x="295" y="100" text-anchor="middle" font-size="8" font-family="'Lato', sans-serif">Products and</text>
+            <text x="295" y="112" text-anchor="middle" font-size="8" font-family="'Lato', sans-serif">Services</text>
+            <!-- Bottom Box -->
+            <rect x="200" y="180" width="100" height="40" rx="5" fill="#ba68c8"/>
+            <text x="250" y="195" text-anchor="middle" font-size="8" font-family="'Lato', sans-serif">Value, satisfaction,</text>
+            <text x="250" y="207" text-anchor="middle" font-size="8" font-family="'Lato', sans-serif">and quality</text>
+            <!-- Bottom Left Box -->
+            <rect x="50" y="180" width="100" height="40" rx="5" fill="#ffb74d"/>
+            <text x="100" y="195" text-anchor="middle" font-size="8" font-family="'Lato', sans-serif">Exchange,</text>
+            <text x="100" y="207" text-anchor="middle" font-size="8" font-family="'Lato', sans-serif">transactions, and</text>
+            <text x="100" y="219" text-anchor="middle" font-size="7" font-family="'Lato', sans-serif">relationships</text>
+            <!-- Left Box -->
+            <rect x="10" y="85" width="90" height="40"rx="5" fill="#64b5f6"/>
+            <text x="55" y="108" text-anchor="middle" font-size="8" font-family="'Lato', sans-serif">Markets</text>
+            <!-- Arrows -->
+            <path d="M 225 35 Q 260 50 270 85" stroke="#757575" fill="none" stroke-width="2" marker-end="url(#arrow)"/>
+            <path d="M 280 125 Q 270 150 250 180" stroke="#757575" fill="none" stroke-width="2" marker-end="url(#arrow)"/>
+            <path d="M 200 200 H 150" stroke="#757575" fill="none" stroke-width="2" marker-end="url(#arrow)"/>
+            <path d="M 50 200 Q 20 150 30 125" stroke="#757575" fill="none" stroke-width="2" marker-end="url(#arrow)"/>
+            <path d="M 40 85 Q 80 50 125 35" stroke="#757575" fill="none" stroke-width="2" marker-end="url(#arrow)"/>
+            <defs>
+                <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#757575" />
+                </marker>
+            </defs>
+        </svg>
+
+        <h3>Needs vs. Wants</h3>
+        <p>Understanding the difference between needs and wants is fundamental to marketing.</p>
+        <table>
+            <thead>
+            <tr>
+                <th>Aspect</th>
+                <th>Needs</th>
+                <th>Wants</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><strong>Definition</strong></td>
+                <td>Essentials required for survival or basic functioning.</td>
+                <td>Desires or luxuries that enhance comfort or satisfaction.</td>
+            </tr>
+            <tr>
+                <td><strong>Examples</strong></td>
+                <td>Food, water, shelter, healthcare, basic clothing.</td>
+                <td>Latest gadgets, designer clothes, vacations.</td>
+            </tr>
+            <tr>
+                <td><strong>Fulfillment Priority</strong></td>
+                <td>High - necessary for maintaining life and health.</td>
+                <td>Low - optional and based on personal choice.</td>
+            </tr>
+            <tr>
+                <td><strong>Flexibility</strong></td>
+                <td>Non-negotiable and fundamental human requirement.</td>
+                <td>Flexible and subject to personal preferences.</td>
+            </tr>
+            <tr>
+                <td><strong>Change</strong></td>
+                <td>Will remain constant over time.</td>
+                <td>May change over time.</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h3>Maslow's Hierarchy of Needs</h3>
+        <p>This psychological theory helps marketers understand consumer motivation at different levels.</p>
+        <svg viewBox="0 0 400 250" class="centered-svg" aria-labelledby="maslow-title">
+            <title id="maslow-title">Maslow's Hierarchy of Needs pyramid, showing Physiological, Safety, Love/Belonging, Esteem, and Self-actualization levels from bottom to top.</title>
+            <polygon points="50,230 350,230 300,180 100,180" fill="#d32f2f"/>
+            <text x="200" y="205" text-anchor="middle" font-family="'Montserrat', sans-serif" font-weight="bold" fill="white" font-size="12">Physiological Needs</text>
+            <polygon points="100,180 300,180 275,130 125,130" fill="#F57C00"/>
+            <text x="200" y="155" text-anchor="middle" font-family="'Montserrat', sans-serif" font-weight="bold" fill="white" font-size="12">Safety Needs</text>
+            <polygon points="125,130 275,130 250,80 150,80" fill="#fbc02d"/>
+            <text x="200" y="105" text-anchor="middle" font-family="'Montserrat', sans-serif" font-weight="bold" fill="#424242" font-size="12">Love and Belonging</text>
+            <polygon points="150,80 250,80 225,30 175,30" fill="#388E3C"/>
+            <text x="200" y="55" text-anchor="middle" font-family="'Montserrat', sans-serif" font-weight="bold" fill="white" font-size="12">Esteem Needs</text>
+            <polygon points="175,30 225,30 200,0" fill="#1976D2"/>
+            <text x="200" y="20" text-anchor="middle" font-family="'Montserrat', sans-serif" font-weight="bold" fill="white" font-size="10">Self-actualization</text>
+        </svg>
+    </section>
+
+    <!-- SECTION: PRODUCTS/OFFERINGS -->
+    <section>
+        <h2>Products, Services & Offerings</h2>
+        <p>Marketers provide offerings to satisfy needs and wants. These can be tangible goods or intangible services.</p>
+        <div class="flex-center">
+            <div class="card">
+                <h4>Goods (Tangible)</h4>
+                <p>A product is a tangible item that is created, manufactured, and sold to fulfill a need or want. <br><em>e.g., a car, a shirt, food.</em></p>
+            </div>
+            <div class="card">
+                <h4>Services (Intangible)</h4>
+                <p>A service is an intangible activity or benefit offered to fulfill a need, usually produced and consumed at the same time. <br><em>e.g., a haircut, legal advice.</em></p>
+            </div>
+        </div>
+
+        <h3>Types of Marketing Entities</h3>
+        <p>Marketing isn't just for physical products. It can be applied to a wide range of "offerings":</p>
+        <ul>
+            <li><strong>Goods:</strong> Smartphone</li>
+            <li><strong>Services:</strong> Transportation</li>
+            <li><strong>Persons:</strong> Mahela Jayawardhane (Celebrity)</li>
+            <li><strong>Ideas:</strong> A business model</li>
+            <li><strong>Places:</strong> Paris</li>
+            <li><strong>Events:</strong> An art festival</li>
+            <li><strong>Organizations:</strong> Sarvodaya</li>
+            <li><strong>Properties:</strong> Land</li>
+            <li><strong>Information:</strong> A news article</li>
+            <li><strong>Experience:</strong> Hiking</li>
+        </ul>
+    </section>
+
+    <!-- SECTION: VALUE AND SATISFACTION -->
+    <section>
+        <h2>Value, Exchange, and Satisfaction</h2>
+        <h3>Customer Value</h3>
+        <p>Value is the customer's perception of what they get versus what they give up.</p>
+        <div class="card" style="text-align:center; background: var(--color-text-dark); color: white;">
+            <h4 style="color: white; font-size: 1.4rem;">Customer Value = Perceived Benefits - Perceived Costs</h4>
+        </div>
+        <ul>
+            <li><strong>What they get (Benefits):</strong> quality, features, comfort, experience.</li>
+            <li><strong>What they give up (Costs):</strong> money, time, effort.</li>
+        </ul>
+
+        <h3>Customer Satisfaction</h3>
+        <p>Satisfaction is how a customer feels after using a product/service and comparing it to their expectations. Setting the right expectations is crucial.</p>
+        <ul>
+            <li>Performance <strong style="color: var(--color-accent-yellow);">=</strong> Expectations ➡️ <strong>Satisfied</strong></li>
+            <li>Performance <strong style="color: var(--color-primary-red);"><</strong> Expectations ➡️ <strong>Dissatisfied</strong></li>
+            <li>Performance <strong style="color: var(--color-accent-green);">></strong> Expectations ➡️ <strong>Delighted</strong></li>
+        </ul>
+
+        <h3>Exchange and Markets</h3>
+        <p>An exchange is the core of marketing—obtaining a desired product by offering something of value in return. This happens in a market, which is any platform where buyers and sellers interact.</p>
+        <ul>
+            <li><strong>Market Place:</strong> A physical location (e.g., a retail store).</li>
+            <li><strong>Market Space:</strong> A digital location (e.g., an e-commerce website).</li>
+            <li><strong>Meta Market:</strong> A cluster of related goods and services (e.g., a "wedding market" including venues, caterers, photographers).</li>
+        </ul>
+    </section>
+
+    <!-- SECTION: MARKETING MIX -->
+    <section>
+        <h2>The Marketing Mix</h2>
+        <h3>The Traditional 4 Ps</h3>
+        <p>The Marketing Mix is the set of controllable, tactical marketing tools that a company blends to produce the response it wants in the target market.</p>
+        <div class="philosophy-grid">
+            <div class="philosophy-card">
+                <h3>Product</h3>
+                <p>Variety, Quality, Design, Features, Brand Name, Packaging, Services</p>
+            </div>
+            <div class="philosophy-card">
+                <h3>Price</h3>
+                <p>List Price, Discounts, Allowances, Payment Period, Credit Terms</p>
+            </div>
+            <div class="philosophy-card">
+                <h3>Place</h3>
+                <p>Channels, Coverage, Locations, Inventory, Transport</p>
+            </div>
+            <div class="philosophy-card">
+                <h3>Promotion</h3>
+                <p>Advertising, Sales Promotion, Public Relations, Sales Force, Direct Marketing</p>
+            </div>
+        </div>
+
+        <h3>Modern Marketing Management (The new 4 Ps)</h3>
+        <div class="philosophy-grid">
+            <div class="philosophy-card" style="background-color: #e8f5e9;">
+                <h3>People</h3>
+                <p>Internal and external stakeholders impacting marketing success.</p>
+            </div>
+            <div class="philosophy-card" style="background-color: #e8f5e9;">
+                <h3>Processes</h3>
+                <p>The creativity, discipline, and structure brought to marketing management.</p>
+            </div>
+            <div class="philosophy-card" style="background-color: #e8f5e9;">
+                <h3>Programs</h3>
+                <p>All of the firm's consumer-directed activities, encompassing the old 4 Ps.</p>
+            </div>
+            <div class="philosophy-card" style="background-color: #e8f5e9;">
+                <h3>Performance</h3>
+                <p>The range of possible outcome measures, both financial and non-financial.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: HISTORICAL PERSPECTIVES -->
+    <section>
+        <h2>Historical Perspectives: Marketing Philosophies</h2>
+        <p>Marketing has evolved through several distinct philosophies or concepts over time.</p>
+        <svg viewBox="0 0 400 300" class="centered-svg" style="max-width: 500px;" aria-labelledby="philosophies-title">
+            <title id="philosophies-title">Diagram of the five Marketing Management Philosophies: Production, Product, Selling, Marketing, and Societal concepts, arranged around a central hub.</title>
+            <circle cx="200" cy="150" r="45" fill="#212121"/>
+            <text x="200" y="145" text-anchor="middle" fill="white" font-size="10" font-family="'Montserrat', sans-serif">Marketing</text>
+            <text x="200" y="157" text-anchor="middle" fill="white" font-size="10" font-family="'Montserrat', sans-serif">Management</text>
+            <text x="200" y="169" text-anchor="middle" fill="white" font-size="10" font-family="'Montserrat', sans-serif">Philosophies</text>
+            <g> <circle cx="80" cy="220" r="35" fill="#4CAF50" stroke="#388E3C" stroke-width="2"/><text x="80" y="217" text-anchor="middle" font-size="8" fill="white" font-family="'Lato', sans-serif">PRODUCTION</text><text x="80" y="227" text-anchor="middle" font-size="8" fill="white" font-family="'Lato', sans-serif">CONCEPT</text></g>
+            <g> <circle cx="80" cy="80" r="35" fill="#4CAF50" stroke="#388E3C" stroke-width="2"/><text x="80" y="77" text-anchor="middle" font-size="8" fill="white" font-family="'Lato', sans-serif">PRODUCT</text><text x="80" y="87" text-anchor="middle" font-size="8" fill="white" font-family="'Lato', sans-serif">CONCEPT</text></g>
+            <g> <circle cx="200" cy="50" r="35" fill="#4CAF50" stroke="#388E3C" stroke-width="2"/><text x="200" y="47" text-anchor="middle" font-size="8" fill="white" font-family="'Lato', sans-serif">SELLING</text><text x="200" y="57" text-anchor="middle" font-size="8" fill="white" font-family="'Lato', sans-serif">CONCEPT</text></g>
+            <g> <circle cx="320" cy="80" r="35" fill="#4CAF50" stroke="#388E3C" stroke-width="2"/><text x="320" y="77" text-anchor="middle" font-size="8" fill="white" font-family="'Lato', sans-serif">MARKETING</text><text x="320" y="87" text-anchor="middle" font-size="8" fill="white" font-family="'Lato', sans-serif">CONCEPT</text></g>
+            <g> <circle cx="320" cy="220" r="35" fill="#4CAF50" stroke="#388E3C" stroke-width="2"/><text x="320" y="217" text-anchor="middle" font-size="8" fill="white" font-family="'Lato', sans-serif">SOCIETAL</text><text x="320" y="227" text-anchor="middle" font-size="8" fill="white" font-family="'Lato', sans-serif">CONCEPT</text></g>
+            <path d="M 160 135 L 110 95" stroke="#bdbdbd" stroke-width="1.5"/><path d="M 180 105 L 195 85" stroke="#bdbdbd" stroke-width="1.5"/><path d="M 220 105 L 280 85" stroke="#bdbdbd" stroke-width="1.5"/><path d="M 160 165 L 110 205" stroke="#bdbdbd" stroke-width="1.5"/><path d="M 240 165 L 290 205" stroke="#bdbdbd" stroke-width="1.5"/>
+        </svg>
+
+        <div class="philosophy-grid">
+            <div class="philosophy-card">
+                <svg class="icon" viewBox="0 0 24 24"><path fill="#4CAF50" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1.88 14.32l-3.3-3.3c-.39-.39-.39-1.02 0-1.41l.71-.71c.39-.39 1.02-.39 1.41 0l1.88 1.88 4.48-4.48c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41l-6.2 6.2c-.39.39-1.02.39-1.41 0z"/></svg>
+                <h3>1. The Production Concept</h3>
+                <p>Focuses on affordable and widely available products. Prioritizes high production efficiency and mass distribution. "If we make it cheap and available, they will buy it."</p>
+            </div>
+            <div class="philosophy-card">
+                <svg class="icon" viewBox="0 0 24 24"><path fill="#2196F3" d="M12 2L1 9l4 1.5V17h14v-6.5L23 9l-11-7zm-2 13H8v-2h2v2zm4 0h-2v-2h2v2zm4 0h-2v-2h2v2z"/></svg>
+                <h3>2. The Product Concept</h3>
+                <p>Belief that consumers favor products with the highest quality, performance, or innovative features. "Build a better mousetrap, and the world will beat a path to your door."</p>
+            </div>
+            <div class="philosophy-card">
+                <svg class="icon" viewBox="0 0 24 24"><path fill="#FF9800" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.21 12.79l-1.42 1.42c-.39.39-1.02.39-1.41 0L12 14.83l-1.38 1.38c-.39.39-1.02.39-1.41 0l-1.42-1.42c-.39-.39-.39-1.02 0-1.41L9.17 12l-1.38-1.38c-.39-.39-.39-1.02 0-1.41l1.42-1.42c.39-.39 1.02-.39 1.41 0L12 9.17l1.38-1.38c.39-.39 1.02-.39 1.41 0l1.42 1.42c.39.39.39 1.02 0 1.41L14.83 12l1.38 1.38c.39.39.39 1.03 0 1.41z"/></svg>
+                <h3>3. The Selling Concept</h3>
+                <p>Assumes consumers won't buy enough unless persuaded through aggressive sales and promotion. Focus is on selling what the company makes, not what the market wants.</p>
+            </div>
+            <div class="philosophy-card">
+                <svg class="icon" viewBox="0 0 24 24"><path fill="#9C27B0" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                <h3>4. The Marketing Concept</h3>
+                <p>Focuses on understanding and meeting customer needs and wants more effectively than competitors. "Find a need and fill it." Customer satisfaction is the path to profitability.</p>
+            </div>
+            <div class="philosophy-card">
+                <svg class="icon" viewBox="0 0 24 24"><path fill="#009688" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17h-2v-6h2v6zm4 0h-2v-6h2v6z"/></svg>
+                <h3>5. Societal Marketing Concept</h3>
+                <p>An extension of the marketing concept that balances customer satisfaction and company profits with the well-being of society and the environment. Focus on long-term value for all stakeholders.</p>
+            </div>
+        </div>
+
+        <h3>Selling vs. Marketing Concept</h3>
+        <p>This flow diagram clearly illustrates the difference in orientation between the selling and marketing concepts.</p>
+        <svg viewBox="0 0 500 200" class="centered-svg" aria-labelledby="selling-vs-marketing-title">
+            <title id="selling-vs-marketing-title">Comparison flow chart between the Selling Concept (Factory -> Existing Products -> Selling/Promoting -> Profit via Sales Volume) and the Marketing Concept (Market -> Customer Needs -> Integrated Marketing -> Profit via Customer Satisfaction).</title>
+            <text x="10" y="50" font-family="'Montserrat', sans-serif" font-weight="bold" font-size="12">SELLING</text>
+            <text x="10" y="65" font-family="'Montserrat', sans-serif" font-weight="bold" font-size="12">CONCEPT</text>
+            <path d="M80 30 H180 L200 55 L180 80 H80 L100 55 Z" fill="#2980b9"/><text x="130" y="58" text-anchor="middle" fill="white" font-size="10">FACTORY</text>
+            <path d="M185 30 H285 L305 55 L285 80 H185 L205 55 Z" fill="#2980b9"/><text x="245" y="52" text-anchor="middle" fill="white" font-size="10">EXISTING</text><text x="245" y="64" text-anchor="middle" fill="white" font-size="10">PRODUCTS</text>
+            <path d="M290 30 H390 L410 55 L390 80 H290 L310 55 Z" fill="#2980b9"/><text x="350" y="52" text-anchor="middle" fill="white" font-size="10">SELLING &</text><text x="350" y="64" text-anchor="middle" fill="white" font-size="10">PROMOTING</text>
+            <path d="M395 30 H495 L495 80 H395 L415 55 Z" fill="#3498db"/><text x="445" y="52" text-anchor="middle" fill="white" font-size="10">PROFIT via</text><text x="445" y="64" text-anchor="middle" fill="white" font-size="10">SALES VOLUME</text>
+
+            <text x="10" y="140" font-family="'Montserrat', sans-serif" font-weight="bold" font-size="12">MARKETING</text>
+            <text x="10" y="155" font-family="'Montserrat', sans-serif" font-weight="bold" font-size="12">CONCEPT</text>
+            <path d="M80 120 H180 L200 145 L180 170 H80 L100 145 Z" fill="#16a085"/><text x="130" y="148" text-anchor="middle" fill="white" font-size="10">MARKET</text>
+            <path d="M185 120 H285 L305 145 L285 170 H185 L205 145 Z" fill="#16a085"/><text x="245" y="142" text-anchor="middle" fill="white" font-size="10">CUSTOMER</text><text x="245" y="154" text-anchor="middle" fill="white" font-size="10">NEEDS</text>
+            <path d="M290 120 H390 L410 145 L390 170 H290 L310 145 Z" fill="#16a085"/><text x="350" y="142" text-anchor="middle" fill="white" font-size="10">INTEGRATED</text><text x="350" y="154" text-anchor="middle" fill="white" font-size="10">MARKETING</text>
+            <path d="M395 120 H495 L495 170 H395 L415 145 Z" fill="#27ae60"/><text x="445" y="142" text-anchor="middle" fill="white" font-size="10">PROFIT via</text><text x="445" y="154" text-anchor="middle" fill="white" font-size="10">SATISFACTION</text>
+        </svg>
+    </section>
+
+
+</main>
+
+</body>
+</html>

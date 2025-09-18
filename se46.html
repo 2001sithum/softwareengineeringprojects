@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marketing Principles: Pricing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Special+Elite&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-bg-teal: #9ab4b4;
+      --color-text-brown: #5c5346;
+      --color-bg-light: #fdfdfd;
+      --color-text-body: #4a4a4a;
+      --font-heading: 'Special Elite', monospace;
+      --font-body: 'Roboto', sans-serif;
+      --shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      line-height: 1.7;
+      color: var(--color-text-body);
+      background-color: var(--color-bg-light);
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    header {
+      background-color: var(--color-bg-teal);
+      text-align: center;
+      padding: 8rem 2rem;
+      color: var(--color-text-brown);
+    }
+
+    header h1 {
+      font-family: var(--font-heading);
+      font-size: 6rem;
+      font-weight: 400;
+    }
+
+    .lecturer-info {
+      background-color: var(--color-bg-light);
+      padding: 2rem;
+      text-align: right;
+      border-bottom: 1px solid #eee;
+    }
+
+    .lecturer-info p {
+      font-size: 1.1rem;
+      line-height: 1.5;
+      color: var(--color-text-brown);
+      display: inline-block;
+      border-left: 2px solid var(--color-bg-teal);
+      padding-left: 1rem;
+    }
+
+    section {
+      padding: 4rem 0;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      gap: 2rem;
+    }
+
+    .section-title-wrapper {
+      flex: 0 0 50px;
+    }
+
+    .section-title-wrapper .line {
+      width: 2px;
+      height: 40px;
+      background-color: var(--color-bg-teal);
+    }
+
+    .section-content {
+      flex: 1;
+    }
+
+    h2 {
+      font-family: var(--font-heading);
+      font-size: 2.5rem;
+      color: var(--color-text-brown);
+      margin-bottom: 2rem;
+      font-weight: 400;
+    }
+
+    h3 {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--color-text-brown);
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+
+    ul li {
+      padding-left: 1.5rem;
+      position: relative;
+      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
+    }
+
+    ul li::before {
+      content: '○';
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--color-text-brown);
+      font-size: 1.1rem;
+    }
+
+    .centered-svg {
+      display: block;
+      margin: 2.5rem auto;
+      max-width: 100%;
+      height: auto;
+    }
+
+    .promo-examples {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .promo-card {
+      background-color: #f5f5f5;
+      padding: 1.5rem;
+      border-radius: 8px;
+      font-family: monospace;
+      line-height: 1.5;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 2rem 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    th, td {
+      padding: 1rem;
+      text-align: left;
+      border: 1px solid #e0e0e0;
+    }
+
+    th, tr td:first-child {
+      background-color: #fafafa;
+      font-weight: 700;
+      color: var(--color-text-brown);
+    }
+
+    .factor-boxes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .factor-box {
+      padding: 2rem;
+      background-color: #757575;
+      color: white;
+      border-radius: 8px;
+    }
+    .factor-box h3 {
+      color: white;
+      margin-top: 0;
+      border-bottom: 1px solid rgba(255,255,255,0.5);
+      padding-bottom: 0.5rem;
+    }
+    .factor-box ul li::before {
+      color: white;
+    }
+
+    .pricing-process {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+    }
+    .process-step {
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      color: white;
+      text-align: center;
+      width: 80%;
+      max-width: 400px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .process-step:nth-child(1) { background-color: #a1887f; }
+    .process-step:nth-child(2) { background-color: #9fa8da; }
+    .process-step:nth-child(3) { background-color: #80cbc4; }
+    .process-step:nth-child(4) { background-color: #ce93d8; }
+    .process-step:nth-child(5) { background-color: #ef9a9a; }
+    .process-step:nth-child(6) { background-color: #90caf9; }
+
+    .strategy-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    .strategy-box {
+      padding: 2rem;
+      border-radius: 12px;
+    }
+    .strategy-box.skimming {
+      background-color: #fff3e0;
+    }
+    .strategy-box.penetration {
+      background-color: #e3f2fd;
+    }
+
+    footer {
+      padding: 4rem 0;
+      text-align: right;
+    }
+
+    footer p {
+      font-family: var(--font-heading);
+      font-size: 2rem;
+      color: var(--color-text-brown);
+    }
+
+    @media (max-width: 768px) {
+      header h1 { font-size: 4rem; }
+      section { flex-direction: column; }
+      .section-title-wrapper { display: none; }
+      .factor-boxes, .strategy-split { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>PRICING</h1>
+</header>
+
+<div class="container">
+
+
+  <main>
+    <section>
+      <div class="section-title-wrapper"><div class="line"></div></div>
+      <div class="section-content">
+        <h2>LEARNING OBJECTIVES</h2>
+        <p>Understand about:</p>
+        <ul>
+          <li>Price setting process</li>
+          <li>Price adjustments strategies</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title-wrapper"><div class="line"></div></div>
+      <div class="section-content">
+        <h2>PRICE IN THE MARKETING MIX</h2>
+        <p>Price is one of the four major elements of the marketing mix, working in conjunction with Product, Place, and Promotion to achieve marketing objectives.</p>
+        <svg class="centered-svg" viewBox="0 0 200 200" style="max-width: 300px;">
+          <title>4Ps of Marketing Mix: Product, Price, Place, Promotion</title>
+          <path d="M100 0 A 100 100 0 0 1 200 100 L 100 100 Z" fill="#f39c12"/>
+          <path d="M200 100 A 100 100 0 0 1 100 200 L 100 100 Z" fill="#e74c3c"/>
+          <path d="M100 200 A 100 100 0 0 1 0 100 L 100 100 Z" fill="#34495e"/>
+          <path d="M0 100 A 100 100 0 0 1 100 0 L 100 100 Z" fill="#1abc9c"/>
+          <circle cx="100" cy="100" r="35" fill="white"/>
+          <circle cx="100" cy="100" r="28" fill="none" stroke="#e74c3c" stroke-width="4"/>
+          <text x="150" y="55" text-anchor="middle" font-weight="bold" fill="white" font-size="16">PRODUCT</text>
+          <text x="150" y="155" text-anchor="middle" font-weight="bold" fill="white" font-size="16">PRICE</text>
+          <text x="50" y="155" text-anchor="middle" font-weight="bold" fill="white" font-size="16">PROMOTION</text>
+          <text x="50" y="55" text-anchor="middle" font-weight="bold" fill="white" font-size="16">PLACE</text>
+        </svg>
+
+        <h3>Pricing in Action</h3>
+        <div class="promo-examples">
+          <div class="promo-card">
+            <strong>Pizza Hut DON'T COOK TUESDAY!</strong><br>
+            Buy 1 Classic or above range Large Pan Pizza and get 1 FREE Delight Large Pan Pizza...
+          </div>
+          <div class="promo-card">
+            <strong>Rice Bowl Offer from Taco Bell!</strong><br>
+            Buy 1 Rice Bowl (Sri Lankan Chicken) for Rs.550 & SAVE Rs.200 OR Buy 2 for Rs.990 & SAVE Rs.500!...
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title-wrapper"><div class="line"></div></div>
+      <div class="section-content">
+        <h2>WHAT IS PRICING?</h2>
+        <p>Pricing is the process of determining the monetary value of a product or service. It is a critical aspect of marketing that affects profitability and market share.</p>
+        <h3>Importance of Pricing</h3>
+        <ul>
+          <li>Influences customer purchasing decisions.</li>
+          <li>Impacts business profitability.</li>
+          <li>Reflects brand positioning and value proposition.</li>
+        </ul>
+
+        <h3>Different Views on Price</h3>
+        <table>
+          <tbody>
+          <tr>
+            <td>Economist's view</td>
+            <td>Price is set by the forces of supply and demand.</td>
+          </tr>
+          <tr>
+            <td>Accountant's view</td>
+            <td>Price should cover costs so that a profit can be made.</td>
+          </tr>
+          <tr>
+            <td>Customer's view</td>
+            <td>Price has to represent good value.</td>
+          </tr>
+          <tr>
+            <td>Marketer's view</td>
+            <td>Pricing is an opportunity to gain a competitive advantage.</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title-wrapper"><div class="line"></div></div>
+      <div class="section-content">
+        <h2>PRICE CONSIDERATION</h2>
+        <p>Pricing decisions are influenced by both internal company factors and external environmental factors.</p>
+        <div class="factor-boxes">
+          <div class="factor-box">
+            <h3>Internal Factors</h3>
+            <ul>
+              <li>Marketing Objectives</li>
+              <li>Marketing Strategies</li>
+              <li>Other elements of the marketing mix</li>
+            </ul>
+          </div>
+          <div class="factor-box">
+            <h3>External Factors</h3>
+            <ul>
+              <li>Nature of the market</li>
+              <li>Nature of the demand</li>
+              <li>Competitor's strategy</li>
+              <li>Other environmental factors</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title-wrapper"><div class="line"></div></div>
+      <div class="section-content">
+        <h2>PROCESS OF PRICING</h2>
+        <div class="pricing-process">
+          <div class="process-step">1. Setting the Pricing Objectives</div>
+          <div class="process-step">2. Determining Demand</div>
+          <div class="process-step">3. Estimating Costs</div>
+          <div class="process-step">4. Analyzing Competitor's Pricing</div>
+          <div class="process-step">5. Selecting Pricing Method</div>
+          <div class="process-step">6. Selecting Final Price</div>
+        </div>
+
+        <h3>Step 1: Selecting Pricing Objectives</h3>
+        <p>A company can select any of the following objectives:</p>
+        <ul>
+          <li>Survival</li>
+          <li>Maximize current profits</li>
+          <li>Maximize market share</li>
+          <li>Market skimming</li>
+          <li>Product quality leadership</li>
+          <li>Partial cost recovery</li>
+          <li>Customer retention or relationship building</li>
+        </ul>
+
+        <h3>Step 2: Determine the Demand</h3>
+        <p>Concentrate on the demand conditions and the elasticity of demand. Consumers are generally <strong>less price sensitive</strong> when:</p>
+        <ul>
+          <li>The product is more distinctive.</li>
+          <li>Buyers are less aware of substitutes.</li>
+          <li>The expenditure is a small part of the buyer's total income.</li>
+          <li>The product is used with assets previously bought.</li>
+        </ul>
+
+        <h3>Step 3: Estimating Cost</h3>
+        <p>Key cost considerations include:</p>
+        <ul>
+          <li>Types of costs (fixed, variable) and levels of production.</li>
+          <li>Accumulated production leads to cost reduction (the experience curve).</li>
+          <li>Differentiated marketing offers create different cost levels.</li>
+        </ul>
+
+        <h3>Step 4: Analyzing Competitor's Cost, Price & Offerings</h3>
+        <p>Firms must analyze the competition with respect to their costs, prices, and possible reactions to price changes. Pricing decisions are also influenced by the quality of your offering relative to the competition.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title-wrapper"><div class="line"></div></div>
+      <div class="section-content">
+        <h2>SELECTING PRICING METHOD</h2>
+        <h3>The Three "C's" of Pricing</h3>
+        <p>Price-setting begins with consideration of three key factors:</p>
+        <ul>
+          <li><strong>Cost:</strong> Cost-oriented pricing (e.g., cost-plus).</li>
+          <li><strong>Customer:</strong> Customer-oriented pricing (e.g., value-based).</li>
+          <li><strong>Competition:</strong> Competitor-oriented pricing (e.g., going-rate).</li>
+        </ul>
+
+        <h3>New Product Pricing Strategies</h3>
+        <div class="strategy-split">
+          <div class="strategy-box skimming">
+            <h4>Market Skimming</h4>
+            <p>Setting a high initial price for a new product to "skim" maximum revenue from segments willing to pay the high price. The company makes fewer but more profitable sales.</p>
+            <p><strong>Example:</strong> Apple iPhones, Sony PlayStation consoles at launch.</p>
+          </div>
+          <div class="strategy-box penetration">
+            <h4>Market Penetration</h4>
+            <p>Setting a low initial price for a new product to attract a large number of buyers quickly and win a large market share.</p>
+            <p><strong>Example:</strong> Netflix, Walmart, AliExpress.</p>
+          </div>
+        </div>
+        <svg class="centered-svg" viewBox="0 0 300 200" style="max-width:400px;">
+          <title>Graph showing Price Skimming starting high and decreasing, while Penetration Pricing starts low and may increase over time.</title>
+          <path d="M 30 180 L 280 180" stroke="#333" stroke-width="1.5" marker-end="url(#arrow)"/>
+          <path d="M 30 180 L 30 20" stroke="#333" stroke-width="1.5" marker-end="url(#arrow)"/>
+          <text x="290" y="185" font-size="10">Time</text>
+          <text x="20" y="15" font-size="10" transform="rotate(-90 20 15)">Price</text>
+          <path d="M 50 40 C 100 120, 150 160, 250 170" stroke="#e53935" stroke-width="2.5" fill="none"/>
+          <text x="200" y="150" font-size="10" fill="#e53935">Price Skimming</text>
+          <path d="M 50 160 C 120 120, 180 100, 250 90" stroke="#1e88e5" stroke-width="2.5" fill="none"/>
+          <text x="180" y="70" font-size="10" fill="#1e88e5">Penetration Pricing</text>
+          <defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#333"/></marker></defs>
+        </svg>
+
+        <h3>Price Adjustment Strategies</h3>
+        <table>
+          <thead>
+          <tr>
+            <th>Strategy</th>
+            <th>Description</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>Discount & Allowance Pricing</td>
+            <td>Reducing prices to reward customer responses (e.g., paying early).</td>
+          </tr>
+          <tr>
+            <td>Segmented Pricing</td>
+            <td>Adjusting prices for different customers, products, or locations.</td>
+          </tr>
+          <tr>
+            <td>Psychological Pricing</td>
+            <td>Adjusting prices for psychological effect (e.g., $9.99 vs. $10.00).</td>
+          </tr>
+          <tr>
+            <td>Promotional Pricing</td>
+            <td>Temporarily reducing prices for short-run sales.</td>
+          </tr>
+          <tr>
+            <td>Dynamic Pricing</td>
+            <td>Adjusting prices continually to meet the needs of individual customers.</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title-wrapper"><div class="line"></div></div>
+      <div class="section-content">
+        <h2>CHALLENGES & FUTURE TRENDS</h2>
+        <h3>Challenges in Pricing</h3>
+        <ul>
+          <li><strong>Balancing Profitability and Demand:</strong> Too high may deter sales; too low may reduce profits.</li>
+          <li><strong>Managing Customer Expectations:</strong> Communicating price changes effectively.</li>
+        </ul>
+
+        <h3>Future Trends in Pricing</h3>
+        <ul>
+          <li><strong>AI-Driven Pricing:</strong> Using machine learning for real-time price optimization.</li>
+          <li><strong>Sustainability Pricing:</strong> Reflecting environmental costs in pricing strategies.</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+</div>
+</body>
+</html>
