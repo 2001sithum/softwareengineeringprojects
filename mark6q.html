@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Questionnaire: Integrated Marketing Channels</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; background-color: #f4f7f6; color: #34495e; line-height: 1.7; margin: 0; padding: 2rem; }
+        .container { max-width: 800px; margin: 0 auto; background-color: #ffffff; padding: 2.5rem; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        h1 { color: #2c3e50; border-bottom: 3px solid #c5a982; padding-bottom: 0.5rem; }
+        h2 { color: #2c3e50; margin-top: 2.5rem; font-size: 1.5rem; background-color: #f8f9fa; padding: 0.5rem 1rem; border-radius: 5px; }
+        ol { list-style: none; padding-left: 0; counter-reset: question-counter; }
+        li { counter-increment: question-counter; margin-bottom: 1.5rem; border-left: 2px solid #e0e0e0; padding-left: 1rem; }
+        li::before { content: counter(question-counter); font-weight: 700; font-size: 1rem; color: #ffffff; background-color: #c5a982; margin-right: 0.75rem; border-radius: 50%; width: 24px; height: 24px; display: inline-block; text-align: center; line-height: 24px; }
+        p.question-text { font-weight: 600; margin-bottom: 0.5rem; font-size: 1.1rem; display: inline; }
+        .toggle-answer-btn { background-color: #3498db; color: white; border: none; padding: 5px 12px; border-radius: 5px; cursor: pointer; font-weight: 600; font-family: 'Poppins', sans-serif; margin-left: 10px; }
+        .answer { display: none; margin-top: 1rem; padding: 1rem; background-color: #f8f9fa; border-left: 4px solid #c5a982; border-radius: 4px; }
+        .answer p, .answer ul, .answer ol { font-size: 0.95rem; }
+        .visual-aid { margin: 1rem 0; padding: 1rem; background-color: #f8f9fa; border: 1px solid #e9ecef; border-radius: 5px; text-align: center; font-style: italic; }
+        svg { max-width: 100%; height: auto; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Comprehensive Questionnaire: Integrated Marketing Channels</h1>
+    <p>Answer the following questions based on the presentation. Click the button to reveal the correct answer.</p>
+
+    <form onsubmit="return false;">
+        <h2>Section 1: Channels and Value Networks (Questions 1-30)</h2>
+        <ol>
+            <li><p class="question-text">What are the three learning objectives for this lesson?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>1. Understanding Channels. 2. Understanding Value Networks. 3. Understanding Channel Design Decisions.</p></div></li>
+            <li><p class="question-text">Which of the 4Ps of the Marketing Mix do marketing channels represent?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Marketing channels represent "Place."</p></div></li>
+            <li><p class="question-text">Define "Marketing Channels."</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Marketing channels are the pathways through which goods or services flow from producers to consumers.</p></div></li>
+            <li><p class="question-text">Who are the "intermediaries" in a marketing channel?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Intermediaries are third parties like wholesalers, retailers, and agents who facilitate the movement of products from producer to consumer.</p></div></li>
+            <li><p class="question-text">List the three points on the "Importance of Marketing Channels."</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>1. Facilitate product availability for customers. 2. Enhance efficiency in distribution. 3. Bridge the gap between production and consumption.</p></div></li>
+            <li><p class="question-text">How do channels "bridge the gap between production and consumption"?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>They overcome discrepancies in quantity (producers make in bulk, consumers buy in small units), assortment (producers specialize, consumers want variety), time (production and consumption happen at different times), and location (production and consumption happen in different places).</p></div></li>
+            <li><p class="question-text">Define "Value Networks."</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Value networks are interconnected systems of businesses and intermediaries that collaborate to deliver value to customers.</p></div></li>
+            <li><p class="question-text">How does a value network differ from a traditional, linear supply chain?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>A supply chain is a linear model (supplier -> producer -> consumer). A value network is a multi-directional model that includes the company, suppliers, customers, competitors, and complementors, all interacting to co-create value.</p></div></li>
+            <li><p class="question-text">List the four main components of a value network.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Suppliers, Distributors, Retailers, and Customers.</p></div></li>
+            <li><p class="question-text">In the more complex value network diagram, who are the four external players interacting with the central "Company"?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Customers, Competitors, Complementors, and Suppliers.</p></div></li>
+            <li><p class="question-text">What is a "Complementor" in a value network?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>A complementor is a business that offers a product or service that adds value to your product or service. For example, app developers are complementors to Apple (iPhone).</p></div></li>
+            <li><p class="question-text">List the three main benefits of value networks.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>1. Improve efficiency by leveraging partnerships. 2. Enable faster delivery of products to customers. 3. Foster innovation through collaboration among stakeholders.</p></div></li>
+            <li><p class="question-text">What is the purpose of "Value Chain Analysis"?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Value Chain Analysis is a strategic tool used to analyze a company's internal activities to see where value can be added and costs can be reduced, ultimately increasing the "Margin" or profit.</p></div></li>
+            <li><p class="question-text">What are the two main categories of activities in a Value Chain?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>1. Primary Activities. 2. Support Activities.</p></div></li>
+            <li><p class="question-text">List the five types of "Primary Activities."</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Inbound Logistics, Operations, Outbound Logistics, Marketing and Sales, and Service.</p></div></li>
+            <li><p class="question-text">List the four types of "Support Activities."</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Firm Infrastructure, Human Resource Management, Technology Development, and Procurement.</p></div></li>
+            <li><p class="question-text">What is the "Margin" in the Value Chain diagram?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>The Margin is the difference between the total value created and the collective cost of performing the value activities. It represents the company's profit.</p></div></li>
+            <li><p class="question-text">Give an example of an "Inbound Logistics" activity.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Receiving and storing raw materials, real-time inbound inventory data.</p></div></li>
+            <li><p class="question-text">Give an example of a "Marketing and Sales" activity.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Pricing, promotion, communication, and advertising.</p></div></li>
+            <li><p class="question-text">Give an example of a "Human Resource Management" support activity.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Recruiting, training, professional development, and performance appraisals.</p></div></li>
+        </ol>
+
+        <h2>Section 2: Channel Types and Functions (Questions 31-50)</h2>
+        <ol start="21">
+            <li><p class="question-text">What defines a "Direct Channel"?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>A direct channel has no intermediaries; products go directly from the producer to the consumer.</p></div></li>
+            <li><p class="question-text">Provide two examples of a direct channel.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>A brand's own e-commerce website (online sales) and a farmer selling produce at a local market.</p></div></li>
+            <li><p class="question-text">What defines an "Indirect Channel"?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>An indirect channel uses one or more intermediaries like wholesalers or retailers to get the product to the consumer.</p></div></li>
+            <li><p class="question-text">Why are indirect channels common for FMCG (Fast-Moving Consumer Goods) products?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Because FMCG products require widespread availability and efficiency in distribution, which intermediaries like supermarkets and convenience stores are best equipped to provide.</p></div></li>
+            <li><p class="question-text">What is a "Hybrid Channel"?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>A hybrid channel combines direct and indirect approaches. A single company uses multiple channels to reach different customer segments.</p></div></li>
+            <li><p class="question-text">Give the example of a hybrid channel provided in the presentation.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Nike sells its products via its own website (direct channel) and also through retail stores like Foot Locker (indirect channel).</p></div></li>
+            <li><p class="question-text">What are the three key roles of marketing channels?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>1. Ensure product availability at the right place and time. 2. Reduce transaction costs by streamlining processes. 3. Provide valuable market information to producers.</p></div></li>
+            <li><p class="question-text">How do channels reduce transaction costs?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>By creating efficiency. Instead of a producer having to make thousands of small sales to individual consumers, they can make a few large sales to wholesalers or retailers, who then handle the final transactions.</p></div></li>
+            <li><p class="question-text">What are "Transactional Functions" of a channel?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>These are activities related to the sale itself, such as buying products from producers, selling them to consumers, and taking on the financial risks associated with holding inventory.</p></div></li>
+            <li><p class="question-text">What are "Logistical Functions" of a channel?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>These are activities related to the physical movement and handling of goods, such as assorting (creating product variety), storing, sorting, and transporting.</p></div></li>
+            <li><p class="question-text">What are "Facilitating Functions" of a channel?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>These are activities that help the entire channel run smoothly, such as providing financing or credit to customers, grading products for quality, and providing market information back to the producer.</p></div></li>
+        </ol>
+
+        <h2>Section 3: Channel Design and Integration (Questions 51-80)</h2>
+        <ol start="32">
+            <li><p class="question-text">List three common challenges in managing marketing channels.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>1. Conflicts between channel members (e.g., over pricing or territory). 2. Inefficiencies in logistics or inventory management. 3. Adapting to digital transformation in traditional channels.</p></div></li>
+            <li><p class="question-text">What is "Channel Design"?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Channel design involves selecting the most effective marketing channels to deliver products or services to customers.</p></div></li>
+            <li><p class="question-text">What are the four key steps in channel design?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>1. Analysing customer needs. 2. Identifying channel objectives. 3. Evaluating channel options. 4. Selecting channel partners.</p></div></li>
+            <li><p class="question-text">What factors about customer needs must be analyzed first?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Understanding customer preferences for purchasing (e.g., online vs. offline) and how they value factors like convenience, speed, and price.</p></div></li>
+            <li><p class="question-text">Channel objectives must be aligned with what?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>They must be aligned with overall business goals, such as market penetration or cost reduction.</p></div></li>
+            <li><p class="question-text">What must be assessed when "Evaluating channel options"?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>The costs and benefits of different channels (e.g., direct vs. indirect) and their compatibility with existing distribution networks.</p></div></li>
+            <li><p class="question-text">What criteria are important when "Selecting channel partners"?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Partners should be chosen based on their expertise, reputation, and reach.</p></div></li>
+            <li><p class="question-text">What is the fifth and final step in the channel design flowchart?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Defining the "Ideal channel structure."</p></div></li>
+            <li><p class="question-text">Define "Integrated Marketing Channels."</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Integrated marketing channels ensure consistent messaging across all distribution points to provide a seamless customer experience.</p></div></li>
+            <li><p class="question-text">What are the two main benefits of channel integration?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>1. It strengthens brand consistency across platforms. 2. It improves customer trust and loyalty.</p></div></li>
+            <li><p class="question-text">What are the two key steps for integrating marketing channels?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>1. Align goals across all channels. 2. Use technology to centralize data and streamline operations (e.g., CRM systems).</p></div></li>
+            <li><p class="question-text">What is a key challenge in integrating online and offline channels?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Resolving conflicts between online and offline sales teams, who may feel they are competing for the same customers.</p></div></li>
+            <li><p class="question-text">List two solutions for overcoming challenges in channel integration.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>1. Invest in training and technology. 2. Ensure clear communication among all channel members.</p></div></li>
+        </ol>
+
+        <h2>Section 4: Future Trends and Tools (Questions 81-101)</h2>
+        <ol start="45">
+            <li><p class="question-text">What is an "Omni-channel" strategy?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>An omni-channel strategy is a multichannel approach that seeks to provide the customer with a seamless shopping experience whether the customer is shopping online from a desktop or mobile device, by telephone, or in a brick-and-mortar store.</p></div></li>
+            <li><p class="question-text">How will AI be used in future marketing channels?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>It will be used for personalized recommendations, inventory management, and optimizing logistics.</p></div></li>
+            <li><p class="question-text">What is "Social Commerce"? Give an example.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Social commerce is the process of selling products directly on social media platforms. Example: TikTok Shops or Instagram Shopping.</p></div></li>
+            <li><p class="question-text">What is the function of CRM software in managing channels?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Customer Relationship Management (CRM) software is used for tracking all customer interactions across all channels to get a unified view of the customer journey.</p></div></li>
+            <li><p class="question-text">Why are inventory management systems important for integrated channels?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>They provide real-time stock updates, which is crucial for features like "buy online, pick up in-store" and preventing stockouts.</p></div></li>
+            <li><p class="question-text">What is the role of data analytics tools in channel management?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>They are used for measuring channel performance, tracking sales, and understanding customer behavior across different channels to make data-driven decisions.</p></div></li>
+        </ol>
+    </form>
+</div>
+<script>
+    function toggleAnswer(button) {
+        const answerDiv = button.nextElementSibling;
+        if (answerDiv.style.display === 'none' || answerDiv.style.display === '') {
+            answerDiv.style.display = 'block';
+            button.textContent = 'Hide';
+        } else {
+            answerDiv.style.display = 'none';
+            button.textContent = 'Show';
+        }
+    }
+</script>
+</body>
+</html>

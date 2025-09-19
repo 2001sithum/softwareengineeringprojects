@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Questionnaire: Product</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; background-color: #f4f7f6; color: #34495e; line-height: 1.7; margin: 0; padding: 2rem; }
+        .container { max-width: 800px; margin: 0 auto; background-color: #ffffff; padding: 2.5rem; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        h1 { color: #2c3e50; border-bottom: 3px solid #212529; padding-bottom: 0.5rem; }
+        h2 { color: #2c3e50; margin-top: 2.5rem; font-size: 1.5rem; background-color: #f8f9fa; padding: 0.5rem 1rem; border-radius: 5px; }
+        ol { list-style: none; padding-left: 0; counter-reset: question-counter; }
+        li { counter-increment: question-counter; margin-bottom: 1.5rem; border-left: 2px solid #e0e0e0; padding-left: 1rem; }
+        li::before { content: counter(question-counter); font-weight: 700; font-size: 1rem; color: #ffffff; background-color: #212529; margin-right: 0.75rem; border-radius: 50%; width: 24px; height: 24px; display: inline-block; text-align: center; line-height: 24px; }
+        p.question-text { font-weight: 600; margin-bottom: 0.5rem; font-size: 1.1rem; display: inline; }
+        .toggle-answer-btn { background-color: #3498db; color: white; border: none; padding: 5px 12px; border-radius: 5px; cursor: pointer; font-weight: 600; font-family: 'Poppins', sans-serif; margin-left: 10px; }
+        .answer { display: none; margin-top: 1rem; padding: 1rem; background-color: #f8f9fa; border-left: 4px solid #212529; border-radius: 4px; }
+        .answer p, .answer ul, .answer ol { font-size: 0.95rem; }
+        .visual-aid { margin: 1rem 0; padding: 1rem; background-color: #f8f9fa; border: 1px solid #e9ecef; border-radius: 5px; text-align: center; font-style: italic; }
+        svg { max-width: 100%; height: auto; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Comprehensive Questionnaire: Product</h1>
+    <p>Answer the following questions based on the presentation. Click the button to reveal the correct answer.</p>
+
+    <form onsubmit="return false;">
+        <h2>Section 1: Product Fundamentals & Levels (Questions 1-25)</h2>
+        <ol>
+            <li><p class="question-text">What is the first definition of a "product" provided in the presentation?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>A product is any item that satisfies a human need or want and is offered in the marketplace for acquisition, use, or consumption.</p></div></li>
+            <li><p class="question-text">What is the second, simpler definition of a product?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>A product is something that can be seen or experienced, created to meet the needs or desires of consumers.</p></div></li>
+            <li><p class="question-text">List the 10 forms a product can take.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Goods, Services, Events, People, Places, Organizations, Ideas, Experiences, Information, and Properties.</p></div></li>
+            <li><p class="question-text">What is the "Core Benefit" in the five product levels?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>The fundamental need or benefit the customer is actually buying. It's the core problem-solving service.</p></div></li>
+            <li><p class="question-text">What is the "Basic Product" level?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>This is the tangible, physical product or the basic version that includes only the essential attributes to deliver the core benefit.</p></div></li>
+            <li><p class="question-text">What is the "Expected Product" level?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>This level includes a set of attributes and conditions that buyers normally expect when they purchase the product.</p></div></li>
+            <li><p class="question-text">What is the "Augmented Product" level?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>This level includes additional services and benefits that differentiate the product from competitors. It exceeds customer expectations.</p></div></li>
+            <li><p class="question-text">What is the "Potential Product" level?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>This level encompasses all the possible augmentations and transformations the product might undergo in the future.</p></div></li>
+            <li><p class="question-text">Using a smartphone, provide an example for the "Core Benefit."</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Communication and connectivity on the go.</p></div></li>
+            <li><p class="question-text">Using a smartphone, provide an example for the "Basic Product."</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>A device with call, SMS, and internet capabilities.</p></div></li>
+            <li><p class="question-text">Using a smartphone, provide an example for the "Expected Product."</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>A touchscreen, high-quality camera, apps, decent battery life, and a stable operating system (like iOS).</p></div></li>
+            <li><p class="question-text">Using a smartphone, provide an example for the "Augmented Product."</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>iCloud storage, Face ID, integration with an ecosystem (MacBook, iPad), AppleCare warranty, and regular software updates.</p></div></li>
+            <li><p class="question-text">Using a smartphone, provide an example for the "Potential Product."</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Future features like AI-powered functions, foldable screens, or advanced AR/VR capabilities.</p></div></li>
+        </ol>
+
+        <h2>Section 2: Product Classifications (Questions 26-50)</h2>
+        <ol start="14">
+            <li><p class="question-text">What are the three main classifications of products?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>1. Based on Durability and Tangibility. 2. Consumer Goods Classification. 3. Industrial Goods Classification.</p></div></li>
+            <li><p class="question-text">Define "Durable Goods" and give two examples.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Tangible items that can be used repeatedly and have a long lifespan. Examples: Refrigerators, washing machines, TVs, furniture.</p></div></li>
+            <li><p class="question-text">What is a recommended marketing strategy for durable goods?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Personal selling, providing after-sales services, and emphasizing product quality and guarantees.</p></div></li>
+            <li><p class="question-text">Define "Non-durable Goods" and give two examples.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Items that are consumed quickly and need to be repurchased frequently. Examples: Bread, soap, shampoo.</p></div></li>
+            <li><p class="question-text">What is a recommended marketing strategy for non-durable goods?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Promoting through mass distribution, competitive pricing, and encouraging frequent purchases through advertising and promotions.</p></div></li>
+            <li><p class="question-text">Define "Services" and give two examples.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Intangible items that cannot be touched or stored but fulfill a need or provide a benefit. Examples: Consultancy, electrical repair, legal advice.</p></div></li>
+            <li><p class="question-text">What is the primary marketing focus for services?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Focusing on providing a high-quality service experience to meet consumer expectations, as the service quality is the product itself.</p></div></li>
+            <li><p class="question-text">Define "Convenience Goods."</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Frequently purchased, low-cost items that consumers buy with minimal effort and comparison.</p></div></li>
+            <li><p class="question-text">Define "Shopping Goods."</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Items for which consumers spend more time comparing quality, price, and style.</p></div></li>
+            <li><p class="question-text">Define "Specialty Goods."</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Products with unique characteristics or brand identity, which buyers are willing to make a special effort to purchase.</p></div></li>
+            <li><p class="question-text">Define "Unsought Goods."</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Products that consumers do not actively seek or may not think of buying unless prompted through marketing efforts.</p></div></li>
+            <li><p class="question-text">What is the typical marketing strategy for unsought goods?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>High promotional and personal selling efforts are required to create demand and awareness.</p></div></li>
+            <li><p class="question-text">What are "Materials and Parts" in industrial goods classification?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Basic inputs for production that include raw materials (e.g., wheat, steel) and manufactured parts (e.g., tires, microchips).</p></div></li>
+            <li><p class="question-text">What are "Capital Items"?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Long-lasting goods that facilitate the production of finished products, categorized into installations (buildings) and equipment (computers, machinery).</p></div></li>
+            <li><p class="question-text">What are "Supplies and Services" in industrial goods classification?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>These are items essential for the company's operational activities, such as maintenance supplies (lubricants) and business services (cleaning, legal advice).</p></div></li>
+        </ol>
+
+        <h2>Section 3: Product Mix, Packaging & Labeling (Questions 51-75)</h2>
+        <ol start="29">
+            <li><p class="question-text">Define "Product Mix."</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>A product mix is the complete set of all products and items a particular seller offers for sale.</p></div></li>
+            <li><p class="question-text">What is "Product Width"?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>This refers to the number of different product lines a company offers. In the Coca-Cola example, the width is two: "Soft Drinks" and "Minute Maid."</p></div></li>
+            <li><p class="question-text">What is "Product Length"?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>This refers to the total number of individual items within the product mix. In the example, the length is nine (5 soft drinks + 4 juices).</p></div></li>
+            <li><p class="question-text">What is "Product Depth"?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>This refers to the variety of versions offered for each product in a line, such as different sizes, flavors, or formulations. For example, Diet Coke and Coke Zero add depth to the Coca-Cola product.</p></div></li>
+            <li><p class="question-text">What is "Packaging"?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Packaging refers to the overall process of creating and developing a protective cover or container for products.</p></div></li>
+            <li><p class="question-text">Describe Primary Packaging.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>This is the immediate container that is in direct contact with the product, providing direct protection (e.g., the toothpaste tube).</p></div></li>
+            <li><p class="question-text">Describe Secondary Packaging.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>This is the layer of packaging that contains the primary packaging, providing additional support and branding (e.g., the cardboard box the toothpaste tube comes in).</p></div></li>
+            <li><p class="question-text">Describe Tertiary/Bulk Packaging.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>This is packaging used for larger-scale transport and handling, such as a large shipping container or carton holding multiple secondary packages.</p></div></li>
+            <li><p class="question-text">What is the "Functionality Check" for packaging?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>This involves evaluating factors like packaging size, material, durability, color, cost, and graphics to ensure it protects the product and satisfies the customer.</p></div></li>
+            <li><p class="question-text">What are the "Environmental and Health Considerations" for packaging?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Packaging should ideally be recyclable, avoid contributing to pollution, and be safe for consumer health (e.g., non-toxic materials).</p></div></li>
+            <li><p class="question-text">What does "Convenience for the Customer" mean in packaging?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Packaging should not create unnecessary inconvenience due to bulkiness, excessive weight, or being difficult to open and use.</p></div></li>
+            <li><p class="question-text">What is "Labeling"?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Labeling is an essential component of packaging that provides necessary details about the product.</p></div></li>
+            <li><p class="question-text">What are the three primary functions of labeling?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>1. Product and Brand Identification. 2. Product Categorization. 3. Product Promotion.</p></div></li>
+            <li><p class="question-text">Explain the difference between a "warranty" and a "guarantee."</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>A <strong>warranty</strong> is a formal, often written, promise to repair or replace a faulty product within a specific time frame. A <strong>guarantee</strong> is a broader promise of satisfaction that may include a full refund if the customer is not happy, covering more than just defects.</p></div></li>
+        </ol>
+
+        <h2>Section 4: Branding, NPD, and PLC (Questions 76-101)</h2>
+        <ol start="40">
+            <li><p class="question-text">Define a "brand."</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>"A brand is a name, term, design, symbol, or any other feature that identifies one seller's goods or services as distinct from those of other sellers."</p></div></li>
+            <li><p class="question-text">What are the four main elements a brand comprises?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Brand Name, Brand Symbol, Trademark, and Ownership.</p></div></li>
+            <li><p class="question-text">List five benefits of branding for a business.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>1. Ability to differentiate products. 2. Providing a legally protected identity. 3. Adding unique attributes. 4. Helping with market segmentation. 5. Assisting in promotional activities.</p></div></li>
+            <li><p class="question-text">What are three important considerations for selecting a brand name?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>1. Easy to remember. 2. Must have a meaningful interpretation. 3. Should be legally protectable.</p></div></li>
+            <li><p class="question-text">What is the New Product Development (NPD) process?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>It is a systematic process that takes a new product idea from conception to launch. It acts as a funnel to screen out unviable ideas and refine promising ones.</p></div></li>
+            <li><p class="question-text">List the eight steps of the NPD process.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>1. New Product Strategy, 2. Idea Generation, 3. Idea Screening, 4. Business Analysis, 5. Development, 6. Test Marketing, 7. Commercialisation, 8. New Product (Launch).</p></div></li>
+            <li><p class="question-text">What is the purpose of "Idea Screening"?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>To filter out poor or unfeasible ideas quickly to avoid wasting resources on them.</p></div></li>
+            <li><p class="question-text">What happens during "Test Marketing"?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>The product and its proposed marketing program are introduced into realistic market settings to gauge consumer response before a full-scale launch.</p></div></li>
+            <li><p class="question-text">What is the Product Life Cycle (PLC)?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>The Product Life Cycle describes the stages a product goes through from its introduction into the market until it is eventually removed.</p></div></li>
+            <li><p class="question-text">What are the five stages of the PLC?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>1. Product Development, 2. Introduction, 3. Growth, 4. Maturity, 5. Decline.</p></div></li>
+            <li><p class="question-text">Describe the "Sales" and "Profits" curves during the "Introduction" stage.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Sales are low and grow slowly. Profits are negative due to high development and marketing costs.</p></div></li>
+            <li><p class="question-text">Describe the "Sales" and "Profits" curves during the "Growth" stage.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Sales rise rapidly. Profits also rise rapidly and typically peak towards the end of this stage as economies of scale are achieved.</p></div></li>
+            <li><p class="question-text">Describe the "Sales" and "Profits" curves during the "Maturity" stage.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Sales peak and then begin to level off or decline slightly. Profits decline due to increased competition and marketing expenditure to defend market share.</p></div></li>
+            <li><p class="question-text">Describe the "Sales" and "Profits" curves during the "Decline" stage.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Both sales and profits decline significantly.</p></div></li>
+        </ol>
+    </form>
+</div>
+
+<script>
+    function toggleAnswer(button) {
+        const answerDiv = button.nextElementSibling;
+        if (answerDiv.style.display === 'none' || answerDiv.style.display === '') {
+            answerDiv.style.display = 'block';
+            button.textContent = 'Hide';
+        } else {
+            answerDiv.style.display = 'none';
+            button.textContent = 'Show';
+        }
+    }
+</script>
+</body>
+</html>
