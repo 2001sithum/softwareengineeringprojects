@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Professional Child Welfare Report</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Iskoola Pota", "Noto Sans Sinhala", Arial, sans-serif;
+      background-color: #e9eef2;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container { width: 100%; max-width: 950px; margin: 0 auto; }
+
+    /* The main area to be captured as an image */
+    #capture-area {
+      background-color: #ffffff;
+      padding: 35px 50px; /* More padding for a formal look */
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      min-height: 1122px; /* A4 Paper aspect ratio approximation */
+    }
+
+    /* Header and Footer inside the capture area */
+    .report-header {
+      text-align: center;
+      padding-bottom: 20px;
+      border-bottom: 2px solid #0056b3;
+      margin-bottom: 25px;
+    }
+    .report-header h1 { font-size: 1.5em; color: #333; margin: 0; }
+    .report-footer {
+      text-align: center;
+      padding-top: 20px;
+      border-top: 1px solid #eee;
+      margin-top: auto; /* Pushes footer to the bottom */
+      color: #777;
+      font-size: 0.9em;
+    }
+
+    .page-title, .page-description {
+      outline: none; /* Removes outline on focus */
+      cursor: text;
+    }
+    /* Add a subtle indicator for editable areas */
+    [contenteditable="true"]:hover {
+      background-color: #f8f9fa;
+      box-shadow: 0 0 0 2px #007bff44;
+      border-radius: 4px;
+    }
+
+    .page-title { text-align: center; color: #0056b3; font-size: 2.2em; margin: 0 0 20px 0; font-weight: 600; }
+    .page-description { font-size: 1.1em; color: #444; line-height: 1.9; text-align: justify; margin-bottom: 30px; font-weight: 300;}
+
+    /* Controls are now OUTSIDE the capture area */
+    .controls-wrapper {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+      margin-top: 25px;
+    }
+    .slot-control { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 10px; }
+    .slot-control label { font-weight: 500; color: #343a40; }
+    #slot-count-selector { width: 70px; padding: 8px; border-radius: 5px; border: 1px solid #ced4da; font-size: 1.1em; text-align: center; }
+    .navigation-controls { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; }
+
+    .image-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 20px; }
+    .image-slot { width: 100%; padding-top: 75%; height: 0; position: relative; background-color: #f8f9fa; border: 2px dashed #d1d9e6; border-radius: 8px; cursor: pointer; overflow: hidden; color: #6c757d; }
+
+    /* Hides dashed border during screenshot */
+    .is-capturing .image-slot { border-color: transparent; }
+    .is-capturing .image-slot .content span { display: none; }
+
+    .image-slot .content { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 0.9em; }
+    .image-slot img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+    .image-caption { position: absolute; bottom: 5px; right: 5px; background-color: rgba(0, 0, 0, 0.7); color: white; padding: 3px 8px; font-size: 0.8em; border-radius: 4px; font-weight: 500; }
+    .image-slot input[type="file"] { display: none; }
+
+    .nav-btn { background-color: #007bff; color: white; border: none; padding: 12px 25px; font-size: 1em; border-radius: 8px; cursor: pointer; transition: background-color 0.3s ease; }
+    .page-indicator { font-size: 1.2em; font-weight: bold; color: #004080; }
+
+    .action-area { text-align: center; margin-top: 30px; }
+    #generate-image-btn, .download-btn { background-color: #28a745; color: white; border: none; padding: 15px 30px; font-size: 1.2em; font-weight: bold; border-radius: 8px; cursor: pointer; text-decoration: none; display: inline-block; }
+    #output-section { margin-top: 30px; padding: 20px; background-color: #fff; border-radius: 8px; text-align: center; border: 1px solid #ddd;}
+    #output-image { max-width: 100%; border: 2px solid #ccc; border-radius: 5px; margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <div id="capture-area">
+    <header class="report-header">
+      <h1>ළමා සුරක්ෂිතභාවය සහ සුබසාධන වැඩසටහන් වාර්තාව</h1>
+    </header>
+
+    <main>
+      <h2 id="page-title" class="page-title" contenteditable="true"></h2>
+      <p id="page-description" class="page-description" contenteditable="true"></p>
+      <div id="image-gallery" class="image-gallery"></div>
+    </main>
+
+    <footer id="report-footer" class="report-footer"></footer>
+  </div>
+
+  <div class="controls-wrapper">
+    <div class="slot-control">
+      <label for="slot-count-selector">ඡායාරූප ගණන:</label>
+      <input type="number" id="slot-count-selector" min="1" max="10" value="3">
+    </div>
+    <div class="navigation-controls">
+      <button id="prev-btn" class="nav-btn">පෙර පිටුව</button>
+      <span id="page-indicator" class="page-indicator"></span>
+      <button id="next-btn" class="nav-btn">ඊළඟ පිටුව</button>
+    </div>
+  </div>
+
+  <div class="action-area">
+    <button id="generate-image-btn">මෙම පිටුවේ ඡායාරූපයක් ලබාගන්න</button>
+    <div id="output-section" style="display: none;">
+      <h4>ඔබ සකස් කළ පිටුව:</h4>
+      <img id="output-image" src="" alt="Rendered Page"><br>
+      <a id="download-link" class="download-btn" href="#">මෙතනින් බාගත කරන්න</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const programData = [
+      { title: 'ළමා කමිටු වැඩසටහන්', description: 'ළමයින්ගේ අයිතිවාසිකම්, ආරක්ෂාව සහ සුභසාධනය වෙනුවෙන් ක්‍රියාත්මක වන විවිධ වැඩසටහන් සහ මුලපිරීම්. මේවා ළමා කමිටු මඟින් සංවිධානය කෙරේ.', imageSlots: 3, images: [] },
+      { title: 'පාසල් දැනුවත් කිරීම්', description: 'පාසල්වල සිසුන්, ගුරුවරුන් සහ දෙමාපියන් දැනුවත් කිරීම සඳහා පවත්වන වැඩමුළු. ළමා අයිතිවාසිකම්, ආරක්ෂාව, සෞඛ්‍යය සහ අධ්‍යාපනය වැනි මාතෘකා මෙහිදී සාකච්ඡා කෙරේ.', imageSlots: 5, images: [] },
+      { title: 'දක්ෂිණ පළාත් ළමා සභාවේ වැඩසටහන්', description: 'දෙමව්පියන් දෙදෙනාම අහිමි වූ දරුවන්ට ආධාර සැපයීම සඳහා දකුණු පළාත් ළමා සභාව විසින් ක්‍රියාත්මක කරන විශේෂ වැඩසටහනකි. මෙයට මූල්‍ය ආධාර, අධ්‍යාපන සහය ඇතුළත් විය හැකියි.', imageSlots: 2, images: [] },
+      { title: 'දිස්ත්‍රික් ළමා සභා වැඩසටහන්', description: 'පළාත් මට්ටමට සමානවම, දිස්ත්‍රික් මට්ටමින් ළමා ගැටලු විසඳීම සඳහා ක්‍රියාත්මක කරන වැඩසටහන් සහ ක්‍රියාකාරකම්.', imageSlots: 4, images: [] },
+      { title: '"සෙනෙහසයි පාසලයි" වැඩසටහන', description: 'මෙය පාසල් තුළ සුරක්ෂිත සහ ආදරණීය පරිසරයක් නිර්මාණය කිරීම අරමුණු කරගත් වැඩසටහනකි. එය සිසුන්ගේ මානසික සහ චිත්තවේගීය යහපැවැත්ම කෙරෙහි අවධානය යොමු කරයි.', imageSlots: 3, images: [] },
+    ];
+
+    programData.forEach(p => { p.images = Array(p.imageSlots).fill(null); });
+    let currentPageIndex = 0;
+    const totalPages = programData.length;
+
+    const el = {
+      pageTitle: document.getElementById('page-title'),
+      pageDescription: document.getElementById('page-description'),
+      imageGallery: document.getElementById('image-gallery'),
+      prevBtn: document.getElementById('prev-btn'),
+      nextBtn: document.getElementById('next-btn'),
+      pageIndicator: document.getElementById('page-indicator'),
+      slotSelector: document.getElementById('slot-count-selector'),
+      generateBtn: document.getElementById('generate-image-btn'),
+      captureArea: document.getElementById('capture-area'),
+      outputSection: document.getElementById('output-section'),
+      outputImage: document.getElementById('output-image'),
+      downloadLink: document.getElementById('download-link'),
+      reportFooter: document.getElementById('report-footer')
+    };
+
+    function renderPage(index) {
+      const program = programData[index];
+      el.pageTitle.textContent = program.title;
+      el.pageDescription.textContent = program.description;
+      el.slotSelector.value = program.imageSlots;
+      el.imageGallery.innerHTML = '';
+
+      for (let i = 0; i < program.imageSlots; i++) {
+        const slot = document.createElement('label');
+        slot.className = 'image-slot';
+        slot.setAttribute('for', `upload-${index}-${i}`);
+
+        let content = `<div class="content"><span>ඡායාරූපයක්<br>එක්කරන්න</span></div>`;
+        if (program.images[i]) {
+          content = `<img src="${program.images[i]}" alt="Image ${i+1}"><span class="image-caption">ඡායාරූපය ${i + 1}</span>`;
+        }
+
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.id = `upload-${index}-${i}`;
+        input.accept = 'image/*';
+        input.multiple = true;
+        input.dataset.page = index;
+        input.dataset.slot = i;
+        input.addEventListener('change', handleImageUpload);
+
+        slot.innerHTML = content;
+        slot.appendChild(input);
+        el.imageGallery.appendChild(slot);
+      }
+
+      el.pageIndicator.textContent = `පිටුව ${index + 1} / ${totalPages}`;
+      el.reportFooter.textContent = `වාර්තා පිටුව ${index + 1}`;
+      el.prevBtn.disabled = index === 0;
+      el.nextBtn.disabled = index === totalPages - 1;
+    }
+
+    // Save edited text when user clicks away
+    const saveTextOnBlur = () => {
+      programData[currentPageIndex].title = el.pageTitle.textContent;
+      programData[currentPageIndex].description = el.pageDescription.textContent;
+    };
+    el.pageTitle.addEventListener('blur', saveTextOnBlur);
+    el.pageDescription.addEventListener('blur', saveTextOnBlur);
+
+    async function handleImageUpload(event) {
+      const { page, slot } = event.target.dataset;
+      const files = event.target.files;
+      if (!files.length) return;
+
+      const program = programData[page];
+      let currentSlot = parseInt(slot);
+
+      const readFile = file => new Promise(resolve => {
+        const reader = new FileReader();
+        reader.onload = e => resolve(e.target.result);
+        reader.readAsDataURL(file);
+      });
+
+      for (const file of files) {
+        if (currentSlot >= program.imageSlots) break;
+        program.images[currentSlot] = await readFile(file);
+        currentSlot++;
+      }
+      renderPage(page);
+    }
+
+    el.slotSelector.addEventListener('input', () => {
+      const newCount = parseInt(el.slotSelector.value);
+      if (newCount < 1 || newCount > 10 || isNaN(newCount)) return;
+      const program = programData[currentPageIndex];
+      program.imageSlots = newCount;
+      const currentImages = program.images.slice(0, newCount);
+      while (currentImages.length < newCount) currentImages.push(null);
+      program.images = currentImages;
+      renderPage(currentPageIndex);
+    });
+
+    el.prevBtn.addEventListener('click', () => { if (currentPageIndex > 0) renderPage(--currentPageIndex); });
+    el.nextBtn.addEventListener('click', () => { if (currentPageIndex < totalPages - 1) renderPage(++currentPageIndex); });
+
+    el.generateBtn.addEventListener('click', () => {
+      el.generateBtn.textContent = 'සකසමින් පවතී...';
+      el.generateBtn.disabled = true;
+      // Add a class to hide editing elements for the screenshot
+      el.captureArea.classList.add('is-capturing');
+
+      html2canvas(el.captureArea, { scale: 2, useCORS: true, logging: false }).then(canvas => {
+        const imageDataUrl = canvas.toDataURL('image/png');
+        el.outputImage.src = imageDataUrl;
+        const safeTitle = programData[currentPageIndex].title.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+        el.downloadLink.href = imageDataUrl;
+        el.downloadLink.download = `report_page_${currentPageIndex + 1}_${safeTitle}.png`;
+        el.outputSection.style.display = 'block';
+      }).catch(err => {
+        console.error("Oops, something went wrong!", err);
+        alert("දෝෂයක් ඇතිවිය. කරුණාකර නැවත උත්සාහ කරන්න.");
+      }).finally(() => {
+        // Always remove the class after capture
+        el.captureArea.classList.remove('is-capturing');
+        el.generateBtn.textContent = 'මෙම පිටුවේ ඡායාරූපයක් ලබාගන්න';
+        el.generateBtn.disabled = false;
+      });
+    });
+
+    renderPage(currentPageIndex);
+  });
+</script>
+</body>
+</html>
