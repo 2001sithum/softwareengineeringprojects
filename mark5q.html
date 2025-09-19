@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Questionnaire: Pricing</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; background-color: #f4f7f6; color: #34495e; line-height: 1.7; margin: 0; padding: 2rem; }
+        .container { max-width: 800px; margin: 0 auto; background-color: #ffffff; padding: 2.5rem; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        h1 { color: #2c3e50; border-bottom: 3px solid #5c5346; padding-bottom: 0.5rem; }
+        h2 { color: #2c3e50; margin-top: 2.5rem; font-size: 1.5rem; background-color: #f8f9fa; padding: 0.5rem 1rem; border-radius: 5px; }
+        ol { list-style: none; padding-left: 0; counter-reset: question-counter; }
+        li { counter-increment: question-counter; margin-bottom: 1.5rem; border-left: 2px solid #e0e0e0; padding-left: 1rem; }
+        li::before { content: counter(question-counter); font-weight: 700; font-size: 1rem; color: #ffffff; background-color: #5c5346; margin-right: 0.75rem; border-radius: 50%; width: 24px; height: 24px; display: inline-block; text-align: center; line-height: 24px; }
+        p.question-text { font-weight: 600; margin-bottom: 0.5rem; font-size: 1.1rem; display: inline; }
+        .toggle-answer-btn { background-color: #3498db; color: white; border: none; padding: 5px 12px; border-radius: 5px; cursor: pointer; font-weight: 600; font-family: 'Poppins', sans-serif; margin-left: 10px; }
+        .answer { display: none; margin-top: 1rem; padding: 1rem; background-color: #f8f9fa; border-left: 4px solid #5c5346; border-radius: 4px; }
+        .answer p, .answer ul, .answer ol { font-size: 0.95rem; }
+        .visual-aid { margin: 1rem 0; padding: 1rem; background-color: #f8f9fa; border: 1px solid #e9ecef; border-radius: 5px; text-align: center; font-style: italic; }
+        svg { max-width: 100%; height: auto; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Comprehensive Questionnaire: Pricing</h1>
+    <p>Answer the following questions based on the presentation. Click the button to reveal the correct answer.</p>
+
+    <form onsubmit="return false;">
+        <h2>Section 1: Fundamentals of Pricing (Questions 1-20)</h2>
+        <ol>
+            <li><p class="question-text">What are the two learning objectives of this presentation?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>1. Understand the price setting process. 2. Understand price adjustments strategies.</p></div></li>
+            <li><p class="question-text">In the 4Ps of Marketing Mix, what is the unique role of "Price"?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Price is the only element in the marketing mix that produces revenue; the other three (Product, Place, Promotion) represent costs.</p></div></li>
+            <li><p class="question-text">Define "Pricing" as a process.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Pricing is the process of determining the monetary value of a product or service.</p></div></li>
+            <li><p class="question-text">List the three key points on the "Importance of Pricing."</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>1. It influences customer purchasing decisions. 2. It impacts business profitability. 3. It reflects brand positioning and value proposition.</p></div></li>
+            <li><p class="question-text">What is the Economist's view of price?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Price is set by the forces of supply and demand.</p></div></li>
+            <li><p class="question-text">What is the Accountant's view of price?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Price should cover costs so that a profit can be made.</p></div></li>
+            <li><p class="question-text">What is the Customer's view of price?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Price has to represent good value.</p></div></li>
+            <li><p class="question-text">What is the Marketer's view of price?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Pricing is an opportunity to gain a competitive advantage.</p></div></li>
+            <li><p class="question-text">Provide four different "names" for price as shown in the presentation.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Examples include: Tuition (for education), Rent (for property), Fare (for transport), Dues (for membership), Premium (for insurance), Fee (for professional services), Salary/Wage (for labor).</p></div></li>
+            <li><p class="question-text">What are the three "Internal Factors" to consider in pricing?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>1. Marketing Objectives. 2. Marketing Strategies. 3. Other elements of the marketing mix.</p></div></li>
+            <li><p class="question-text">What are the four "External Factors" to consider in pricing?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>1. Nature of the market. 2. Nature of the demand. 3. Competitor's strategy. 4. Other environmental factors.</p></div></li>
+            <li><p class="question-text">How do marketing objectives (e.g., maximizing market share) influence pricing?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>The objective dictates the strategy. An objective to maximize market share would likely lead to a lower price (penetration pricing), while an objective to maximize profit might lead to a higher price (skimming pricing).</p></div></li>
+            <li><p class="question-text">Explain how "other elements of the marketing mix" can be an internal factor in pricing.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>The price must be consistent with the other 3Ps. A high-quality product (Product) sold in luxury stores (Place) with premium advertising (Promotion) requires a high price to maintain a consistent brand image.</p></div></li>
+            <li><p class="question-text">How does the "nature of the market" (e.g., monopoly vs. perfect competition) affect pricing freedom?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>In a monopoly, a firm has significant pricing freedom. In a perfectly competitive market, the firm has very little freedom and is often a "price taker," having to accept the prevailing market price.</p></div></li>
+            <li><p class="question-text">What is "price elasticity of demand"?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>It is a measure of how sensitive the quantity demanded of a good is to a change in its price. If demand changes a lot with a small price change, it is elastic. If demand changes little with a price change, it is inelastic.</p></div></li>
+            <li><p class="question-text">How does a competitor's strategy influence a company's pricing?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>A company must be aware of its competitors' prices and position. It may choose to price at, above, or below the competition, but the competitor's price serves as a critical reference point.</p></div></li>
+        </ol>
+
+        <h2>Section 2: The Six-Step Pricing Process (Questions 21-50)</h2>
+        <ol start="21">
+            <li><p class="question-text">List the six steps of the pricing process in order.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>1. Setting the Pricing Objectives. 2. Determining Demand. 3. Estimating Costs. 4. Analyzing Competitor's Pricing. 5. Selecting Pricing Method. 6. Selecting Final Price.</p></div></li>
+            <li><p class="question-text">What is the "Survival" pricing objective?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>This is a short-term objective used when a company is facing intense competition or changing consumer wants. Prices are set low to cover variable costs and some fixed costs just to stay in business.</p></div></li>
+            <li><p class="question-text">Differentiate between "Maximize current profits" and "Maximize market share" as objectives.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Maximizing profits often involves setting a higher price to earn the most money on each unit sold in the short term. Maximizing market share often involves setting a lower price to attract the highest number of customers, believing this will lead to long-term profitability.</p></div></li>
+            <li><p class="question-text">What is the "Market skimming" objective?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>To set a high initial price for a new, innovative product to capture maximum revenue from early adopters who are willing to pay more, before lowering the price over time.</p></div></li>
+            <li><p class="question-text">What is the objective of being a "Product quality leader"?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>To price the product high to signal and cover the costs of superior quality and performance, positioning it as a premium offering in the market.</p></div></li>
+            <li><p class="question-text">When is the "Partial cost recovery" objective used?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>It is often used by non-profit or public organizations (like universities or hospitals) that have other sources of revenue (like donations) and set prices to cover a portion of their costs.</p></div></li>
+            <li><p class="question-text">List three conditions under which consumers are less price sensitive.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>1. The product is more distinctive. 2. Buyers are less aware of substitutes. 3. The expenditure is a lower part of the buyer's total income.</p></div></li>
+            <li><p class="question-text">What are the different types of costs that must be considered when estimating costs?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Fixed costs (costs that do not vary with production level, e.g., rent) and variable costs (costs that vary directly with the level of production, e.g., raw materials).</p></div></li>
+            <li><p class="question-text">What is the "experience curve"?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>The experience curve (or learning curve) shows that the average cost per unit declines with accumulated production experience. This can lead to cost reductions over time.</p></div></li>
+            <li><p class="question-text">When analyzing competitors, what three things must a marketer understand about them?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Their product quality, their costs, and their prices (and other offerings).</p></div></li>
+            <li><p class="question-text">What are the "Three C's" that form the basis for selecting a pricing method?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Cost (Cost-oriented pricing), Customer (Customer-oriented pricing), and Competition (Competitor-oriented pricing).</p></div></li>
+            <li><p class="question-text">What is the final step of the pricing process?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Step 6: Selecting the Final Price, which involves finalizing the price based on all the previous steps of analysis and strategy selection.</p></div></li>
+        </ol>
+
+        <h2>Section 3: Pricing Strategies in Detail (Questions 51-85)</h2>
+        <ol start="51">
+            <li><p class="question-text">What are the two main "New Product Pricing Strategies"?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>1. Market Skimming Pricing. 2. Market Penetration Pricing.</p></div></li>
+            <li><p class="question-text">Describe Market Skimming.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Setting a high initial price for a new product to attract customers willing to pay a premium, then gradually lowering the price to attract more price-sensitive segments.</p></div></li>
+            <li><p class="question-text">List three goals of a Market Skimming strategy.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>1. Recovering R&D costs quickly. 2. Creating a high-end, premium brand image. 3. Limiting competitive entry (if the high price is justified by patents or quality).</p></div></li>
+            <li><p class="question-text">Describe Market Penetration.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Setting a low initial price on a new product to attract a large number of buyers quickly and gain a large market share.</p></div></li>
+            <li><p class="question-text">List three goals of a Market Penetration strategy.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>1. To quickly gain market share. 2. To encourage new customers to try the product. 3. To limit or discourage competition.</p></div></li>
+            <li><p class="question-text">What is "Product Line Pricing"?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Setting prices across an entire product line, establishing price steps between the various products (e.g., good, better, best versions).</p></div></li>
+            <li><p class="question-text">What is "Optional Product Pricing"?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Pricing optional or accessory products sold with the main product (e.g., car upgrades like a sunroof or premium sound system).</p></div></li>
+            <li><p class="question-text">What is "Captive Product Pricing"? Give an example.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Pricing products that must be used with the main product. The main product is often priced low, while the captive products (the consumables) are priced high. Example: A cheap printer (main product) with expensive ink cartridges (captive product).</p></div></li>
+            <li><p class="question-text">What is "By-Product Pricing"?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Pricing low-value by-products to get rid of them and make the main product's price more competitive. For example, a zoo selling animal manure as fertilizer.</p></div></li>
+            <li><p class="question-text">What is "Product Bundle Pricing"?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Combining several products and offering the bundle at a reduced price compared to buying each item separately (e.g., a fast-food value meal).</p></div></li>
+            <li><p class="question-text">What is the purpose of Price Adjustment Strategies?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>To adjust the basic price to account for different customers, situations, and locations.</p></div></li>
+            <li><p class="question-text">Define "Discount & Allowance Pricing."</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Reducing prices to reward customer responses such as paying early, buying in large volumes, or promoting the product.</p></div></li>
+            <li><p class="question-text">Define "Segmented Pricing."</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Adjusting prices to allow for differences in customers, products, or locations, even though the cost of production is the same (e.g., student discounts, peak/off-peak pricing).</p></div></li>
+            <li><p class="question-text">Define "Psychological Pricing." Give an example.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Adjusting prices for psychological effect. Example: Pricing a product at $9.99 instead of $10.00 to make it seem significantly cheaper.</p></div></li>
+            <li><p class="question-text">Define "Promotional Pricing."</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Temporarily reducing prices for a short period to create buying excitement and urgency (e.g., flash sales, seasonal discounts).</p></div></li>
+            <li><p class="question-text">Define "Geographic Pricing."</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Adjusting prices to account for the geographic location of customers, often related to shipping costs.</p></div></li>
+            <li><p class="question-text">Define "Dynamic Pricing."</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Adjusting prices continually to meet the characteristics and needs of individual customers and situations (e.g., airline tickets, ride-sharing services).</p></div></li>
+            <li><p class="question-text">Define "International Pricing."</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Adjusting prices for international markets, taking into account factors like tariffs, currency exchange rates, and local market conditions.</p></div></li>
+        </ol>
+
+        <h2>Section 4: Modern Challenges and Trends (Questions 86-101)</h2>
+        <ol start="86">
+            <li><p class="question-text">What is the main challenge in "Balancing Profitability and Demand"?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>The challenge is finding the optimal price point. If the price is too high, it may deter sales and lower revenue. If the price is too low, it may reduce profit margins, even with high sales volume.</p></div></li>
+            <li><p class="question-text">Why is "Managing Customer Expectations" a major challenge in pricing?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Customers become accustomed to certain price points. It is challenging to communicate price increases effectively without alienating the customer base. Transparency and demonstrating added value are key.</p></div></li>
+            <li><p class="question-text">What is "AI-Driven Pricing"?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>It is a future trend that involves using machine learning and algorithms to perform real-time price optimization based on demand, competitor pricing, inventory levels, and other factors.</p></div></li>
+            <li><p class="question-text">What is "Sustainability Pricing"?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>It is a future trend that involves reflecting the environmental and social costs of production in pricing strategies, potentially leading to premium prices for sustainable products.</p></div></li>
+            <li><p class="question-text">Based on the examples, what type of pricing adjustment strategy is a "Flash Sale"?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Promotional Pricing.</p></div></li>
+            <li><p class="question-text">What type of pricing is Taco Bell's "Buy 2 Rice Bowls for Rs.990 & SAVE Rs.500" offer?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>This is a form of Promotional Pricing, specifically a quantity discount or bundle offer.</p></div></li>
+            <li><p class="question-text">"TAKE AN ADDITIONAL 40% OFF" is an example of what kind of pricing?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>This is Promotional Pricing, specifically a discount or markdown.</p></div></li>
+        </ol>
+    </form>
+</div>
+
+<script>
+    function toggleAnswer(button) {
+        const answerDiv = button.nextElementSibling;
+        if (answerDiv.style.display === 'none' || answerDiv.style.display === '') {
+            answerDiv.style.display = 'block';
+            button.textContent = 'Hide';
+        } else {
+            answerDiv.style.display = 'none';
+            button.textContent = 'Show';
+        }
+    }
+</script>
+</body>
+</html>

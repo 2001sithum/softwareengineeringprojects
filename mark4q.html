@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Questionnaire: Marketing Environment</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; background-color: #f4f7f6; color: #34495e; line-height: 1.7; margin: 0; padding: 2rem; }
+        .container { max-width: 800px; margin: 0 auto; background-color: #ffffff; padding: 2.5rem; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        h1 { color: #2c3e50; border-bottom: 3px solid #34495e; padding-bottom: 0.5rem; }
+        h2 { color: #2c3e50; margin-top: 2.5rem; font-size: 1.5rem; background-color: #f8f9fa; padding: 0.5rem 1rem; border-radius: 5px; }
+        ol { list-style: none; padding-left: 0; counter-reset: question-counter; }
+        li { counter-increment: question-counter; margin-bottom: 1.5rem; border-left: 2px solid #e0e0e0; padding-left: 1rem; }
+        li::before { content: counter(question-counter); font-weight: 700; font-size: 1rem; color: #ffffff; background-color: #34495e; margin-right: 0.75rem; border-radius: 50%; width: 24px; height: 24px; display: inline-block; text-align: center; line-height: 24px; }
+        p.question-text { font-weight: 600; margin-bottom: 0.5rem; font-size: 1.1rem; display: inline; }
+        .toggle-answer-btn { background-color: #3498db; color: white; border: none; padding: 5px 12px; border-radius: 5px; cursor: pointer; font-weight: 600; font-family: 'Poppins', sans-serif; margin-left: 10px; }
+        .answer { display: none; margin-top: 1rem; padding: 1rem; background-color: #f8f9fa; border-left: 4px solid #34495e; border-radius: 4px; }
+        .answer p, .answer ul, .answer ol { font-size: 0.95rem; }
+        .visual-aid { margin: 1rem 0; padding: 1rem; background-color: #f8f9fa; border: 1px solid #e9ecef; border-radius: 5px; text-align: center; font-style: italic; }
+        svg { max-width: 100%; height: auto; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Comprehensive Questionnaire: Marketing Environment</h1>
+    <p>Answer the following questions based on the presentation. Click the button to reveal the correct answer.</p>
+
+    <form onsubmit="return false;">
+        <h2>Section 1: The Marketing Environment Landscape (Questions 1-30)</h2>
+        <ol>
+            <li><p class="question-text">What is the "Marketing Environment"?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>The Marketing Environment encompasses all internal and external factors that affect a company's ability to develop and maintain successful relationships with its target customers.</p></div></li>
+            <li><p class="question-text">Why is understanding the marketing environment crucial for strategic planning?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>It helps businesses identify opportunities and threats in the market, allowing them to make informed, proactive decisions rather than reactive ones.</p></div></li>
+            <li><p class="question-text">What are the three main Learning Objectives for this lesson?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>1. Understand the major components of the marketing environment. 2. Learn methods for analyzing the environment. 3. Understand the role of competition.</p></div></li>
+            <li><p class="question-text">How does environmental awareness drive innovation? Provide the example given.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>It pushes companies to adapt to new trends. Example: A technology company adapting its product offerings in response to emerging AI trends.</p></div></li>
+            <li><p class="question-text">List three reasons why understanding the marketing environment is important.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>1. It enables businesses to anticipate changes in the market. 2. It helps in identifying competitive advantages. 3. It assists in risk management by recognizing potential threats early.</p></div></li>
+            <li><p class="question-text">Explain the difference between the Internal and External Environment.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>The <strong>Internal Environment</strong> includes elements within the organization that influence marketing decisions (e.g., staff, finances). The <strong>External Environment</strong> consists of outside influences that can impact operations (e.g., competitors, laws).</p></div></li>
+            <li><p class="question-text">What are the three main layers shown in the concentric circles diagram of the marketing environment?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>1. The Organisation (at the center). 2. The Micro Environment. 3. The Macro Environment (the outermost layer).</p></div></li>
+            <li><p class="question-text">Is the Micro Environment part of the internal or external environment?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>It is part of the External Environment, as it consists of factors outside the organization, though they are close and have a direct impact.</p></div></li>
+            <li><p class="question-text">List the four actors in the Micro Environment shown inside the circle.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Suppliers, Distributors, Customers, and Competitors.</p></div></li>
+            <li><p class="question-text">List the six forces in the Macro Environment shown in the outermost circle.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Environmental, Political, Legal, Technological, Economic, and Social/Cultural.</p></div></li>
+            <li><p class="question-text">What are the "5Ms" of the Internal Environment?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Men (workforce), Money (finances), Materials (inventory), Machinery (technology), and Markets (target audience).</p></div></li>
+            <li><p class="question-text">Explain what "Men" refers to in the 5Ms.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>It refers to the company's workforce, including their skills, training, motivation, and overall capabilities.</p></div></li>
+            <li><p class="question-text">What does "Money" represent in the internal environment?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>It represents the financial resources available for marketing campaigns, research, product development, and other operations.</p></div></li>
+            <li><p class="question-text">Define "Materials" as an internal factor.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>This refers to the raw materials and inventory necessary for producing the goods or services.</p></div></li>
+            <li><p class="question-text">Explain "Machinery" in the context of the 5Ms.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>This includes the technology, equipment, and systems used in production and operations.</p></div></li>
+            <li><p class="question-text">What does "Markets" refer to as an internal factor?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>This refers to the company's existing target audience and defined market segments, which are an internal asset and focus.</p></div></li>
+            <li><p class="question-text">List the five components of the Microenvironment.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Suppliers, Customers, Competitors, Intermediaries, and Publics.</p></div></li>
+            <li><p class="question-text">What is the role of "Suppliers" in the microenvironment?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>They are the entities that provide the goods and services necessary for production. Their reliability, quality, and pricing directly impact the company.</p></div></li>
+            <li><p class="question-text">Who are "Intermediaries"? Give an example.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>They are agents or distributors that facilitate product distribution. Examples include wholesalers, retailers, and logistics companies.</p></div></li>
+            <li><p class="question-text">Define "Publics" in the microenvironment and provide two examples.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Publics are any groups that have an interest in or impact on the company. Examples include the media, government agencies, and community groups.</p></div></li>
+            <li><p class="question-text">List the six components of the Macroenvironment.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Demographic, Economic, Technological, Political/Legal, Socio-Cultural, and Ecological factors.</p></div></li>
+            <li><p class="question-text">How do "Demographic Factors" affect consumer behavior?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Factors like age, gender, income level, and family size directly influence what consumers buy, how much they can spend, and what marketing messages they respond to.</p></div></li>
+            <li><p class="question-text">How do "Economic Factors" influence purchasing power?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Conditions like inflation, unemployment rates, and interest rates affect consumer confidence and the amount of discretionary income they have available to spend.</p></div></li>
+            <li><p class="question-text">What is the impact of "Technological Factors" on marketing?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Innovations in technology can create new products, new ways to market (e.g., social media), and new ways to interact with customers (e.g., AI chatbots).</p></div></li>
+            <li><p class="question-text">Give an example of a "Political/Legal Factor."</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Government regulations affecting business operations, such as advertising standards, product safety laws, or tax policies.</p></div></li>
+            <li><p class="question-text">What are "Socio-Cultural Factors"?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>These are the societal norms, values, and beliefs that influence consumer preferences and lifestyles (e.g., a growing trend towards health and wellness).</p></div></li>
+            <li><p class="question-text">What do "Ecological Factors" refer to?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>These are environmental and ecological considerations that impact business practices, such as sustainability, pollution, and the availability of natural resources.</p></div></li>
+            <li><p class="question-text">What are three key aspects of the Demographic Environment?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Age Distribution, Gender Trends, and Geographic Distribution.</p></div></li>
+            <li><p class="question-text">How does technology like AI and big data analytics impact marketing strategies?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>They are transforming how companies interact with consumers by enabling personalized shopping experiences, targeted advertising, and deeper customer insights.</p></div></li>
+            <li><p class="question-text">Why must businesses stay informed about political and legal developments?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Because changes in regulations regarding advertising, product safety, labor laws, or taxes can significantly impact marketing strategies and overall business operations.</p></div></li>
+        </ol>
+
+        <h2>Section 2: Analysis Tools & Competition (Questions 31-60)</h2>
+        <ol start="31">
+            <li><p class="question-text">Why is it essential to analyze the marketing environment?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>It is essential for making informed decisions that align with market realities. Proactive analysis helps identify opportunities for growth while mitigating potential risks.</p></div></li>
+            <li><p class="question-text">What does SWOT stand for?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Strengths, Weaknesses, Opportunities, Threats.</p></div></li>
+            <li><p class="question-text">In SWOT analysis, which components are internal?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Strengths and Weaknesses.</p></div></li>
+            <li><p class="question-text">In SWOT analysis, which components are external?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Opportunities and Threats.</p></div></li>
+            <li><p class="question-text">What is the main goal of conducting a SWOT analysis?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>To help organizations leverage their strengths, address weaknesses, capitalize on opportunities, and mitigate threats effectively.</p></div></li>
+            <li><p class="question-text">What does PESTEL analysis examine?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>It examines six key external (macro-environmental) factors influencing an organization: Political, Economic, Social, Technological, Environmental, and Legal.</p></div></li>
+            <li><p class="question-text">Define Direct Competition and provide an example.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Direct competition involves businesses offering similar products or services to the same customer base. Example: Coca-Cola vs Pepsi.</p></div></li>
+            <li><p class="question-text">Define Indirect Competition and provide an example.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Indirect competition includes businesses providing different products that satisfy a similar underlying need. Example: McDonald's vs Domino's (both satisfy the need for a quick meal).</p></div></li>
+            <li><p class="question-text">Describe the Cost Leadership strategy.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>This strategy focuses on being the lowest-cost producer in the industry while maintaining acceptable quality standards. Example: Walmart.</p></div></li>
+            <li><p class="question-text">Describe the Differentiation strategy.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>This strategy involves offering unique products or services that stand out from competitors, allowing the company to command a premium. Example: Apple's innovative technology.</p></div></li>
+            <li><p class="question-text">Describe the Focus (or Niche) strategy.</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>This strategy targets a specific, narrow market niche with tailored offerings designed to meet their unique needs perfectly. Example: Luxury brands targeting affluent consumers.</p></div></li>
+            <li><p class="question-text">What is the purpose of Porter's Five Forces Model?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>It is a tool used to assess industry attractiveness and competitiveness based on five key competitive forces.</p></div></li>
+            <li>
+                <p class="question-text">List the five forces in Porter's model.</p>
+                <button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button>
+                <div class="answer">
+                    <p>The five forces are:</p>
+                    <ol>
+                        <li>Threat of new entrants</li>
+                        <li>Bargaining power of suppliers</li>
+                        <li>Bargaining power of buyers</li>
+                        <li>Threat of substitute products</li>
+                        <li>Rivalry among existing competitors</li>
+                    </ol>
+                    <div class="visual-aid">
+                        <svg viewBox="0 0 500 400" aria-labelledby="porter-title">
+                            <title id="porter-title">Porter's Five Forces Model</title>
+                            <style>.p-box{fill:#34495e;rx:5;}.p-text{fill:white;font-family:sans-serif;font-weight:600;font-size:12px;text-anchor:middle;}.p-arrow{fill:#7f8c8d;}</style>
+                            <circle cx="250" cy="200" r="60" fill="#bdc3c7"/><text class="p-text" x="250" y="190" fill="#34495e">RIVALRY</text><text class="p-text" x="250" y="205" fill="#34495e">AMONG</text><text class="p-text" x="250" y="220" fill="#34495e">EXISTING</text><text class="p-text" x="250" y="235" fill="#34495e">COMPETITORS</text>
+                            <rect class="p-box" x="175" y="20" width="150" height="50"/><text class="p-text" x="250" y="40">THREAT OF NEW</text><text class="p-text" x="250" y="55">ENTRANTS</text><path class="p-arrow" d="M250 75 L250 135 L260 125 L240 125 Z"/>
+                            <rect class="p-box" x="175" y="330" width="150" height="50"/><text class="p-text" x="250" y="350">THREAT OF</text><text class="p-text" x="250" y="365">SUBSTITUTE</text><path class="p-arrow" d="M250 325 L250 265 L260 275 L240 275 Z"/>
+                            <rect class="p-box" x="20" y="175" width="150" height="50"/><text class="p-text" x="95" y="195">BARGAINING</text><text class="p-text" x="95" y="210">POWER OF</text><text class="p-text" x="95" y="225">SUPPLIERS</text><path class="p-arrow" d="M175 200 L185 200 L185 190 L205 200 L185 210 L185 200 Z" transform="translate(-10, 0) rotate(180 180 200)"/>
+                            <rect class="p-box" x="330" y="175" width="150" height="50"/><text class="p-text" x="405" y="195">BARGAINING</text><text class="p-text" x="405" y="210">POWER OF</text><text class="p-text" x="405" y="225">BUYERS</text><path class="p-arrow" d="M325 200 L315 200 L315 190 L295 200 L315 210 L315 200 Z" transform="translate(10, 0)"/>
+                        </svg>
+                    </div>
+                </div>
+            </li>
+            <li><p class="question-text">What does "Threat of new entrants" mean?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>It refers to how easy or difficult it is for new competitors to enter the market. If barriers to entry (like high costs or brand loyalty) are low, the threat is high.</p></div></li>
+            <li><p class="question-text">Explain "Bargaining power of suppliers."</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>This is the power that suppliers have to raise their prices or reduce the quality of their goods. Their power is high if there are few suppliers of a unique product.</p></div></li>
+            <li><p class="question-text">Explain "Bargaining power of buyers."</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>This is the power that customers have to drive down prices. Their power is high if there are many competitors, or if they buy in large volumes.</p></div></li>
+            <li><p class="question-text">What is the "Threat of substitute products"?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>This refers to the likelihood that customers will switch to a different type of product that meets the same need. For example, video conferencing is a substitute for business travel.</p></div></li>
+            <li><p class="question-text">What does "Rivalry among existing competitors" refer to?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>This refers to the intensity of competition among the companies already in the industry. High rivalry often leads to price wars and high advertising spending.</p></div></li>
+            <li><p class="question-text">What is "Benchmarking"?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Benchmarking is the process of comparing a company's performance metrics (e.g., price, quality, speed) against those of its strongest competitors or industry leaders to identify areas for improvement.</p></div></li>
+            <li><p class="question-text">How does competition impact pricing strategies?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Businesses must consider competitor pricing when setting their own prices to remain attractive to consumers while ensuring they can still make a profit.</p></div></li>
+            <li><p class="question-text">How does competition impact product development?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Companies often innovate or enhance product features based on what their competitors are offering in order to attract and retain customers.</p></div></li>
+            <li><p class="question-text">How does competition impact promotional strategies?</p><button class="toggle-answer-btn" onclick="toggleAnswer(this)">Show</button><div class="answer"><p>Analyzing competitors' advertising and promotional campaigns helps a business inform its own promotional tactics to ensure its message resonates with target audiences and stands out.</p></div></li>
+        </ol>
+    </form>
+</div>
+<script>
+    function toggleAnswer(button) {
+        const answerDiv = button.nextElementSibling;
+        if (answerDiv.style.display === 'none' || answerDiv.style.display === '') {
+            answerDiv.style.display = 'block';
+            button.textContent = 'Hide';
+        } else {
+            answerDiv.style.display = 'none';
+            button.textContent = 'Show';
+        }
+    }
+</script>
+</body>
+</html>
