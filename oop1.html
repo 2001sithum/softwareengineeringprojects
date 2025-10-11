@@ -1,0 +1,2467 @@
+
+
+
+!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ICT 1306 - C++ Programming Notes & Practicals</title>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+            :root {
+                --primary: #6366f1;
+                --primary-dark: #4f46e5;
+                --secondary: #8b5cf6;
+                --accent: #06b6d4;
+                --bg-primary: #0a0a0f;
+                --bg-secondary: #13131a;
+                --bg-tertiary: #1a1a24;
+                --text-primary: #e4e4e7;
+                --text-secondary: #a1a1aa;
+                --border: rgba(255, 255, 255, 0.1);
+                --shadow: rgba(99, 102, 241, 0.3);
+                --glow: rgba(99, 102, 241, 0.5);
+            }
+
+            * {
+                margin: 10px;
+                padding: 10px;
+                box-sizing: border-box;
+            }
+
+            html {
+                scroll-behavior: smooth;
+            }
+
+            body {
+                font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+                line-height: 1.7;
+                background: linear-gradient(135deg, #0a0a0f 0%, #1a1a24 100%);
+                color: var(--text-primary);
+                position: relative;
+                overflow-x: hidden;
+            }
+
+            body::before {
+                content: '';
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background:
+                        radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+                pointer-events: none;
+                z-index: 0;
+            }
+
+            .container {
+                max-width: 1200px;
+                margin: 40px auto;
+                padding: 0 20px;
+                position: relative;
+                z-index: 1;
+            }
+
+            header {
+                text-align: center;
+                padding: 80px 40px;
+                background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%);
+                border-radius: 30px;
+                border: 1px solid var(--border);
+                backdrop-filter: blur(20px);
+                position: relative;
+                overflow: hidden;
+                margin-bottom: 40px;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+                animation: headerFloat 6s ease-in-out infinite;
+            }
+
+            @keyframes headerFloat {
+                0%, 100% { transform: translateY(0px); }
+                50% { transform: translateY(-10px); }
+            }
+
+            header::before {
+                content: '';
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: linear-gradient(45deg, transparent, rgba(99, 102, 241, 0.1), transparent);
+                animation: headerShine 3s linear infinite;
+            }
+
+            @keyframes headerShine {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+
+            header h1 {
+                font-size: 3.5em;
+                font-weight: 700;
+                background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #06b6d4 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                margin-bottom: 15px;
+                position: relative;
+                z-index: 1;
+                text-shadow: 0 0 40px var(--glow);
+                animation: gradientShift 3s ease infinite;
+            }
+
+            @keyframes gradientShift {
+                0%, 100% { filter: hue-rotate(0deg); }
+                50% { filter: hue-rotate(30deg); }
+            }
+
+            header p {
+                font-size: 1.4em;
+                color: var(--text-secondary);
+                position: relative;
+                z-index: 1;
+                font-weight: 300;
+                letter-spacing: 0.5px;
+            }
+
+            nav {
+                background: rgba(19, 19, 26, 0.8);
+                backdrop-filter: blur(20px) saturate(180%);
+                padding: 20px 30px;
+                border-radius: 20px;
+                margin-bottom: 40px;
+                text-align: center;
+                border: 1px solid var(--border);
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+                position: sticky;
+                top: 20px;
+                z-index: 100;
+                transition: all 0.3s ease;
+            }
+
+            nav:hover {
+                box-shadow: 0 15px 50px rgba(99, 102, 241, 0.2);
+            }
+
+            nav a {
+                color: var(--text-primary);
+                padding: 12px 24px;
+                text-decoration: none;
+                font-weight: 600;
+                margin: 0 8px;
+                border-radius: 12px;
+                transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                position: relative;
+                display: inline-block;
+                overflow: hidden;
+                font-size: 0.95em;
+                letter-spacing: 0.3px;
+            }
+
+            nav a::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.3), transparent);
+                transition: left 0.5s ease;
+            }
+
+            nav a:hover::before {
+                left: 100%;
+            }
+
+            nav a:hover {
+                background: linear-gradient(135deg, var(--primary), var(--secondary));
+                color: white;
+                transform: translateY(-3px) scale(1.05);
+                box-shadow: 0 10px 30px var(--shadow);
+            }
+
+            section {
+                background: rgba(19, 19, 26, 0.6);
+                backdrop-filter: blur(20px);
+                padding: 50px 40px;
+                margin-bottom: 40px;
+                border-radius: 25px;
+                border: 1px solid var(--border);
+                box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
+                transition: all 0.4s ease;
+                position: relative;
+                overflow: hidden;
+            }
+
+            section::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 3px;
+                background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+                transform: scaleX(0);
+                transform-origin: left;
+                transition: transform 0.6s ease;
+            }
+
+            section:hover::after {
+                transform: scaleX(1);
+            }
+
+            section:hover {
+                border-color: rgba(99, 102, 241, 0.5);
+                box-shadow: 0 20px 60px rgba(99, 102, 241, 0.2);
+                transform: translateY(-5px);
+            }
+
+            h2 {
+                color: var(--text-primary);
+                font-size: 2.5em;
+                font-weight: 700;
+                margin-bottom: 30px;
+                position: relative;
+                padding-bottom: 20px;
+            }
+
+            h2::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 80px;
+                height: 4px;
+                background: linear-gradient(90deg, var(--primary), var(--accent));
+                border-radius: 2px;
+                box-shadow: 0 0 20px var(--glow);
+            }
+
+            h3 {
+                color: var(--primary);
+                font-size: 1.8em;
+                font-weight: 600;
+                margin: 30px 0 15px;
+                letter-spacing: -0.5px;
+            }
+
+            h4 {
+                background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
+                padding: 20px 25px;
+                border-left: 5px solid var(--primary);
+                border-radius: 12px;
+                margin-top: 30px;
+                font-size: 1.3em;
+                font-weight: 600;
+                color: var(--text-primary);
+                box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+                transition: all 0.3s ease;
+            }
+
+            h4:hover {
+                transform: translateX(10px);
+                box-shadow: 0 8px 30px rgba(99, 102, 241, 0.3);
+            }
+
+            .note {
+                background: linear-gradient(135deg, rgba(6, 182, 212, 0.15) 0%, rgba(99, 102, 241, 0.15) 100%);
+                border: 1px solid rgba(6, 182, 212, 0.3);
+                padding: 25px;
+                border-radius: 16px;
+                margin: 25px 0;
+                position: relative;
+                overflow: hidden;
+                backdrop-filter: blur(10px);
+                box-shadow: 0 10px 40px rgba(6, 182, 212, 0.1);
+                transition: all 0.3s ease;
+            }
+
+            .note::before {
+                content: '💡';
+                position: absolute;
+                top: -10px;
+                right: -10px;
+                font-size: 4em;
+                opacity: 0.1;
+                transform: rotate(-15deg);
+            }
+
+            .note:hover {
+                border-color: rgba(6, 182, 212, 0.6);
+                box-shadow: 0 15px 50px rgba(6, 182, 212, 0.2);
+            }
+
+            .note h3 {
+                margin-top: 0;
+                color: var(--accent);
+                font-size: 1.4em;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .explanation {
+                background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(99, 102, 241, 0.1) 100%);
+                border: 10px solid rgba(139, 92, 246, 0.2);
+                padding: 40px;
+                margin-top: 30px;
+                border-radius: 24px;
+                border-left: 8px solid var(--secondary);
+                backdrop-filter: blur(10px);
+                transition: all 0.3s ease;
+            }
+
+            .explanation:hover {
+                border-left-width: 8px;
+                padding-left: 24px;
+            }
+
+            table {
+                width: 100%;
+                border-collapse: separate;
+                border-spacing: 0;
+                margin: 30px 0;
+                border-radius: 14px;
+                overflow: hidden;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+                background: rgba(19, 19, 26, 0.6);
+                backdrop-filter: blur(10px);
+            }
+
+            th, td {
+                border-bottom: 1px solid var(--border); /* Changed from full border to bottom border */
+                padding: 18px;
+                text-align: left;
+                transition: all 0.3s ease;
+            }
+
+            th {
+                background: linear-gradient(135deg, rgba(99, 102, 241, 0.3) 0%, rgba(139, 92, 246, 0.3) 100%);
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                font-size: 0.85em;
+                color: var(--text-primary);
+            }
+
+            td {
+                border-left: 1px solid var(--border); /* Add left border to cells */
+            }
+
+            td:first-child {
+                border-left: none; /* Remove left border from first cell */
+            }
+
+            tr {
+                transition: all 0.3s ease;
+            }
+
+            tr:hover {
+                background: rgba(99, 102, 241, 0.1);
+                transform: scale(1.01);
+            }
+
+            tr:hover td {
+                border-color: rgba(99, 102, 241, 0.3);
+            }
+
+            /* --- Light Theme Override for Code Editor --- */
+            pre {
+                background: #f8f9fa; /* Light background */
+                color: #212529; /* Dark text */
+                padding: 25px;
+                border-radius: 16px;
+                overflow-x: auto;
+                font-family: 'JetBrains Mono', 'Courier New', monospace;
+                font-size: 0.95em;
+                line-height: 1.6;
+                border: 1px solid #dee2e6;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                position: relative;
+                margin: 20px 0;
+            }
+
+            pre::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 35px;
+                background: #e9ecef; /* Slightly darker top bar */
+                border-bottom: 1px solid #dee2e6;
+                border-radius: 16px 16px 0 0;
+            }
+
+            pre::after {
+                /*content: '⬤ ⬤ ⬤';*/
+                position: absolute;
+                top: 12px;
+                left: 15px;
+                font-size: 8px;
+                color: #adb5bd; /* Gray dots */
+                letter-spacing: 4px;
+            }
+
+            pre code {
+                display: block;
+                padding-top: 20px;
+            }
+
+            /* Inline code */
+            code {
+                font-family: 'JetBrains Mono', monospace;
+                background: rgba(99, 102, 241, 0.1);
+                padding: 3px 8px;
+                border-radius: 6px;
+                font-size: 0.9em;
+                color: #4f46e5; /* Darker primary color for text */
+                border: 1px solid rgba(99, 102, 241, 0.2);
+            }
+
+            pre code {
+                /* Reset inline styles for code inside a pre block */
+                background: none;
+                padding: 0;
+                border-radius: 0;
+                font-size: inherit;
+                color: inherit;
+                border: none;
+            }
+
+            .output {
+                background: #e6f9f0;
+                color: #087f5b; /* Dark green text */
+                padding: 20px;
+                padding-left: 40px;
+                margin-top: 20px;
+                border-radius: 14px;
+                font-family: 'JetBrains Mono', monospace;
+                white-space: pre-wrap;
+                border: 1px solid #96f2d7;
+                box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.05);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .output::before {
+                content: '>';
+                position: absolute;
+                left: 20px;
+                color: rgba(8, 127, 91, 0.6);
+                animation: blink 1s infinite;
+            }
+
+            @keyframes blink {
+                0%, 49% { opacity: 1; }
+                50%, 100% { opacity: 0; }
+            }
+
+            /* Scrollbar Styling */
+            ::-webkit-scrollbar {
+                width: 12px;
+                height: 12px;
+            }
+
+            ::-webkit-scrollbar-track {
+                background: var(--bg-secondary);
+                border-radius: 10px;
+            }
+
+            ::-webkit-scrollbar-thumb {
+                background: linear-gradient(135deg, var(--primary), var(--secondary));
+                border-radius: 10px;
+                border: 2px solid var(--bg-secondary);
+            }
+
+            ::-webkit-scrollbar-thumb:hover {
+                background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
+            }
+
+            /* Responsive Design */
+            @media (max-width: 768px) {
+                header h1 {
+                    font-size: 2.2em;
+                }
+
+                nav a {
+                    display: block;
+                    margin: 8px 0;
+                }
+
+                section {
+                    padding: 30px 20px;
+                }
+
+                h2 {
+                    font-size: 2em;
+                }
+            }
+
+            /* Animation on scroll */
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            section {
+                opacity: 0; /* Initially hidden */
+                animation: fadeInUp 0.8s ease-out forwards;
+            }
+
+        </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>Rajarata University of Sri Lanka</h1>
+    <p>ICT 1306 (Object Oriented Programming) - Practical Notes</p>
+  </header>
+
+  <nav>
+    <a href="#p01">Practical 01</a>
+    <a href="#p02">Practical 02</a>
+    <a href="#p03">Practical 03</a>
+    <a href="#p04">Practical 04</a>
+    <a href="#p05">Practical 05</a>
+    <a href="#p06">Practical 06</a>
+    <a href="#p07">Practical 07</a>
+    <a href="#p08">Practical 08</a>
+  </nav>
+
+  <!-- ===================================================================== -->
+  <!--                      PRACTICAL 01: Introduction                       -->
+  <!-- ===================================================================== -->
+  <section id="p01">
+    <h2>Practical 01: Introduction to C++ Programming</h2>
+
+    <div class="note">
+      <h3>Short Note: Basic C++ Concepts</h3>
+      <ul>
+        <li><strong>Basic Program Structure:</strong> Every C++ program needs a <code>main()</code> function, which is the entry point. We use <code>#include &lt;iostream&gt;</code> to include the standard input/output library.</li>
+        <li><strong><code>cout</code> & <code>cin</code>:</strong> <code>cout</code> is used to print output to the console. <code>cin</code> is used to get input from the user.</li>
+        <li><strong>Variables:</strong> Named storage locations for data (e.g., <code>int</code> for integers, <code>string</code> for text, <code>float</code> for decimals).</li>
+        <li><strong>Control Flow:</strong>
+          <ul>
+            <li><strong><code>if-else</code>:</strong> Executes code blocks based on a condition being true or false.</li>
+            <li><strong><code>for</code> Loop:</strong> Repeats a block of code a specific number of times.</li>
+            <li><strong><code>while</code> Loop:</strong> Repeats a block of code as long as a condition is true.</li>
+            <li><strong><code>switch</code> case:</strong> A multi-way branch statement that compares a value with multiple cases.</li>
+          </ul>
+        </li>
+        <li><strong>Functions:</strong> A block of code that performs a specific task. They help in making code modular and reusable.</li>
+      </ul>
+    </div>
+
+    <h4>1. Print your own details.</h4>
+    <div class="explanation">
+      This program uses the <code>cout</code> statement from the <code>iostream</code> library to print multiple lines of text to the console. The <code>endl</code> manipulator is used to move the cursor to a new line after each output.
+    </div>
+    <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+int main() {
+    // Using std:: to specify that cout and endl belong to the standard namespace
+    std::cout << "Name: Alex Fernando" << std::endl;
+    std::cout << "Age: 21" << std::endl;
+    std::cout << "Birth Day: 2003-05-15" << std::endl;
+    std::cout << "Address: 123, Main Street, Colombo" << std::endl;
+    std::cout << "Gender: Male" << std::endl;
+    std::cout << "School: Royal College" << std::endl;
+
+    return 0; // Indicates successful execution
+}
+</code></pre>
+
+    <h4>2. Grading System.</h4>
+    <div class="explanation">
+      This program prompts the user for their name and marks for 5 subjects. It calculates the sum and then the average. An <code>if-else if-else</code> ladder is used to determine the grade based on the average mark, according to the specified criteria.
+    </div>
+    <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;vector&gt; // For using vectors, a dynamic array
+
+int main() {
+    std::string name;
+    std::string subject_name;
+    double marks, total_marks = 0;
+
+    std::cout << "Welcome to My School Grading System" << std::endl;
+
+    std::cout << "Enter your name: ";
+    std::getline(std::cin, name); // Use getline to read names with spaces
+
+    for (int i = 0; i < 5; ++i) {
+        std::cout << "Enter Subject " << i + 1 << " Name: ";
+        std::cin >> subject_name;
+        std::cout << "Enter marks for " << subject_name << ": ";
+        std::cin >> marks;
+        total_marks += marks;
+    }
+
+    double average = total_marks / 5.0;
+    std::cout << "The average of your mark is: " << average << std::endl;
+
+    char grade;
+    if (average > 85) {
+        grade = 'A';
+    } else if (average > 70) {
+        grade = 'B';
+    } else if (average > 50) {
+        grade = 'C';
+    } else if (average > 25) {
+        grade = 'D';
+    } else {
+        grade = 'W';
+    }
+
+    std::cout << "Hi " << name << ", you have obtained the grade: " << grade << std::endl;
+
+    return 0;
+}
+</code></pre>
+
+    <h4>3. Print a pattern using a symbol and number of rows.</h4>
+    <div class="explanation">
+      This program uses nested <code>for</code> loops. The outer loop controls the number of rows to be printed. The inner loop controls the number of symbols to be printed in each row. The number of symbols in each row is equal to the current row number (i.e., row 1 has 1 symbol, row 2 has 2, etc.).
+    </div>
+    <pre><code>#include &lt;iostream&gt;
+
+int main() {
+    char symbol;
+    int rows;
+
+    std::cout << "Enter the symbol to use: ";
+    std::cin >> symbol;
+
+    std::cout << "Enter the number of rows: ";
+    std::cin >> rows;
+
+    // Outer loop for each row
+    for (int i = 1; i <= rows; ++i) {
+        // Inner loop for printing symbols in the current row
+        for (int j = 1; j <= i; ++j) {
+            std::cout << symbol;
+        }
+        std::cout << std::endl; // Move to the next line after each row
+    }
+
+    return 0;
+}
+</code></pre>
+
+    <h4>4. Print the reverse of three integer values.</h4>
+    <div class="explanation">
+      The program reads three integers. It then uses a <code>while</code> loop for each number to reverse it. The logic for reversing a number is: in each iteration, get the last digit using the modulo operator (<code>% 10</code>), add it to the reversed number, and then remove the last digit from the original number by dividing it by 10 (<code>/ 10</code>).
+    </div>
+    <pre><code>#include &lt;iostream&gt;
+
+int main() {
+    int num1, num2, num3;
+
+    std::cout << "Enter three integer values separated by spaces: ";
+    std::cin >> num1 >> num2 >> num3;
+
+    int reversed_num1 = 0;
+    int temp = num1;
+    while (temp != 0) {
+        int digit = temp % 10;
+        reversed_num1 = reversed_num1 * 10 + digit;
+        temp /= 10;
+    }
+
+    int reversed_num2 = 0;
+    temp = num2;
+    while (temp != 0) {
+        int digit = temp % 10;
+        reversed_num2 = reversed_num2 * 10 + digit;
+        temp /= 10;
+    }
+
+    int reversed_num3 = 0;
+    temp = num3;
+    while (temp != 0) {
+        int digit = temp % 10;
+        reversed_num3 = reversed_num3 * 10 + digit;
+        temp /= 10;
+    }
+
+    std::cout << "The reversed numbers are: " << reversed_num1 << ", " << reversed_num2 << ", " << reversed_num3 << std::endl;
+
+    return 0;
+}
+</code></pre>
+
+    <h4>5. Develop a basic calculator.</h4>
+    <div class="explanation">
+      This program takes two numbers and an operator as input. A <code>switch</code> statement is used to check the operator. Based on the operator, the corresponding arithmetic operation is performed and the result is printed. A <code>default</code> case handles invalid operator inputs.
+    </div>
+    <pre><code>#include &lt;iostream&gt;
+
+int main() {
+    double num1, num2;
+    char op;
+
+    std::cout << "Enter first number: ";
+    std::cin >> num1;
+
+    std::cout << "Enter an operator (+, -, *, /): ";
+    std::cin >> op;
+
+    std::cout << "Enter second number: ";
+    std::cin >> num2;
+
+    switch (op) {
+        case '+':
+            std::cout << "Result: " << num1 + num2 << std::endl;
+            break;
+        case '-':
+            std::cout << "Result: " << num1 - num2 << std::endl;
+            break;
+        case '*':
+            std::cout << "Result: " << num1 * num2 << std::endl;
+            break;
+        case '/':
+            if (num2 != 0) {
+                std::cout << "Result: " << num1 / num2 << std::endl;
+            } else {
+                std::cout << "Error: Division by zero!" << std::endl;
+            }
+            break;
+        default:
+            std::cout << "Error: Invalid operator!" << std::endl;
+            break;
+    }
+
+    return 0;
+}
+</code></pre>
+
+    <h4>6. Develop the calculator using functions.</h4>
+    <div class="explanation">
+      This version of the calculator encapsulates the logic in a function called <code>performCalculation</code>. The <code>main</code> function is responsible for getting user input and then calling this function with the inputs as arguments. The function performs the calculation using a <code>switch</code> statement and prints the result. This approach makes the <code>main</code> function cleaner and promotes code reuse.
+    </div>
+    <pre><code>#include &lt;iostream&gt;
+
+// Function to perform the calculation
+void performCalculation(double num1, double num2, char op) {
+    switch (op) {
+        case '+':
+            std::cout << "Result: " << num1 + num2 << std::endl;
+            break;
+        case '-':
+            std::cout << "Result: " << num1 - num2 << std::endl;
+            break;
+        case '*':
+            std::cout << "Result: " << num1 * num2 << std::endl;
+            break;
+        case '/':
+            if (num2 != 0) {
+                std::cout << "Result: " << num1 / num2 << std::endl;
+            } else {
+                std::cout << "Error: Division by zero!" << std::endl;
+            }
+            break;
+        default:
+            std::cout << "Error: Invalid operator!" << std::endl;
+            break;
+    }
+}
+
+int main() {
+    double num1, num2;
+    char op;
+
+    std::cout << "Enter first number, operator, and second number (e.g., 10 + 5): ";
+    std::cin >> num1 >> op >> num2;
+
+    // Call the function to perform the calculation
+    performCalculation(num1, num2, op);
+
+    return 0;
+}
+</code></pre>
+
+    <!-- TAKE HOME ASSIGNMENT P01 -->
+    <h4>Take Home Assignment: Pyramid Pattern</h4>
+    <div class="explanation">
+      This program prints a pyramid pattern. It uses two main parts. The first part (an outer loop from 1 to `rows`) builds the top half of the pyramid. The second part (an outer loop from `rows-1` down to 1) builds the bottom half. Inside each outer loop, nested loops are used: one for printing leading spaces to center the pattern and another for printing the symbols.
+    </div>
+    <pre><code>#include &lt;iostream&gt;
+
+int main() {
+    char symbol;
+    int rows;
+
+    std::cout << "Enter the symbol: ";
+    std::cin >> symbol;
+
+    std::cout << "Enter number of rows (for the widest part): ";
+    std::cin >> rows;
+
+    // Print the top half of the pyramid
+    for (int i = 1; i <= rows; i++) {
+        for (int j = 1; j <= i; j++) {
+            std::cout << symbol;
+        }
+        std::cout << std::endl;
+    }
+
+    // Print the bottom half of the pyramid
+    for (int i = rows - 1; i >= 1; i--) {
+        for (int j = 1; j <= i; j++) {
+            std::cout << symbol;
+        }
+        std::cout << std::endl;
+    }
+
+    return 0;
+}
+</code></pre>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!--                      PRACTICAL 02: Functions & Arrays                 -->
+  <!-- ===================================================================== -->
+  <section id="p02">
+    <h2>Practical 02: Functions & Arrays</h2>
+
+    <div class="note">
+      <h3>Short Note: Functions and Arrays</h3>
+      <ul>
+        <li><strong>Functions:</strong> Reusable blocks of code. They can take inputs (parameters/arguments) and can return a value. Defining functions helps to organize code, reduce repetition, and make the program easier to manage.</li>
+        <li><strong>Arrays:</strong> A collection of items of the same data type stored in contiguous memory locations. Elements are accessed using an index, starting from 0. Example: <code>int numbers[5];</code> creates an array to hold 5 integers.</li>
+      </ul>
+    </div>
+
+    <h4>1. Function to find the area of a circle.</h4>
+    <div class="explanation">
+      The program defines a function <code>circarea</code> that takes one <code>float</code> argument (radius) and returns a <code>float</code> value (the area). The formula `Area = π * r^2` is used, with π approximated as 3.14159. The <code>main</code> function prompts the user for the radius, calls <code>circarea</code>, and prints the returned result.
+    </div>
+    <pre><code>#include &lt;iostream&gt;
+
+const float PI = 3.14159f;
+
+// Function to calculate the area of a circle
+float circarea(float radius) {
+    return PI * radius * radius;
+}
+
+int main() {
+    float user_radius;
+
+    std::cout << "Enter the radius of the circle: ";
+    std::cin >> user_radius;
+
+    float area = circarea(user_radius);
+
+    std::cout << "The area of the circle is: " << area << std::endl;
+
+    return 0;
+}
+</code></pre>
+
+    <h4>2. Use functions to calculate (3*4+5*7)².</h4>
+    <div class="explanation">
+      This program demonstrates function composition. Three functions are defined: <code>add()</code>, <code>multiply()</code>, and <code>square()</code>. In <code>main</code>, we calculate the expression step-by-step by calling these functions. <code>multiply(3, 4)</code> and <code>multiply(5, 7)</code> are calculated first. The results are then added using <code>add()</code>. Finally, the sum is squared using the <code>square()</code> function.
+    </div>
+    <pre><code>#include &lt;iostream&gt;
+
+// Function to add two numbers
+int add(int a, int b) {
+    return a + b;
+}
+
+// Function to multiply two numbers
+int multiply(int a, int b) {
+    return a * b;
+}
+
+// Function to square a number
+int square(int a) {
+    return a * a;
+}
+
+int main() {
+    // Calculate (3*4 + 5*7)^2
+    int part1 = multiply(3, 4);  // 12
+    int part2 = multiply(5, 7);  // 35
+    int sum = add(part1, part2);   // 47
+    int result = square(sum);      // 47 * 47 = 2209
+
+    std::cout << "The result of (3*4 + 5*7)^2 is: " << result << std::endl;
+
+    return 0;
+}
+</code></pre>
+
+    <h4>3. Find the Minimum and Maximum of an array.</h4>
+    <div class="explanation">
+      The program initializes an integer array with given values. It then declares two variables, <code>min_val</code> and <code>max_val</code>, and initializes both to the first element of the array. A <code>for</code> loop iterates through the rest of the array elements. Inside the loop, it checks if the current element is smaller than <code>min_val</code> or larger than <code>max_val</code> and updates them accordingly.
+    </div>
+    <pre><code>#include &lt;iostream&gt;
+#include &lt;limits&gt; // For std::numeric_limits
+
+int main() {
+    int arr[] = {3, 2, 4, 5, 6, 4, 9, 7, 8, 1};
+    int n = sizeof(arr) / sizeof(arr[0]); // Calculate the number of elements
+
+    if (n == 0) {
+        std::cout << "Array is empty." << std::endl;
+        return 0;
+    }
+
+    int min_val = arr[0];
+    int max_val = arr[0];
+
+    // Start loop from the second element
+    for (int i = 1; i < n; ++i) {
+        if (arr[i] < min_val) {
+            min_val = arr[i];
+        }
+        if (arr[i] > max_val) {
+            max_val = arr[i];
+        }
+    }
+
+    std::cout << "The array is: ";
+    for(int i=0; i < n; ++i) std::cout << arr[i] << " ";
+    std::cout << std::endl;
+
+    std::cout << "Minimum value: " << min_val << std::endl;
+    std::cout << "Maximum value: " << max_val << std::endl;
+
+    return 0;
+}
+</code></pre>
+
+    <h4>4. Marketing firm earnings matrix.</h4>
+    <div class="explanation">
+      This program uses a 2D array (matrix) to store the earnings data. It then uses nested loops to calculate the required totals.
+      <ol>
+        <li><strong>Daily totals (A, B, C...):</strong> It iterates through each row and sums up the values in that row.</li>
+        <li><strong>Weekly totals (P, Q, R):</strong> It iterates through each column and sums up the values in that column.</li>
+        <li><strong>Total for the week (Z):</strong> It sums up all the daily totals (or all the weekly totals) to get the grand total.</li>
+      </ol>
+    </div>
+    <pre><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+
+int main() {
+    // Data as a 2D array: 7 days, 3 items
+    int earnings[7][3] = {
+        {100, 10, 25},
+        {200, 20, 30},
+        {300, 30, 90},
+        {400, 30, 70},
+        {500, 50, 80},
+        {600, 10, 300},
+        {700, 60, 10}
+    };
+
+    // 1. Calculate Daily total earnings (A, B, C, D, E, F, G)
+    std::cout << "Daily Total Earnings:" << std::endl;
+    double grand_total = 0;
+    for (int i = 0; i < 7; ++i) {
+        int daily_total = 0;
+        for (int j = 0; j < 3; ++j) {
+            daily_total += earnings[i][j];
+        }
+        std::cout << "Day " << i + 1 << " (Total " << (char)('A' + i) << "): " << daily_total << std::endl;
+        grand_total += daily_total;
+    }
+    std::cout << std::endl;
+
+    // 2. Calculate Weekly total earnings for each product (P, Q, R)
+    std::cout << "Weekly Total Earnings per Product:" << std::endl;
+    for (int j = 0; j < 3; ++j) {
+        int product_total = 0;
+        for (int i = 0; i < 7; ++i) {
+            product_total += earnings[i][j];
+        }
+        std::cout << "Product " << j + 1 << " (Total " << (char)('P' + j) << "): " << product_total << std::endl;
+    }
+    std::cout << std::endl;
+
+    // 3. Calculate Total earnings for the whole week (Z)
+    std::cout << "Total Earnings for the Whole Week (Z): " << grand_total << std::endl;
+
+    return 0;
+}
+</code></pre>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!--                      PRACTICAL 03: Classes & Objects                  -->
+  <!-- ===================================================================== -->
+  <section id="p03">
+    <h2>Practical 03: Objects and Classes</h2>
+    <div class="note">
+      <h3>Short Note: Classes, Objects, and Access Specifiers</h3>
+      <ul>
+        <li><strong>Class:</strong> A blueprint or template for creating objects. It defines a new data type with its own data members (variables) and member functions (methods).</li>
+        <li><strong>Object:</strong> An instance of a class. When a class is defined, no memory is allocated. When an object is created, memory is allocated.</li>
+        <li><strong>Encapsulation:</strong> The bundling of data (attributes) and methods (functions) that operate on the data into a single unit (a class). It restricts direct access to some of an object's components.</li>
+        <li><strong>Access Specifiers:</strong>
+          <ul>
+            <li><strong><code>public</code>:</strong> Members are accessible from outside the class.</li>
+            <li><strong><code>private</code>:</strong> Members cannot be accessed from outside the class. They can only be accessed by member functions of the same class. (Default for classes).</li>
+            <li><strong><code>protected</code>:</strong> Similar to private, but accessible in derived classes (used in Inheritance).</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <h4>1. Define a class named 'Circle'.</h4>
+    <div class="explanation">
+      This program defines a <code>Circle</code> class.
+      <ul>
+        <li>It has a <strong>private</strong> data member <code>radius</code> to store the radius, enforcing encapsulation.</li>
+        <li>It has three <strong>public</strong> member functions:
+          <ul>
+            <li><code>setRadius()</code>: Takes a value from the user and assigns it to the private <code>radius</code>.</li>
+            <li><code>calculateArea()</code>: Calculates the area using the stored radius and returns it.</li>
+            <li><code>displayArea()</code>: Calls <code>calculateArea()</code> and prints the result in a user-friendly format.</li>
+          </ul>
+        </li>
+        <li>The <code>main</code> function creates an object of the <code>Circle</code> class, calls its public methods to set the radius and display the area.</li>
+      </ul>
+    </div>
+    <pre><code>#include &lt;iostream&gt;
+
+const float PI = 3.14159f;
+
+class Circle {
+private:
+    double radius; // Data field is private for encapsulation
+
+public:
+    // Function to set the radius from user input
+    void setRadius() {
+        std::cout << "Enter the radius for the circle: ";
+        std::cin >> radius;
+    }
+
+    // Function to calculate the area
+    double calculateArea() {
+        return PI * radius * radius;
+    }
+
+    // Function to display the calculated area
+    void displayArea() {
+        double area = calculateArea();
+        std::cout << "The calculated area of the circle is: " << area << std::endl;
+    }
+};
+
+int main() {
+    // Create an object (instance) of the Circle class
+    Circle myCircle;
+
+    // Call the member functions on the object
+    myCircle.setRadius();
+    myCircle.displayArea();
+
+    return 0;
+}
+</code></pre>
+
+    <h4>2. Musical instruments shop Guitar system.</h4>
+    <div class="explanation">
+      This program simulates a guitar shop's lookup system using OOP.
+      <ul>
+        <li>A <code>Guitar</code> class is defined to hold all properties of a guitar. The properties are private members.</li>
+        <li>A public member function <code>setData()</code> is used to initialize the properties of a guitar object.</li>
+        <li>Another public member function <code>displayDetails()</code> prints the guitar's information.</li>
+        <li>In <code>main</code>, an array of <code>Guitar</code> objects is created to represent the shop's inventory. Each guitar's data is set using <code>setData()</code>.</li>
+        <li>The program then asks the user for a guitar code. It iterates through the array of guitars, finds the one matching the serial number, and displays its details.</li>
+      </ul>
+    </div>
+    <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;vector&gt;
+
+class Guitar {
+private:
+    std::string serialNumber;
+    double unitPrice;
+    std::string builder;
+    std::string model;
+    std::string type;
+    std::string backWood;
+    std::string topWood;
+
+public:
+    // A function to set all the data for a guitar
+    void setData(std::string sn, double price, std::string bld, std::string mdl, std::string tp, std::string bw, std::string tw) {
+        serialNumber = sn;
+        unitPrice = price;
+        builder = bld;
+        model = mdl;
+        type = tp;
+        backWood = bw;
+        topWood = tw;
+    }
+
+    // A function to get the serial number
+    std::string getSerialNumber() {
+        return serialNumber;
+    }
+
+    // A function to display the guitar details
+    void displayDetails() {
+        std::cout << "\n--- Guitar Details ---" << std::endl;
+        std::cout << "Serial Number: " << serialNumber << std::endl;
+        std::cout << "Price: Rs. " << unitPrice << std::endl;
+        std::cout << "Builder: " << builder << std::endl;
+        std::cout << "Model: " << model << std::endl;
+        std::cout << "Type: " << type << std::endl;
+        std::cout << "Back Wood: " << backWood << std::endl;
+        std::cout << "Top Wood: " << topWood << std::endl;
+        std::cout << "----------------------" << std::endl;
+    }
+};
+
+int main() {
+    // Create a vector to hold the guitar inventory
+    std::vector<Guitar> inventory(4);
+
+    // Initialize the inventory data
+    inventory[0].setData("GU12", 19500.50, "Fender", "Stratocaster", "Electric", "Teak", "Teak");
+    inventory[1].setData("GU45PLM", 27200.00, "Fender", "Stratocaster", "Electric", "Teak", "Alder");
+    inventory[2].setData("GU125M", 22500.00, "Fender", "Stratocaster", "Electric", "Alder", "Teak");
+    inventory[3].setData("GU245XL", 33900.00, "Fender", "Stratocaster", "Electric", "Alder", "Alder");
+
+    std::string inputCode;
+    std::cout << "Welcome to the Guitar Shop!" << std::endl;
+    std::cout << "Please enter the guitar code to see details (e.g., GU12, GU45PLM): ";
+    std::cin >> inputCode;
+
+    bool found = false;
+    for (int i = 0; i < inventory.size(); ++i) {
+        if (inventory[i].getSerialNumber() == inputCode) {
+            inventory[i].displayDetails();
+            found = true;
+            break; // Exit the loop once found
+        }
+    }
+
+    if (!found) {
+        std::cout << "Sorry, a guitar with code '" << inputCode << "' was not found." << std::endl;
+    }
+
+    return 0;
+}
+</code></pre>
+
+    <h4>3. Define a class to represent a bank account.</h4>
+    <div class="explanation">
+      This program defines a <code>BankAccount</code> class to manage user accounts.
+      <ul>
+        <li>Private members include <code>name</code>, <code>accountNumber</code>, and <code>balance</code>.</li>
+        <li>Public member functions provide a safe way to interact with the private data:
+          <ul>
+            <li><code>setData()</code> gets the user's name and account number.</li>
+            <li><code>deposit()</code> adds a specified amount to the balance.</li>
+            <li><code>withdraw()</code> subtracts an amount, but only if there are sufficient funds.</li>
+            <li><code>displayData()</code> shows the account details.</li>
+          </ul>
+        </li>
+        <li>The <code>main</code> function creates a <code>BankAccount</code> object, gets initial data, and then presents a menu to the user to either deposit, withdraw, or display details.</li>
+      </ul>
+    </div>
+    <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;limits&gt; // for numeric_limits
+
+class BankAccount {
+private:
+    std::string accountHolderName;
+    long accountNumber;
+    double balance;
+
+public:
+    // Initialize balance to 0
+    BankAccount() {
+        balance = 0.0;
+    }
+
+    void setData() {
+        std::cout << "Enter account holder's name: ";
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear buffer before getline
+        std::getline(std::cin, accountHolderName);
+        std::cout << "Enter account number: ";
+        std::cin >> accountNumber;
+        std::cout << "Account created for " << accountHolderName << " with account number " << accountNumber << std::endl;
+    }
+
+    void deposit() {
+        double amount;
+        std::cout << "Enter amount to deposit: ";
+        std::cin >> amount;
+        if (amount > 0) {
+            balance += amount;
+            std::cout << "Successfully deposited Rs. " << amount << std::endl;
+        } else {
+            std::cout << "Invalid deposit amount." << std::endl;
+        }
+    }
+
+    void withdraw() {
+        double amount;
+        std::cout << "Enter amount to withdraw: ";
+        std::cin >> amount;
+        if (amount > 0 && amount <= balance) {
+            balance -= amount;
+            std::cout << "Successfully withdrew Rs. " << amount << std::endl;
+        } else if (amount > balance) {
+            std::cout << "Withdrawal failed. Insufficient balance." << std::endl;
+        } else {
+            std::cout << "Invalid withdrawal amount." << std::endl;
+        }
+    }
+
+    void displayData() {
+        std::cout << "\n--- Account Details ---" << std::endl;
+        std::cout << "Account Holder: " << accountHolderName << std::endl;
+        std::cout << "Account Number: " << accountNumber << std::endl;
+        std::cout << "Current Balance: Rs. " << balance << std::endl;
+        std::cout << "-----------------------" << std::endl;
+    }
+};
+
+int main() {
+    BankAccount myAccount;
+    myAccount.setData();
+
+    int choice;
+    do {
+        std::cout << "\n-- Bank Menu --" << std::endl;
+        std::cout << "1. Deposit" << std::endl;
+        std::cout << "2. Withdraw" << std::endl;
+        std::cout << "3. Display Details" << std::endl;
+        std::cout << "4. Exit" << std::endl;
+        std::cout << "Enter your choice: ";
+        std::cin >> choice;
+
+        switch (choice) {
+            case 1:
+                myAccount.deposit();
+                break;
+            case 2:
+                myAccount.withdraw();
+                break;
+            case 3:
+                myAccount.displayData();
+                break;
+            case 4:
+                std::cout << "Thank you for banking with us!" << std::endl;
+                break;
+            default:
+                std::cout << "Invalid choice. Please try again." << std::endl;
+        }
+    } while (choice != 4);
+
+    return 0;
+}
+</code></pre>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!--                      PRACTICAL 04: Constructors                       -->
+  <!-- ===================================================================== -->
+  <section id="p04">
+    <h2>Practical 04: Constructors</h2>
+    <div class="note">
+      <h3>Short Note: Constructors</h3>
+      <ul>
+        <li><strong>Constructor:</strong> A special member function of a class that is automatically called when an object of that class is created. Its primary job is to initialize the object's data members.</li>
+        <li><strong>Characteristics:</strong>
+          <ul>
+            <li>It has the same name as the class.</li>
+            <li>It does not have a return type, not even <code>void</code>.</li>
+            <li>It can be public, private, or protected.</li>
+          </ul>
+        </li>
+        <li><strong>Default Constructor:</strong> A constructor that takes no arguments. If you don't define any constructor, the compiler provides a default one.</li>
+        <li><strong>Parameterized Constructor:</strong> A constructor that accepts one or more arguments to initialize data members with specific values.</li>
+        <li><strong>Constructor Overloading:</strong> Defining multiple constructors in the same class, but with different numbers or types of parameters. The compiler chooses the correct one based on the arguments provided during object creation.</li>
+      </ul>
+    </div>
+
+    <h4>1. Bank Account with Constructors.</h4>
+    <div class="explanation">
+      This program extends the previous Bank Account class by introducing constructors to initialize the object's state.
+      <ul>
+        <li><strong>1.1 `setBalance()` function:</strong> A regular member function is used to set the balance after the object has been created.</li>
+        <li><strong>1.2 Default Constructor:</strong> The `BankAccount(long accNum)` constructor is modified to a default one `BankAccount()` that automatically sets the balance to 20000 when an object is created like `BankAccount acc2;`.</li>
+        <li><strong>1.3 Parameterized Constructor:</strong> A constructor `BankAccount(long accNum, double bal)` is added. This allows creating an object and initializing both the account number and balance in a single line, like `BankAccount acc3(123, 20000.0);`. This demonstrates constructor overloading.</li>
+      </ul>
+    </div>
+    <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+class BankAccount {
+private:
+    std::string name;
+    long accountNumber;
+    double balance;
+
+public:
+    // Default constructor
+    BankAccount() {
+        accountNumber = 0;
+        balance = 0.0;
+        name = "N/A";
+    }
+
+    // Parameterized constructor
+    BankAccount(long accNum, double bal) {
+        accountNumber = accNum;
+        balance = bal;
+        name = "N/A"; // Name can be set later
+    }
+
+    void setName(std::string n) {
+        name = n;
+    }
+
+    // 1.1 Method to set balance
+    void setBalance(double bal) {
+        balance = bal;
+    }
+
+    void display() {
+        std::cout << "Account Holder: " << name << ", Acc No: " << accountNumber << ", Balance: Rs. " << balance << std::endl;
+    }
+};
+
+int main() {
+    std::cout << "1.1 Set balance using setBalance() function:" << std::endl;
+    BankAccount acc1;
+    acc1.setName("John Doe");
+    acc1.setBalance(20000);
+    acc1.display();
+
+    std::cout << "\n1.2 Set balance using default constructor (modified to set balance):" << std::endl;
+    // For this example, let's create a new class or modify the existing one.
+    // Let's assume we modify the default constructor for this specific case.
+    class BankAccountWithDefaultBalance {
+    public:
+        double balance;
+        BankAccountWithDefaultBalance() {
+            balance = 20000; // Set balance in default constructor
+        }
+        void display() { std::cout << "Balance: Rs. " << balance << std::endl; }
+    };
+    BankAccountWithDefaultBalance acc2;
+    acc2.display();
+
+    std::cout << "\n1.3 Set balance and account number using parameterized constructor:" << std::endl;
+    BankAccount acc3(123, 20000);
+    acc3.setName("Jane Smith");
+    acc3.display();
+
+    return 0;
+}
+</code></pre>
+
+    <h4>2. Output name and age by only creating objects.</h4>
+    <div class="explanation">
+      This program has a <code>Person</code> class with a parameterized constructor that takes a name and age. The constructor immediately prints the details upon object creation. The <code>main</code> function gets the name and age from the user and then creates a <code>Person</code> object, passing the user's input to the constructor. This triggers the print statement inside the constructor.
+    </div>
+    <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+class Person {
+public:
+    // Parameterized constructor that prints the details
+    Person(std::string name, int age) {
+        std::cout << "\"My name is " << name << " and I am " << age << " years old\"" << std::endl;
+    }
+};
+
+int main() {
+    std::string userName;
+    int userAge;
+
+    std::cout << "Enter your name: ";
+    std::getline(std::cin, userName);
+
+    std::cout << "Enter your age: ";
+    std::cin >> userAge;
+
+    // Creating an object of Person class calls the constructor
+    // The constructor then prints the message.
+    Person user(userName, userAge);
+
+    return 0;
+}
+</code></pre>
+
+    <h4>3. Company employee system with constructor overloading.</h4>
+    <div class="explanation">
+      This program uses a single <code>Employee</code> class with overloaded constructors to handle different employee roles with varying amounts of data.
+      <ul>
+        <li>The class has data members for all possible attributes (name, position, branch, etc.).</li>
+        <li><strong>Constructor 1 (Manager):</strong> Takes only a name.</li>
+        <li><strong>Constructor 2 (Assistant Manager):</strong> Takes a name and position/branch.</li>
+        <li><strong>Constructor 3 (Manager with more details):</strong> Takes name, position, and branch employees count.</li>
+        <li><strong>Constructor 4 (General Employee):</strong> Takes name, position, branch, and section.</li>
+        <li>Each constructor initializes the relevant fields and sets others to a default value like "N/A". A single <code>display()</code> method can then print the information for any type of employee, showing "N/A" for fields that weren't set.</li>
+      </ul>
+    </div>
+    <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+class Employee {
+private:
+    std::string name;
+    std::string position;
+    std::string branch;
+    std::string section;
+    int branchEmployees; // For Manager
+
+public:
+    // 3.2 Constructor for Manager (Name only)
+    Employee(std::string empName) {
+        name = empName;
+        position = "Manager";
+        branch = "N/A";
+        section = "N/A";
+        branchEmployees = 0;
+    }
+
+    // Constructor for Assistant Manager (Name, Position, Branch)
+    Employee(std::string empName, std::string empPosition, std::string empBranch) {
+        name = empName;
+        position = empPosition;
+        branch = empBranch;
+        section = "N/A";
+        branchEmployees = 0;
+    }
+
+    // Constructor for Manager (Name, Position, Branch, Employees)
+    Employee(std::string empName, std::string empPosition, std::string empBranch, int empCount) {
+        name = empName;
+        position = empPosition;
+        branch = empBranch;
+        section = "N/A";
+        branchEmployees = empCount;
+    }
+
+    // Constructor for regular employee
+    Employee(std::string empName, std::string empPosition, std::string empBranch, std::string empSection) {
+        name = empName;
+        position = empPosition;
+        branch = empBranch;
+        section = empSection;
+        branchEmployees = 0;
+    }
+
+    // 3.3 Method to display information
+    void display() {
+        std::cout << "\n--- Employee Details ---" << std::endl;
+        std::cout << "Name: " << name << std::endl;
+        std::cout << "Position: " << position << std::endl;
+        if (branch != "N/A") std::cout << "Branch: " << branch << std::endl;
+        if (section != "N/A") std::cout << "Section: " << section << std::endl;
+        if (branchEmployees > 0) std::cout << "Branch Employees: " << branchEmployees << std::endl;
+        std::cout << "------------------------" << std::endl;
+    }
+};
+
+int main() {
+    // 3.1 & 3.2: Creating objects using different constructors
+    Employee manager("Alice");
+    Employee asstManager("Bob", "Assistant Manager", "Main Branch");
+    Employee detailedManager("Charlie", "Branch Manager", "City Branch", 15);
+    Employee staff("David", "Clerk", "City Branch", "Accounts");
+
+    // 3.3: Displaying information
+    manager.display();
+    asstManager.display();
+    detailedManager.display();
+    staff.display();
+
+    return 0;
+}
+</code></pre>
+
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- PRACTICAL 05: Static, Const, Operator Overloading, Data Conversion   -->
+  <!-- ===================================================================== -->
+  <section id="p05">
+    <h2>Practical 05: Static, Const, Operator Overloading, Data Conversion</h2>
+    <div class="note">
+      <h3>Short Note: Advanced Class Concepts</h3>
+      <ul>
+        <li><strong><code>static</code> Data Member:</strong> A class member that is shared by all objects of the class. There is only one copy of a static member, regardless of how many objects are created. It's often used for counters or shared resources. It must be initialized outside the class.</li>
+        <li><strong><code>const</code> Keyword:</strong>
+          <ul>
+            <li><strong>Constant Variable:</strong> A variable whose value cannot be changed after initialization.</li>
+            <li><strong>Constant Member Function:</strong> A member function that promises not to modify any of the class's data members. It is declared with `const` at the end, e.g., <code>void display() const;</code>. Constant objects can only call constant member functions.</li>
+          </ul>
+        </li>
+        <li><strong>Operator Overloading:</strong> Allows you to redefine the way an operator (like <code>+</code>, <code>-</code>, <code>++</code>) works for objects of a class. It makes code more intuitive. For example, you can define <code>++book_object;</code> to increment a member inside the object.</li>
+        <li><strong>Data Conversion:</strong>
+          <ul>
+            <li><strong>Basic to Class Type:</strong> Done using a single-argument constructor. E.g., a constructor <code>Distance(float meters)</code> allows conversion from a float to a Distance object.</li>
+            <li><strong>Class to Basic Type:</strong> Done using a conversion operator function. E.g., <code>operator float() const;</code> defines how to convert a class object to a float.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <h4>1. Book class with a static counter.</h4>
+    <div class="explanation">
+      This program demonstrates a <code>static</code> data member.
+      <ul>
+        <li>The <code>Book</code> class has a <code>static int counter;</code>. This variable is shared across all <code>Book</code> objects.</li>
+        <li>The counter is initialized to 0 outside the class: <code>int Book::counter = 0;</code>. This is a crucial step.</li>
+        <li>The constructor of the <code>Book</code> class increments this shared counter (<code>++counter;</code>) every time a new object is created.</li>
+        <li>The <code>display</code> function shows the values, including the current count. When `b1` is created, the count becomes 1. When `b2` is created, the same counter is incremented to 2.</li>
+      </ul>
+    </div>
+    <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+class Book {
+private:
+    float price;
+    std::string name;
+public:
+    static int counter; // Static data member declaration
+
+    // Constructor
+    Book() {
+        price = 0.0f;
+        name = "OOP";
+        ++counter; // Increment the shared counter
+    }
+
+    void display() {
+        std::cout << "\n--- Book Details ---" << std::endl;
+        std::cout << "Name: " << name << std::endl;
+        std::cout << "Price: " << price << std::endl;
+        std::cout << "Total books created (Counter): " << counter << std::endl;
+    }
+};
+
+// Initialize the static data member outside the class
+int Book::counter = 0;
+
+int main() {
+    std::cout << "Creating first book b1..." << std::endl;
+    Book b1;
+    b1.display();
+
+    std::cout << "\nCreating second book b2..." << std::endl;
+    Book b2;
+    b2.display();
+
+    // Note that b1's counter value also reflects the new total
+    std::cout << "\nDisplaying b1 again to show shared counter:" << std::endl;
+    b1.display();
+
+    return 0;
+}
+</code></pre>
+
+    <h4>2. Extend the Book class with `const`.</h4>
+    <div class="explanation">
+      This question explores the use of <code>const</code>.
+      <ul>
+        <li><strong>Make `pid` a constant:</strong> If you declare <code>const int pid;</code>, you must initialize it in the constructor using a member initializer list (e.g., `Book(int id) : pid(id) { ... }`). Attempting to assign a value to it inside a regular function like `display()` (<code>pid = 90;</code>) will cause a <strong>compile-time error</strong> because constant members cannot be modified after initialization.</li>
+        <li><strong>Make `display` a constant function:</strong> If you declare <code>void display() const { ... }</code>, the function promises not to change any data members. The line <code>pid = 90;</code> inside it would again cause a <strong>compile-time error</strong>, even if `pid` wasn't `const`, because a `const` function cannot modify member variables.</li>
+        <li><strong>Constant object:</strong> If you create a constant object like <code>const Book b_const(101);</code>, you can only call `const` member functions on it. Calling a non-const function like `display2()` would result in a <strong>compile-time error</strong>.</li>
+      </ul>
+    </div>
+    <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+class Book {
+private:
+    const int pid; // Publisher ID - now a constant
+
+public:
+    // Constructor with initializer list for const member
+    Book(int id) : pid(id) {}
+
+    // Constant member function - promises not to modify members
+    void display() const {
+        // pid = 90; // COMPILE ERROR: Cannot assign to a const member
+        // Also, cannot modify any member inside a const function.
+        std::cout << "Publisher ID: " << pid << std::endl;
+    }
+
+    // A non-const member function
+    void display2(const Book& b) {
+        // b.pid = b.pid + 3; // COMPILE ERROR: b is a const reference, pid is const
+        std::cout << "Publisher ID of passed object: " << b.pid << std::endl;
+    }
+};
+
+int main() {
+    Book b1(101);
+    std::cout << "Displaying b1:" << std::endl;
+    b1.display();
+
+    const Book b_const(202); // A constant object
+    std::cout << "\nDisplaying constant object b_const:" << std::endl;
+    b_const.display(); // OK: Calling a const function on a const object
+
+    // b_const.display2(b1); // COMPILE ERROR: Cannot call a non-const function (display2) on a const object (b_const)
+    // However, we can call display2 on a non-const object and pass a const object
+    std::cout << "\nCalling display2 on b1, passing b_const:" << std::endl;
+    b1.display2(b_const);
+
+    return 0;
+}
+</code></pre>
+
+    <h4>3. Overload the `++` operator for the Book class.</h4>
+    <div class="explanation">
+      This example shows how to overload the pre-increment operator (<code>++</code>).
+      <ul>
+        <li>A member function <code>void operator++()</code> is added to the <code>Book</code> class. This special function name tells the compiler what to do when <code>++</code> is used on a <code>Book</code> object.</li>
+        <li>Inside this function, we define the behavior, which is to increment the <code>counter</code>.</li>
+        <li>The original code would fail because the compiler doesn't know how to increment a `Book` object. After adding the overloaded operator, `++b1;` becomes a valid statement that calls the <code>operator++</code> function on `b1`.</li>
+        <li>To fix the assignment issue (`Book b3 = ++b1;`), the operator should return a reference to the modified object (`Book& operator++()`).</li>
+      </ul>
+    </div>
+    <pre><code>#include &lt;iostream&gt;
+
+class Book {
+public:
+    int counter;
+    Book() : counter(0) {}
+
+    // Overload the pre-increment operator (++)
+    // Returns a reference to allow chaining and assignment (e.g., b2 = ++b1)
+    Book& operator++() {
+        ++counter;
+        return *this; // Return the modified object itself
+    }
+
+    void display() const {
+        std::cout << "Counter value: " << counter << std::endl;
+    }
+};
+
+int main() {
+    Book b1;
+    b1.display(); // Output: Counter value: 0
+
+    std::cout << "Incrementing b1..." << std::endl;
+    ++b1;
+    b1.display(); // Output: Counter value: 1
+
+    std::cout << "Assigning incremented value to b2..." << std::endl;
+    Book b2 = ++b1;
+    b1.display(); // Output: Counter value: 2
+    b2.display(); // Output: Counter value: 2
+
+    return 0;
+}
+</code></pre>
+
+    <h4>4. Distance class with data conversion.</h4>
+    <div class="explanation">
+      This program demonstrates both types of data conversion.
+      <ul>
+        <li><strong>Basic to Class (meter to Distance):</strong> This is handled by the single-argument constructor `Distance(float meters)`. When you write `Distance d2 = 5.5;`, the compiler uses this constructor to convert the float `5.5` into a `Distance` object. The constructor contains the logic to convert meters into feet and inches.</li>
+        <li><strong>Class to Basic (Distance to meter):</strong> This is handled by the conversion operator `operator float() const`. This function defines how a `Distance` object should be converted back into a float (meters). When you write `float m = d1;`, this operator is automatically called. The logic inside converts feet and inches back to a total meter value.</li>
+      </ul>
+    </div>
+    <pre><code>#include &lt;iostream&gt;
+#include &lt;cmath&gt; // For floor
+
+class Distance {
+private:
+    int feet;
+    float inches;
+    const float MTF; // Meters to Feet conversion factor
+
+public:
+    // Default constructor
+    Distance() : feet(0), inches(0.0f), MTF(3.28f) {}
+
+    // Constructor for converting meters to Distance (Basic to Class)
+    Distance(float meters) : MTF(3.28f) {
+        float total_feet = MTF * meters;
+        feet = static_cast<int>(total_feet);
+        inches = 12 * (total_feet - feet);
+    }
+
+    // Conversion operator to convert Distance to meters (Class to Basic)
+    operator float() const {
+        float total_feet = feet + inches / 12.0f;
+        return total_feet / MTF;
+    }
+
+    // Constant function to display the distance
+    void showdist() const {
+        std::cout << feet << " feet, " << inches << " inches" << std::endl;
+    }
+};
+
+int main() {
+    // 1. Convert meters (basic type) to Distance (class type)
+    float meters_input = 2.5f;
+    std::cout << meters_input << " meters is equivalent to: ";
+    Distance dist1 = meters_input; // Implicitly calls constructor Distance(float)
+    dist1.showdist();
+
+    // 2. Convert Distance (class type) back to meters (basic type)
+    std::cout << "\nConverting the distance back to meters..." << std::endl;
+    Distance dist2(meters_input); // Another Distance object
+    float meters_output = dist2; // Implicitly calls operator float()
+    std::cout << "The value in meters is: " << meters_output << std::endl;
+
+    return 0;
+}
+</code></pre>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!--                   PRACTICAL 06: Inheritance                           -->
+  <!-- ===================================================================== -->
+  <section id="p06">
+    <h2>Practical 06: Inheritance</h2>
+
+    <div class="note">
+      <h3>Short Note: Inheritance and Friend Functions</h3>
+      <ul>
+        <li><strong>Inheritance:</strong> A mechanism where a new class (derived/child class) inherits properties and behaviors (data members and member functions) from an existing class (base/parent class). This promotes code reusability and establishes an "is-a" relationship (e.g., a Rectangle "is-a" Shape).</li>
+        <li><strong>Types of Inheritance:</strong>
+          <ul>
+            <li><strong><code>public</code>:</strong> Public members of the base class become public in the derived class. Protected members become protected.</li>
+            <li><strong><code>protected</code>:</strong> Public and protected members of the base class become protected in the derived class.</li>
+            <li><strong><code>private</code>:</strong> Public and protected members of the base class become private in the derived class.</li>
+          </ul>
+        </li>
+        <li><strong>Friend Function:</strong> A function that is not a member of a class but is granted access to the class's `private` and `protected` members. It is declared inside the class with the `friend` keyword.</li>
+        <li><strong>Multiple Inheritance:</strong> A class can be derived from more than one base class. The derived class inherits members from all its parent classes. E.g., `class C : public A, public B { ... };`.</li>
+      </ul>
+    </div>
+
+    <h4>1. `Shape` and `Rectangle` class with inheritance.</h4>
+    <div class="explanation">
+      <ul>
+        <li>A base class `Shape` is created with `width` and `height`.</li>
+        <li>A derived class `Rectangle` inherits from `Shape` using `public` inheritance. This means `Rectangle` objects can access the public members of `Shape` (like `setData`).</li>
+        <li>The `Rectangle` class adds its own functionality, `getArea()`. Inside `getArea()`, it can directly access `width` and `height` because they were inherited.</li>
+        <li><strong>When changing to `protected` inheritance:</strong> The `setData()` function, which was public in `Shape`, becomes `protected` in `Rectangle`. This means it can no longer be called from `main()` (outside the class). This will cause a <strong>compile-time error</strong>. Protected members are only accessible within the class itself and its derived classes.</li>
+      </ul>
+    </div>
+    <pre><code>#include &lt;iostream&gt;
+
+// Base class
+class Shape {
+protected: // Using protected so derived classes can access them directly
+    int width;
+    int height;
+public:
+    void setData(int w, int h) {
+        width = w;
+        height = h;
+    }
+};
+
+// Derived class - Public Inheritance
+// class Rectangle : public Shape {
+// Change to protected inheritance to see the effect
+class Rectangle : protected Shape {
+public:
+    // We need a public method in Rectangle to access the protected setData from Shape
+    void setRectangleData(int w, int h) {
+        setData(w, h); // This is valid, as Rectangle can access protected members of Shape
+    }
+
+    int getArea() {
+        return (width * height);
+    }
+};
+
+int main() {
+    Rectangle rect;
+
+    // With PUBLIC inheritance, this works:
+    // rect.setData(5, 7);
+
+    // With PROTECTED inheritance, rect.setData(5, 7) will cause a COMPILE ERROR
+    // because setData is now protected in the context of Rectangle.
+    // We must use the public interface of Rectangle:
+    rect.setRectangleData(5, 7);
+
+    std::cout << "Total area: " << rect.getArea() << std::endl;
+
+    return 0;
+}
+</code></pre>
+
+    <h4>2. `Student` class with a `friend` function.</h4>
+    <div class="explanation">
+      <ul>
+        <li>The `Student` class has private data members.</li>
+        <li>A non-member function `displayStudentDetails` is declared.</li>
+        <li>Inside the `Student` class, this function is declared as a `friend` using `friend void displayStudentDetails(const Student& s);`.</li>
+        <li>This `friend` declaration gives `displayStudentDetails` special permission to access the private members (`name`, `regNo`, `indexNo`) of any `Student` object passed to it.</li>
+        <li>Without the `friend` keyword, the line `s.name` inside the function would cause a <strong>compile-time error</strong> because `name` is private.</li>
+      </ul>
+    </div>
+    <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+class Student; // Forward declaration
+
+// The non-member function that will be a friend
+void displayStudentDetails(const Student& s);
+
+class Student {
+private:
+    std::string name;
+    std::string regNo;
+    int indexNo;
+
+public:
+    void getData() {
+        std::cout << "Enter name: ";
+        std::getline(std::cin, name);
+        std::cout << "Enter registration number: ";
+        std::cin >> regNo;
+        std::cout << "Enter index number: ";
+        std::cin >> indexNo;
+        std::cin.ignore(); // consume newline
+    }
+
+    // Declare the function as a friend
+    friend void displayStudentDetails(const Student& s);
+};
+
+// Definition of the friend function
+void displayStudentDetails(const Student& s) {
+    std::cout << "\n--- Student Details (from friend function) ---" << std::endl;
+    // It can access private members because it's a friend
+    std::cout << "Name: " << s.name << std::endl;
+    std::cout << "Registration No: " << s.regNo << std::endl;
+    std::cout << "Index No: " << s.indexNo << std::endl;
+    std::cout << "----------------------------------------------" << std::endl;
+}
+
+int main() {
+    Student s1;
+    s1.getData();
+
+    // Call the friend function, passing the student object
+    displayStudentDetails(s1);
+
+    return 0;
+}
+</code></pre>
+
+    <h4>3. `Student`, `ICTStudent`, and `HPTStudent` classes.</h4>
+    <div class="explanation">
+      This program uses inheritance to model different types of students.
+      <ul>
+        <li>A base class <code>Student</code> contains common details like name and registration number.</li>
+        <li><code>ICTStudent</code> and <code>HPTStudent</code> both inherit publicly from <code>Student</code>. They get all the properties of a `Student` for free.</li>
+        <li>Each derived class adds its own specific data members (e.g., <code>attendance</code> for ICTStudent) and member functions (e.g., <code>selectionCriteria()</code>).</li>
+        <li>This structure avoids code duplication and creates a clear, logical hierarchy. An `ICTStudent` is a specialized type of `Student`.</li>
+      </ul>
+    </div>
+    <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+// Base class
+class Student {
+protected:
+    std::string name;
+    std::string regNo;
+public:
+    void getStudentData() {
+        std::cout << "Enter student name: ";
+        std::cin.ignore();
+        std::getline(std::cin, name);
+        std::cout << "Enter registration number: ";
+        std::cin >> regNo;
+    }
+};
+
+// Derived class for ICT Students
+class ICTStudent : public Student {
+private:
+    float attendance;
+    const int workingDays;
+public:
+    ICTStudent() : workingDays(90) {} // Initialize const member
+
+    void getAttendance() {
+        std::cout << "Enter total attendance days for ICT student: ";
+        std::cin >> attendance;
+    }
+
+    void selectionCriteria() {
+        float rate = (attendance / workingDays) * 100;
+        std::cout << "\n--- ICT Student Training Selection ---" << std::endl;
+        std::cout << "Student: " << name << " (" << regNo << ")" << std::endl;
+        std::cout << "Attendance Rate: " << static_cast<int>(rate) << "%" << std::endl;
+        if (rate > 80) {
+            std::cout << "Result: Selected for training." << std::endl;
+        } else {
+            std::cout << "Result: Not selected for training." << std::endl;
+        }
+    }
+};
+
+// Derived class for HPT Students
+class HPTStudent : public Student {
+private:
+    int noOfCompletedFieldActivity;
+    const int noOfActivities;
+public:
+    HPTStudent() : noOfActivities(10) {}
+
+    void getActivityData() {
+        std::cout << "Enter number of completed field activities for HPT student: ";
+        std::cin >> noOfCompletedFieldActivity;
+    }
+
+    void fieldActivityEvaluation() {
+        float rate = (static_cast<float>(noOfCompletedFieldActivity) / noOfActivities) * 100;
+        std::cout << "\n--- HPT Student Evaluation ---" << std::endl;
+        std::cout << "Student: " << name << " (" << regNo << ")" << std::endl;
+        std::cout << "Completion Rate: " << static_cast<int>(rate) << "%" << std::endl;
+    }
+};
+
+
+int main() {
+    ICTStudent ict_s;
+    std::cout << "Enter details for ICT Student:" << std::endl;
+    ict_s.getStudentData();
+    ict_s.getAttendance();
+    ict_s.selectionCriteria();
+
+    HPTStudent hpt_s;
+    std::cout << "\nEnter details for HPT Student:" << std::endl;
+    hpt_s.getStudentData();
+    hpt_s.getActivityData();
+    hpt_s.fieldActivityEvaluation();
+
+    return 0;
+}
+</code></pre>
+
+    <h4>4. Multiple Inheritance (`Manager` class).</h4>
+    <div class="explanation">
+      This example demonstrates multiple inheritance.
+      <ul>
+        <li>There are two base classes: <code>Student</code> (for educational details) and <code>Employee</code> (for employment details).</li>
+        <li>The <code>Manager</code> class inherits from both `Student` and `Employee` using `public` inheritance: <code>class Manager : public Employee, public Student</code>.</li>
+        <li>As a result, a <code>Manager</code> object has all the members of both an <code>Employee</code> and a <code>Student</code>, plus its own specific member (`title`).</li>
+        <li>It can call functions from both parent classes, like `getEmpData()` and `getEdu()`.</li>
+        <li>The `Laborer` class inherits only from `Employee`, showing that it has employment details but not educational ones.</li>
+      </ul>
+    </div>
+    <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+// Base class 1
+class Student {
+protected:
+    std::string school;
+    std::string degree;
+public:
+    void getEdu() {
+        std::cout << "Enter school name: ";
+        std::cin.ignore();
+        std::getline(std::cin, school);
+        std::cout << "Enter degree: ";
+        std::getline(std::cin, degree);
+    }
+};
+
+// Base class 2
+class Employee {
+protected:
+    std::string name;
+    int employeeNo;
+public:
+    void getEmpData() {
+        std::cout << "Enter employee name: ";
+        std::getline(std::cin, name);
+        std::cout << "Enter employee number: ";
+        std::cin >> employeeNo;
+    }
+    void displayEmpData() const {
+        std::cout << "Name: " << name << std::endl;
+        std::cout << "Employee No: " << employeeNo << std::endl;
+    }
+};
+
+// Derived class using multiple inheritance
+class Manager : public Employee, public Student {
+private:
+    std::string title;
+public:
+    void getManagerData() {
+        std::cout << "\n--- Entering Manager Data ---" << std::endl;
+        getEmpData(); // From Employee
+        getEdu();     // From Student
+        std::cout << "Enter manager title (e.g., Senior Manager): ";
+        std::getline(std::cin, title);
+    }
+    void displayAllDetails() const {
+        std::cout << "\n--- Manager Details ---" << std::endl;
+        displayEmpData(); // From Employee
+        std::cout << "Title: " << title << std::endl;
+        std::cout << "School: " << school << std::endl;
+        std::cout << "Degree: " << degree << std::endl;
+        std::cout << "-----------------------" << std::endl;
+    }
+};
+
+// Another derived class with single inheritance
+class Laborer : public Employee {
+    // Has no educational details
+};
+
+
+int main() {
+    Manager m1;
+    m1.getManagerData();
+    m1.displayAllDetails();
+
+    return 0;
+}
+</code></pre>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!--                      PRACTICAL 07: Polymorphism                       -->
+  <!-- ===================================================================== -->
+  <section id="p07">
+    <h2>Practical 07: Polymorphism</h2>
+
+    <div class="note">
+      <h3>Short Note: Polymorphism</h3>
+      <ul>
+        <li><strong>Polymorphism:</strong> From Greek, meaning "many forms". In OOP, it's the ability of an object to take on many forms. The most common use is when a parent class reference is used to refer to a child class object.</li>
+        <li><strong>Compile-time Polymorphism (Static Binding):</strong>
+          <ul>
+            <li><strong>Function Overloading:</strong> Defining multiple functions with the same name but different parameters (number, type, or order) in the same scope. The compiler decides which one to call at compile time based on the arguments.</li>
+          </ul>
+        </li>
+        <li><strong>Runtime Polymorphism (Dynamic Binding):</strong>
+          <ul>
+            <li><strong>Function Overriding:</strong> A derived class provides a specific implementation for a function that is already defined in its base class. The function signature must be the same.</li>
+            <li><strong>Virtual Function:</strong> A member function in a base class that you expect to redefine in derived classes. When you declare a function as <code>virtual</code> in the base class, C++ enables dynamic binding. This means that if you call the function through a base class pointer pointing to a derived class object, the derived class's version of the function will be called. This is the key to achieving runtime polymorphism.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <h4>1. `shape` class with overloaded `area` functions.</h4>
+    <div class="explanation">
+      This is an example of <strong>function overloading</strong> (compile-time polymorphism).
+      <ul>
+        <li>The `Shape` class has three different functions all named `area`.</li>
+        <li><code>area(int r)</code>: Calculates the area of a circle.</li>
+        <li><code>area(int l, int w)</code>: Calculates the area of a rectangle.</li>
+        <li><code>area(int b, int h, float f)</code>: Calculates the area of a triangle (the float `f` is just to make the signature unique, it should be 0.5).</li>
+        <li>In <code>main</code>, the compiler knows which function to call based on the number and type of arguments provided. This decision is made at compile time.</li>
+      </ul>
+    </div>
+    <pre><code>#include &lt;iostream&gt;
+
+class Shape {
+private:
+    const float PI;
+
+public:
+    // Constructor to initialize PI
+    Shape() : PI(3.14f) {}
+
+    // Overloaded function for Circle's area
+    void area(int r) {
+        std::cout << "Area of Circle: " << PI * r * r << std::endl;
+    }
+
+    // Overloaded function for Rectangle's area
+    void area(int l, int w) {
+        std::cout << "Area of Rectangle: " << l * w << std::endl;
+    }
+
+    // Overloaded function for Triangle's area
+    void area(int b, int h, float half) {
+        std::cout << "Area of Triangle: " << half * b * h << std::endl;
+    }
+};
+
+int main() {
+    Shape s;
+    int choice;
+
+    std::cout << "Select a shape to calculate area:" << std::endl;
+    std::cout << "1. Circle" << std::endl;
+    std::cout << "2. Rectangle" << std::endl;
+    std::cout << "3. Triangle" << std::endl;
+    std::cout << "Enter choice: ";
+    std::cin >> choice;
+
+    if (choice == 1) {
+        int r;
+        std::cout << "Enter radius: ";
+        std::cin >> r;
+        s.area(r); // Calls area(int)
+    } else if (choice == 2) {
+        int l, w;
+        std::cout << "Enter length and width: ";
+        std::cin >> l >> w;
+        s.area(l, w); // Calls area(int, int)
+    } else if (choice == 3) {
+        int b, h;
+        std::cout << "Enter base and height: ";
+        std::cin >> b >> h;
+        s.area(b, h, 0.5f); // Calls area(int, int, float)
+    } else {
+        std::cout << "Invalid choice." << std::endl;
+    }
+
+    return 0;
+}
+</code></pre>
+
+    <h4>2. Suitable classes to map the picture using OOP.</h4>
+    <div class="explanation">
+      This is a conceptual problem about modeling a real-world scenario using runtime polymorphism.
+      <ul>
+        <li>Create a base class `Animal` with a <code>virtual</code> function called `speak()`.</li>
+        <li>Create derived classes like `Dog`, `Cat`, and `Duck`, each inheriting from `Animal`.</li>
+        <li>Each derived class will <strong>override</strong> the `speak()` function to provide its specific sound ("Woof", "Meow", "Quack").</li>
+        <li>In <code>main</code>, you can create a collection (e.g., an array or vector) of `Animal` pointers. Each pointer can point to an object of a different derived class (`Dog`, `Cat`, etc.).</li>
+        <li>When you loop through the collection and call `animalPtr->speak()`, the correct `speak()` function (Dog's, Cat's, or Duck's) is called at runtime. This is the power of virtual functions.</li>
+      </ul>
+    </div>
+    <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;vector&gt;
+
+// Base class
+class Animal {
+public:
+    // virtual function to be overridden by derived classes
+    virtual void speak() const {
+        std::cout << "Animal makes a sound" << std::endl;
+    }
+    virtual ~Animal() {} // Virtual destructor
+};
+
+// Derived classes
+class Dog : public Animal {
+public:
+    void speak() const override {
+        std::cout << "\"Woof\"" << std::endl;
+    }
+};
+
+class Cat : public Animal {
+public:
+    void speak() const override {
+        std::cout << "\"Meow\"" << std::endl;
+    }
+};
+
+class Duck : public Animal {
+public:
+    void speak() const override {
+        std::cout << "\"Quack\"" << std::endl;
+    }
+};
+
+class Person : public Animal {
+public:
+    void speak() const override {
+        std::cout << "\"Now Speak!\"" << std::endl;
+    }
+};
+
+
+int main() {
+    // Create a vector of base class pointers
+    std::vector<Animal*> animals;
+
+    // The pointers can point to objects of derived classes
+    animals.push_back(new Person());
+    animals.push_back(new Dog());
+    animals.push_back(new Cat());
+    animals.push_back(new Duck());
+
+    // Polymorphism in action!
+    // The correct 'speak' method is called for each object at runtime.
+    for (const auto& animal : animals) {
+        animal->speak();
+    }
+
+    // Clean up dynamically allocated memory
+    for (const auto& animal : animals) {
+        delete animal;
+    }
+    animals.clear();
+
+    return 0;
+}
+</code></pre>
+
+    <h4>3. `Employee`, `Manager`, `Supervisor` with virtual functions.</h4>
+    <div class="explanation">
+      This problem demonstrates runtime polymorphism with `virtual` functions.
+      <ul>
+        <li>The base `Employee` class has a `paySalary()` function.</li>
+        <li>The `Manager` and `Supervisor` classes inherit from `Employee` and provide their own overridden versions of `paySalary()` with different calculation logic.</li>
+        <li><strong>Without `virtual` keyword:</strong> When you use a base class pointer (`Employee* empPtr`) to point to a derived object (`Manager` or `Supervisor`) and call `empPtr->paySalary()`, the base class version (`Employee::paySalary()`) is always called. This is static binding. The output will be "Your salary : This is parent class" for both.</li>
+        <li><strong>With `virtual` keyword:</strong> When you declare `paySalary()` as `virtual` in the `Employee` class, C++ enables dynamic binding. Now, when `empPtr->paySalary()` is called, the program checks the actual type of the object `empPtr` is pointing to at runtime and calls the appropriate overridden function (`Manager::paySalary()` or `Supervisor::paySalary()`). The output will be the correctly calculated salary for each role.</li>
+      </ul>
+    </div>
+    <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+class Employee {
+protected:
+    std::string name;
+    std::string empNo;
+    int noOfWorkingDays;
+public:
+    void getEmpData() {
+        std::cout << "\nEnter name: ";
+        std::cin >> name;
+        std::cout << "Enter employee number: ";
+        std::cin >> empNo;
+        std::cout << "Enter number of working days: ";
+        std::cin >> noOfWorkingDays;
+    }
+
+    // Add 'virtual' here to enable runtime polymorphism
+    virtual int paySalary() {
+        std::cout << "Your salary : This is parent class" << std::endl;
+        return 0;
+    }
+};
+
+class Manager : public Employee {
+private:
+    const int mBasic;
+public:
+    Manager() : mBasic(5000) {}
+
+    // Override the base class function
+    int paySalary() override {
+        int salary = mBasic * noOfWorkingDays;
+        std::cout << "Manager Salary for " << name << ": " << salary << std::endl;
+        return salary;
+    }
+};
+
+class Supervisor : public Employee {
+private:
+    const int sBasic;
+    const int otRate;
+    int otHours;
+public:
+    Supervisor() : sBasic(1500), otRate(125), otHours(0) {}
+
+    void getSupData() {
+        std::cout << "Enter overtime hours: ";
+        std::cin >> otHours;
+    }
+
+    // Override the base class function
+    int paySalary() override {
+        int salary = (sBasic * noOfWorkingDays) + (otRate * otHours);
+        std::cout << "Supervisor Salary for " << name << ": " << salary << std::endl;
+        return salary;
+    }
+};
+
+int main() {
+    Employee* empPtr; // Base class pointer
+
+    Manager mgr;
+    Supervisor sup;
+
+    std::cout << "--- Processing Manager ---";
+    mgr.getEmpData();
+    empPtr = &mgr; // Pointer points to Manager object
+    empPtr->paySalary(); // Calls Manager's paySalary() due to 'virtual'
+
+    std::cout << "\n--- Processing Supervisor ---";
+    sup.getEmpData();
+    sup.getSupData();
+    empPtr = &sup; // Pointer points to Supervisor object
+    empPtr->paySalary(); // Calls Supervisor's paySalary() due to 'virtual'
+
+    std::cout << "\n--- What if paySalary() was NOT virtual? ---" << std::endl;
+    std::cout << "If paySalary() were not virtual, both calls above would execute the Employee class's version," << std::endl;
+    std::cout << "printing 'Your salary : This is parent class' each time." << std::endl;
+
+    return 0;
+}
+</code></pre>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!--                      PRACTICAL 08: Data Abstraction                   -->
+  <!-- ===================================================================== -->
+  <section id="p08">
+    <h2>Practical 08: Data Abstraction and Interfaces</h2>
+
+    <div class="note">
+      <h3>Short Note: Abstraction and Interfaces</h3>
+      <ul>
+        <li><strong>Data Abstraction:</strong> The concept of hiding complex implementation details and showing only the essential features of the object. In C++, abstraction is achieved using classes. The user interacts with the object through its public members without needing to know how those functions are implemented internally.</li>
+        <li><strong>Abstract Class:</strong> A class that is designed to be specifically used as a base class. An abstract class contains at least one pure virtual function. You cannot create an object (instance) of an abstract class.</li>
+        <li><strong>Pure Virtual Function:</strong> A virtual function that has no definition in the base class. It is declared by assigning <code>= 0</code>.
+          <br>Syntax: <code>virtual void functionName() = 0;</code></li>
+        <li><strong>Interface:</strong> In C++, an interface is typically implemented as an abstract class that has only pure virtual functions. It defines a "contract" that any derived class must follow by implementing all the pure virtual functions. It forces a common interface on all subclasses.</li>
+      </ul>
+    </div>
+
+    <h4>1. `Adder` class demonstrating abstraction.</h4>
+    <div class="explanation">
+      This is an example of <strong>data abstraction</strong>.
+      <ul>
+        <li>The <code>Adder</code> class has a private member <code>total</code>. The user of the class cannot access or modify <code>total</code> directly.</li>
+        <li>The user is given a simple public interface: the <code>calNum()</code> function.</li>
+        <li>The user only needs to know that calling <code>calNum()</code> will ask for three numbers and print their sum. They don't need to know how the numbers are stored (in an array), how the sum is calculated, or how the private <code>total</code> member is used. The complex implementation is hidden.</li>
+      </ul>
+    </div>
+    <pre><code>#include &lt;iostream&gt;
+
+class Adder {
+private:
+    int total; // Implementation detail hidden from the user
+
+public:
+    // Constructor initializes the hidden data
+    Adder() : total(0) {}
+
+    // Public interface for the user
+    void calNum() {
+        int numbers[3];
+        std::cout << "Enter 3 numbers to add: ";
+        std::cin >> numbers[0] >> numbers[1] >> numbers[2];
+
+        // Internal calculation logic
+        total = numbers[0] + numbers[1] + numbers[2];
+
+        std::cout << "The sum is: " << total << std::endl;
+    }
+};
+
+int main() {
+    Adder myAdder; // Create an object
+    myAdder.calNum(); // Use its simple public interface
+
+    return 0;
+}
+</code></pre>
+
+    <h4>2. `shape` as an abstract class.</h4>
+    <div class="explanation">
+      This example demonstrates abstract classes and pure virtual functions.
+      <ul>
+        <li>Initially, `Shape` is a normal class. You can create an object of `Shape` (<code>Shape s;</code>), but its `calArea()` function is meaningless as a generic shape has no formula for area.</li>
+        <li><strong>Making `calArea()` a pure virtual function:</strong> We change its declaration in the `Shape` class to <code>virtual double calArea() = 0;</code>.
+          <ul>
+            <li>This makes <code>Shape</code> an <strong>abstract class</strong>.</li>
+            <li>Now, any attempt to create an object of `Shape` (like `Shape s;`) will cause a <strong>compile-time error</strong>. This is correct, as you shouldn't be able to instantiate a generic "shape".</li>
+            <li>It forces any non-abstract derived class (like `Rectangle` and `Triangle`) to provide its own implementation (override) for the `calArea()` function. If a derived class fails to do so, it also becomes an abstract class. This enforces a design contract.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <pre><code>#include &lt;iostream&gt;
+
+// Base class Shape is now an ABSTRACT CLASS
+class Shape {
+protected:
+    int width;
+    int height;
+public:
+    void setValues(int w, int h) {
+        width = w;
+        height = h;
+    }
+
+    // Pure virtual function - makes Shape abstract
+    // It defines a contract that all derived classes must follow.
+    virtual double calArea() = 0;
+};
+
+// Derived class Rectangle
+class Rectangle : public Shape {
+public:
+    double calArea() override { // Must implement this function
+        return width * height;
+    }
+};
+
+// Derived class Triangle
+class Triangle : public Shape {
+public:
+    double calArea() override { // Must implement this function
+        return 0.5 * width * height;
+    }
+};
+
+int main() {
+    // Shape s; // COMPILE ERROR! Cannot create an object of an abstract class.
+
+    Rectangle rect;
+    Triangle tri;
+    int choice, w, h;
+
+    std::cout << "1. Find area of Rectangle" << std::endl;
+    std::cout << "2. Find area of Triangle" << std::endl;
+    std::cout << "Enter choice: ";
+    std::cin >> choice;
+
+    std::cout << "Enter width and height: ";
+    std::cin >> w >> h;
+
+    if (choice == 1) {
+        rect.setValues(w, h);
+        std::cout << "Area of Rectangle: " << rect.calArea() << std::endl;
+    } else if (choice == 2) {
+        tri.setValues(w, h);
+        std::cout << "Area of Triangle: " << tri.calArea() << std::endl;
+    } else {
+        std::cout << "Invalid choice." << std::endl;
+    }
+
+    return 0;
+}
+</code></pre>
+  </section>
+
+</div>
+
+</body>
+</html>
