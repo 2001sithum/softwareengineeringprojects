@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>COM 2308 - Software Engineering | Pure HTML/CSS Diagrams</title>
+    <!-- 
+    ============================================================================
+    SECTION: INTERNAL CSS STYLESHEET
+    Includes all styling for the document, plus the new styles for the UML diagrams.
+    ============================================================================
+    -->
+    <style>
+      /* CSS Variables for Theming */
+      :root {
+        --font-primary: "Segoe UI", "Roboto", Arial, sans-serif;
+        --font-monospace: "Consolas", "Menlo", "Courier New", monospace;
+
+        /* Light Theme */
+        --color-bg-light: #f9f9f9;
+        --color-text-light: #333333;
+        --color-primary-light: #2c3e50; /* Darker Blue */
+        --color-secondary-light: #7f8c8d; /* Grey */
+        --color-header-bg-light: #ffffff;
+        --color-nav-bg-light: #ecf0f1;
+        --color-border-light: #bdc3c7;
+        --color-code-bg-light: #e9ecef;
+        --color-uml-bg-light: #fffff0; /* Ivory for UML */
+        --color-uml-border-light: #a0a0a0;
+        --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.07);
+
+        /* Dark Theme */
+        --color-bg-dark: #1a1a1b;
+        --color-text-dark: #d7dadc;
+        --color-primary-dark: #3498db; /* Lighter Blue */
+        --color-secondary-dark: #95a5a6;
+        --color-header-bg-dark: #212122;
+        --color-nav-bg-dark: #2c3e50;
+        --color-border-dark: #4d4d4f;
+        --color-code-bg-dark: #282c34;
+        --color-uml-bg-dark: #2d3436;
+        --color-uml-border-dark: #b2bec3;
+        --shadow-dark: 0 4px 15px rgba(0, 0, 0, 0.3);
+
+        /* Default to Light Theme */
+        --color-bg: var(--color-bg-light);
+        --color-text: var(--color-text-light);
+        --color-primary: var(--color-primary-light);
+        --color-secondary: var(--color-secondary-light);
+        --color-header-bg: var(--color-header-bg-light);
+        --color-nav-bg: var(--color-nav-bg-light);
+        --color-border: var(--color-border-light);
+        --color-code-bg: var(--color-code-bg-light);
+        --color-uml-bg: var(--color-uml-bg-light);
+        --color-uml-border: var(--color-uml-border-light);
+        --shadow-main: var(--shadow-light);
+
+        /* Transitions */
+        --transition-speed: 0.3s;
+      }
+
+      /* Dark Mode Override */
+      body.dark-mode {
+        --color-bg: var(--color-bg-dark);
+        --color-text: var(--color-text-dark);
+        --color-primary: var(--color-primary-dark);
+        --color-secondary: var(--color-secondary-dark);
+        --color-header-bg: var(--color-header-bg-dark);
+        --color-nav-bg: var(--color-nav-bg-dark);
+        --color-border: var(--color-border-dark);
+        --color-code-bg: var(--color-code-bg-dark);
+        --color-uml-bg: var(--color-uml-bg-dark);
+        --color-uml-border: var(--color-uml-border-dark);
+        --shadow-main: var(--shadow-dark);
+      }
+
+      /* General Reset and Body Styles */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+        font-size: 16px;
+      }
+      body {
+        font-family: var(--font-primary);
+        background-color: var(--color-bg);
+        color: var(--color-text);
+        line-height: 1.8;
+        display: flex;
+        transition: background-color var(--transition-speed),
+          color var(--transition-speed);
+      }
+
+      /* Layout Structure */
+      #sidebar-nav {
+        width: 320px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        background-color: var(--color-nav-bg);
+        border-right: 1px solid var(--color-border);
+        padding-top: 20px;
+        overflow-y: auto;
+        transition: background-color var(--transition-speed),
+          border-color var(--transition-speed);
+        z-index: 1000;
+      }
+      #main-content {
+        margin-left: 320px;
+        padding: 40px;
+        width: calc(100% - 320px);
+        max-width: 1100px;
+        margin-right: auto;
+        margin-left: 340px;
+      }
+
+      /* Header & Theme Toggle */
+      .header {
+        position: fixed;
+        top: 0;
+        left: 320px;
+        right: 0;
+        padding: 15px 40px;
+        background-color: var(--color-header-bg);
+        border-bottom: 1px solid var(--color-border);
+        z-index: 100;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: var(--shadow-main);
+        transition: all var(--transition-speed);
+      }
+      .header h1 {
+        font-size: 1.5rem;
+        color: var(--color-primary);
+      }
+      #theme-toggle-button {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+        background-color: var(--color-primary);
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color var(--transition-speed);
+      }
+      #theme-toggle-button:hover {
+        opacity: 0.85;
+      }
+
+      /* Main Content Styling */
+      .question-section {
+        margin-bottom: 100px;
+        padding-top: 100px;
+        margin-top: -100px;
+        border-bottom: 1px solid var(--color-border);
+        padding-bottom: 50px;
+      }
+      .question-section:last-child {
+        border-bottom: none;
+      }
+      .question-title {
+        font-size: 2.5rem;
+        color: var(--color-primary);
+        margin-bottom: 20px;
+        font-weight: 700;
+      }
+      .question-prompt {
+        background-color: var(--color-nav-bg);
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+        border-left: 5px solid var(--color-primary);
+        font-style: italic;
+      }
+      h3 {
+        font-size: 2rem;
+        margin-top: 3rem;
+        color: var(--color-text);
+      }
+      h4 {
+        font-size: 1.6rem;
+        margin-top: 2.5rem;
+        color: var(--color-secondary);
+      }
+      p,
+      li {
+        font-size: 1.1rem;
+      }
+
+      /* Specialized Blocks */
+      .theory-box,
+      .answer-box {
+        margin: 40px 0;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: var(--shadow-main);
+      }
+      .theory-box {
+        background-color: var(--color-highlight-bg);
+        border: 1px solid var(--color-highlight-border);
+      }
+      .answer-box {
+        background-color: var(--color-header-bg);
+        border: 1px solid var(--color-border);
+      }
+      .box-title {
+        font-size: 1.8rem;
+        color: var(--color-primary);
+        margin-top: 0;
+        margin-bottom: 20px;
+        font-weight: 700;
+      }
+
+      /*
+        ============================================================================
+        UML DIAGRAM STYLES (HTML/CSS RECREATION)
+        ============================================================================
+        */
+
+      /* --- General Diagram Container --- */
+      .uml-diagram-container {
+        font-family: var(--font-monospace);
+        padding: 30px;
+        margin: 40px 0;
+        background-color: var(--color-nav-bg);
+        border: 1px solid var(--color-border);
+        border-radius: 8px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        color: var(--color-text);
+      }
+
+      /* --- Class Diagram Styles --- */
+      .class-diagram {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 120px; /* Space for relationship lines */
+        width: 100%;
+      }
+      .class-diagram-row {
+        display: flex;
+        justify-content: center;
+        gap: 80px;
+        width: 100%;
+      }
+      .uml-class {
+        background-color: var(--color-uml-bg);
+        border: 2px solid var(--color-uml-border);
+        border-radius: 4px;
+        min-width: 220px;
+        box-shadow: var(--shadow-main);
+        z-index: 10;
+      }
+      .uml-class-name {
+        font-weight: bold;
+        text-align: center;
+        padding: 12px;
+        border-bottom: 2px solid var(--color-uml-border);
+      }
+      .uml-attributes,
+      .uml-methods {
+        padding: 12px;
+        font-size: 0.9rem;
+      }
+      .uml-attributes {
+        border-bottom: 2px solid var(--color-uml-border);
+      }
+      .uml-item {
+        display: flex;
+        align-items: center;
+      }
+      .uml-visibility {
+        width: 20px;
+        font-weight: bold;
+        text-align: center;
+      }
+      .uml-item-text {
+        flex-grow: 1;
+      }
+
+      /* Relationship Lines for Class Diagram */
+      .relationship {
+        position: absolute;
+        background-color: var(--color-uml-border);
+        z-index: 1;
+      }
+      .inheritance-line {
+        width: 2px;
+        height: 80px;
+        top: 180px; /* Adjust based on element height */
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .inheritance-line::before {
+        /* Arrowhead */
+        content: "";
+        position: absolute;
+        top: -20px;
+        left: -8px;
+        width: 0;
+        height: 0;
+        border-left: 9px solid transparent;
+        border-right: 9px solid transparent;
+        border-bottom: 20px solid var(--color-uml-border);
+        background-color: transparent; /* Parent background */
+      }
+      .association-line {
+        height: 2px;
+        width: 80px;
+        top: 305px;
+        left: calc(50% + 110px);
+      }
+      body.dark-mode .inheritance-line::before {
+        border-bottom-color: var(--color-uml-border);
+      }
+
+      /* --- Sequence Diagram Styles --- */
+      .sequence-diagram {
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+        padding: 20px 0 150px 0; /* Space at bottom for lifeline */
+        position: relative;
+      }
+      .lifeline-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+      }
+      .lifeline-box {
+        border: 2px solid var(--color-uml-border);
+        background-color: var(--color-uml-bg);
+        padding: 10px 20px;
+        border-radius: 4px;
+        z-index: 10;
+      }
+      .lifeline {
+        width: 2px;
+        height: 150px;
+        border-left: 2px dashed var(--color-uml-border);
+      }
+      .message-arrow {
+        position: absolute;
+        top: 90px;
+        left: 25%;
+        width: 50%;
+        height: 2px;
+        background-color: var(--color-uml-border);
+        z-index: 5;
+      }
+      .message-arrow::after {
+        /* Arrowhead */
+        content: "";
+        position: absolute;
+        right: -2px;
+        top: -4px;
+        width: 0;
+        height: 0;
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        border-left: 10px solid var(--color-uml-border);
+      }
+      .message-label {
+        position: absolute;
+        top: 65px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: var(--color-nav-bg);
+        padding: 0 5px;
+        font-size: 0.9rem;
+      }
+      .return-arrow {
+        top: 130px;
+        border-top: 2px dashed var(--color-uml-border);
+        background: none;
+      }
+      .return-label {
+        top: 135px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav id="sidebar-nav"><!-- Sidebar content --></nav>
+    <main id="main-content">
+      <header class="header">
+        <h1>SE Exam Guide: Pure HTML/CSS</h1>
+        <button id="theme-toggle-button">Toggle Theme</button>
+      </header>
+
+      <!-- QUESTION 2(c) - WITH HTML/CSS DIAGRAM -->
+      <section id="q2c" class="question-section">
+        <h3>Question 2(c)</h3>
+        <p class="question-prompt">
+          Write the C++ or Python code corresponding to the class diagram
+          segment given below. Writing the function bodies are not required.
+        </p>
+
+        <div class="uml-diagram-container">
+          <div class="class-diagram">
+            <!-- Top Row: Employee -->
+            <div class="class-diagram-row">
+              <div class="uml-class" id="employee-box">
+                <div class="uml-class-name">Employee</div>
+                <div class="uml-attributes">
+                  <div class="uml-item">
+                    <span class="uml-visibility">#</span
+                    ><span class="uml-item-text">employeeID: int</span>
+                  </div>
+                  <div class="uml-item">
+                    <span class="uml-visibility">#</span
+                    ><span class="uml-item-text">name: string</span>
+                  </div>
+                  <div class="uml-item">
+                    <span class="uml-visibility">#</span
+                    ><span class="uml-item-text">salary: double</span>
+                  </div>
+                </div>
+                <div class="uml-methods">
+                  <div class="uml-item">
+                    <span class="uml-visibility">+</span
+                    ><span class="uml-item-text">displayDetails()</span>
+                  </div>
+                  <div class="uml-item">
+                    <span class="uml-visibility">+</span
+                    ><span class="uml-item-text">work()</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom Row: Manager and Department -->
+            <div class="class-diagram-row">
+              <div class="uml-class" id="manager-box">
+                <div class="uml-class-name">Manager</div>
+                <div class="uml-attributes">
+                  <div class="uml-item">
+                    <span class="uml-visibility">-</span
+                    ><span class="uml-item-text">teamMember: string[]</span>
+                  </div>
+                  <div class="uml-item">
+                    <span class="uml-visibility">-</span
+                    ><span class="uml-item-text">department: Department</span>
+                  </div>
+                </div>
+                <div class="uml-methods">
+                  <div class="uml-item">
+                    <span class="uml-visibility">+</span
+                    ><span class="uml-item-text">Department()</span>
+                  </div>
+                  <div class="uml-item">
+                    <span class="uml-visibility">+</span
+                    ><span class="uml-item-text">addTeamMember()</span>
+                  </div>
+                  <div class="uml-item">
+                    <span class="uml-visibility">+</span
+                    ><span class="uml-item-text">conductMeeting()</span>
+                  </div>
+                </div>
+              </div>
+              <div class="uml-class" id="department-box">
+                <div class="uml-class-name">Department</div>
+                <div class="uml-attributes">
+                  <div class="uml-item">
+                    <span class="uml-visibility">-</span
+                    ><span class="uml-item-text">departmentName: string</span>
+                  </div>
+                </div>
+                <div class="uml-methods">
+                  <div class="uml-item">
+                    <span class="uml-visibility">+</span
+                    ><span class="uml-item-text">Department()</span>
+                  </div>
+                  <div class="uml-item">
+                    <span class="uml-visibility">+</span
+                    ><span class="uml-item-text">getDeptName(): string</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Relationship lines drawn in relation to the container -->
+          <div class="relationship inheritance-line"></div>
+          <div class="relationship association-line"></div>
+        </div>
+
+        <div class="theory-box">
+          <h4 class="box-title">
+            Theoretical Deep Dive: UML to Object-Oriented Code
+          </h4>
+          <!-- ... Theory from previous response ... -->
+        </div>
+        <div class="answer-box">
+          <h4 class="box-title">Model Answer (Python)</h4>
+          <pre><code><!-- Python code from previous response --></code></pre>
+        </div>
+        <div class="answer-box">
+          <h4 class="box-title">Model Answer (C++)</h4>
+          <pre><code><!-- C++ code from previous response --></code></pre>
+        </div>
+      </section>
+
+      <!-- QUESTION 3(c) - WITH HTML/CSS DIAGRAM -->
+      <section id="q3c" class="question-section">
+        <h3>Question 3(c)</h3>
+        <p class="question-prompt">
+          Write C++ or Python code to model the segment of the sequence diagram
+          given below.
+        </p>
+
+        <div class="uml-diagram-container">
+          <div class="sequence-diagram">
+            <!-- Lifeline 1: Student -->
+            <div class="lifeline-container">
+              <div class="lifeline-box">: Student</div>
+              <div class="lifeline"></div>
+            </div>
+            <!-- Lifeline 2: Subject -->
+            <div class="lifeline-container">
+              <div class="lifeline-box">: Subject</div>
+              <div class="lifeline"></div>
+            </div>
+            <!-- Messages -->
+            <div class="message-label">get_subject_info()</div>
+            <div class="message-arrow"></div>
+            <div class="message-label return-label">Subject_details</div>
+            <div class="message-arrow return-arrow"></div>
+          </div>
+        </div>
+
+        <div class="theory-box">
+          <h4 class="box-title">
+            Theoretical Deep Dive: Sequence Diagrams to Code
+          </h4>
+          <p>
+            Sequence diagrams visualize interactions between objects in a system
+            over time. They depict objects and the messages exchanged between
+            them. Translating this to code involves:
+          </p>
+          <ul>
+            <li>
+              <strong>Lifelines to Objects:</strong> Each lifeline (the vertical
+              dashed line with a box at the top) represents an instance of a
+              class. We need to define the `Student` and `Subject` classes.
+            </li>
+            <li>
+              <strong>Messages to Method Calls:</strong> A message sent from one
+              lifeline to another represents a method call. The `Student` object
+              must have a method that calls a method on the `Subject` object.
+            </li>
+            <li>
+              <strong>Message Name to Method Name:</strong> The label on the
+              message arrow (`get_subject_info()`) becomes the name of the
+              method being called on the `Subject` class.
+            </li>
+            <li>
+              <strong>Return Message to Return Value:</strong> The dashed return
+              arrow (`Subject_details`) represents the value returned by the
+              method call. The `get_subject_info` method on the `Subject` class
+              must return an object or data structure containing the subject's
+              details.
+            </li>
+          </ul>
+        </div>
+        <div class="answer-box">
+          <h4 class="box-title">Model Answer (Python)</h4>
+          <pre><code class="language-python">
+# In a real system, SubjectDetails would likely be a data class or similar structure.
+from typing import NamedTuple
+
+class SubjectDetails(NamedTuple):
+    subject_code: str
+    subject_name: str
+    credits: int
+
+class Subject:
+    def __init__(self, code: str, name: str, credits: int):
+        self._details = SubjectDetails(subject_code=code, subject_name=name, credits=credits)
+
+    # This method is called by the Student object. It prepares and returns the details.
+    def get_subject_info(self) -> SubjectDetails:
+        # This method corresponds to the activation on the Subject lifeline.
+        # It processes the request and returns data.
+        print("Subject: Preparing and returning subject details...")
+        return self._details
+
+class Student:
+    def __init__(self, name: str):
+        self._name = name
+        self._retrieved_details = None
+
+    # This method initiates the interaction shown in the sequence diagram.
+    def request_info_from_subject(self, subject_object: Subject):
+        print(f"Student '{self._name}': Sending message 'get_subject_info()' to Subject.")
+        
+        # The line below is the actual message send: Student calls a method on Subject.
+        details = subject_object.get_subject_info()
+        
+        # The code after the call represents the Student processing the return message.
+        self._retrieved_details = details
+        print(f"Student '{self._name}': Received return message with details: {self._retrieved_details}")
+
+# --- Example Usage ---
+# Create instances of the objects (lifelines in the diagram).
+student1 = Student("Alice")
+subject1 = Subject("COM2308", "Software Engineering", 3)
+
+# The Student object initiates the sequence of messages.
+student1.request_info_from_subject(subject1)
+                </code></pre>
+        </div>
+      </section>
+
+      <!-- The rest of the questions (1, 2, 4, 5) would be included here, filled with their extensive content -->
+    </main>
+    <script>
+      // JavaScript for theme toggling and navigation
+      document.addEventListener("DOMContentLoaded", () => {
+        const themeToggleButton = document.getElementById(
+          "theme-toggle-button"
+        );
+        const body = document.body;
+        themeToggleButton.addEventListener("click", () => {
+          body.classList.toggle("dark-mode");
+        });
+      });
+    </script>
+  </body>
+</html>

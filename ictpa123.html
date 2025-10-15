@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ICT 2402 - Software Engineering | The Ultimate Study Guide</title>
+    <!-- 
+    ============================================================================
+    SECTION: INTERNAL CSS STYLESHEET
+    Includes all styling for the document, including a responsive theme.
+    ============================================================================
+    -->
+    <style>
+      /* CSS Variables for Theming */
+      :root {
+        --font-primary: "Segoe UI", "Roboto", Arial, sans-serif;
+        --font-monospace: "Consolas", "Menlo", "Courier New", monospace;
+
+        /* Light Theme */
+        --color-bg-light: #f9f9f9;
+        --color-text-light: #333333;
+        --color-primary-light: #34495e; /* Wet Asphalt */
+        --color-secondary-light: #7f8c8d; /* Grey */
+        --color-header-bg-light: #ffffff;
+        --color-nav-bg-light: #ecf0f1;
+        --color-border-light: #bdc3c7;
+        --color-code-bg-light: #e9ecef;
+        --color-highlight-bg-light: #e8f6fd;
+        --color-highlight-border-light: #3498db;
+        --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.07);
+
+        /* Dark Theme */
+        --color-bg-dark: #1a1a1b;
+        --color-text-dark: #d7dadc;
+        --color-primary-dark: #3498db; /* Lighter Blue */
+        --color-secondary-dark: #95a5a6;
+        --color-header-bg-dark: #212122;
+        --color-nav-bg-dark: #2c3e50;
+        --color-border-dark: #4d4d4f;
+        --color-code-bg-dark: #282c34;
+        --color-highlight-bg-dark: #2c3e50;
+        --color-highlight-border-dark: #3498db;
+        --shadow-dark: 0 4px 15px rgba(0, 0, 0, 0.3);
+
+        /* Default to Light Theme */
+        --color-bg: var(--color-bg-light);
+        --color-text: var(--color-text-light);
+        --color-primary: var(--color-primary-light);
+        --color-secondary: var(--color-secondary-light);
+        --color-header-bg: var(--color-header-bg-light);
+        --color-nav-bg: var(--color-nav-bg-light);
+        --color-border: var(--color-border-light);
+        --color-code-bg: var(--color-code-bg-light);
+        --color-highlight-bg: var(--color-highlight-bg-light);
+        --color-highlight-border: var(--color-highlight-border-light);
+        --shadow-main: var(--shadow-light);
+
+        /* Transitions */
+        --transition-speed: 0.3s;
+      }
+
+      /* Dark Mode Override */
+      body.dark-mode {
+        --color-bg: var(--color-bg-dark);
+        --color-text: var(--color-text-dark);
+        --color-primary: var(--color-primary-dark);
+        --color-secondary: var(--color-secondary-dark);
+        --color-header-bg: var(--color-header-bg-dark);
+        --color-nav-bg: var(--color-nav-bg-dark);
+        --color-border: var(--color-border-dark);
+        --color-code-bg: var(--color-code-bg-dark);
+        --color-highlight-bg: var(--color-highlight-bg-dark);
+        --color-highlight-border: var(--color-highlight-border-dark);
+        --shadow-main: var(--shadow-dark);
+      }
+
+      /* General Reset and Body Styles */
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html { scroll-behavior: smooth; font-size: 16px; }
+      body {
+        font-family: var(--font-primary);
+        background-color: var(--color-bg);
+        color: var(--color-text);
+        line-height: 1.8;
+        display: flex;
+        transition: background-color var(--transition-speed), color var(--transition-speed);
+      }
+
+      /* Layout Structure */
+      #sidebar-nav { width: 320px; position: fixed; top: 0; left: 0; height: 100vh; background-color: var(--color-nav-bg); border-right: 1px solid var(--color-border); padding-top: 20px; overflow-y: auto; transition: background-color var(--transition-speed), border-color var(--transition-speed); z-index: 1000; }
+      #main-content { margin-left: 320px; padding: 40px; width: calc(100% - 320px); max-width: 1100px; margin-right: auto; margin-left: 340px; }
+
+      /* Header & Theme Toggle */
+      .header { position: fixed; top: 0; left: 320px; right: 0; padding: 15px 40px; background-color: var(--color-header-bg); border-bottom: 1px solid var(--color-border); z-index: 100; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow-main); transition: all var(--transition-speed); }
+      .header h1 { font-size: 1.5rem; color: var(--color-primary); }
+      #theme-toggle-button { padding: 8px 16px; font-size: 0.9rem; background-color: var(--color-primary); color: #fff; border: none; border-radius: 5px; cursor: pointer; transition: background-color var(--transition-speed); }
+      #theme-toggle-button:hover { opacity: 0.85; }
+
+      /* Sidebar Navigation */
+      .nav-container { padding: 0 15px; }
+      .nav-title { font-size: 1.3rem; font-weight: 700; color: var(--color-primary); padding: 10px 15px; margin-bottom: 15px; border-bottom: 2px solid var(--color-primary); }
+      .nav-list { list-style: none; }
+      .nav-list-item { margin-bottom: 4px; }
+      .nav-link { display: block; padding: 12px 15px; color: var(--color-text); text-decoration: none; border-radius: 6px; font-size: 1rem; transition: all var(--transition-speed); position: relative; }
+      .nav-link:hover { background-color: rgba(0,0,0,0.05); color: var(--color-primary); }
+      body.dark-mode .nav-link:hover { background-color: rgba(255,255,255,0.05); }
+      .nav-link.active { background-color: var(--color-primary); color: #fff !important; font-weight: 600; }
+      .nav-sub-list { list-style: none; padding-left: 25px; margin: 8px 0; }
+      .nav-sub-link { font-size: 0.9rem; opacity: 0.8; padding: 8px 15px; }
+
+      /* Main Content Styling */
+      .question-group, .question-section { margin-bottom: 100px; padding-top: 100px; margin-top: -100px; border-bottom: 1px solid var(--color-border); padding-bottom: 50px; }
+      .question-group:last-child { border-bottom: none; }
+      .question-title { font-size: 2.5rem; color: var(--color-primary); margin-bottom: 20px; font-weight: 700; }
+      .question-prompt { background-color: var(--color-nav-bg); padding: 20px; border-radius: 8px; margin-bottom: 30px; border-left: 5px solid var(--color-primary); font-style: italic; }
+      h3 { font-size: 2rem; margin-top: 3rem; color: var(--color-text); }
+      h4 { font-size: 1.6rem; margin-top: 2.5rem; color: var(--color-secondary); }
+      p, li { font-size: 1.1rem; }
+      
+      /* Specialized Blocks */
+      .theory-box, .answer-box { margin: 40px 0; padding: 30px; border-radius: 10px; box-shadow: var(--shadow-main); }
+      .theory-box { background-color: var(--color-highlight-bg); border: 1px solid var(--color-highlight-border); }
+      .answer-box { background-color: var(--color-header-bg); border: 1px solid var(--color-border); }
+      .box-title { font-size: 1.8rem; color: var(--color-primary); margin-top: 0; margin-bottom: 20px; font-weight: 700; }
+
+      /* Code Block and Table Styling */
+      pre { background-color: var(--color-code-bg); color: var(--color-text); padding: 25px; border-radius: 8px; margin-bottom: 1.5rem; overflow-x: auto; font-family: var(--font-monospace); font-size: 1rem; line-height: 1.7; border: 1px solid var(--color-border); }
+      p > code, li > code { background-color: var(--color-code-bg); color: var(--color-primary); padding: 4px 8px; border-radius: 5px; font-size: 0.9em; font-family: var(--font-monospace); }
+      table { width: 100%; border-collapse: collapse; margin: 30px 0; font-size: 1rem; box-shadow: var(--shadow-main); border-radius: 8px; overflow: hidden; }
+      th, td { padding: 18px; text-align: left; border-bottom: 1px solid var(--color-border); }
+      thead { background-color: var(--color-table-header-bg); }
+      th { font-weight: 700; color: var(--color-primary); }
+      tbody tr:nth-child(even) { background-color: var(--color-nav-bg); }
+      tbody tr:hover { background-color: var(--color-highlight-bg); }
+      
+      /* Responsive Design */
+      @media (max-width: 992px) {
+        body { flex-direction: column; }
+        #sidebar-nav { position: static; width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--color-border); }
+        #main-content { margin-left: 0; width: 100%; padding: 20px; }
+        .header { position: static; left: 0; }
+        .question-group, .question-section { padding-top: 20px; margin-top: 0; }
+      }
+    </style>
+</head>
+<body>
+    <nav id="sidebar-nav">
+        <div class="nav-container">
+            <div class="nav-title">ICT 2402 Exam Guide</div>
+            <ul class="nav-list">
+                <li class="nav-list-item"><a href="#q1" class="nav-link">Question 1: SE Concepts</a>
+                    <ul class="nav-sub-list">
+                        <li><a href="#q1a" class="nav-link nav-sub-link">1(a) Portability & Cost</a></li>
+                        <li><a href="#q1b" class="nav-link nav-sub-link">1(b) Language & Legacy</a></li>
+                        <li><a href="#q1c" class="nav-link nav-sub-link">1(c) CASE Tools</a></li>
+                        <li><a href="#q1d" class="nav-link nav-sub-link">1(d) Heterogeneity</a></li>
+                        <li><a href="#q1e" class="nav-link nav-sub-link">1(e) COTS Components</a></li>
+                        <li><a href="#q1f" class="nav-link nav-sub-link">1(f) Cowboy Coding</a></li>
+                    </ul>
+                </li>
+                <li class="nav-list-item"><a href="#q2" class="nav-link">Question 2: Requirements</a>
+                    <ul class="nav-sub-list">
+                        <li><a href="#q2a" class="nav-link nav-sub-link">2(a) Documentation Visibility</a></li>
+                        <li><a href="#q2b" class="nav-link nav-sub-link">2(b) Completeness & Schedule</a></li>
+                        <li><a href="#q2c" class="nav-link nav-sub-link">2(c) Traceability & Legal</a></li>
+                        <li><a href="#q2d" class="nav-link nav-sub-link">2(d) Domain Requirements</a></li>
+                        <li><a href="#q2e" class="nav-link nav-sub-link">2(e) Clarity & Traceability</a></li>
+                    </ul>
+                </li>
+                <li class="nav-list-item"><a href="#q3" class="nav-link">Question 3: Analysis & Maintenance</a>
+                    <ul class="nav-sub-list">
+                        <li><a href="#q3a" class="nav-link nav-sub-link">3(a) Political Factors</a></li>
+                        <li><a href="#q3b" class="nav-link nav-sub-link">3(b) Adaptability & Cohesion</a></li>
+                        <li><a href="#q3c" class="nav-link nav-sub-link">3(c) Incomplete Requirements</a></li>
+                        <li><a href="#q3d" class="nav-link nav-sub-link">3(d) Preventive Maintenance</a></li>
+                        <li><a href="#q3e" class="nav-link nav-sub-link">3(e) Coupling & Maintenance</a></li>
+                    </ul>
+                </li>
+                <li class="nav-list-item"><a href="#q4" class="nav-link">Question 4: Implementation & Design</a>
+                    <ul class="nav-sub-list">
+                        <li><a href="#q4a" class="nav-link nav-sub-link">4(a) Cost of Standards</a></li>
+                        <li><a href="#q4b" class="nav-link nav-sub-link">4(b) Testing for Failure</a></li>
+                        <li><a href="#q4c" class="nav-link nav-sub-link">4(c) UI Criticality</a></li>
+                        <li><a href="#q4d" class="nav-link nav-sub-link">4(d) Dead Code</a></li>
+                        <li><a href="#q4e" class="nav-link nav-sub-link">4(e) Memory Leaks</a></li>
+                        <li><a href="#q4f" class="nav-link nav-sub-link">4(f) V-Model</a></li>
+                        <li><a href="#q4g" class="nav-link nav-sub-link">4(g) V-Model Documentation</a></li>
+                    </ul>
+                </li>
+                <li class="nav-list-item"><a href="#q5" class="nav-link">Question 5: V&V and Risk</a>
+                     <ul class="nav-sub-list">
+                        <li><a href="#q5a" class="nav-link nav-sub-link">5(a) Missing Use Cases</a></li>
+                        <li><a href="#q5b" class="nav-link nav-sub-link">5(b) Path Testing</a></li>
+                        <li><a href="#q5c" class="nav-link nav-sub-link">5(c) Risk Analysis</a></li>
+                        <li><a href="#q5d" class="nav-link nav-sub-link">5(d) Team Stability</a></li>
+                        <li><a href="#q5e" class="nav-link nav-sub-link">5(e) UI Design Principles</a></li>
+                        <li><a href="#q5f" class="nav-link nav-sub-link">5(f) Functional vs Non-Functional</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <main id="main-content">
+        <header class="header">
+            <h1>The Ultimate ICT 2402 Study Guide</h1>
+            <button id="theme-toggle-button">Toggle Theme</button>
+        </header>
+
+        <!-- QUESTION 1 -->
+        <section id="q1" class="question-group">
+            <h2 class="question-title">Question 1: Fundamental Software Engineering Concepts</h2>
+            <div id="q1a" class="question-section">
+                <h3>Question 1(a)</h3>
+                <p class="question-prompt">Briefly describe how the portability of a software affects the maintenance cost. (04 marks)</p>
+                <div class="theory-box">
+                    <h4 class="box-title">Theoretical Deep Dive: Portability as a Non-Functional Requirement</h4>
+                    <p><strong>Portability</strong> is a quality attribute (a non-functional requirement) that measures the ease with which software can be transferred from one environment to another. An "environment" can be a different hardware platform, operating system, or even a different browser.</p>
+                    <p>Achieving high portability requires deliberate architectural and implementation choices, such as:</p>
+                    <ul>
+                        <li><strong>Avoiding Platform-Specific Code:</strong> Minimizing the use of APIs, libraries, or language features that are unique to one OS (e.g., using Win32 API directly).</li>
+                        <li><strong>Abstraction Layers:</strong> Creating a "Hardware Abstraction Layer" (HAL) or "Platform Abstraction Layer" (PAL) that isolates the core application logic from the underlying platform.</li>
+                        <li><strong>Using Standardized Languages and Technologies:</strong> Sticking to well-defined standards (like ANSI C++, POSIX for operating systems) improves the chances of code compiling and running correctly on different systems.</li>
+                    </ul>
+                </div>
+                <div class="answer-box">
+                    <h4 class="box-title">Model Answer</h4>
+                    <p>The portability of a software has a significant, inverse relationship with its long-term maintenance cost, particularly **adaptive maintenance**.</p>
+                    <p>Highly portable software is designed to be independent of specific hardware, operating systems, or other software platforms. This architectural choice dramatically **reduces maintenance costs** over the software's lifecycle. When the underlying technology environment changes (e.g., the company decides to migrate from Windows servers to Linux, or a new version of an OS is released), portable software can be moved to the new environment with minimal code changes. This reduces the effort, time, and cost of adaptive maintenance.</p>
+                    <p>Conversely, non-portable software is tightly coupled to a specific platform. When that platform becomes obsolete or needs to be changed, the software requires extensive and expensive re-writing or a complete re-development effort to adapt it. This leads to very high maintenance costs and increases the risk that the software will become a legacy system, trapped on an outdated platform.</p>
+                </div>
+            </div>
+            <div id="q1b" class="question-section">
+                <h3>Question 1(b)</h3>
+                <p class="question-prompt">Explain how the programming language selection decision (when developing a software) will affect the Legacy Challenge. (04 marks)</p>
+                <div class="answer-box">
+                    <h4 class="box-title">Model Answer</h4>
+                    <p>The programming language selected during initial development profoundly affects the future "Legacy Challenge" by influencing the software's long-term maintainability, adaptability, and the availability of skilled developers.</p>
+                    <ol>
+                        <li><strong>Ecosystem and Standardization:</strong> Choosing a language with a large, active, and standardized ecosystem (like Java, Python, or C#) mitigates the legacy challenge. These languages have extensive libraries, strong community support, and are continually updated. A proprietary or niche language, however, can quickly become a legacy trap. If the vendor goes out of business or stops supporting the language, the software becomes extremely difficult and expensive to maintain and evolve.</li>
+                        <li><strong>Developer Availability:</strong> The availability of developers skilled in the language is a critical factor. When a system is built with a mainstream, modern language, it is relatively easy and affordable to find developers to maintain and extend it. Conversely, a system built in an older, obscure language (like COBOL or PL/I) faces a shrinking talent pool of aging, expensive specialists. This makes maintenance costs soar and creates a significant business risk.</li>
+                    </ol>
+                </div>
+            </div>
+            <div id="q1c" class="question-section">
+                 <h3>Question 1(c)</h3>
+                <p class="question-prompt">Briefly describe how CASE tools help to achieve dependability in software. (04 marks)</p>
+                <div class="answer-box">
+                    <h4 class="box-title">Model Answer</h4>
+                    <p>CASE (Computer-Aided Software Engineering) tools help achieve dependability in software by automating, standardizing, and analyzing various stages of the development lifecycle, which reduces human error and improves consistency.</p>
+                    <ul>
+                        <li><strong>Analysis and Modeling:</strong> Tools like UML modelers can automatically check for inconsistencies and incompleteness in system designs and requirements models. This helps ensure the specification is sound before coding begins, preventing requirement-related faults.</li>
+                        <li><strong>Code Generation:</strong> Some CASE tools can automatically generate code skeletons or even complete modules from a design model. This generated code is typically consistent and conforms to a standard template, reducing the chance of human-introduced coding errors.</li>
+                        <li><strong>Testing and Verification:</strong> Test automation tools are a form of CASE tool that can automatically execute test suites, check for regressions, and measure test coverage. Static analysis tools scan source code to find potential bugs, security vulnerabilities, and violations of coding standards without running the program. Both of these contribute to finding and removing faults, which directly improves dependability (reliability and safety).</li>
+                    </ul>
+                </div>
+            </div>
+            <div id="q1d" class="question-section">
+                 <h3>Question 1(d)</h3>
+                <p class="question-prompt">Briefly describe why heterogeneity is challenge with regard to software development. (02 marks)</p>
+                 <div class="answer-box">
+                    <h4 class="box-title">Model Answer</h4>
+                    <p>Heterogeneity, the state of systems being composed of diverse and differing parts, is a challenge in software development because it introduces complexity in integration and maintenance. Modern systems are often distributed and built by combining components from different vendors, written in different programming languages, and running on different operating systems. This requires creating complex middleware and interfaces to allow these disparate parts to communicate reliably, and it makes finding the root cause of failures more difficult as the problem could lie in any of the interconnected components or the links between them.</p>
+                </div>
+            </div>
+            <div id="q1e" class="question-section">
+                 <h3>Question 1(e)</h3>
+                <p class="question-prompt">Describe why requirements will be compromised when using COTS components. (02 marks)</p>
+                 <div class="answer-box">
+                    <h4 class="box-title">Model Answer</h4>
+                    <p>Requirements are inevitably compromised when using COTS (Commercial Off-the-Shelf) components because these components are built to serve a general market, not a specific customer's unique needs. To gain the cost and time benefits of using a pre-built COTS product, the development team must accept the functionality and constraints that the COTS vendor provides. This often means the system's requirements must be adapted or simplified to fit what the COTS component can do, rather than building a custom solution that perfectly matches the original, ideal requirements.</p>
+                </div>
+            </div>
+            <div id="q1f" class="question-section">
+                <h3>Question 1(f)</h3>
+                <p class="question-prompt">Briefly describe why it is better to use cowboy coding to test a programming idea instead of using the waterfall model test it. (04 marks)</p>
+                <div class="answer-box">
+                    <h4 class="box-title">Model Answer</h4>
+                    <p>It is better to use cowboy coding to test a programming idea (i.e., to create a prototype) because the goal is rapid validation and learning, where process overhead is counterproductive. The Waterfall model is a heavyweight, sequential process requiring extensive upfront requirements analysis, design, and documentation before any code is written. This is far too slow and rigid for simply testing an idea.</p>
+                    <p>Cowboy coding, in this context, allows a developer to quickly write code to build a proof-of-concept. The focus is on speed and experimentation to see if the idea is technically feasible or valuable, not on building a robust, maintainable product. The resulting code is often disposable. Using Waterfall for this purpose would be a wasteful and inefficient application of a process designed for large, stable, and well-understood projects.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- QUESTION 2 -->
+        <section id="q2" class="question-group">
+            <h2 class="question-title">Question 2: Requirements Engineering</h2>
+            <div id="q2a" class="question-section">
+                 <h3>Question 2(a)</h3>
+                <p class="question-prompt">Describe how documentation is related with the visibility of a software development project. (04 marks)</p>
+                 <div class="answer-box">
+                    <h4 class="box-title">Model Answer</h4>
+                    <p>Documentation is directly related to the visibility of a software development project because it serves as the primary tangible artifact that makes an otherwise invisible process visible to all stakeholders.</p>
+                    <p>Software itself is intangible. Without documentation, progress and decisions are only visible to the developers actively working on the code. Documentation such as requirements specifications, architectural design documents, project plans, and test reports provide a concrete view into the project's status, scope, and quality. For managers, these documents make it possible to track progress against a plan. For new team members, they provide the necessary information to get up to speed. For quality assurance teams and even legal teams, they form the basis against which the final product is judged.</p>
+                </div>
+            </div>
+            <div id="q2b" class="question-section">
+                <h3>Question 2(b)</h3>
+                <p class="question-prompt">It is said that "Requirements should be both complete and consistent". Explain how the requirement completeness and consistency affects the project schedule. (04 marks)</p>
+                <div class="answer-box">
+                    <h4 class="box-title">Model Answer</h4>
+                    <p>Requirement completeness and consistency are critical factors that directly affect the project schedule by minimizing rework and delays.</p>
+                    <ul>
+                        <li><strong>Completeness:</strong> A complete set of requirements means that all necessary functionalities and constraints are defined upfront. This allows for accurate planning and estimation. If requirements are incomplete, new ones will inevitably be discovered late in the development cycle. This late discovery forces unplanned work, causing rework of already completed designs and code, which in turn leads to significant schedule delays.</li>
+                        <li><strong>Consistency:</strong> Consistent requirements are free from contradictions. If requirements are inconsistent (e.g., one requirement states "the system must respond in 2 seconds" while another implies a complex calculation that takes 10 seconds), developers will waste time trying to resolve these conflicts. This often leads to debates, incorrect implementations that must be redone, and ultimately, delays in the project schedule.</li>
+                    </ul>
+                </div>
+            </div>
+            <div id="q2c" class="question-section">
+                <h3>Question 2(c)</h3>
+                <p class="question-prompt">Briefly describe requirements traceability affects the legal issues originating from the project contract. (04 marks)</p>
+                <div class="answer-box">
+                    <h4 class="box-title">Model Answer</h4>
+                    <p>Requirements traceability is the ability to track the life of a requirement both forwards and backwards, from its origin to its implementation and verification. This directly affects legal issues from a project contract by providing objective proof of fulfillment.</p>
+                    <p>A project contract is a legal document that specifies what the software must do (the requirements). In the event of a dispute where the client claims the delivered software does not meet the contractual obligations, requirements traceability provides the definitive evidence. A traceability matrix can demonstrate that every single requirement specified in the contract has been linked to a specific design element, implemented in a specific code module, and, most importantly, verified by a specific set of test cases that have all passed. Without this traceable proof, defending against a claim of non-performance becomes a matter of opinion and can lead to costly legal battles, penalties, or refusal of payment.</p>
+                </div>
+            </div>
+            <div id="q2d" class="question-section">
+                <h3>Question 2(d)</h3>
+                <p class="question-prompt">Describe the two (02) domain requirement problems. (04 marks)</p>
+                <div class="answer-box">
+                    <h4 class="box-title">Model Answer</h4>
+                    <p>Domain requirements are derived from the application's specific domain (e.g., finance, aviation) rather than from the user's needs. Two common problems associated with them are:</p>
+                    <ol>
+                        <li><strong>Implicit Knowledge and Understandability:</strong> Domain experts often have a deep understanding of their field, and they may consider certain constraints or rules to be so fundamental that they don't think to state them explicitly. They assume this knowledge is obvious. Software engineers, who are not experts in that domain, may not be aware of these implicit requirements, leading them to build a system that is technically correct but functionally wrong because it violates a fundamental, unstated domain rule.</li>
+                        <li><strong>Domain Terminology Ambiguity:</strong> Different domain experts may use the same terminology to mean slightly different things, or use different terms for the same concept. This can lead to requirements that are ambiguous or are misinterpreted by the development team. For example, the definition of "net profit" might differ between two accountants, leading to an incorrect implementation if not precisely defined.</li>
+                    </ol>
+                </div>
+            </div>
+            <div id="q2e" class="question-section">
+                <h3>Question 2(e)</h3>
+                <p class="question-prompt">Briefly describe how lack of clarity with requirements will affect the requirements traceability. (04 marks)</p>
+                <div class="answer-box">
+                    <h4 class="box-title">Model Answer</h4>
+                    <p>A lack of clarity in requirements severely undermines or makes requirements traceability impossible. Traceability requires the ability to create unambiguous, one-to-one or many-to-one links between individual requirements and other system artifacts like design components, code modules, and test cases.</p>
+                    <p>If a requirement is vague, ambiguous, or poorly defined (e.g., "The system should be user-friendly"), it is impossible to trace it effectively. You cannot definitively link such a requirement to a specific piece of code because "user-friendly" could mean many different things. Furthermore, you cannot write a concrete test case to verify it. This lack of clarity breaks the traceability chain, making it impossible to verify that the requirement has been implemented and tested, and impossible to perform impact analysis if the vague requirement were to change.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- QUESTION 3 -->
+        <section id="q3" class="question-group">
+            <h2 class="question-title">Question 3: Requirements Analysis and Maintenance</h2>
+            <div id="q3a" class="question-section">
+                <h3>Question 3(a)</h3>
+                <p class="question-prompt">Describe how organizational and political factors will affect the requirement analysis. (04 marks)</p>
+                <div class="answer-box">
+                    <h4 class="box-title">Model Answer</h4>
+                    <p>Organizational and political factors significantly affect requirements analysis because software systems often reflect the power structures and workflows of the organization they serve. These factors can distort or obstruct the process of identifying the true, objective requirements.</p>
+                    <ul>
+                        <li><strong>Organizational Factors:</strong> A company's structure can influence requirements. For example, in a highly hierarchical organization, senior managers may have the final say on requirements, and their views may be given more weight than those of the actual end-users of the system. This can lead to a system that serves management's reporting needs but is inefficient for daily operations.</li>
+                        <li><strong>Political Factors:</strong> Different departments or stakeholders often have conflicting goals and compete for influence and resources. A powerful department manager might push for features that benefit their department at the expense of others, or resist changes to a process that would reduce their control. The requirements analyst must navigate these political landscapes to negotiate a set of requirements that represents a workable compromise, rather than simply what the most powerful stakeholder demands.</li>
+                    </ul>
+                </div>
+            </div>
+            <div id="q3b" class="question-section">
+                <h3>Question 3(b)</h3>
+                <p class="question-prompt">Describe how the requirements adaptability is connected with component cohesion levels. (04 marks)</p>
+                <div class="answer-box">
+                    <h4 class="box-title">Model Answer</h4>
+                    <p>Requirements adaptability, the ease with which the software can be modified to accommodate new or changed requirements, is directly connected to component cohesion. **High cohesion** is a design principle where all elements of a component (e.g., a class or module) are strongly related and focused on a single, well-defined task. This connection works as follows:</p>
+                    <p>When a system is built with highly cohesive components, a change in a single requirement will typically map to changes in only one, or a very small number of, components. Because the component's responsibilities are self-contained and focused, the change can be implemented within that component without causing side effects elsewhere in the system. This makes the system highly adaptable.</p>
+                    <p>Conversely, a system with **low cohesion** has components with mixed, unrelated responsibilities. A single requirement change might force modifications across many different components, as the related logic is scattered throughout the codebase. This makes the system rigid and difficult to adapt, as every change has a wide-ranging and unpredictable impact.</p>
+                </div>
+            </div>
+            <div id="q3c" class="question-section">
+                <h3>Question 3(c)</h3>
+                <p class="question-prompt">"Requirements are inevitably incomplete and inconsistent". Explain two (02) reasons to justify the above statement. (04 marks)</p>
+                <div class="answer-box">
+                    <h4 class="box-title">Model Answer</h4>
+                    <p>The statement that requirements are inevitably incomplete and inconsistent is true for most non-trivial software projects for the following two reasons:</p>
+                    <ol>
+                        <li><strong>Problems of Understanding and Tacit Knowledge:</strong> Stakeholders often have difficulty articulating their needs fully. They may not know exactly what they want, or they may find it hard to express their needs in a way that developers can understand. Furthermore, much of their knowledge is "tacit" – they consider certain domain rules or processes to be so obvious that they don't think to mention them. This leads to **incomplete** requirements because critical information is simply omitted.</li>
+                        <li><strong>Multiple, Conflicting Stakeholders:</strong> A software system usually has to serve multiple stakeholders (e.g., different departments, end-users, managers) who have different and often conflicting priorities and goals. For example, the security department may demand a strict authentication process, while end-users demand a quick and easy login. These conflicting needs naturally lead to **inconsistent** requirements that must be negotiated and compromised upon during the analysis process.</li>
+                    </ol>
+                </div>
+            </div>
+            <div id="q3d" class="question-section">
+                <h3>Question 3(d)</h3>
+                <p class="question-prompt">Describe the situations in which Preventive maintenance will be applied. (04 marks)</p>
+                <div class="answer-box">
+                    <h4 class="box-title">Model Answer</h4>
+                    <p>Preventive maintenance involves making changes to a software system to prevent future problems, improve maintainability, or forestall deterioration. It is applied in the following situations:</p>
+                    <ul>
+                        <li><strong>When Technical Debt is High:</strong> If a system has accumulated significant technical debt (poor design choices, messy code) due to rapid development or many quick fixes, its complexity increases. This makes future changes slow and risky. Preventive maintenance, in the form of **refactoring**, is applied to restructure the code, improve its design, and "repay" the debt, making it easier and safer to maintain in the future.</li>
+                        <li><strong>When a System is Becoming a Legacy Problem:</strong> When a system is built on outdated platforms or languages that are becoming unsupported or for which developers are hard to find, preventive maintenance is applied. This can take the form of **re-engineering**, where the system is migrated to a more modern architecture or platform to ensure its long-term viability and reduce future maintenance costs and risks.</li>
+                    </ul>
+                </div>
+            </div>
+            <div id="q3e" class="question-section">
+                 <h3>Question 3(e)</h3>
+                <p class="question-prompt">Describe how loosely coupling will help with maintenance. (04 marks)</p>
+                <div class="answer-box">
+                    <h4 class="box-title">Model Answer</h4>
+                    <p>Loose coupling is a design principle where components in a system are designed to be as independent of one another as possible. This greatly helps with maintenance in two key ways:</p>
+                    <ol>
+                        <li><strong>Isolation of Change (Reduced Ripple Effect):</strong> In a loosely coupled system, a change made to one component is unlikely to "ripple" through the system and require changes in other components. Because components have minimal knowledge of each other's internal workings, a developer can modify, fix, or replace a single component without breaking the rest of the system, as long as its public interface remains stable. This makes maintenance activities faster, safer, and easier to scope.</li>
+                        <li><strong>Improved Reusability and Testability:</strong> Loosely coupled components are easier to maintain because they can be understood, tested, and reused in isolation. A developer can write unit tests for a single component without needing to set up a complex environment with all its dependencies. This makes it easier to verify that fixes work correctly and to reuse proven, reliable components in new contexts, reducing the amount of new code that needs to be written and maintained.</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- QUESTION 4 -->
+        <section id="q4" class="question-group">
+            <h2 class="question-title">Question 4: Implementation and Design</h2>
+            <div id="q4a" class="question-section">
+                <h3>Question 4(a)</h3>
+                <p class="question-prompt">Following strict coding styles and documenting guidelines will increase the short-term cost while reducing the long-term costs. Explain how this happens. (04 marks)</p>
+                 <div class="answer-box">
+                    <h4 class="box-title">Model Answer</h4>
+                    <p>This trade-off occurs because these practices represent an upfront investment in quality that pays dividends over the software's lifecycle.</p>
+                    <ul>
+                        <li><strong>Increased Short-Term Cost:</strong> In the short term, developers must spend extra time formatting their code to meet style guidelines, writing comments, and creating separate documentation. This time is not spent directly on implementing new features, so it slows down the initial development velocity and increases the immediate cost of producing the first version of the software.</li>
+                        <li><strong>Reduced Long-Term Costs:</strong> The long-term cost of software is dominated by maintenance. Strict coding styles make the code consistent and readable, while good documentation explains its purpose and design. This makes it significantly faster, easier, and less risky for new developers (or the original developers years later) to understand the code when they need to fix bugs or add new features. This increased efficiency drastically reduces the time and effort required for maintenance, leading to substantial long-term cost savings that far outweigh the initial investment.</li>
+                    </ul>
+                </div>
+            </div>
+            <div id="q4b" class="question-section">
+                 <h3>Question 4(b)</h3>
+                <p class="question-prompt">Describe why software needs to be tested to see how it fails. (04 marks)</p>
+                <div class="answer-box">
+                    <h4 class="box-title">Model Answer</h4>
+                    <p>Software needs to be tested to see how it fails to understand its robustness and to ensure it behaves in a predictable and safe manner even when faced with errors or extreme conditions. This is known as **negative testing** or **failure testing**.</p>
+                    <p>The purpose is not just to see if the software works under normal conditions (happy path testing), but to evaluate its behavior under stress and when given invalid input. By intentionally trying to break the software, testers can verify that:</p>
+                    <ol>
+                        <li><strong>Error Handling is Correct:</strong> The system gracefully handles invalid data, unexpected user actions, or external failures (like a network outage) by displaying clear error messages, rather than crashing or corrupting data.</li>
+                        <li><strong>The System is Robust and Resilient:</strong> Through stress and load testing, we can find the system's operational limits. This helps to ensure that the system degrades gracefully under heavy load rather than failing catastrophically, and that it can recover from failures when conditions return to normal. This is critical for building dependable systems.</li>
+                    </ol>
+                </div>
+            </div>
+            <div id="q4c" class="question-section">
+                <h3>Question 4(c)</h3>
+                <p class="question-prompt">Briefly describe two (02) reasons why the User Interface design is critical for the success of a software. (04 marks)</p>
+                <div class="answer-box">
+                    <h4 class="box-title">Model Answer</h4>
+                    <p>The User Interface (UI) design is critical for the success of a software for two primary reasons:</p>
+                    <ol>
+                        <li><strong>It Determines Usability and User Adoption:</strong> The UI is the user's only point of interaction with the system. No matter how powerful or technically brilliant the underlying software is, if the UI is confusing, inefficient, or frustrating to use, users will be unproductive, make errors, and ultimately reject or abandon the software. A good UI leads to high user satisfaction and successful adoption.</li>
+                        <li><strong>It Shapes the Perception of Quality and Trust:</strong> Users often judge the overall quality and reliability of a system based on its UI. A professional, responsive, and polished interface creates a perception of a high-quality, trustworthy product. Conversely, a UI with cosmetic glitches, inconsistent design, or slow responses makes the entire system feel cheap and unreliable, eroding user trust.</li>
+                    </ol>
+                </div>
+            </div>
+            <div id="q4d" class="question-section">
+                <h3>Question 4(d)</h3>
+                <p class="question-prompt">Briefly describe what is known as dead code. (02 marks)</p>
+                <div class="answer-box">
+                    <h4 class="box-title">Model Answer</h4>
+                    <p>Dead code is a section of source code in a program which is executed but whose results are never used in any other computation. More broadly, it can also refer to code that is completely unreachable (e.g., code after a `return` statement). It serves no functional purpose, adds to the complexity and size of the codebase, and can be confusing for developers who are trying to maintain the software.</p>
+                </div>
+            </div>
+            <div id="q4e" class="question-section">
+                <h3>Question 4(e)</h3>
+                <p class="question-prompt">Briefly describe the effects of memory leak in a program. (02 marks)</p>
+                <div class="answer-box">
+                    <h4 class="box-title">Model Answer</h4>
+                    <p>A memory leak occurs when a program continuously allocates memory but fails to release it when it's no longer needed. The effects are a gradual and unbounded increase in the program's memory consumption. This leads to performance degradation as the system starts to swap memory to disk, and will ultimately result in the program, or even the entire operating system, crashing due to resource exhaustion when all available memory is consumed.</p>
+                </div>
+            </div>
+            <div id="q4f" class="question-section">
+                <h3>Question 4(f)</h3>
+                <p class="question-prompt">Explain what is shown in the V-model of development. (02 marks)</p>
+                <div class="answer-box">
+                    <h4 class="box-title">Model Answer</h4>
+                    <p>The V-model of development shows the relationship between each phase of the development life cycle and its associated phase of testing. It visually represents how verification and validation activities are performed in parallel with development stages. For example, it shows that acceptance testing is planned based on the requirements, system testing is based on the system design, and unit testing is based on the detailed module design.</p>
+                </div>
+            </div>
+            <div id="q4g" class="question-section">
+                <h3>Question 4(g)</h3>
+                <p class="question-prompt">According to the V-model of development, name the project documentation which is used as basis for the testing plans. (02 marks)</p>
+                <div class="answer-box">
+                    <h4 class="box-title">Model Answer</h4>
+                    <p>According to the V-model, the testing plans are based on the documentation produced during the corresponding development phase:</p>
+                    <ul>
+                        <li><strong>Acceptance Test Plan</strong> is based on the **Requirements Specification**.</li>
+                        <li><strong>System Test Plan</strong> is based on the **System Design Document**.</li>
+                        <li><strong>Integration Test Plan** is based on the **Architectural Design Document**.</li>
+                        <li><strong>Unit Test Plan</strong> is based on the **Module/Component Design Document**.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- QUESTION 5 -->
+        <section id="q5" class="question-group">
+            <h2 class="question-title">Question 5: Verification, Validation, and Risk</h2>
+            <div id="q5a" class="question-section">
+                <h3>Question 5(a)</h3>
+                <p class="question-prompt">In a Use case diagram, what would be the impact of missing certain use cases. (03 marks)</p>
+                <div class="answer-box">
+                    <h4 class="box-title">Model Answer</h4>
+                    <p>The impact of missing use cases in a Use Case diagram is severe, as it leads to an **incomplete system specification** and subsequent project failure. Use cases define the functional requirements of a system by describing how actors interact with it to achieve their goals. If a use case is missing, it means a required piece of functionality has been completely overlooked. This will result in a system that does not meet the stakeholders' needs, leading to major rework late in the project, budget overruns, schedule delays, and ultimately, a failed project or a system that is not fit for purpose.</p>
+                </div>
+            </div>
+            <div id="q5b" class="question-section">
+                <h3>Question 5(b)</h3>
+                <p class="question-prompt">Describe how path testing is conducted. (03 marks)</p>
+                <div class="answer-box">
+                    <h4 class="box-title">Model Answer</h4>
+                    <p>Path testing is a white-box testing technique where the goal is to execute every independent path through a program's source code at least once. It is conducted as follows:</p>
+                    <ol>
+                        <li><strong>Create a Control Flow Graph (CFG):</strong> The source code of a module is translated into a graphical representation (a CFG) where nodes represent processing blocks and edges represent the flow of control.</li>
+                        <li><strong>Calculate Cyclomatic Complexity:</strong> The cyclomatic complexity of the graph is calculated (e.g., V(G) = E - N + 2). This metric gives the number of linearly independent paths through the code and serves as an upper bound for the number of test cases required.</li>
+                        <li><strong>Identify Independent Paths:</strong> A set of basis paths (the independent paths) is identified from the CFG.</li>
+                        <li><strong>Design Test Cases:</strong> Test cases are designed with specific input data that will force the execution of each of these identified paths.</li>
+                    </ol>
+                </div>
+            </div>
+            <div id="q5c" class="question-section">
+                <h3>Question 5(c)</h3>
+                <p class="question-prompt">Briefly how risk analysis step is conducted. (02 marks)</p>
+                <div class="answer-box">
+                    <h4 class="box-title">Model Answer</h4>
+                    <p>The risk analysis step is conducted after risks have been identified. For each identified risk, the team assesses two key factors: 1) the **probability** or likelihood of the risk occurring, and 2) the **impact** or severity of the consequences if it does occur. These two factors are then combined (often by multiplying them) to assign a priority or exposure level to the risk, which allows the team to focus their mitigation efforts on the highest-priority risks first.</p>
+                </div>
+            </div>
+            <div id="q5d" class="question-section">
+                <h3>Question 5(d)</h3>
+                <p class="question-prompt">With regard to maintenance cost factors, describe the reasons that affects the team stability. (04 marks)</p>
+                <div class="answer-box">
+                    <h4 class="box-title">Model Answer</h4>
+                    <p>Team stability is a major factor in maintenance cost. Several reasons can negatively affect team stability, thereby increasing costs:</p>
+                    <ul>
+                        <li><strong>High Staff Turnover:</strong> When experienced developers who have deep knowledge of the system leave the project, they take that valuable tacit knowledge with them. New team members must then go through a steep and time-consuming learning curve to become productive. During this learning period, they are slower to fix bugs and more likely to introduce new ones, which increases maintenance costs.</li>
+                        <li><strong>Poor Management and Low Morale:</strong> A lack of management support, unrealistic deadlines, or a culture of blame can lead to low team morale and burnout. This reduces productivity and increases the likelihood that skilled developers will leave the project, further destabilizing the team.</li>
+                        <li><strong>Lack of Documentation:</strong> If a system is poorly documented, the team's knowledge resides only in the heads of its current members. This makes the team fragile; the loss of even one key person can be catastrophic and makes onboarding new members extremely slow and expensive.</li>
+                    </ul>
+                </div>
+            </div>
+            <div id="q5e" class="question-section">
+                <h3>Question 5(e)</h3>
+                <p class="question-prompt">Describe two (02) UI design principles. (04 marks)</p>
+                <div class="answer-box">
+                    <h4 class="box-title">Model Answer</h4>
+                    <p>Two fundamental UI design principles are:</p>
+                    <ol>
+                        <li><strong>Consistency:</strong> This principle states that similar elements in a UI should look and behave in a similar way, and different elements should look different. This applies to everything from colors and fonts to the placement of buttons and navigation menus. A consistent interface is predictable, which makes it easier for users to learn and use. It allows users to transfer their knowledge from one part of the application to another, reducing cognitive load.</li>
+                        <li><strong>Provide Feedback:</strong> The interface should always keep the user informed about what is happening. For every user action, there should be immediate and clear feedback. For example, when a user clicks a button, it should visually change to acknowledge the click. For a long-running operation, a progress bar should be displayed. This feedback reassures the user that the system is working and prevents them from becoming confused or frustrated.</li>
+                    </ol>
+                </div>
+            </div>
+            <div id="q5f" class="question-section">
+                <h3>Question 5(f)</h3>
+                <p class="question-prompt">Explain the difference between functional and non-functional requirements. (04 marks)</p>
+                <div class="answer-box">
+                    <h4 class="box-title">Model Answer</h4>
+                    <p>The difference between functional and non-functional requirements lies in what they describe: the **"what"** versus the **"how well."**</p>
+                    <ul>
+                        <li><strong>Functional Requirements</strong> define **what** the system should do. They specify the behaviors, functions, or services the system must provide. They describe the interactions between the system and its users or other systems. For example, "The system shall allow the user to search for a customer by name" is a functional requirement. It describes a specific function.</li>
+                        <li><strong>Non-Functional Requirements (NFRs)** define **how well** the system should perform its functions. They are constraints on the system or quality attributes. They do not change the system's fundamental functionality but describe its operational characteristics. For example, "The customer search function shall return results in under 2 seconds" is a non-functional requirement. It constrains the performance of the search function. Other examples of NFRs include reliability, security, usability, and portability.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    <script>
+      // JavaScript for theme toggling and active scroll navigation
+      document.addEventListener("DOMContentLoaded", () => {
+        const themeToggleButton = document.getElementById("theme-toggle-button");
+        const body = document.body;
+        const themeStorageKey = "com2308-ultimate-theme";
+
+        const applyInitialTheme = () => {
+          try {
+            const savedTheme = localStorage.getItem(themeStorageKey);
+            const systemPrefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+            if (savedTheme === "dark" || (!savedTheme && systemPrefersDark)) {
+              body.classList.add("dark-mode");
+              themeToggleButton.textContent = "Light Mode";
+            } else {
+              body.classList.remove("dark-mode");
+              themeToggleButton.textContent = "Dark Mode";
+            }
+          } catch (e) { console.error("Local storage not available.", e); }
+        };
+
+        const toggleTheme = () => {
+          body.classList.toggle("dark-mode");
+          const isDarkMode = body.classList.contains("dark-mode");
+          themeToggleButton.textContent = isDarkMode ? "Light Mode" : "Dark Mode";
+          try { localStorage.setItem(themeStorageKey, isDarkMode ? "dark" : "light"); } 
+          catch (e) { console.error("Could not save theme.", e); }
+        };
+
+        if (themeToggleButton) {
+          themeToggleButton.addEventListener("click", toggleTheme);
+        }
+        applyInitialTheme();
+
+        const sections = document.querySelectorAll(".question-section");
+        const navLinks = document.querySelectorAll(".nav-link");
+        const observerOptions = { root: null, rootMargin: "0px 0px -50% 0px", threshold: 0 };
+
+        const intersectionCallback = (entries) => {
+          let activeId = null;
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              activeId = entry.target.getAttribute('id');
+            }
+          });
+
+          navLinks.forEach(link => {
+            link.classList.remove("active");
+            if (!activeId) return;
+
+            const href = link.getAttribute("href").substring(1);
+            const activeSection = document.getElementById(activeId);
+
+            if (link.classList.contains('nav-sub-link')) {
+                if (href === activeId) {
+                    link.classList.add("active");
+                    const parentLi = link.closest('ul.nav-sub-list')?.closest('li.nav-list-item');
+                    if (parentLi) {
+                        parentLi.querySelector('a.nav-link').classList.add('active');
+                    }
+                }
+            } else {
+                 const parentGroup = document.getElementById(href);
+                 if (parentGroup && parentGroup.contains(activeSection)) {
+                    link.classList.add('active');
+                }
+            }
+          });
+        };
+        
+        if (sections.length > 0) {
+          const observer = new IntersectionObserver(intersectionCallback, observerOptions);
+          sections.forEach(section => observer.observe(section));
+        }
+      });
+    </script>
+</body>
+</html>

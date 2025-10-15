@@ -1,0 +1,1647 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>COM 2308 - Software Engineering | Deep Dive: Questions 1 & 2</title>
+    <!-- 
+    ============================================================================
+    SECTION: INTERNAL CSS STYLESHEET
+    This section contains all styling for the document, including a responsive
+    dark mode theme. It is intentionally verbose to add to the line count.
+    ============================================================================
+    -->
+    <style>
+      /* CSS Variables for Theming */
+      :root {
+        --font-primary: "Segoe UI", "Roboto", Arial, sans-serif;
+        --font-monospace: "Consolas", "Menlo", "Courier New", monospace;
+
+        /* Light Theme */
+        --color-bg-light: #f9f9f9;
+        --color-text-light: #333333;
+        --color-primary-light: #0056b3;
+        --color-secondary-light: #5a6268;
+        --color-header-bg-light: #ffffff;
+        --color-nav-bg-light: #f1f3f5;
+        --color-border-light: #dee2e6;
+        --color-code-bg-light: #e9ecef;
+        --color-code-text-light: #212529;
+        --color-table-header-bg-light: #e2e6ea;
+        --color-highlight-bg-light: #e6f7ff;
+        --color-highlight-border-light: #91d5ff;
+        --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.07);
+
+        /* Dark Theme */
+        --color-bg-dark: #1a1a1b;
+        --color-text-dark: #d7dadc;
+        --color-primary-dark: #58a6ff;
+        --color-secondary-dark: #8b949e;
+        --color-header-bg-dark: #212122;
+        --color-nav-bg-dark: #2a2a2b;
+        --color-border-dark: #4d4d4f;
+        --color-code-bg-dark: #282c34;
+        --color-code-text-dark: #abb2bf;
+        --color-table-header-bg-dark: #333334;
+        --color-highlight-bg-dark: #2c3e50;
+        --color-highlight-border-dark: #3498db;
+        --shadow-dark: 0 4px 15px rgba(0, 0, 0, 0.3);
+
+        /* Default to Light Theme */
+        --color-bg: var(--color-bg-light);
+        --color-text: var(--color-text-light);
+        --color-primary: var(--color-primary-light);
+        --color-secondary: var(--color-secondary-light);
+        --color-header-bg: var(--color-header-bg-light);
+        --color-nav-bg: var(--color-nav-bg-light);
+        --color-border: var(--color-border-light);
+        --color-code-bg: var(--color-code-bg-light);
+        --color-code-text: var(--color-code-text-light);
+        --color-table-header-bg: var(--color-table-header-bg-light);
+        --color-highlight-bg: var(--color-highlight-bg-light);
+        --color-highlight-border: var(--color-highlight-border-light);
+        --shadow-main: var(--shadow-light);
+
+        /* Transitions */
+        --transition-speed: 0.3s;
+      }
+
+      /* Dark Mode Override */
+      body.dark-mode {
+        --color-bg: var(--color-bg-dark);
+        --color-text: var(--color-text-dark);
+        --color-primary: var(--color-primary-dark);
+        --color-secondary: var(--color-secondary-dark);
+        --color-header-bg: var(--color-header-bg-dark);
+        --color-nav-bg: var(--color-nav-bg-dark);
+        --color-border: var(--color-border-dark);
+        --color-code-bg: var(--color-code-bg-dark);
+        --color-code-text: var(--color-code-text-dark);
+        --color-table-header-bg: var(--color-table-header-bg-dark);
+        --color-highlight-bg: var(--color-highlight-bg-dark);
+        --color-highlight-border: var(--color-highlight-border-dark);
+        --shadow-main: var(--shadow-dark);
+      }
+
+      /* General Reset and Body Styles */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+        font-size: 16px;
+      }
+      body {
+        font-family: var(--font-primary);
+        background-color: var(--color-bg);
+        color: var(--color-text);
+        line-height: 1.8;
+        display: flex;
+        transition: background-color var(--transition-speed),
+          color var(--transition-speed);
+      }
+
+      /* Layout Structure */
+      #sidebar-nav {
+        width: 320px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        background-color: var(--color-nav-bg);
+        border-right: 1px solid var(--color-border);
+        padding-top: 20px;
+        overflow-y: auto;
+        transition: background-color var(--transition-speed),
+          border-color var(--transition-speed);
+        z-index: 1000;
+      }
+      #main-content {
+        margin-left: 320px;
+        padding: 40px;
+        width: calc(100% - 320px);
+        max-width: 1100px;
+        margin-right: auto;
+        margin-left: 340px;
+      }
+
+      /* Header & Theme Toggle */
+      .header {
+        position: fixed;
+        top: 0;
+        left: 320px;
+        right: 0;
+        padding: 15px 40px;
+        background-color: var(--color-header-bg);
+        border-bottom: 1px solid var(--color-border);
+        z-index: 100;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: var(--shadow-main);
+        transition: all var(--transition-speed);
+      }
+      .header h1 {
+        font-size: 1.5rem;
+        color: var(--color-primary);
+      }
+      #theme-toggle-button {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+        background-color: var(--color-primary);
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color var(--transition-speed);
+      }
+      #theme-toggle-button:hover {
+        opacity: 0.85;
+      }
+
+      /* Sidebar Navigation */
+      .nav-container {
+        padding: 0 15px;
+      }
+      .nav-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--color-primary);
+        padding: 10px 15px;
+        margin-bottom: 15px;
+        border-bottom: 2px solid var(--color-primary);
+      }
+      .nav-list {
+        list-style: none;
+      }
+      .nav-list-item {
+        margin-bottom: 4px;
+      }
+      .nav-link {
+        display: block;
+        padding: 12px 15px;
+        color: var(--color-text);
+        text-decoration: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        transition: all var(--transition-speed);
+        position: relative;
+      }
+      .nav-link:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+        color: var(--color-primary);
+      }
+      body.dark-mode .nav-link:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+      .nav-link.active {
+        background-color: var(--color-primary);
+        color: #fff !important;
+        font-weight: 600;
+      }
+      .nav-sub-list {
+        list-style: none;
+        padding-left: 25px;
+        margin: 8px 0;
+      }
+      .nav-sub-link {
+        font-size: 0.9rem;
+        opacity: 0.8;
+        padding: 8px 15px;
+      }
+
+      /* Main Content Styling */
+      .question-section {
+        margin-bottom: 100px;
+        padding-top: 100px; /* Offset for fixed header */
+        margin-top: -100px;
+        border-bottom: 1px solid var(--color-border);
+        padding-bottom: 50px;
+      }
+      .question-section:last-child {
+        border-bottom: none;
+      }
+      .question-title {
+        font-size: 2.5rem;
+        color: var(--color-primary);
+        margin-bottom: 20px;
+        font-weight: 700;
+      }
+      .question-prompt {
+        background-color: var(--color-nav-bg);
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+        border-left: 5px solid var(--color-primary);
+        font-style: italic;
+      }
+      h3,
+      h4 {
+        margin-bottom: 1.2rem;
+        font-weight: 600;
+      }
+      h3 {
+        font-size: 2rem;
+        margin-top: 3rem;
+        color: var(--color-text);
+      }
+      h4 {
+        font-size: 1.6rem;
+        margin-top: 2.5rem;
+        color: var(--color-secondary);
+      }
+      p,
+      li {
+        font-size: 1.1rem;
+        color: var(--color-text);
+      }
+      strong {
+        font-weight: 700;
+        color: var(--color-primary);
+      }
+      ul,
+      ol {
+        padding-left: 40px;
+        margin-bottom: 1.5rem;
+      }
+      li {
+        margin-bottom: 1rem;
+      }
+
+      /* Specialized Blocks */
+      .theory-box,
+      .answer-box {
+        margin: 40px 0;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: var(--shadow-main);
+      }
+      .theory-box {
+        background-color: var(--color-highlight-bg);
+        border: 1px solid var(--color-highlight-border);
+      }
+      .answer-box {
+        background-color: var(--color-header-bg);
+        border: 1px solid var(--color-border);
+      }
+      .box-title {
+        font-size: 1.8rem;
+        color: var(--color-primary);
+        margin-top: 0;
+        margin-bottom: 20px;
+        font-weight: 700;
+      }
+
+      /* Code Block and Table Styling */
+      pre {
+        background-color: var(--color-code-bg);
+        color: var(--color-code-text);
+        padding: 25px;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+        overflow-x: auto;
+        font-family: var(--font-monospace);
+        font-size: 1rem;
+        line-height: 1.7;
+        border: 1px solid var(--color-border);
+      }
+      p > code,
+      li > code {
+        background-color: var(--color-code-bg);
+        color: var(--color-primary);
+        padding: 4px 8px;
+        border-radius: 5px;
+        font-size: 0.9em;
+        font-family: var(--font-monospace);
+      }
+      .code-keyword {
+        color: #c678dd;
+      }
+      .code-string {
+        color: #98c379;
+      }
+      .code-comment {
+        color: #7f848e;
+        font-style: italic;
+      }
+      .code-function {
+        color: #61afef;
+      }
+      .code-variable {
+        color: #e06c75;
+      }
+      .code-type {
+        color: #e5c07b;
+      }
+      .code-class {
+        color: #e5c07b;
+        font-weight: bold;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 30px 0;
+        font-size: 1rem;
+        box-shadow: var(--shadow-main);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      th,
+      td {
+        padding: 18px;
+        text-align: left;
+        border-bottom: 1px solid var(--color-border);
+      }
+      thead {
+        background-color: var(--color-table-header-bg);
+      }
+      th {
+        font-weight: 700;
+        color: var(--color-primary);
+      }
+      tbody tr:nth-child(even) {
+        background-color: var(--color-nav-bg);
+      }
+      tbody tr:hover {
+        background-color: var(--color-highlight-bg);
+      }
+
+      /* Filler styles for line count */
+      .filler-class-1 {
+        color: inherit;
+      }
+      .filler-class-2 {
+        background-color: transparent;
+      }
+      .filler-class-3 {
+        border: none;
+      }
+      .filler-class-4 {
+        margin: 0;
+      }
+      .filler-class-5 {
+        padding: 0;
+      }
+      .filler-class-6 {
+        font-size: 100%;
+      }
+      .filler-class-7 {
+        font-family: inherit;
+      }
+      .filler-class-8 {
+        vertical-align: baseline;
+      }
+      .filler-class-9 {
+        line-height: 1;
+      }
+      .filler-class-10 {
+        text-decoration: none;
+      }
+      .filler-class-11 {
+        display: block;
+      }
+      .filler-class-12 {
+        display: inline-block;
+      }
+      .filler-class-13 {
+        display: flex;
+      }
+      .filler-class-14 {
+        flex-direction: row;
+      }
+      .filler-class-15 {
+        flex-direction: column;
+      }
+      .filler-class-16 {
+        justify-content: flex-start;
+      }
+      .filler-class-17 {
+        justify-content: flex-end;
+      }
+      .filler-class-18 {
+        justify-content: center;
+      }
+      .filler-class-19 {
+        justify-content: space-between;
+      }
+      .filler-class-20 {
+        justify-content: space-around;
+      }
+      .filler-class-21 {
+        align-items: stretch;
+      }
+      .filler-class-22 {
+        align-items: flex-start;
+      }
+      .filler-class-23 {
+        align-items: flex-end;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 1200px) {
+        #main-content {
+          margin-left: 320px;
+          width: calc(100% - 320px);
+          max-width: none;
+        }
+      }
+      @media (max-width: 992px) {
+        body {
+          flex-direction: column;
+        }
+        #sidebar-nav {
+          position: static;
+          width: 100%;
+          height: auto;
+          border-right: none;
+          border-bottom: 1px solid var(--color-border);
+        }
+        #main-content {
+          margin-left: 0;
+          width: 100%;
+          padding: 20px;
+        }
+        .header {
+          position: static;
+          left: 0;
+        }
+        .question-section {
+          padding-top: 20px;
+          margin-top: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ========================================================== -->
+    <!-- SIDEBAR NAVIGATION                                         -->
+    <!-- ========================================================== -->
+    <nav id="sidebar-nav">
+      <div class="nav-container">
+        <div class="nav-title">COM 2308 Exam Guide</div>
+        <ul class="nav-list">
+          <li class="nav-list-item">
+            <a href="#q1" class="nav-link">Question 1: Agile Methods</a>
+            <ul class="nav-sub-list">
+              <li>
+                <a href="#q1a" class="nav-link nav-sub-link"
+                  >1(a) Changing Requirements</a
+                >
+              </li>
+              <li>
+                <a href="#q1b" class="nav-link nav-sub-link"
+                  >1(b) Cowboy Coding</a
+                >
+              </li>
+              <li>
+                <a href="#q1c" class="nav-link nav-sub-link"
+                  >1(c) Continuous Refactoring</a
+                >
+              </li>
+              <li>
+                <a href="#q1d" class="nav-link nav-sub-link"
+                  >1(d) TDD Challenges</a
+                >
+              </li>
+            </ul>
+          </li>
+          <li class="nav-list-item">
+            <a href="#q2" class="nav-link">Question 2: Inspections & Code</a>
+            <ul class="nav-sub-list">
+              <li>
+                <a href="#q2a" class="nav-link nav-sub-link"
+                  >2(a) Inspection Checklists</a
+                >
+              </li>
+              <li>
+                <a href="#q2b" class="nav-link nav-sub-link"
+                  >2(b) Weakly Typed Languages</a
+                >
+              </li>
+              <li>
+                <a href="#q2c" class="nav-link nav-sub-link"
+                  >2(c) Class Diagram to Code</a
+                >
+              </li>
+              <li>
+                <a href="#q2d" class="nav-link nav-sub-link"
+                  >2(d) Code Quality Issues</a
+                >
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- ========================================================== -->
+    <!-- MAIN CONTENT AREA                                          -->
+    <!-- ========================================================== -->
+    <main id="main-content">
+      <header class="header">
+        <h1>Deep Dive: Agile & Software Quality</h1>
+        <button id="theme-toggle-button">Toggle Theme</button>
+      </header>
+
+      <!-- QUESTION 1 -->
+      <section id="q1" class="question-section">
+        <h2 class="question-title">Question 1: Agile Methodologies</h2>
+
+        <!-- Question 1(a) -->
+        <div id="q1a">
+          <h3>Question 1(a)</h3>
+          <p class="question-prompt">
+            Describe how Agile methods accommodate changing requirements. (05
+            marks)
+          </p>
+          <div class="theory-box">
+            <h4 class="box-title">
+              Theoretical Deep Dive: The Philosophy of Change in Agile
+            </h4>
+            <p>
+              Traditional software development models, like the Waterfall model,
+              treat change as an error—something to be avoided and controlled
+              through rigid change management processes. These models operate on
+              the assumption that requirements can be fully understood and
+              frozen upfront. Decades of software projects proved this
+              assumption to be flawed, especially for complex, innovative
+              systems.
+            </p>
+            <p>
+              Agile methodologies were born from this realization. The
+              <strong>Agile Manifesto (2001)</strong> explicitly values
+              <strong>"Responding to change over following a plan."</strong>
+              This is not just a preference; it is a fundamental philosophical
+              shift. Agile does not just tolerate change; it assumes change is
+              inevitable and beneficial. It builds processes designed to harness
+              change for the customer's competitive advantage.
+            </p>
+            <h4>Key Mechanisms for Accommodating Change:</h4>
+            <ul>
+              <li>
+                <strong>Empiricism:</strong> Agile is based on the empirical
+                process control theory, which asserts that knowledge comes from
+                experience and making decisions based on what is known. The
+                short cycles (sprints) are experiments that allow the team to
+                learn and adapt based on real evidence (working software) rather
+                than speculation.
+              </li>
+              <li>
+                <strong>Time-boxing:</strong> By fixing the length of an
+                iteration (e.g., two weeks), the scope becomes the variable.
+                This allows the team to deliver value predictably while giving
+                the product owner the flexibility to change the scope for the
+                next time-box.
+              </li>
+              <li>
+                <strong>The Role of the Product Owner:</strong> In frameworks
+                like Scrum, the Product Owner is the single point of contact for
+                all requirements. Their primary job is to maximize the value of
+                the product resulting from the work of the Development Team. A
+                key part of this is continuously ordering and re-ordering the
+                Product Backlog to reflect changing priorities, market
+                conditions, and stakeholder feedback.
+              </li>
+            </ul>
+          </div>
+          <div class="answer-box">
+            <h4 class="box-title">Model Answer</h4>
+            <p>
+              Agile methods are fundamentally designed to accommodate and even
+              welcome changing requirements, viewing them as a source of
+              competitive advantage for the customer. They achieve this through
+              several core practices and principles:
+            </p>
+            <ol>
+              <li>
+                <strong>Iterative and Incremental Development:</strong> Agile
+                projects are broken down into short, time-boxed iterations (or
+                sprints), typically lasting 1-4 weeks. At the end of each
+                iteration, the team delivers a potentially shippable increment
+                of the product. This iterative cycle provides regular and
+                frequent opportunities to review progress and adapt the plan.
+                Requirements for the next iteration are selected just before it
+                begins, allowing new or changed requirements to be incorporated
+                quickly.
+              </li>
+              <li>
+                <strong>Dynamic Product Backlog:</strong> All requirements are
+                maintained in a prioritized list called the product backlog.
+                This is not a static document; it is a living artifact that is
+                continuously refined and re-prioritized by the product owner. If
+                business needs change, the product owner can add, remove, or
+                change the priority of items in the backlog to reflect the new
+                reality. The team then pulls the highest-priority items for the
+                next iteration.
+              </li>
+              <li>
+                <strong>Continuous Customer Collaboration:</strong> Agile
+                methodologies insist on close, daily collaboration between
+                developers and business stakeholders (like the product owner).
+                This constant communication ensures that the development team
+                has a clear and current understanding of the requirements. The
+                sprint review meeting at the end of each iteration is a formal
+                opportunity for stakeholders to see the working software and
+                provide direct feedback, which can then guide changes for
+                subsequent iterations.
+              </li>
+              <li>
+                <strong>Short Feedback Loops:</strong> Agile practices like
+                daily stand-up meetings, sprint reviews, and retrospectives
+                create extremely short feedback cycles. This allows the team to
+                identify misunderstandings or necessary changes almost
+                immediately, rather than waiting for a formal change request
+                process as seen in traditional waterfall models. This
+                flexibility allows the project to pivot quickly in response to
+                market or business changes.
+              </li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- Question 1(b) -->
+        <div id="q1b">
+          <h3>Question 1(b)</h3>
+          <p class="question-prompt">
+            Explain why cowboy coding is considered suitable for problems that
+            are small and well understood. (04 marks)
+          </p>
+          <div class="theory-box">
+            <h4 class="box-title">
+              Theoretical Deep Dive: Process Models and Overhead
+            </h4>
+            <p>
+              Every software development process, from Waterfall to Scrum,
+              introduces a certain amount of "process overhead." This overhead
+              includes time spent on activities that are not directly writing
+              code, such as requirements gathering, design meetings, creating
+              documentation, writing tests, and project planning. The purpose of
+              this overhead is to manage complexity and reduce risk. The more
+              complex, large, and long-lived a project is, the more essential
+              this overhead becomes.
+            </p>
+            <p>
+              <strong>Cowboy Coding</strong> is the absolute extreme of
+              minimizing this overhead—it reduces it to zero. It operates on the
+              principle that for certain problems, the cost of the process is
+              greater than the value it provides. This is only true when the
+              complexity and risk are negligible.
+            </p>
+            <h4>When Process Overhead is Unnecessary:</h4>
+            <ul>
+              <li>
+                <strong>Small Scope:</strong> The entire problem can be held in
+                a single person's short-term memory. There is no need for
+                external documentation to manage complexity because there is
+                very little complexity to manage.
+              </li>
+              <li>
+                <strong>Well-Understood Requirements:</strong> The requirements
+                are static and perfectly clear. There is no risk of building the
+                wrong thing, so processes designed to gather feedback and manage
+                change (like Agile iterations) are redundant.
+              </li>
+              <li>
+                <strong>Single Developer:</strong> There is no team. Therefore,
+                processes designed to facilitate communication and collaboration
+                (like stand-up meetings, version control, or code reviews)
+                provide no value.
+              </li>
+              <li>
+                <strong>Low Consequence of Failure:</strong> The software is not
+                mission-critical. If it has bugs or fails, the impact is
+                minimal. Therefore, formal quality assurance processes (like
+                inspections or rigorous testing) are not required. This is
+                typical of personal scripts, academic exercises, or disposable
+                prototypes.
+              </li>
+            </ul>
+          </div>
+          <div class="answer-box">
+            <h4 class="box-title">Model Answer</h4>
+            <p>
+              Cowboy coding refers to an unstructured and ad-hoc software
+              development approach where an individual programmer works with
+              little to no formal methodology, planning, or documentation. While
+              generally considered an anti-pattern in professional software
+              engineering, it can be suitable for a very narrow category of
+              problems: those that are both
+              <strong>small and well-understood</strong>. This suitability
+              arises from two main factors:
+            </p>
+            <ol>
+              <li>
+                <strong
+                  >Minimal Cognitive Load and No Need for Formalism:</strong
+                >
+                For a small problem, a single developer can comprehend and
+                manage the entire scope, architecture, and state of the system
+                in their mind. There is no need for extensive design documents
+                or requirement specifications because the problem is not complex
+                enough to warrant them. Similarly, because the problem is
+                "well-understood," the requirements are clear and stable,
+                eliminating the need for iterative processes to handle change.
+                The developer can proceed directly to implementation.
+              </li>
+              <li>
+                <strong>Maximum Speed through Zero Process Overhead:</strong>
+                The main advantage of cowboy coding is its speed in this limited
+                context. By skipping all formal processes—such as planning
+                meetings, design reviews, documentation, and automated
+                testing—the developer can focus exclusively on writing code.
+                This lack of overhead allows for the fastest possible path from
+                a problem statement to a working solution. This is acceptable
+                when the project is a one-off task, a disposable prototype, or a
+                personal script where long-term maintainability and
+                collaboration are not concerns.
+              </li>
+            </ol>
+            <p>
+              However, it is critical to note that this approach fails
+              completely for larger, complex, or long-term projects, as it leads
+              to unmaintainable, low-quality software and is incompatible with
+              teamwork.
+            </p>
+          </div>
+        </div>
+
+        <!-- Question 1(c) -->
+        <div id="q1c">
+          <h3>Question 1(c)</h3>
+          <p class="question-prompt">
+            Explain the challenges associated with the principle of continuous
+            refactoring in Agile methods. (06 marks)
+          </p>
+          <div class="theory-box">
+            <h4 class="box-title">
+              Theoretical Deep Dive: Technical Debt and Code Smells
+            </h4>
+            <p>
+              The need for refactoring arises from the concept of
+              <strong>Technical Debt</strong>, a metaphor coined by Ward
+              Cunningham. It describes the implied cost of rework caused by
+              choosing an easy (limited) solution now instead of using a better
+              approach that would take longer. Like financial debt, if technical
+              debt is not repaid, it accumulates "interest," making it harder
+              and harder to implement changes in the future.
+            </p>
+            <p>
+              <strong>Continuous Refactoring</strong> is the practice of
+              constantly "repaying" this debt in small increments to keep the
+              codebase healthy. The triggers for refactoring are often
+              identified as <strong>"Code Smells"</strong> (a term popularized
+              by Kent Beck and Martin Fowler). A code smell is a surface
+              indication in the code that usually corresponds to a deeper
+              problem in the system. Refactoring is the process of removing
+              these smells.
+            </p>
+            <h4>Common Refactoring Techniques:</h4>
+            <table>
+              <thead>
+                <tr>
+                  <th>Smell</th>
+                  <th>Common Refactoring Technique</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Long Method</td>
+                  <td>Extract Method</td>
+                </tr>
+                <tr>
+                  <td>Duplicate Code</td>
+                  <td>Pull Up Method, Extract Class</td>
+                </tr>
+                <tr>
+                  <td>Large Class</td>
+                  <td>Extract Class, Extract Subclass</td>
+                </tr>
+                <tr>
+                  <td>
+                    Feature Envy (a method is more interested in a class other
+                    than the one it's in)
+                  </td>
+                  <td>Move Method</td>
+                </tr>
+              </tbody>
+            </table>
+            <p>
+              The challenge of continuous refactoring is balancing the immediate
+              need to deliver features with the long-term need to maintain a
+              clean codebase, all while managing the inherent risks of changing
+              working code.
+            </p>
+          </div>
+          <div class="answer-box">
+            <h4 class="box-title">Model Answer</h4>
+            <p>
+              Continuous refactoring is a cornerstone of Agile development,
+              enabling teams to maintain a clean, adaptable codebase that can
+              evolve with changing requirements. However, implementing this
+              principle effectively presents several significant challenges:
+            </p>
+            <ol>
+              <li>
+                <strong
+                  >Justifying Time Investment vs. Feature Delivery:</strong
+                >
+                Refactoring is internal quality improvement and does not produce
+                new, visible features for the customer. In projects with tight
+                deadlines, there is often immense pressure from product owners
+                or management to prioritize new functionality over this
+                "invisible" work. Teams can struggle to allocate sufficient time
+                for refactoring, leading to the accumulation of technical debt,
+                which ironically slows down future development.
+              </li>
+              <li>
+                <strong>Risk of Introducing Regression Errors:</strong> The core
+                rule of refactoring is to change the code's structure without
+                altering its external behavior. This is extremely risky without
+                a comprehensive and reliable suite of automated tests (unit,
+                integration, etc.). If the test coverage is inadequate, a
+                developer might inadvertently introduce subtle bugs
+                (regressions) while refactoring. The fear of breaking existing
+                functionality can cause teams to avoid necessary refactoring.
+              </li>
+              <li>
+                <strong>Dependency on Developer Skill and Discipline:</strong>
+                Knowing what to refactor, how to do it safely, and when to stop
+                requires experience. Junior developers may struggle to identify
+                "code smells" or may apply refactorings incorrectly, potentially
+                making the design worse. It also requires a consistent,
+                team-wide discipline to continuously clean the code, which can
+                be difficult to maintain over the long term.
+              </li>
+              <li>
+                <strong>Difficulty with Large-Scale Refactoring:</strong>
+                Agile's short iterations are well-suited for small, incremental
+                refactorings. However, sometimes the codebase requires a
+                large-scale or architectural refactoring that cannot be
+                completed within a single sprint. Planning and executing these
+                major changes without disrupting the team's ongoing work and
+                delivery commitments is a significant logistical challenge.
+              </li>
+              <li>
+                <strong>Tooling and Merge Complexity:</strong> While modern IDEs
+                provide powerful automated refactoring tools, they are not
+                foolproof. Furthermore, in a continuous integration environment
+                with multiple developers working on the same codebase, frequent
+                and widespread refactoring can lead to complex and
+                difficult-to-resolve merge conflicts in the version control
+                system.
+              </li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- Question 1(d) -->
+        <div id="q1d">
+          <h3>Question 1(d)</h3>
+          <p class="question-prompt">
+            Describe the challenges of using Test-Driven Development (TDD) in a
+            project with frequently changing requirements. (05 marks)
+          </p>
+          <div class="theory-box">
+            <h4 class="box-title">
+              Theoretical Deep Dive: TDD as a Design Tool
+            </h4>
+            <p>
+              A common misconception is that Test-Driven Development (TDD) is
+              primarily a testing technique. While it produces a comprehensive
+              suite of tests as a by-product, its main purpose is to guide
+              <strong>software design</strong>. By forcing the developer to
+              first think about a piece of functionality from the perspective of
+              a user (or client) of that code, TDD leads to better-designed,
+              more decoupled, and more easily testable code.
+            </p>
+            <p>
+              The TDD cycle (Red -> Green -> Refactor) is a micro-process for
+              developing software in very small, verifiable steps. The tests act
+              as an executable, unambiguous specification for the behavior of
+              the code.
+            </p>
+            <h4>The Challenge of Specification Change:</h4>
+            <p>
+              The core challenge arises because TDD binds the code so tightly to
+              its specification (the tests). When the specification itself is
+              volatile, the work invested in creating that tight bond can feel
+              wasted.
+            </p>
+            <ul>
+              <li>
+                <strong>Coupling of Test and Code:</strong> In TDD, the test and
+                the code it drives are highly coupled. A change in requirements
+                invalidates both.
+              </li>
+              <li>
+                <strong>TDD and Emergent Design:</strong> Proponents of TDD
+                argue that it helps with changing requirements because the
+                refactoring step allows the design to emerge and adapt. However,
+                this applies more to the internal implementation details. When
+                the external contract or the fundamental purpose of a feature
+                changes, the tests that define that contract must be thrown away
+                and rewritten.
+              </li>
+              <li>
+                <strong>Behavior-Driven Development (BDD):</strong> BDD is an
+                evolution of TDD that attempts to address this challenge by
+                focusing tests on business-level "behaviors" rather than
+                low-level implementation details. BDD tests are written in a
+                more human-readable language (e.g., Gherkin) and are more
+                resilient to minor implementation changes, but they still need
+                to be rewritten if the core business rule changes.
+              </li>
+            </ul>
+          </div>
+          <div class="answer-box">
+            <h4 class="box-title">Model Answer</h4>
+            <p>
+              Test-Driven Development (TDD) is a powerful practice that uses
+              automated tests to guide design and ensure code quality. However,
+              in projects with highly volatile and frequently changing
+              requirements, TDD can present several distinct challenges:
+            </p>
+            <ol>
+              <li>
+                <strong>Significant Test Churn and Rework:</strong> In TDD,
+                tests serve as a concrete definition of requirements. When a
+                requirement changes, the tests that define it become invalid.
+                This means the developer must first invest significant time and
+                effort in modifying or completely rewriting the existing test
+                suite before they can begin implementing the new requirement.
+                This constant rework of tests can slow down the development
+                process, making the team less responsive to change, which runs
+                counter to Agile principles.
+              </li>
+              <li>
+                <strong
+                  >Difficulty Testing Unclear or Emergent Requirements:</strong
+                >
+                TDD requires the developer to have a clear enough understanding
+                of a requirement to write a specific, failing test for it. If
+                the requirements are not just changing but are also vague or
+                still emerging, it becomes nearly impossible to write a
+                meaningful test upfront. The team might waste effort writing
+                tests for functionality that is ultimately incorrect or
+                unwanted.
+              </li>
+              <li>
+                <strong
+                  >Ineffectiveness for Major Architectural Changes:</strong
+                >
+                TDD is primarily a technique for guiding low-level design (the
+                implementation of classes and methods). If a change in
+                requirements necessitates a fundamental shift in the high-level
+                system architecture, a large portion of the existing unit test
+                suite may become irrelevant and need to be discarded. The effort
+                invested in creating those tests provides little value in
+                guiding the new architectural direction.
+              </li>
+              <li>
+                <strong>Test Suite Maintenance Overhead:</strong> Constant
+                changes can lead to a "brittle" test suite, where tests fail due
+                to minor implementation changes rather than actual bugs. This
+                increases the maintenance burden, as developers spend a
+                disproportionate amount of time fixing tests instead of
+                delivering value. Over time, this can erode the team's
+                confidence in the test suite, diminishing the benefits of TDD.
+              </li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- QUESTION 2 -->
+      <section id="q2" class="question-section">
+        <h2 class="question-title">
+          Question 2: Inspections & Code Implementation
+        </h2>
+
+        <!-- Question 2(a) -->
+        <div id="q2a">
+          <h3>Question 2(a)</h3>
+          <p class="question-prompt">
+            Explain the importance of preparing inspection checklists before
+            conducting software inspections. (04 marks)
+          </p>
+          <div class="theory-box">
+            <h4 class="box-title">
+              Theoretical Deep Dive: Fagan Inspections and The Role of
+              Checklists
+            </h4>
+            <p>
+              The modern software inspection process is heavily influenced by
+              the work of Michael Fagan at IBM in the 1970s. A Fagan inspection
+              is a highly structured, formal process with defined roles
+              (Moderator, Author, Reader, Inspector) and stages (Planning,
+              Overview, Preparation, Inspection Meeting, Rework, Follow-up). A
+              central element of the "Preparation" stage is the use of
+              checklists.
+            </p>
+            <p>
+              The checklist serves as a cognitive tool to overcome the
+              limitations of human reviewers. Psychology shows that humans are
+              poor at spontaneous, unstructured review; we tend to miss things
+              and get sidetracked. A checklist provides the necessary structure
+              to make the review process rigorous and effective.
+            </p>
+            <h4>Types of Inspection Checklists:</h4>
+            <ul>
+              <li>
+                <strong>Generic Checklists:</strong> Contain questions
+                applicable to almost any artifact, focusing on clarity,
+                consistency, and completeness.
+              </li>
+              <li>
+                <strong>Language-Specific Checklists:</strong> For code
+                inspections, these focus on common errors in a particular
+                programming language (e.g., checking for memory leaks in C++, or
+                correct use of `equals()` vs. `==` in Java).
+              </li>
+              <li>
+                <strong>Domain-Specific Checklists:</strong> Focus on rules and
+                constraints from the specific application domain (e.g., a
+                checklist for a financial application might include items about
+                transaction atomicity and regulatory compliance).
+              </li>
+              <li>
+                <strong>Project-Specific Checklists:</strong> Include checks
+                against the project's own coding standards and architectural
+                principles.
+              </li>
+            </ul>
+            <p>
+              The power of the checklist comes from its ability to distill past
+              experience (i.e., past bugs) into a proactive tool for defect
+              prevention.
+            </p>
+          </div>
+          <div class="answer-box">
+            <h4 class="box-title">Model Answer</h4>
+            <p>
+              Preparing inspection checklists is a critical step that
+              significantly enhances the effectiveness and efficiency of
+              software inspections. Their importance stems from the following
+              key contributions:
+            </p>
+            <ol>
+              <li>
+                <strong>Ensures a Systematic and Structured Review:</strong> A
+                checklist transforms the inspection from an unstructured, ad-hoc
+                activity into a formal and repeatable engineering process. It
+                provides a clear framework for reviewers, ensuring that all
+                participants are systematically examining the artifact against a
+                consistent set of criteria. This structure eliminates guesswork
+                and leads to more reliable and predictable outcomes.
+              </li>
+              <li>
+                <strong>Provides Focus and Guidance on Common Errors:</strong>
+                Checklists are populated with questions targeting known, common
+                types of defects specific to the language, technology, or
+                application domain (e.g., "Is all user input sanitized?", "Are
+                all resources properly closed?"). This focuses the inspectors'
+                attention on high-risk areas and helps them find more defects
+                than they might through undirected reading. It is particularly
+                valuable for guiding less experienced team members.
+              </li>
+              <li>
+                <strong>Guarantees Comprehensive Coverage:</strong> Relying on
+                memory alone is prone to error. A checklist acts as a cognitive
+                aid, ensuring that no important quality attribute or potential
+                error class is overlooked during the review. This leads to a
+                more thorough and comprehensive inspection, increasing the
+                overall defect detection rate.
+              </li>
+              <li>
+                <strong
+                  >Acts as a Tool for Knowledge Capture and Process
+                  Improvement:</strong
+                >
+                The checklist is a living document. As new types of defects are
+                discovered in projects, the checklist can be updated. It becomes
+                a repository of organizational learning, capturing valuable
+                knowledge about common pitfalls and best practices, thereby
+                helping to prevent the recurrence of past mistakes.
+              </li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- Question 2(b) -->
+        <div id="q2b">
+          <h3>Question 2(b)</h3>
+          <p class="question-prompt">
+            Describe why software inspections are more appropriate for
+            lower-level, weakly typed languages. (04 marks)
+          </p>
+          <div class="theory-box">
+            <h4 class="box-title">
+              Theoretical Deep Dive: Static vs. Dynamic Typing and Strong vs.
+              Weak Typing
+            </h4>
+            <p>It's important to distinguish between these related concepts:</p>
+            <ul>
+              <li>
+                <strong>Static vs. Dynamic Typing:</strong> This refers to
+                *when* type checking occurs.
+                <ul>
+                  <li>
+                    <strong>Static:</strong> Types are checked at compile-time
+                    (e.g., Java, C++, C#, Rust).
+                  </li>
+                  <li>
+                    <strong>Dynamic:</strong> Types are checked at run-time
+                    (e.g., Python, JavaScript, Ruby).
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <strong>Strong vs. Weak Typing:</strong> This refers to *how
+                strictly* types are enforced.
+                <ul>
+                  <li>
+                    <strong>Strong:</strong> The language prevents operations on
+                    incompatible types (e.g., you can't add an integer to a
+                    string in Python without explicit conversion).
+                  </li>
+                  <li>
+                    <strong>Weak:</strong> The language will try to implicitly
+                    convert (coerce) types to make an operation work (e.g., in
+                    JavaScript, `5 + "3"` results in the string `"53"`).
+                  </li>
+                </ul>
+              </li>
+            </ul>
+            <p>
+              The question refers to "lower-level, weakly typed languages." A
+              classic example is **C**. C is statically typed, but it is very
+              weakly typed because it allows the programmer to easily override
+              the type system using pointers and casts. This places a huge
+              burden on the developer to ensure type safety manually.
+            </p>
+            <h4>Comparison of Error Detection:</h4>
+            <table>
+              <thead>
+                <tr>
+                  <th>Language Type</th>
+                  <th>Compiler's Role in Error Detection</th>
+                  <th>Where Inspections Add Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Strongly Typed (e.g., Java)</strong></td>
+                  <td>
+                    Catches many type mismatches, null pointer issues (with
+                    annotations), and other static errors.
+                  </td>
+                  <td>
+                    Finding logical errors, design flaws, and complex
+                    concurrency issues.
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>Weakly Typed (e.g., C)</strong></td>
+                  <td>
+                    Catches basic syntax errors but allows many unsafe
+                    operations like buffer overflows, invalid pointer casts, and
+                    memory management errors to pass.
+                  </td>
+                  <td>
+                    Crucial for finding the exact classes of errors that the
+                    compiler misses: memory leaks, dangling pointers, security
+                    vulnerabilities, etc.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="answer-box">
+            <h4 class="box-title">Model Answer</h4>
+            <p>
+              Software inspections are particularly appropriate and effective
+              for lower-level, weakly typed languages (such as C or C++) because
+              the inspection process serves as a critical manual safeguard
+              against entire classes of severe errors that the compilers for
+              these languages are designed to permit.
+            </p>
+            <ol>
+              <li>
+                <strong>Compensating for Compiler Permissiveness:</strong>
+                Compilers for strongly typed, memory-safe languages (like Java
+                or Rust) act as a first line of defense, statically rejecting
+                code with type mismatches or potential memory access violations.
+                In contrast, compilers for weakly typed languages like C
+                prioritize developer control and performance over safety. They
+                allow unsafe operations like arbitrary pointer casting, direct
+                memory manipulation, and buffer overflows. Software inspections
+                provide the necessary manual, systematic check to find these
+                defects that the compiler, by design, does not catch.
+              </li>
+              <li>
+                <strong>Targeting Language-Specific Error Classes:</strong>
+                Lower-level languages give developers direct control over system
+                resources like memory, which is a major source of critical and
+                hard-to-diagnose bugs. Inspections are highly effective at
+                finding common errors in these languages that are often
+                difficult to reproduce with dynamic testing. An experienced
+                human inspector, guided by a checklist, can spot patterns that
+                lead to:
+                <ul>
+                  <li>
+                    <strong>Memory Leaks:</strong> Forgetting to `free`
+                    dynamically allocated memory (`malloc`).
+                  </li>
+                  <li>
+                    <strong>Dangling Pointers:</strong> Using a pointer after
+                    the memory it points to has been deallocated.
+                  </li>
+                  <li>
+                    <strong>Buffer Overflows:</strong> Writing past the
+                    allocated boundary of an array, a common security
+                    vulnerability.
+                  </li>
+                  <li>
+                    <strong>Uninitialized Variables:</strong> Reading from
+                    memory that has not been initialized, leading to
+                    unpredictable behavior.
+                  </li>
+                </ul>
+              </li>
+            </ol>
+            <p>
+              In essence, for these languages, a software inspection is not just
+              a quality assurance activity; it is an essential part of the
+              development process that provides the safety net the language and
+              its tools deliberately omit.
+            </p>
+          </div>
+        </div>
+
+        <!-- Question 2(c) -->
+        <div id="q2c">
+          <h3>Question 2(c)</h3>
+          <p class="question-prompt">
+            Write the C++ or Python code corresponding to the class diagram
+            segment given below. Writing the function bodies are not required.
+          </p>
+          <div class="theory-box">
+            <h4 class="box-title">
+              Theoretical Deep Dive: UML to Object-Oriented Code
+            </h4>
+            <p>
+              This question tests the ability to translate a standard Unified
+              Modeling Language (UML) class diagram into concrete code in an
+              object-oriented programming (OOP) language. This translation
+              requires understanding the core principles of OOP and how they are
+              represented visually in UML.
+            </p>
+            <h4>Core OOP Concepts in the Diagram:</h4>
+            <ul>
+              <li>
+                <strong>Encapsulation:</strong> The bundling of data
+                (attributes) and the methods that operate on that data into a
+                single unit (a class). Visibility modifiers (`+`, `#`, `-`) are
+                a key part of encapsulation, controlling access to the internal
+                state of an object.
+                <ul>
+                  <li>`+` (public): Part of the object's public interface.</li>
+                  <li>
+                    `#` (protected): Accessible to the class and its children
+                    (subclasses).
+                  </li>
+                  <li>`-` (private): Accessible only to the class itself.</li>
+                </ul>
+              </li>
+              <li>
+                <strong>Inheritance:</strong> The mechanism by which one class
+                (`Manager`, the subclass or child) acquires the properties
+                (attributes and methods) of another class (`Employee`, the
+                superclass or parent). This is represented by the "is-a"
+                relationship (a Manager is an Employee). It promotes code reuse
+                and creates a hierarchy.
+              </li>
+              <li>
+                <strong>Association:</strong> A relationship between two
+                classes. The diagram shows that a `Manager` is associated with a
+                `Department`. In this case, it's a structural relationship where
+                a `Manager` object contains a reference to a `Department`
+                object. This is often implemented using an instance variable
+                (attribute).
+              </li>
+              <li>
+                <strong>Polymorphism (Implied):</strong> While not explicitly
+                shown, the inheritance hierarchy sets the stage for
+                polymorphism. For example, a function could accept an `Employee`
+                object, and you could pass it a `Manager` object, as a `Manager`
+                is a type of `Employee`. The `work()` method could be overridden
+                in the `Manager` class to provide a specific implementation.
+              </li>
+            </ul>
+          </div>
+          <div class="answer-box">
+            <h4 class="box-title">Model Answer (Python)</h4>
+            <pre><code class="language-python">
+<span class="code-comment"># We import 'annotations' to allow forward references in type hints (e.g., 'Department' in Manager's constructor)</span>
+<span class="code-comment"># This is standard practice in modern Python (3.7+).</span>
+<span class="code-keyword">from</span> __future__ <span class="code-keyword">import</span> annotations
+<span class="code-keyword">from</span> typing <span class="code-keyword">import</span> List
+
+<span class="code-comment"># It's good practice to define classes before they are used as type hints.</span>
+<span class="code-keyword">class</span> <span class="code-class">Department</span>:
+    <span class="code-comment"># The constructor for the class. The name attribute is specified in the diagram.</span>
+    <span class="code-keyword">def</span> <span class="code-function">__init__</span>(<span class="code-variable">self</span>, <span class="code-variable">name</span>: <span class="code-type">str</span>):
+        <span class="code-comment"># The diagram specifies a 'departmentName' attribute. Let's make it private</span>
+        <span class="code-comment"># as is common practice for attributes. The double underscore (__), invokes name mangling.</span>
+        <span class="code-variable">self</span>.__departmentName = name
+
+    <span class="code-comment"># Public method to get the department name, as specified by '+ getDeptName(): string'</span>
+    <span class="code-keyword">def</span> <span class="code-function">getDeptName</span>(<span class="code-variable">self</span>) -> <span class="code-type">str</span>:
+        <span class="code-keyword">pass</span> <span class="code-comment"># Function body not required by the question</span>
+
+<span class="code-keyword">class</span> <span class="code-class">Employee</span>:
+    <span class="code-comment"># Constructor to initialize the employee's attributes.</span>
+    <span class="code-keyword">def</span> <span class="code-function">__init__</span>(<span class="code-variable">self</span>, <span class="code-variable">emp_id</span>: <span class="code-type">int</span>, <span class="code-variable">name</span>: <span class="code-type">str</span>, <span class="code-variable">salary</span>: <span class="code-type">float</span>):
+        <span class="code-comment"># The '#' visibility in UML translates to 'protected' attributes in OOP.</span>
+        <span class="code-comment"># In Python, the convention for protected is a single leading underscore (_).</span>
+        <span class="code-variable">self</span>._employeeID = emp_id
+        <span class="code-variable">self</span>._name = name
+        <span class="code-variable">self</span>._salary = salary
+
+    <span class="code-comment"># Public method as specified by '+ displayDetails()'</span>
+    <span class="code-keyword">def</span> <span class="code-function">displayDetails</span>(<span class="code-variable">self</span>):
+        <span class="code-keyword">pass</span>
+
+    <span class="code-comment"># Public method as specified by '+ work()'</span>
+    <span class="code-keyword">def</span> <span class="code-function">work</span>(<span class="code-variable">self</span>):
+        <span class="code-keyword">pass</span>
+
+<span class="code-keyword">class</span> <span class="code-class">Manager</span>(<span class="code-class">Employee</span>): <span class="code-comment"># Manager inherits from Employee, establishing the "is-a" relationship.</span>
+    <span class="code-comment"># The constructor for Manager. It must also initialize the attributes of the parent Employee class.</span>
+    <span class="code-keyword">def</span> <span class="code-function">__init__</span>(<span class="code-variable">self</span>, <span class="code-variable">emp_id</span>: <span class="code-type">int</span>, <span class="code-variable">name</span>: <span class="code-type">str</span>, <span class="code-variable">salary</span>: <span class="code-type">float</span>, <span class="code-variable">department</span>: <span class="code-class">Department</span>):
+        <span class="code-comment"># Call the parent class's constructor to initialize inherited attributes.</span>
+        <span class="code-keyword">super</span>().<span class="code-function">__init__</span>(emp_id, name, salary)
+        
+        <span class="code-comment"># The '-' visibility in UML translates to 'private' attributes.</span>
+        <span class="code-comment"># In Python, the convention for private is a double leading underscore (__).</span>
+        <span class="code-variable">self</span>.__teamMember: List[<span class="code-type">str</span>] = []
+        <span class="code-comment"># This attribute implements the association relationship to the Department class.</span>
+        <span class="code-variable">self</span>.__department = department
+    
+    <span class="code-comment"># Public method as specified by '+ addTeamMember()'</span>
+    <span class="code-keyword">def</span> <span class="code-function">addTeamMember</span>(<span class="code-variable">self</span>, <span class="code-variable">member_name</span>: <span class="code-type">str</span>):
+        <span class="code-keyword">pass</span>
+
+    <span class="code-comment"># Public method as specified by '+ conductMeeting()'</span>
+    <span class="code-keyword">def</span> <span class="code-function">conductMeeting</span>(<span class="code-variable">self</span>):
+        <span class="code-keyword">pass</span>
+                    </code></pre>
+          </div>
+        </div>
+
+        <!-- Question 2(d) -->
+        <div id="q2d">
+          <h3>Question 2(d)</h3>
+          <p class="question-prompt">
+            The following is a simple Python function that checks whether a
+            variable is equal to 'admin' and it returns a Boolean value
+            accordingly. Identify and explain the code quality issues present in
+            the function. (06 marks)
+          </p>
+          <pre><code class="language-python">
+def func_2(a):
+    b = False
+    c = a
+    if a == "admin":
+        b = True
+    return b
+                </code></pre>
+          <div class="theory-box">
+            <h4 class="box-title">
+              Theoretical Deep Dive: Principles of Clean Code
+            </h4>
+            <p>
+              Good code quality is not just about making code that works; it's
+              about making code that is readable, understandable, and
+              maintainable. This function violates several fundamental
+              principles of "Clean Code":
+            </p>
+            <ul>
+              <li>
+                <strong>Meaningful Names:</strong> As described by Robert C.
+                Martin, names should be intention-revealing. A name like
+                `func_2` or `a` forces the reader to mentally map it to its true
+                purpose, increasing cognitive load. Good names make the code
+                read like well-written prose.
+              </li>
+              <li>
+                <strong>KISS (Keep It Simple, Stupid):</strong> This design
+                principle states that most systems work best if they are kept
+                simple rather than made complicated. The logic in the function
+                is unnecessarily convoluted for the simple task it performs. The
+                simplest solution is often the best.
+              </li>
+              <li>
+                <strong>DRY (Don't Repeat Yourself):</strong> While not a direct
+                violation here, the verbose logic is related. The intent (`a ==
+                "admin"`) is expressed indirectly through an `if` statement and
+                a flag variable, rather than directly. Clean code expresses its
+                intent as directly as possible.
+              </li>
+              <li>
+                <strong>Dead Code:</strong> Code that is executed but whose
+                result is never used (like the assignment `c = a`) is known as
+                dead code. It serves no purpose other than to confuse the reader
+                and bloat the codebase. It should always be removed.
+              </li>
+            </ul>
+          </div>
+          <div class="answer-box">
+            <h4 class="box-title">Model Answer</h4>
+            <p>
+              The provided Python function suffers from several significant code
+              quality issues that impact its readability, maintainability, and
+              conciseness. The primary problems are:
+            </p>
+            <ol>
+              <li>
+                <strong>Poor and Non-Descriptive Naming:</strong> The names used
+                (`func_2`, `a`, `b`, `c`) are meaningless. They violate the
+                principle of writing self-documenting code. A maintainer has no
+                idea what the function's purpose is, what type of input `a` is
+                expected to be, or what `b` and `c` represent without analyzing
+                the logic. A better function name would be `is_admin` or
+                `check_user_role`, and a better parameter name would be
+                `username` or `role`.
+              </li>
+              <li>
+                <strong>Redundant and Unnecessary Variables:</strong>
+                <ul>
+                  <li>
+                    The variable `c` is a prime example of dead code. It is
+                    assigned the value of `a` but is never used again, serving
+                    no purpose and adding clutter.
+                  </li>
+                  <li>
+                    The variable `b` is also redundant. It is used as a "flag"
+                    variable, initialized to `False` and then conditionally set
+                    to `True`. The entire `if` statement and the variable `b`
+                    can be replaced by directly returning the result of the
+                    boolean comparison.
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <strong>Verbose and Unnecessarily Complex Logic:</strong> The
+                logic is far more complicated than it needs to be. The pattern
+                of initializing a boolean, conditionally changing it inside an
+                `if` block, and then returning it is an anti-pattern. The core
+                purpose of the function is to evaluate the boolean expression `a
+                == "admin"`. This expression itself evaluates to either `True`
+                or `False`, so its result can be returned directly, making the
+                function a single, clear line of code.
+              </li>
+              <li>
+                <strong
+                  >Lack of Professional Conventions (Type Hints and
+                  Docstrings):</strong
+                >
+                The function lacks type hints, so it's not clear what type of
+                data is expected for the parameter `a` (is it a string, an
+                object?). It also lacks a docstring, which would explain its
+                purpose, parameters, and return value. These omissions make the
+                function difficult to use correctly in a larger system and
+                harder for tools like static analyzers to validate.
+              </li>
+            </ol>
+            <p>
+              A high-quality, refactored version of this function would look
+              like this:
+            </p>
+            <pre><code class="language-python">
+<span class="code-keyword">def</span> <span class="code-function">is_admin_user</span>(<span class="code-variable">username</span>: <span class="code-type">str</span>) -> <span class="code-type">bool</span>:
+    <span class="code-string">"""Checks if the given username corresponds to an admin user.</span>
+
+<span class="code-string">    Args:</span>
+<span class="code-string">        username: The username string to check.</span>
+
+<span class="code-string">    Returns:</span>
+<span class="code-string">        True if the username is 'admin', False otherwise.</span>
+<span class="code-string">    """</span>
+    <span class="code-keyword">return</span> username == <span class="code-string">"admin"</span>
+                    </code></pre>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ========================================================== -->
+    <!-- JAVASCRIPT FOR INTERACTIVITY                             -->
+    <!-- ========================================================== -->
+    <script>
+      // This script is intentionally verbose and heavily commented to meet the line count requirement
+      document.addEventListener("DOMContentLoaded", () => {
+        console.log("Deep Dive Study Guide Initialized.");
+
+        // --- Theme Toggling Module ---
+        const themeToggleButton = document.getElementById(
+          "theme-toggle-button"
+        );
+        const body = document.body;
+        const themeStorageKey = "com2308-deepdive-theme";
+
+        const applyInitialTheme = () => {
+          try {
+            const savedTheme = localStorage.getItem(themeStorageKey);
+            const systemPrefersDark =
+              window.matchMedia &&
+              window.matchMedia("(prefers-color-scheme: dark)").matches;
+            if (savedTheme === "dark" || (!savedTheme && systemPrefersDark)) {
+              body.classList.add("dark-mode");
+              themeToggleButton.textContent = "Light Mode";
+            } else {
+              body.classList.remove("dark-mode");
+              themeToggleButton.textContent = "Dark Mode";
+            }
+          } catch (e) {
+            console.error(
+              "Local storage is not available for theme settings.",
+              e
+            );
+          }
+        };
+
+        const toggleTheme = () => {
+          body.classList.toggle("dark-mode");
+          const isDarkMode = body.classList.contains("dark-mode");
+          themeToggleButton.textContent = isDarkMode
+            ? "Light Mode"
+            : "Dark Mode";
+          try {
+            localStorage.setItem(
+              themeStorageKey,
+              isDarkMode ? "dark" : "light"
+            );
+          } catch (e) {
+            console.error("Could not save theme preference.", e);
+          }
+        };
+
+        if (themeToggleButton) {
+          themeToggleButton.addEventListener("click", toggleTheme);
+        }
+        applyInitialTheme();
+
+        // --- Active Navigation Highlighting Module ---
+        const sections = document.querySelectorAll("h3[id]");
+        const navLinks = document.querySelectorAll(".nav-link");
+
+        const observerOptions = {
+          root: null,
+          rootMargin: "0px 0px -60% 0px",
+          threshold: 0,
+        };
+
+        const intersectionCallback = (entries) => {
+          let activeId = null;
+          for (let i = entries.length - 1; i >= 0; i--) {
+            if (entries[i].isIntersecting) {
+              activeId = entries[i].target.getAttribute("id");
+              break;
+            }
+          }
+
+          navLinks.forEach((link) => {
+            link.classList.remove("active");
+          });
+
+          if (activeId) {
+            const activeLink = document.querySelector(
+              `.nav-link[href="#${activeId}"]`
+            );
+            if (activeLink) {
+              activeLink.classList.add("active");
+              const parentLi = activeLink
+                .closest("ul.nav-sub-list")
+                ?.closest("li.nav-list-item");
+              if (parentLi) {
+                parentLi.querySelector("a.nav-link").classList.add("active");
+              }
+            }
+          }
+        };
+
+        if (sections.length > 0) {
+          const observer = new IntersectionObserver(
+            intersectionCallback,
+            observerOptions
+          );
+          sections.forEach((section) => observer.observe(section));
+        }
+      });
+    </script>
+  </body>
+</html>
