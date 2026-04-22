@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sinhala Class Flyer</title>
+    <!-- Import Google Fonts for Sinhala and English text -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Noto+Sans+Sinhala:wght@400;600;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CSS Variables for consistent theming */
+        :root {
+            --primary-yellow: #feca05;
+            --accent-red: #e11e26;
+            --wave-purple: #4a1e52;
+            --wave-green: #8bc53f;
+            --text-dark: #1a1a1a;
+            --text-light: #ffffff;
+            --text-grey: #666666;
+            --badge-bg-dark: #222222;
+            --badge-border: #a47530;
+            --badge-cyan: #00aeef;
+            --badge-yellow: #fff200;
+            --font-sinhala: 'Noto Sans Sinhala', sans-serif;
+            --font-english: 'Montserrat', sans-serif;
+            --bg-texture-light: #f8f9fa;
+        }
+
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sinhala);
+            background-color: #e0e0e0; /* Background outside flyer */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Main Flyer Container */
+        .flyer-wrapper {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 800px; /* Standard flyer proportion */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* --- 1. Header / Hero Section --- */
+        .hero-section {
+            background-color: var(--primary-yellow);
+            position: relative;
+            height: 400px;
+            display: flex;
+            justify-content: space-between;
+            overflow: hidden;
+            /* Subtle halftone pattern overlay could go here, using solid for clean UI */
+        }
+
+        /* Halftone/Dots effect simulation on the right */
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background-image: radial-gradient(#d4a000 15%, transparent 16%);
+            background-size: 10px 10px;
+            opacity: 0.3;
+            z-index: 1;
+        }
+
+        .tutor-image-container {
+            width: 50%;
+            height: 100%;
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: flex-end;
+            padding-left: 20px;
+        }
+
+        .tutor-image-container img {
+            max-height: 90%;
+            max-width: 100%;
+            object-fit: contain;
+            /* Placeholder styling */
+            background-color: rgba(0,0,0,0.1);
+            border-radius: 10px 10px 0 0;
+        }
+
+        .hero-text-container {
+            width: 50%;
+            padding: 50px 30px;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .text-top-small {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 5px;
+        }
+
+        .text-top-large {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--text-dark);
+            line-height: 1;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .red-banner {
+            background-color: var(--accent-red);
+            color: var(--text-light);
+            font-size: 1.8rem;
+            font-weight: 700;
+            padding: 8px 25px;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+        }
+
+        /* --- 2. Wave Separator Section --- */
+        .wave-separator {
+            position: relative;
+            height: 60px;
+            width: 100%;
+            margin-top: -30px; /* Overlap hero */
+            z-index: 3;
+        }
+
+        .wave-separator svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        /* --- 3. Content Section (Badge & Main Title) --- */
+        .content-section {
+            background-color: var(--bg-texture-light);
+            background-image: radial-gradient(#e5e5e5 1px, transparent 1px);
+            background-size: 10px 10px;
+            padding: 20px 0 40px;
+            position: relative;
+            text-align: center;
+            z-index: 4;
+        }
+
+        /* Badge Styling */
+        .badge-wrapper {
+            position: absolute;
+            top: -70px; /* Position over the waves */
+            right: 15%;
+            z-index: 5;
+            filter: drop-shadow(0 8px 10px rgba(0,0,0,0.3));
+        }
+
+        .badge {
+            background: linear-gradient(135deg, #333 0%, #111 100%);
+            border: 6px solid var(--badge-border);
+            border-radius: 12px;
+            padding: 15px 35px;
+            text-align: center;
+            font-family: var(--font-english);
+            position: relative;
+        }
+
+        /* Badge Tail (Speech bubble effect) */
+        .badge::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            right: 30px;
+            border-width: 20px 20px 0 0;
+            border-style: solid;
+            border-color: var(--badge-border) transparent transparent transparent;
+        }
+        /* Inner tail color to match bg */
+        .badge::before {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            right: 34px;
+            border-width: 14px 14px 0 0;
+            border-style: solid;
+            border-color: #111 transparent transparent transparent;
+            z-index: 1;
+        }
+
+        .badge-text-1, .badge-text-3 {
+            display: block;
+            color: var(--badge-cyan);
+            font-weight: 700;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+        }
+
+        .badge-text-2 {
+            display: block;
+            color: var(--badge-yellow);
+            font-weight: 900;
+            font-size: 2.2rem;
+            line-height: 1.1;
+            margin: 5px 0;
+        }
+
+        /* Main Title Area */
+        .main-title-area {
+            margin-top: 60px; /* Space for badge */
+            padding: 0 20px;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: var(--text-grey);
+            font-weight: 600;
+            display: block;
+            margin-bottom: -5px;
+        }
+
+        .title-black {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: var(--text-dark);
+            line-height: 1;
+        }
+
+        .title-red {
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--accent-red);
+            line-height: 0.9;
+            margin-top: -10px;
+            /* Text shadow to simulate the slight 3D/stroke effect in original */
+            text-shadow: 1px 1px 0px rgba(0,0,0,0.1);
+        }
+
+        /* --- 4. Institute Details Grid --- */
+        .institutes-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            padding: 40px 20px;
+            background-color: #ffffff;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .institute-card {
+            text-align: center;
+            padding: 10px;
+            position: relative;
+        }
+
+        /* Vertical dividers between columns */
+        .institute-card:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: -5px;
+            top: 10%;
+            height: 80%;
+            width: 1px;
+            background-color: #e0e0e0;
+        }
+
+        .inst-logo {
+            height: 30px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+
+        .inst-name {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .class-info {
+            margin-bottom: 8px;
+        }
+
+        .class-type {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-grey);
+            font-family: var(--font-english);
+            letter-spacing: 0.5px;
+        }
+
+        .class-time {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .inst-divider {
+            width: 30px;
+            height: 2px;
+            background-color: var(--primary-yellow);
+            margin: 8px auto;
+        }
+
+        .inst-phone {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-top: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* --- 5. Footer CTA --- */
+        .footer-cta {
+            background-color: var(--primary-yellow);
+            text-align: center;
+            padding: 15px;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            color: var(--text-dark);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 700;
+            font-family: var(--font-english);
+            transition: transform 0.2s ease;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 650px) {
+            .hero-section {
+                height: auto;
+                flex-direction: column-reverse;
+                align-items: center;
+            }
+            .hero-text-container, .tutor-image-container {
+                width: 100%;
+            }
+            .tutor-image-container {
+                height: 250px;
+                justify-content: center;
+                padding-left: 0;
+            }
+            .badge-wrapper {
+                right: 50%;
+                transform: translateX(50%);
+                top: -50px;
+            }
+            .main-title-area {
+                margin-top: 100px;
+            }
+            .institutes-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .institute-card:not(:last-child)::after {
+                display: none; /* Remove vertical dividers on mobile */
+            }
+            .institute-card:not(:last-child) {
+                border-bottom: 1px dashed #ccc;
+                padding-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <main class="flyer-wrapper">
+        
+        <!-- Header Section with Photo and Title -->
+        <header class="hero-section">
+            <div class="tutor-image-container">
+                <!-- Placeholder for the tutor image -->
+                <img src="https://via.placeholder.com/400x500/cccccc/666666?text=Tutor+Image" alt="Tutor">
+            </div>
+            <div class="hero-text-container">
+                <span class="text-top-small">ශ්‍රී ලංකාවේ</span>
+                <h1 class="text-top-large">හොඳම</h1>
+                <div class="red-banner">සිංහල පන්තිය</div>
+            </div>
+        </header>
+
+        <!-- Wavy Separator -->
+        <div class="wave-separator">
+            <!-- SVG paths mimicking the colored bands -->
+            <svg viewBox="0 0 1000 100" preserveAspectRatio="none">
+                <path d="M0,0 C300,80 700,20 1000,60 L1000,100 L0,100 Z" fill="var(--wave-green)" />
+                <path d="M0,0 C300,70 700,10 1000,50 L1000,100 L0,100 Z" fill="var(--wave-purple)" />
+                <path d="M0,0 C300,60 700,0 1000,40 L1000,100 L0,100 Z" fill="var(--accent-red)" />
+                <!-- Fill below waves to match content background -->
+                <path d="M0,20 C300,80 700,20 1000,60 L1000,100 L0,100 Z" fill="var(--bg-texture-light)" />
+            </svg>
+        </div>
+
+        <!-- Main Content Area -->
+        <section class="content-section">
+            
+            <!-- Floating Badge -->
+            <div class="badge-wrapper">
+                <div class="badge">
+                    <span class="badge-text-1">A-Level</span>
+                    <span class="badge-text-2">2022</span>
+                    <span class="badge-text-3">THEORY</span>
+                </div>
+            </div>
+
+            <!-- Main Titles -->
+            <div class="main-title-area">
+                <span class="subtitle">උසස් පෙළ</span>
+                <h2 class="title-black">සිංහල</h2>
+                <h2 class="title-red">කුමසාරු</h2>
+            </div>
+        </section>
+
+        <!-- Institute Details Section -->
+        <section class="institutes-container">
+            
+            <!-- Institute 1 -->
+            <div class="institute-card">
+                <img src="https://via.placeholder.com/120x40/ffffff/000000?text=No.ZERO+Logo" alt="NetZero Logo" class="inst-logo">
+                <h3 class="inst-name">මිනුවන්ගොඩ</h3>
+                
+                <div class="class-info">
+                    <p class="class-type">ALL CLASS</p>
+                    <p class="class-time">ඉරිදා 11.30-10.30</p>
+                </div>
+                
+                <div class="inst-divider"></div>
+                
+                <div class="class-info">
+                    <p class="class-type">GROUP CLASS</p>
+                    <p class="class-time">ඉරිදා 12.00-2.30</p>
+                </div>
+                
+                <p class="inst-phone">
+                    <span aria-hidden="true">📞</span> 077 416 1616
+                </p>
+            </div>
+
+            <!-- Institute 2 -->
+            <div class="institute-card">
+                <img src="https://via.placeholder.com/120x40/ffffff/000000?text=Pencil+Opera" alt="Pencil Opera Logo" class="inst-logo">
+                <h3 class="inst-name">කුරුණෑගල</h3>
+                
+                <div class="class-info">
+                    <p class="class-type">A. CLASS</p>
+                    <p class="class-time">සෙනසුරාදා 11.30-2.00</p>
+                </div>
+                
+                <div class="inst-divider"></div>
+                
+                <div class="class-info">
+                    <p class="class-type">B. CLASS</p>
+                    <p class="class-time">සෙනසුරාදා 12.30-2.30</p>
+                </div>
+                
+                <p class="inst-phone">
+                    <span aria-hidden="true">📞</span> 078 7880880
+                </p>
+            </div>
+
+            <!-- Institute 3 -->
+            <div class="institute-card">
+                <img src="https://via.placeholder.com/120x40/ffffff/000000?text=Synergy+Logo" alt="Synergy Logo" class="inst-logo">
+                <h3 class="inst-name">ගම්පහ</h3>
+                
+                <div class="class-info">
+                    <p class="class-type">GROUP CLASS</p>
+                    <p class="class-time">බදාදා 2.30-4.30</p>
+                </div>
+                
+                <p class="inst-phone">
+                    <span aria-hidden="true">📞</span> 077 4242422
+                </p>
+            </div>
+
+        </section>
+
+        <!-- Footer Call to Action -->
+        <footer class="footer-cta">
+            <a href="tel:0777720234" class="cta-button">
+                <span aria-hidden="true">📱</span> 077 7720234
+            </a>
+        </footer>
+
+    </main>
+
+</body>
+</html>

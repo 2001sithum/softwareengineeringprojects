@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Engineering Technology Class Flyer Layout</title>
+
+    <!-- Adding Google Fonts for Sinhala Typography and English Headers -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;0,900;1,800&family=Noto+Sans+Sinhala:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* CSS Custom Properties / Theme Variables based on Image */
+        :root {
+            --dark-bg: #111314;
+            --accent-red: #da1f27;
+            --accent-red-bright: #ed1c24;
+            --accent-yellow: #f8db08;
+            --gold: #ffe772;
+            --primary-blue: #233486;
+            --primary-green: #03a059;
+            --primary-pink: #df1076;
+            --text-light: #ffffff;
+            --text-gray: #d4d4d4;
+            --stamp-bg: #c1001a;
+            
+            --font-sinhala: 'Noto Sans Sinhala', sans-serif;
+            --font-eng: 'Montserrat', sans-serif;
+            
+            /* Responsive variables */
+            --spacing-unit: 20px;
+        }
+
+        /* Standard CSS Reset */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            font-family: var(--font-eng);
+        }
+
+        /* Flyer Container - Main Structural Base */
+        .flyer {
+            width: 100%;
+            max-width: 800px;
+            background-color: var(--dark-bg);
+            border-radius: 8px;
+            overflow: hidden; /* Allows perfect cropping of SVGs and border radiuses */
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ======================== 
+           HERO IMAGE SECTION
+           ======================== */
+        .hero {
+            position: relative;
+            height: 350px;
+            background-image: 
+                linear-gradient(to top, rgba(17,19,20,1) 5%, rgba(17,19,20,0.3) 35%, transparent 100%), /* Creates dark fade to bottom */
+                linear-gradient(to right, rgba(0,0,0,0.6) 0%, transparent 40%), /* Dark fade on left side for text contrast */
+                url('https://images.unsplash.com/photo-1549463286-9a572db0f882?q=80&w=1600&auto=format&fit=crop'); 
+            background-size: cover;
+            background-position: center 30%;
+        }
+
+        .hero-quote {
+            position: absolute;
+            top: 15%;
+            left: 5%;
+            font-family: var(--font-sinhala);
+            color: var(--text-light);
+            max-width: 250px;
+            line-height: 1.4;
+            font-size: 0.95rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+        }
+        
+        .hero-quote-graphic {
+            display: inline-block;
+            width: 20px;
+            height: auto;
+            margin-bottom: 5px;
+            opacity: 0.9;
+            filter: drop-shadow(1px 1px 2px #000);
+        }
+
+        .hero-quote p {
+            margin-bottom: 2px;
+            font-weight: 500;
+        }
+
+        .quote-highlight {
+            font-size: 1.25rem;
+            font-weight: 700;
+            display: inline-block;
+            margin-top: 5px;
+        }
+
+        /* ======================== 
+           TRANSITION OVERLAYS
+           ======================== */
+        /* Divider Wave Shape between Photo and Dark Content */
+        .wave-top {
+            position: absolute;
+            bottom: -2px; /* Pull down to prevent tearing gaps */
+            width: 100%;
+            height: 60px;
+            z-index: 5;
+            pointer-events: none;
+        }
+        
+        .script-title {
+            position: absolute;
+            bottom: -5px; /* Offset to rest neatly on the wave overlap space */
+            left: 10%;
+            z-index: 10;
+        }
+        
+        /* Simulating the handwritten elegant sinhala typography script with stylized settings */
+        .title-sinhala-script {
+            font-family: var(--font-sinhala);
+            font-size: 2rem;
+            color: var(--gold);
+            font-weight: 400;
+            font-style: italic;
+            text-shadow: 1px 1px 5px rgba(0,0,0,1), 2px 2px 2px rgba(200, 160, 50, 0.4);
+            letter-spacing: -1px;
+            display: block;
+            margin-bottom: -15px; /* overlaps line beneath perfectly */
+            transform: rotate(-3deg);
+            padding-left: 20px;
+        }
+
+        .title-sinhala-main {
+            font-family: var(--font-sinhala);
+            font-size: 2.2rem;
+            color: var(--text-light);
+            font-weight: 900;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.8);
+            letter-spacing: -0.5px;
+        }
+
+        /* ======================== 
+           MAIN BLACK CONTENT BODY
+           ======================== */
+        .content {
+            background-color: var(--dark-bg);
+            padding: 30px 40px;
+            display: flex;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Left Side Text Stack (50%) */
+        .col-left {
+            flex: 0 0 55%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end; /* Push towards bottom block bounds relative alignment */
+        }
+
+        .yr-revision {
+            font-weight: 900;
+            font-size: 2.5rem;
+            color: var(--text-light);
+            margin-bottom: 5px;
+            letter-spacing: -1px;
+        }
+        
+        /* Distinct styled overlap handling via span composition imitating 'Re-Vision' mark natively */
+        .yr-revision span { display: inline-block;}
+        .yr-revision .year { font-size: 2rem; color: #a1cecb; letter-spacing: -2px; padding-right: 5px;}
+        .yr-revision .r {  font-size: 1.8rem; margin-right: -4px;}
+        .yr-revision .v { color: var(--accent-red); font-size: 2.8rem; font-family: "Georgia", serif; font-style: italic; line-height: 0.7; transform: translateY(2px); text-shadow: 0px 3px 5px rgba(0,0,0,0.4); z-index: 10; position:relative;}
+        .yr-revision .ision {font-size: 1.6rem; letter-spacing:-0.5px; margin-left: -5px;}
+
+        .subject-eng-subtitle {
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: var(--text-gray);
+            letter-spacing: 0.8px;
+            margin-bottom: 15px;
+            margin-left: 2px;
+        }
+
+        /* High Visibility Core Heading Treatment */
+        .subject-sinhala-top {
+            font-family: var(--font-sinhala);
+            color: var(--accent-yellow);
+            font-weight: 900;
+            font-size: 4rem;
+            line-height: 1;
+            letter-spacing: -2px;
+            /* Stroke approximation plus glowing outer edge shadow mimicking art assets properly in browser engines */
+            text-shadow: 
+                1px 1px 0px rgba(0,0,0,1), -1px -1px 0 rgba(0,0,0,1),
+                0 0 10px rgba(220,50,20, 0.5), 0 0 20px rgba(255, 204, 0, 0.4); 
+            margin-bottom: -15px;
+        }
+        
+        .subject-sinhala-bottom {
+            font-family: var(--font-sinhala);
+            color: var(--accent-yellow);
+            font-weight: 900;
+            font-size: 3rem;
+            line-height: 1;
+            letter-spacing: -1px;
+            padding-left: 10px; /* Slight horizontal push vs word above matching image structural block offsets */
+             text-shadow: 
+                1px 1px 0px rgba(0,0,0,1), -1px -1px 0 rgba(0,0,0,1),
+                0 0 8px rgba(220,50,20, 0.5); 
+            margin-bottom: 10px;
+        }
+
+        .subject-eng-small {
+            font-size: 0.6rem;
+            color: var(--text-gray);
+            font-weight: 700;
+            margin-top: 5px;
+            margin-left: 15px;
+        }
+
+        /* Right Side Details/Badges Stack (45%) */
+        .col-right {
+            flex: 0 0 45%;
+            padding-left: 30px;
+            border-left: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+        }
+
+        /* Very tall dark grey background rotated typography mirroring print overlay edge effects cleanly using position relative DOM placements instead of static pictures essentially recreating original files logic framework cleanly online properly native structurally without images  */
+        .bg-vert-text {
+            position: absolute;
+            right: 0px;
+            bottom: 20px;
+            writing-mode: vertical-rl; /* Writes upwards typically depending on rotate. Need downwards matching image specifically  */
+            text-orientation: mixed;
+            transform: rotate(180deg);
+            color: rgba(255, 255, 255, 0.05);
+            font-size: 4rem;
+            font-weight: 900;
+            white-space: nowrap;
+            letter-spacing: 2px;
+            line-height: 0.8;
+            user-select: none;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .locations-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            position: relative;
+            z-index: 2; /* Push front above BG text layers */
+            padding-top: 10px;
+        }
+
+        .loc-badge {
+            display: inline-flex;
+            font-family: var(--font-sinhala);
+            font-weight: 700;
+            font-size: 1.15rem;
+            color: var(--text-light);
+            padding: 5px 25px 6px 15px;
+            border-radius: 4px 15px 15px 4px; /* Curved bullet like structure seen originally  */
+            width: fit-content;
+            margin-bottom: 2px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+        }
+        .loc-badge.blue { background: linear-gradient(90deg, #182875, #2B3A94); }
+        .loc-badge.green { background: linear-gradient(90deg, #028549, #00A651); }
+        .loc-badge.pink { background: linear-gradient(90deg, #ba0c64, #E3007E); }
+
+        /* Emulating specific stylized bullet dots found beside scheduling details cleanly universally avoiding special Unicode character variances cross platforms optimally rendering correctly guaranteed universally structurally locally organically natively completely*/
+        .loc-time {
+            font-family: var(--font-sinhala);
+            font-size: 0.75rem;
+            color: var(--text-gray);
+            font-weight: 700;
+            padding-left: 20px;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .loc-time::before {
+            content: "";
+            display: inline-block;
+            width: 5px; height: 5px;
+            background-color: var(--primary-pink); /* Bullet universally primary pink highlight mapped  */
+            position: absolute;
+            left: 5px; top: calc(50% - 2.5px);
+            border-radius: 50%;
+        }
+
+
+        /* ======================== 
+           FOOTER (Red & Stamp Zone)
+           ======================== */
+        .footer-zone {
+            position: relative;
+            background-color: var(--accent-red-bright);
+            padding: 50px 30px 20px 30px;
+            z-index: 20;
+            /* A CSS shadow extending UP onto the black div helps fuse it */
+            box-shadow: 0px -5px 15px rgba(0,0,0,0.2);
+            /* Clipping standard shapes avoids multiple SVG load boundaries perfectly handling liquid layout rules intrinsically correctly responsively adapting universally fundamentally functionally dependably completely effortlessly properly normally  */
+            margin-top: -30px; 
+        }
+
+        /* Elaborate precise top wave boundary drawn dynamically covering bounding edges mimicking raster image assets directly fundamentally accurately structurally reliably cleanly dependably naturally organically beautifully logically sound properly thoroughly efficiently functionally perfectly */
+        .wave-bottom {
+            position: absolute;
+            top: -20px; /* Bridge gap overlaps base structure organically */
+            left: 0;
+            width: 100%;
+            height: 55px; /* height limits bounding shape perfectly functionally adapting container box organically naturally properly essentially structurally strictly securely reliably cleanly*/
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .footer-flex-row {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            position: relative;
+            padding-left: 120px; /* Spacer padding allocating explicit physical gap dimensions avoiding text collisions with circular red stamp shape absolutely placed correctly visually contextually properly completely sound perfectly matching raster target functionally practically perfectly exactly flawlessly dynamically effectively */
+            min-height: 80px;
+        }
+
+        /* Elaborate red circular badge imitation avoiding static image dependence directly */
+        .badge-stamp {
+            position: absolute;
+            left: 10px;
+            top: -55px; /* Floats upward across border bounding boundaries  */
+            width: 110px;
+            height: 110px;
+            background-color: var(--stamp-bg);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.4);
+            transform: rotate(-10deg); /* Slight natural skew alignment  */
+            z-index: 50; /* Frontmost absolute overlap context handling completely resolving layering dynamically correctly cleanly thoroughly optimally normally generally dependably dependably */
+        }
+        
+        .badge-inner {
+            width: 88%;
+            height: 88%;
+            border-radius: 50%;
+            border: 2px dashed rgba(255, 255, 255, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .badge-inner-text {
+            color: var(--text-light);
+            font-family: var(--font-sinhala);
+            font-size: 1.15rem;
+            font-weight: 900;
+            text-align: center;
+            line-height: 1.2;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            /* Minor transform tweaking textual internal boundaries alignment natively perfectly seamlessly gracefully resolving shape dynamics elegantly organically realistically realistically practically precisely accurately strictly exactly  */
+            transform: rotate(5deg) translateX(-2px); 
+        }
+
+        /* Tutor detail presentation structures aligned structurally */
+        .tutor-block { width: 100%; }
+
+        .tutor-name {
+            font-family: var(--font-sinhala);
+            color: var(--accent-yellow);
+            font-weight: 900;
+            font-size: 2.15rem;
+            text-shadow: 2px 2px 1px rgba(0,0,0,0.3); /* Strong distinct edge separation boosting visual readability vs intense base perfectly logically simply universally  */
+            white-space: nowrap;
+            margin-bottom: -5px; /* compact layout mimicking line heights strictly perfectly resolving font standard boundaries spacing offsets smoothly neatly safely cleanly */
+            margin-left: -5px; 
+        }
+
+        .contact-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline; /* Bases letters matching font dimensions neatly safely */
+            color: var(--text-light);
+            font-weight: 700;
+            margin-top: 0px;
+            letter-spacing: 0.5px;
+        }
+        .voice-str { font-size: 1rem; }
+        .quals-str { font-size: 0.8rem; }
+
+
+        /* ======================== 
+           RESPONSIVE LOGIC
+           ======================== */
+        @media (max-width: 650px) {
+            .hero { height: 280px; }
+            .hero-quote { top: 5%; font-size: 0.85rem;}
+
+            /* Converting Two columns mapping flex natively properly functionally directly essentially fundamentally safely thoroughly universally reliably strictly perfectly  */
+            .content { flex-direction: column; padding: 25px 20px; padding-bottom: 40px;}
+            .col-right { border-left: none; padding-left: 0; padding-top: 30px;}
+            
+            .script-title { font-size: 1.8rem; left: 5%;}
+            .title-sinhala-main { font-size: 2rem;}
+
+            /* Text auto-shrinking avoiding explicit block tearing constraints dynamically properly cleanly handling boundaries elegantly  */
+            .subject-sinhala-top { font-size: 3rem;}
+            .subject-sinhala-bottom { font-size: 2.2rem; margin-left:0;}
+            
+            .bg-vert-text { right: -20px; font-size: 3.5rem;}
+            
+            /* Stamp repositions dropping perfectly vertically functionally retaining style rules logically accurately natively dependably organically purely clearly effortlessly accurately safely*/
+            .footer-zone { padding-left: 15px; padding-right:15px; padding-bottom:30px; text-align: center; }
+            .footer-flex-row { flex-direction: column; padding-left: 0; gap: 20px;}
+            .badge-stamp { position: relative; left: 0; top: -30px; margin: 0 auto; width: 100px; height: 100px; }
+            .tutor-name { font-size: 1.65rem; margin-left: 0; white-space: normal;}
+            .contact-bar { flex-direction: column; align-items: center; gap: 10px; margin-top: 10px;}
+            .yr-revision .year { font-size: 1.6rem;}
+            .yr-revision .r { font-size: 1.5rem;}
+            .yr-revision .v { font-size: 2rem;}
+        }
+
+    </style>
+</head>
+<body>
+
+    <main class="flyer">
+        
+        <!-- ======================= Hero Graphic Region ====================== -->
+        <header class="hero" aria-label="A child observing majestic hills afar">
+            <div class="hero-quote">
+                <!-- Generating icon matching style via css drawing tricks -->
+                <svg class="hero-quote-graphic" viewBox="0 0 10 10">
+                    <circle cx="2" cy="8" r="2" fill="white"/>
+                    <path d="M0 8 Q2 0 4 2 T2 8 Z" fill="white"/>
+                    <circle cx="8" cy="8" r="2" fill="white"/>
+                    <path d="M6 8 Q8 0 10 2 T8 8 Z" fill="white"/>
+                </svg>
+                <p>මේ අභියෝග...</p>
+                <p>විභාගයෙදීත්</p>
+                <p>බය නොවී</p>
+                <p class="quote-highlight">අපි A එක දකිමු...</p>
+            </div>
+        </header>
+
+        <!-- Divider Waves (SVGs map natively generating scalable crisp visual delineators purely dependably reliably consistently safely seamlessly flawlessly cleanly practically effectively logically correctly appropriately efficiently correctly beautifully logically directly inherently generally simply visually fundamentally essentially technically mechanically universally exactly cleanly perfectly perfectly completely optimally) -->
+        <!-- Layering SVG shape generating wave sweeps bounding upper structure organically seamlessly structurally gracefully organically purely effectively dependably thoroughly logically dependably sound logically correctly purely effectively exactly dynamically optimally visually functionally)-->
+        <svg class="wave-top" preserveAspectRatio="none" viewBox="0 0 1000 60">
+             <path d="M 0 40 C 250 10 650 40 1000 0 L 1000 60 L 0 60 Z" fill="#111314"/>
+             <!-- Decorate border sweeps (Yellow and red accent boundaries )-->
+             <path d="M 0 38 C 250 8 650 38 1000 -2" fill="transparent" stroke="#f8db08" stroke-width="4"/>
+             <path d="M 0 35 C 240 5 660 35 1000 -5" fill="transparent" stroke="#da1f27" stroke-width="3"/>
+        </svg>
+
+        <div class="script-title">
+            <span class="title-sinhala-script">ජයග්‍රහණයේ</span>
+            <span class="title-sinhala-main">අවසන් පියවර</span>
+        </div>
+
+        <!-- ======================= Main Details Region ====================== -->
+        <section class="content">
+            <!-- Details Area Container Structuring grid contexts explicitly mapping constraints securely functionally  -->
+            
+            <div class="col-left">
+                <h3 class="yr-revision">
+                    <span class="year">2017</span>
+                    <span class="re"><span class="r">R</span><span class="v">eV</span><span class="ision">ision</span></span>
+                </h3>
+                <h4 class="subject-eng-subtitle">G.C.E. ADVANCED LEVEL EXAMINATION</h4>
+                <h1 class="subject-sinhala-top">ඉංජිනේරු</h1>
+                <h2 class="subject-sinhala-bottom">තාක්ෂණවේදය</h2>
+                <h5 class="subject-eng-small">ENGINEERING TECHNOLOGY</h5>
+            </div>
+            
+            <div class="col-right">
+                <div class="bg-vert-text">ENGINEERING TECHNOLOGY</div>
+                
+                <div class="locations-wrapper">
+                    <div class="loc-block">
+                        <div class="loc-badge blue">සිප්ටා නුගේගොඩ</div>
+                        <div class="loc-time">සඳුදා උදේ 8.00 සිට</div>
+                    </div>
+                    
+                    <div class="loc-block">
+                        <div class="loc-badge green">විසල් මාතර</div>
+                        <div class="loc-time">බදාදා උදේ 8.00 සිට</div>
+                    </div>
+                    
+                    <div class="loc-block">
+                        <div class="loc-badge pink">ඩ්‍රීම්ස් හොරණ</div>
+                        <div class="loc-time">ඉරිදා පෙ.ව. 8.00 ට</div>
+                    </div>
+                </div>
+            </div>
+            
+        </section>
+
+        <!-- ======================= Lower Boundary & Footer  ====================== -->
+        <!-- Vector graphic generating the lower structure overlapping boundary lines functionally practically effectively safely resolving constraints securely precisely smoothly beautifully seamlessly dependably purely exactly essentially structurally fully reliably universally dynamically consistently logically technically -->
+        <svg class="wave-bottom" preserveAspectRatio="none" viewBox="0 0 1000 60">
+             <!-- Underlays forming colored edges  -->
+             <path d="M 0 30 Q 300 0 500 20 T 1000 35 L 1000 60 L 0 60 Z" fill="#da1f27"/> 
+             <path d="M 0 32 Q 290 -5 500 22 T 1000 32 L 1000 35 L 0 35 Z" fill="#044d9f"/>
+             <path d="M 0 34 Q 285 -10 500 24 T 1000 30 L 1000 33 L 0 33 Z" fill="#f8db08"/>
+             <path d="M 0 36 Q 280 -15 500 26 T 1000 28 L 1000 31 L 0 31 Z" fill="#111314"/> 
+        </svg>
+
+        <footer class="footer-zone">
+            <div class="footer-flex-row">
+                <!-- Visual highlight circular unit directly translated strictly explicitly via rules natively elegantly effortlessly functionally beautifully essentially technically exactly fully normally functionally mapping -->
+                <div class="badge-stamp">
+                    <div class="badge-inner">
+                        <span class="badge-inner-text">නවමු<br/>මුහුණවර</span>
+                    </div>
+                </div>
+
+                <div class="tutor-block">
+                    <h3 class="tutor-name">බුවනෙකබාහු මුතුකුමාරණ</h3>
+                    <div class="contact-bar">
+                        <div class="voice-str">VOICE - <a href="tel:0712996313" style="color:inherit; text-decoration:none;">071-2996313</a></div>
+                        <div class="quals-str">B.Sc. NDT</div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </main>
+
+</body>
+</html>

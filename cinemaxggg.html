@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CinePrompt Pro 5.0 | Drag & Drop Studio</title>
+
+<!-- MASSIVE SINHALA FONT LIBRARY -->
+<link href="https://fonts.googleapis.com/css2?family=Anek+Sinhala:wght@400;700;800&family=Kavivanar&family=Noto+Sans+Sinhala:wght@400;700;900&family=Noto+Serif+Sinhala:wght@400;700&family=Abhaya+Libre:wght@600;800&family=Gemunu+Libre:wght@400;700;800&family=Stick+No+Bills:wght@600;800&family=Bebas+Neue&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+/* ═════════ PREMIUM UI VARIABLES ═════════ */
+:root {
+  --bg: #050508; --panel: #0d0d14; --border: rgba(255,255,255,0.1);
+  --g1: #ff007a; --g2: #7928ca; --accent: #00f0ff; --accent-hover: #5cffff;
+  --gold: #f5d06e; --text-main: #ffffff; --text-muted: rgba(255,255,255,0.4);
+  --font-ui: 'Space Grotesk', sans-serif; --radius: 12px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--bg); color: var(--text-main); font-family: var(--font-ui); overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
+
+/* ─── TOP NAVIGATION ─── */
+.topbar { display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 65px; background: rgba(13,13,20,0.9); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); z-index: 100; }
+.logo { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 2px; background: linear-gradient(90deg, var(--accent), var(--g2), var(--g1)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.top-actions { display: flex; gap: 12px; }
+.btn { padding: 10px 20px; border-radius: 8px; border: none; font-family: 'Bebas Neue', sans-serif; font-size: 16px; letter-spacing: 1.5px; cursor: pointer; transition: all 0.2s; }
+.btn-glass { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid var(--border); }
+.btn-glass:hover { background: rgba(255,255,255,0.15); border-color: var(--accent); }
+.btn-primary { background: linear-gradient(135deg, var(--g2), var(--g1)); color: #fff; box-shadow: 0 4px 15px rgba(255,0,122,0.3); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,0,122,0.5); }
+.btn-gold { background: linear-gradient(135deg, #f5d06e, #d6aa38); color: #000; font-weight: bold; }
+
+/* ─── MAIN LAYOUT ─── */
+.workspace { display: flex; flex: 1; overflow: hidden; }
+.sidebar { width: 440px; background: var(--panel); border-right: 1px solid var(--border); display: flex; flex-direction: column; overflow-y: auto; padding: 20px; gap: 20px; }
+.canvas-area { flex: 1; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle at center, #1a1a24, #050508); position: relative; }
+
+/* ─── BLOCK UI PANELS ─── */
+.block { background: rgba(0,0,0,0.4); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; position: relative; }
+.b-title { font-size: 13px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0,240,255,0.2); padding-bottom: 8px; }
+
+/* ─── CONTROLS ─── */
+.row { display: flex; gap: 10px; margin-bottom: 12px; align-items: center; flex-wrap: wrap; }
+.col { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; display: flex; justify-content: space-between; }
+input[type=text], textarea, select { width: 100%; background: rgba(255,255,255,0.05); color: #fff; border: 1px solid var(--border); padding: 10px; border-radius: 6px; font-family: 'Noto Sans Sinhala', sans-serif; font-size: 13px; outline: none; transition: 0.3s; }
+input[type=text]:focus, textarea:focus, select:focus { border-color: var(--accent); background: rgba(0,240,255,0.05); }
+textarea { resize: vertical; min-height: 50px; }
+input[type=range] { -webkit-appearance: none; width: 100%; height: 5px; background: rgba(255,255,255,0.1); border-radius: 3px; outline: none; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; background: var(--accent); border-radius: 50%; cursor: pointer; box-shadow: 0 0 10px var(--accent); }
+input[type=color] { -webkit-appearance: none; border: none; width: 100%; height: 35px; border-radius: 6px; cursor: pointer; background: transparent; }
+input[type=color]::-webkit-color-swatch-wrapper { padding: 0; }
+input[type=color]::-webkit-color-swatch { border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; }
+
+.grad-presets { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 12px; }
+.grad-box { height: 25px; border-radius: 4px; cursor: pointer; border: 1px solid var(--border); transition: 0.2s; }
+.grad-box:hover { transform: scale(1.1); border-color: #fff; }
+
+.upload-box { border: 2px dashed rgba(255,255,255,0.2); padding: 15px; text-align: center; border-radius: 8px; cursor: pointer; color: var(--text-muted); font-size: 12px; transition: 0.3s; background: rgba(255,255,255,0.02); }
+.upload-box:hover { border-color: var(--accent); color: #fff; background: rgba(0,240,255,0.05); }
+
+/* ─── DYNAMIC LAYERS ─── */
+.layer-item { background: rgba(0,0,0,0.5); border: 1px solid var(--border); border-radius: 8px; padding: 15px; margin-bottom: 12px; border-left: 4px solid var(--accent); transition: 0.3s; }
+.layer-item:hover { border-color: rgba(255,255,255,0.3); border-left-color: var(--accent); }
+.layer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.ctrl-btns { display: flex; gap: 5px; }
+.c-btn { background: rgba(255,255,255,0.1); border: none; color: #fff; width: 24px; height: 24px; border-radius: 4px; cursor: pointer; font-size: 12px; }
+.c-btn:hover { background: var(--accent); color: #000; }
+.c-btn.dup { background: rgba(245, 208, 110, 0.2); color: var(--gold); }
+.c-btn.dup:hover { background: var(--gold); color: #000; }
+.del-btn { color: #ff3366; cursor: pointer; font-size: 16px; font-weight: bold; margin-left: 10px; }
+
+/* ─── DAY BADGES ─── */
+.day-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.day-pill { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 8px 0; border-radius: 20px; text-align: center; font-size: 11px; cursor: pointer; transition: 0.3s; font-family: 'Noto Sans Sinhala', sans-serif; }
+.day-pill:hover { background: var(--gold); color: #000; border-color: var(--gold); font-weight: bold; }
+
+/* ─── CANVAS PREVIEW (WITH DRAG CURSORS) ─── */
+#canvas-wrap { box-shadow: 0 20px 80px rgba(0,0,0,0.9), 0 0 0 1px rgba(255,255,255,0.1); border-radius: 4px; position: relative; background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAGElEQVQYV2NkYGAQYKQGWMEAowbRQxg1gAAmKwIxtiYfIAAAAABJRU5ErkJggg=='); cursor: grab; }
+#canvas-wrap:active { cursor: grabbing; }
+canvas { display: block; max-width: 100%; max-height: calc(100vh - 120px); object-fit: contain; }
+
+/* RENDER MODAL */
+#render-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 1000; align-items: center; justify-content: center; flex-direction: column; }
+.spinner { width: 50px; height: 50px; border: 4px solid rgba(255,255,255,0.1); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+#render-text { font-family: 'Bebas Neue', sans-serif; font-size: 30px; letter-spacing: 2px; color: var(--accent); }
+
+/* TOAST */
+#toast { position: fixed; bottom: 30px; right: 30px; background: linear-gradient(135deg, var(--g2), var(--g1)); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: bold; z-index: 2000; opacity: 0; transform: translateY(20px); transition: 0.4s; box-shadow: 0 10px 30px rgba(255,0,122,0.4); pointer-events: none;}
+#toast.show { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">CINEPROMPT PRO 5.0</div>
+  <div class="top-actions">
+    <button class="btn btn-glass" onclick="copyToClipboard()">📋 Copy Image (Clip)</button>
+    <button class="btn btn-glass" onclick="randomizeAll()">🎲 Randomize</button>
+    <button class="btn btn-primary" onclick="initRender()">🚀 RENDER PNG</button>
+  </div>
+</div>
+
+<div class="workspace">
+  <!-- ════════════ SIDEBAR CONTROLS ════════════ -->
+  <div class="sidebar">
+
+    <!-- CANVAS & BG -->
+    <div class="block">
+      <div class="b-title">Canvas & Master Background</div>
+      <div class="row">
+        <div class="col">
+          <label>Project Format</label>
+          <select id="ratio" onchange="updateCanvasSize()">
+            <option value="16:9">YouTube Standard (1280x720)</option>
+            <option value="9:16">Reels / Shorts (720x1280)</option>
+            <option value="1:1">Instagram Post (1080x1080)</option>
+            <option value="4:5">Portrait (864x1080)</option>
+          </select>
+        </div>
+      </div>
+      
+      <label>Premium Gradient Presets</label>
+      <div class="grad-presets">
+        <div class="grad-box" style="background:linear-gradient(45deg,#0f0c29,#302b63)" onclick="setBg('#0f0c29','#302b63')"></div>
+        <div class="grad-box" style="background:linear-gradient(45deg,#000000,#434343)" onclick="setBg('#000000','#434343')"></div>
+        <div class="grad-box" style="background:linear-gradient(45deg,#141e30,#243b55)" onclick="setBg('#141e30','#243b55')"></div>
+        <div class="grad-box" style="background:linear-gradient(45deg,#ff007a,#2a0845)" onclick="setBg('#ff007a','#2a0845')"></div>
+        <div class="grad-box" style="background:linear-gradient(45deg,#021B79,#0575E6)" onclick="setBg('#021B79','#0575E6')"></div>
+        
+        <div class="grad-box" style="background:linear-gradient(45deg,#111111,#ff0000)" onclick="setBg('#111111','#8b0000')"></div>
+        <div class="grad-box" style="background:linear-gradient(45deg,#00416A,#E4E5E6)" onclick="setBg('#00416A','#7a7a7a')"></div>
+        <div class="grad-box" style="background:linear-gradient(45deg,#f5d06e,#8b5e1a)" onclick="setBg('#3a2800','#8b5e1a')"></div>
+        <div class="grad-box" style="background:linear-gradient(45deg,#1D976C,#93F9B9)" onclick="setBg('#0a3d28','#1D976C')"></div>
+        <div class="grad-box" style="background:linear-gradient(45deg,#000000,#000000)" onclick="setBg('#000000','#000000')"></div>
+      </div>
+
+      <div class="row">
+        <div class="col"><label>Color 1</label><input type="color" id="bg-c1" value="#0f0c29" onchange="render()"></div>
+        <div class="col"><label>Color 2</label><input type="color" id="bg-c2" value="#302b63" onchange="render()"></div>
+        <div class="col"><label>Angle (<span id="bg-ang-v">45</span>°)</label><input type="range" id="bg-angle" min="0" max="360" value="45" oninput="document.getElementById('bg-ang-v').innerText=this.value; render()"></div>
+      </div>
+      
+      <input type="file" id="bg-file" accept="image/*" style="display:none" onchange="loadMasterBg(this)">
+      <div class="upload-box" onclick="document.getElementById('bg-file').click()">🖼️ Upload Custom BG Image</div>
+    </div>
+
+    <!-- MULTIPLE IMAGE LAYERS -->
+    <div class="block" style="border-color: #ff007a;">
+      <div class="b-title">Image Layers (Overlays) <span>Drag on Canvas</span></div>
+      <input type="file" id="img-layer-file" accept="image/*" style="display:none" onchange="addImageLayer(this)">
+      <button class="btn btn-glass" style="width:100%; border-color:#ff007a; color:#ff007a;" onclick="document.getElementById('img-layer-file').click()">+ Add Image Layer (Subject/Logo)</button>
+      <div id="image-list" style="margin-top:15px"></div>
+    </div>
+
+    <!-- TEXT ENGINE -->
+    <div class="block" style="border-color: var(--accent);">
+      <div class="b-title">Typography Layers <span>Drag on Canvas</span></div>
+      <button class="btn btn-gold" style="width:100%; margin-bottom:15px" onclick="addTextLayer()">+ Add New Text Layer</button>
+      <div id="text-list"></div>
+    </div>
+
+    <!-- SHAPES ENGINE -->
+    <div class="block">
+      <div class="b-title">Shapes & Glass Filters <span>Drag on Canvas</span></div>
+      <div class="row">
+        <button class="btn btn-glass" style="flex:1" onclick="addShape('rect')">+ Rectangle</button>
+        <button class="btn btn-glass" style="flex:1" onclick="addShape('circle')">+ Circle</button>
+      </div>
+      <div id="shapes-list"></div>
+    </div>
+
+    <!-- SINHALA DAYS -->
+    <div class="block">
+      <div class="b-title">Sinhala Day Widgets</div>
+      <div class="day-grid">
+        <div class="day-pill" onclick="addDay('සඳුදා')">සඳුදා</div>
+        <div class="day-pill" onclick="addDay('අඟහරුවාදා')">අඟහරුවාදා</div>
+        <div class="day-pill" onclick="addDay('බදාදා')">බදාදා</div>
+        <div class="day-pill" onclick="addDay('බ්‍රහස්පතින්දා')">බ්‍රහස්පතින්දා</div>
+        <div class="day-pill" onclick="addDay('සිකුරාදා')">සිකුරාදා</div>
+        <div class="day-pill" onclick="addDay('සෙනසුරාදා')">සෙනසුරාදා</div>
+        <div class="day-pill" style="grid-column: span 2; background:var(--gold); color:#000;" onclick="addDay('ඉරිදා')">ඉරිදා (Sunday)</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ════════════ CANVAS WORKSPACE ════════════ -->
+  <div class="canvas-area">
+    <div id="canvas-wrap">
+      <canvas id="main-canvas"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- Render Modal -->
+<div id="render-modal">
+  <div class="spinner"></div>
+  <div id="render-text">RENDERING 4K THUMBNAIL...</div>
+</div>
+
+<div id="toast"></div>
+
+<!-- ════════════ SCRIPT ENGINE ════════════ -->
+<script>
+const RATIOS = { '16:9': [1280, 720], '9:16': [720, 1280], '1:1': [1080, 1080], '4:5': [864, 1080] };
+let W = 1280, H = 720;
+const dpr = 2; // High-res canvas scale
+
+// Data Architecture
+let masterBgImage = null;
+let imageLayers = [];
+let textLayers = [];
+let shapeLayers = [];
+let idCounter = 0;
+
+window.onload = () => {
+  updateCanvasSize();
+  addTextLayer("CINEPROMPT\nPRO 5.0", 80, 50, 40, "gradient-gold", "#ffffff", "#000000", 0);
+  addTextLayer("Drag & Drop Layers Using Mouse!", 35, 50, 65, "solid", "#00f0ff", "#ffffff", 2);
+  render();
+  initDragAndDrop(); // Initialize mouse controls
+};
+
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.innerText = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2500);
+}
+
+function setBg(c1, c2) {
+  document.getElementById('bg-c1').value = c1;
+  document.getElementById('bg-c2').value = c2;
+  render();
+}
+
+function updateCanvasSize() {
+  const r = document.getElementById('ratio').value;
+  W = RATIOS[r][0]; H = RATIOS[r][1];
+  
+  const canvas = document.getElementById('main-canvas');
+  canvas.width = W * dpr; canvas.height = H * dpr;
+  
+  const wrapper = document.getElementById('canvas-wrap');
+  const scale = Math.min((window.innerWidth - 460) / W, (window.innerHeight - 80) / H);
+  canvas.style.width = `${W * scale}px`;
+  canvas.style.height = `${H * scale}px`;
+  
+  render();
+}
+
+function moveLayer(arr, index, dir) {
+  if (dir === 'up' && index > 0) {
+    [arr[index], arr[index-1]] = [arr[index-1], arr[index]];
+  } else if (dir === 'down' && index < arr.length - 1) {
+    [arr[index], arr[index+1]] = [arr[index+1], arr[index]];
+  }
+}
+
+function duplicateLayer(type, index) {
+  if (type === 'image') {
+    const clone = { ...imageLayers[index], id: idCounter++, x: Math.min(100, imageLayers[index].x + 5), y: Math.min(100, imageLayers[index].y + 5) };
+    imageLayers.splice(index, 0, clone);
+    renderImageUI();
+  } else if (type === 'text') {
+    const clone = { ...textLayers[index], id: idCounter++, x: Math.min(100, textLayers[index].x + 5), y: Math.min(100, textLayers[index].y + 5) };
+    textLayers.splice(index, 0, clone);
+    renderTextUI();
+  } else if (type === 'shape') {
+    const clone = { ...shapeLayers[index], id: idCounter++, x: Math.min(100, shapeLayers[index].x + 5), y: Math.min(100, shapeLayers[index].y + 5) };
+    shapeLayers.splice(index, 0, clone);
+    renderShapeUI();
+  }
+  render(); toast('Layer Duplicated');
+}
+
+/* ─── IMAGE LAYERS ENGINE ─── */
+function loadMasterBg(input) {
+  if(!input.files[0]) return;
+  const r = new FileReader();
+  r.onload = e => {
+    const img = new Image();
+    img.onload = () => { masterBgImage = img; render(); toast('Master BG Loaded'); };
+    img.src = e.target.result;
+  };
+  r.readAsDataURL(input.files[0]);
+}
+
+function addImageLayer(input) {
+  if(!input.files[0]) return;
+  const r = new FileReader();
+  r.onload = e => {
+    const img = new Image();
+    img.onload = () => {
+      imageLayers.unshift({ id: idCounter++, img, x: 50, y: 50, scale: 80, rot: 0, alpha: 100, blend: 'source-over' });
+      renderImageUI(); render(); toast('Image Layer Added');
+    };
+    img.src = e.target.result;
+  };
+  r.readAsDataURL(input.files[0]);
+}
+
+function deleteImage(id) { imageLayers = imageLayers.filter(l => l.id !== id); renderImageUI(); render(); }
+function updateImage(id, prop, val) {
+  const l = imageLayers.find(x => x.id === id);
+  if(l) { l[prop] = prop==='blend' ? val : Number(val); render(); }
+}
+
+function renderImageUI() {
+  const c = document.getElementById('image-list');
+  c.innerHTML = '';
+  imageLayers.forEach((l, i) => {
+    c.insertAdjacentHTML('beforeend', `
+    <div class="layer-item" style="border-left-color:#ff007a">
+      <div class="layer-header">
+        <span style="font-size:12px;color:#ff007a;font-weight:bold">Img Layer [${l.id}]</span>
+        <div class="ctrl-btns">
+          <button class="c-btn" title="Move Up" onclick="moveLayer(imageLayers, ${i}, 'up'); renderImageUI(); render()">▲</button>
+          <button class="c-btn" title="Move Down" onclick="moveLayer(imageLayers, ${i}, 'down'); renderImageUI(); render()">▼</button>
+          <button class="c-btn dup" title="Duplicate Layer" onclick="duplicateLayer('image', ${i})">⧉</button>
+          <span class="del-btn" onclick="deleteImage(${l.id})">✕</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col"><label>Blend Mode</label>
+          <select onchange="updateImage(${l.id}, 'blend', this.value)">
+            <option value="source-over" ${l.blend==='source-over'?'selected':''}>Normal</option>
+            <option value="multiply" ${l.blend==='multiply'?'selected':''}>Multiply</option>
+            <option value="screen" ${l.blend==='screen'?'selected':''}>Screen</option>
+            <option value="overlay" ${l.blend==='overlay'?'selected':''}>Overlay</option>
+            <option value="luminosity" ${l.blend==='luminosity'?'selected':''}>Luminosity</option>
+          </select>
+        </div>
+        <div class="col"><label>Opacity</label><input type="range" min="0" max="100" value="${l.alpha}" oninput="updateImage(${l.id}, 'alpha', this.value)"></div>
+      </div>
+      <div class="row">
+        <div class="col"><label>Scale</label><input type="range" min="10" max="300" value="${l.scale}" oninput="updateImage(${l.id}, 'scale', this.value)"></div>
+        <div class="col"><label>Rotate</label><input type="range" min="-180" max="180" value="${l.rot}" oninput="updateImage(${l.id}, 'rot', this.value)"></div>
+      </div>
+      <div class="row">
+        <div class="col"><label>Pos X</label><input type="range" id="img-x-${l.id}" min="0" max="100" value="${l.x}" oninput="updateImage(${l.id}, 'x', this.value)"></div>
+        <div class="col"><label>Pos Y</label><input type="range" id="img-y-${l.id}" min="0" max="100" value="${l.y}" oninput="updateImage(${l.id}, 'y', this.value)"></div>
+      </div>
+    </div>`);
+  });
+}
+
+/* ─── TEXT ENGINE ─── */
+function addTextLayer(text="නව පෙළ", size=60, x=50, y=50, style="solid", color="#ffffff", outlineColor="#000000", outlineWidth=0) {
+  textLayers.unshift({
+    id: idCounter++, text, size, x, y, font: "'Noto Sans Sinhala'", weight: 900,
+    style, color, outlineColor, outlineWidth, spacing: 0, align: 'center', alpha: 100
+  });
+  renderTextUI(); render();
+}
+function deleteText(id) { textLayers = textLayers.filter(t => t.id !== id); renderTextUI(); render(); }
+function updateText(id, prop, val) {
+  const t = textLayers.find(x => x.id === id);
+  if(t) { t[prop] = ['size','x','y','weight','outlineWidth','spacing','alpha'].includes(prop) ? Number(val) : val; render(); }
+}
+
+function renderTextUI() {
+  const c = document.getElementById('text-list');
+  c.innerHTML = '';
+  textLayers.forEach((t, i) => {
+    c.insertAdjacentHTML('beforeend', `
+    <div class="layer-item">
+      <div class="layer-header">
+        <span style="font-size:12px;color:var(--accent);font-weight:bold">Text [${t.id}]</span>
+        <div class="ctrl-btns">
+          <button class="c-btn" title="Move Up" onclick="moveLayer(textLayers, ${i}, 'up'); renderTextUI(); render()">▲</button>
+          <button class="c-btn" title="Move Down" onclick="moveLayer(textLayers, ${i}, 'down'); renderTextUI(); render()">▼</button>
+          <button class="c-btn dup" title="Duplicate Layer" onclick="duplicateLayer('text', ${i})">⧉</button>
+          <span class="del-btn" onclick="deleteText(${t.id})">✕</span>
+        </div>
+      </div>
+      <textarea oninput="updateText(${t.id}, 'text', this.value)">${t.text}</textarea>
+      
+      <div class="row" style="margin-top:10px">
+        <div class="col">
+          <label>Font (10+ Sinhala)</label>
+          <select onchange="updateText(${t.id}, 'font', this.value)">
+            <option value="'Noto Sans Sinhala'" ${t.font.includes('Sans')?'selected':''}>Noto Sans (Bold)</option>
+            <option value="'Anek Sinhala'" ${t.font.includes('Anek')?'selected':''}>Anek Sinhala (Modern)</option>
+            <option value="'Abhaya Libre'" ${t.font.includes('Abhaya')?'selected':''}>Abhaya Libre (Classic)</option>
+            <option value="'Gemunu Libre'" ${t.font.includes('Gemunu')?'selected':''}>Gemunu Libre (Display)</option>
+            <option value="'Kavivanar'" ${t.font.includes('Kavivanar')?'selected':''}>Kavivanar (Handwriting)</option>
+            <option value="'Noto Serif Sinhala'" ${t.font.includes('Serif')?'selected':''}>Noto Serif (Elegant)</option>
+            <option value="'Stick No Bills'" ${t.font.includes('Stick')?'selected':''}>Stick No Bills (Stencil)</option>
+            <option value="'Bebas Neue'" ${t.font.includes('Bebas')?'selected':''}>Bebas Neue (English)</option>
+          </select>
+        </div>
+        <div class="col">
+          <label>PS Style</label>
+          <select onchange="updateText(${t.id}, 'style', this.value)">
+            <option value="solid" ${t.style==='solid'?'selected':''}>Solid Minimal</option>
+            <option value="gradient-gold" ${t.style==='gradient-gold'?'selected':''}>Gradient Gold</option>
+            <option value="gradient-neon" ${t.style==='gradient-neon'?'selected':''}>Gradient Cyber</option>
+            <option value="3dgold" ${t.style==='3dgold'?'selected':''}>Premium 3D Gold</option>
+            <option value="neon" ${t.style==='neon'?'selected':''}>Cyber Neon Glow</option>
+            <option value="plastic" ${t.style==='plastic'?'selected':''}>3D Plastic/Bevel</option>
+            <option value="shadow" ${t.style==='shadow'?'selected':''}>Deep Shadow</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col"><label>Fill Color</label><input type="color" value="${t.color}" onchange="updateText(${t.id}, 'color', this.value)"></div>
+        <div class="col"><label>Size</label><input type="range" min="10" max="300" value="${t.size}" oninput="updateText(${t.id}, 'size', this.value)"></div>
+        <div class="col"><label>Spacing</label><input type="range" min="-10" max="50" value="${t.spacing}" oninput="updateText(${t.id}, 'spacing', this.value)"></div>
+      </div>
+      
+      <div class="row" style="background:rgba(255,255,255,0.05); padding:8px; border-radius:6px;">
+        <div class="col"><label style="color:#f5d06e">Stroke Color</label><input type="color" value="${t.outlineColor}" onchange="updateText(${t.id}, 'outlineColor', this.value)"></div>
+        <div class="col"><label style="color:#f5d06e">Stroke Thick</label><input type="range" min="0" max="40" value="${t.outlineWidth}" oninput="updateText(${t.id}, 'outlineWidth', this.value)"></div>
+        <div class="col">
+          <label style="color:#f5d06e">Align</label>
+          <select onchange="updateText(${t.id}, 'align', this.value)">
+            <option value="left" ${t.align==='left'?'selected':''}>Left</option>
+            <option value="center" ${t.align==='center'?'selected':''}>Center</option>
+            <option value="right" ${t.align==='right'?'selected':''}>Right</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col"><label>Pos X</label><input type="range" id="txt-x-${t.id}" min="0" max="100" value="${t.x}" oninput="updateText(${t.id}, 'x', this.value)"></div>
+        <div class="col"><label>Pos Y</label><input type="range" id="txt-y-${t.id}" min="0" max="100" value="${t.y}" oninput="updateText(${t.id}, 'y', this.value)"></div>
+        <div class="col"><label>Opacity</label><input type="range" min="0" max="100" value="${t.alpha}" oninput="updateText(${t.id}, 'alpha', this.value)"></div>
+      </div>
+    </div>`);
+  });
+}
+
+/* ─── SHAPES & DAYS ENGINE ─── */
+function addShape(type='rect') {
+  shapeLayers.unshift({ id: idCounter++, type, x:50, y:50, w:40, h:15, color:'#ffffff', alpha:15, glass:true, radius:20 });
+  renderShapeUI(); render();
+}
+function deleteShape(id) { shapeLayers = shapeLayers.filter(s => s.id !== id); renderShapeUI(); render(); }
+function updateShape(id, prop, val) {
+  const s = shapeLayers.find(x => x.id === id);
+  if(s) { s[prop] = ['x','y','w','h','alpha','radius'].includes(prop) ? Number(val) : val; render(); }
+}
+
+function renderShapeUI() {
+  const c = document.getElementById('shapes-list');
+  c.innerHTML = '';
+  shapeLayers.forEach((s, i) => {
+    c.insertAdjacentHTML('beforeend', `
+    <div class="layer-item" style="border-left-color:var(--gold)">
+      <div class="layer-header">
+        <span style="font-size:12px;color:var(--gold);font-weight:bold">${s.type==='rect'?'Rectangle':'Circle'} [${s.id}]</span>
+        <div class="ctrl-btns">
+          <button class="c-btn" title="Move Up" onclick="moveLayer(shapeLayers, ${i}, 'up'); renderShapeUI(); render()">▲</button>
+          <button class="c-btn" title="Move Down" onclick="moveLayer(shapeLayers, ${i}, 'down'); renderShapeUI(); render()">▼</button>
+          <button class="c-btn dup" title="Duplicate Layer" onclick="duplicateLayer('shape', ${i})">⧉</button>
+          <span class="del-btn" onclick="deleteShape(${s.id})">✕</span>
+        </div>
+      </div>
+      <div class="row"><label><input type="checkbox" ${s.glass?'checked':''} onchange="updateShape(${s.id}, 'glass', this.checked)"> Glassmorphism Blur</label></div>
+      <div class="row">
+        <div class="col"><label>Color</label><input type="color" value="${s.color}" onchange="updateShape(${s.id}, 'color', this.value)"></div>
+        <div class="col"><label>Opacity</label><input type="range" min="0" max="100" value="${s.alpha}" oninput="updateShape(${s.id}, 'alpha', this.value)"></div>
+      </div>
+      <div class="row">
+        <div class="col"><label>Width</label><input type="range" min="5" max="150" value="${s.w}" oninput="updateShape(${s.id}, 'w', this.value)"></div>
+        ${s.type==='rect' ? `<div class="col"><label>Height</label><input type="range" min="5" max="150" value="${s.h}" oninput="updateShape(${s.id}, 'h', this.value)"></div>` : ''}
+      </div>
+      <div class="row">
+        <div class="col"><label>Pos X</label><input type="range" id="shp-x-${s.id}" min="0" max="100" value="${s.x}" oninput="updateShape(${s.id}, 'x', this.value)"></div>
+        <div class="col"><label>Pos Y</label><input type="range" id="shp-y-${s.id}" min="0" max="100" value="${s.y}" oninput="updateShape(${s.id}, 'y', this.value)"></div>
+      </div>
+    </div>`);
+  });
+}
+
+function addDay(day) {
+  shapeLayers.unshift({ id: idCounter++, type:'rect', x:15, y:12, w:22, h:10, color:'#f5d06e', alpha:25, glass:true, radius:40 });
+  textLayers.unshift({ id: idCounter++, text: day, size: 30, x: 15, y: 12, font: "'Noto Sans Sinhala'", weight: 900, style: 'solid', color: '#ffffff', outlineColor: '#000000', outlineWidth: 0, spacing: 0, align: 'center', alpha: 100 });
+  renderShapeUI(); renderTextUI(); render(); toast('📅 ' + day + ' Added');
+}
+
+/* ─── DRAG AND DROP ENGINE ─── */
+let isDragging = false;
+let dragTarget = null; // { type: 'text'|'image'|'shape', obj: reference }
+let dragOffsetX = 0;
+let dragOffsetY = 0;
+
+function initDragAndDrop() {
+  const canvasWrap = document.getElementById('canvas-wrap');
+  const canvas = document.getElementById('main-canvas');
+
+  canvas.addEventListener('mousedown', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width / dpr;
+    const scaleY = canvas.height / rect.height / dpr;
+    const mx = (e.clientX - rect.left) * scaleX; // X in internal coords (0 to W)
+    const my = (e.clientY - rect.top) * scaleY;  // Y in internal coords (0 to H)
+
+    // Hit test (Top to bottom - text, shape, image)
+    dragTarget = null;
+
+    // 1. Check Texts
+    for(let t of textLayers) {
+      const tx = W * (t.x / 100);
+      const ty = H * (t.y / 100);
+      const lh = t.size * 1.15;
+      const lines = t.text.split('\n').length;
+      // Approximate hit box based on size
+      const approxW = t.size * Math.max(...t.text.split('\n').map(l=>l.length)) * 0.6; 
+      const approxH = lines * lh;
+      
+      let left = tx - approxW/2;
+      if (t.align === 'left') left = tx;
+      if (t.align === 'right') left = tx - approxW;
+
+      if (mx >= left && mx <= left + approxW && my >= ty - approxH/2 && my <= ty + approxH/2) {
+        dragTarget = { type: 'text', obj: t };
+        break;
+      }
+    }
+
+    // 2. Check Shapes (if no text clicked)
+    if (!dragTarget) {
+      for(let s of shapeLayers) {
+        const sx = W * (s.x / 100);
+        const sy = H * (s.y / 100);
+        const sw = W * (s.w / 100);
+        const sh = s.type === 'rect' ? H * (s.h / 100) : sw;
+        
+        if (mx >= sx - sw/2 && mx <= sx + sw/2 && my >= sy - sh/2 && my <= sy + sh/2) {
+          dragTarget = { type: 'shape', obj: s };
+          break;
+        }
+      }
+    }
+
+    // 3. Check Images (if no text/shape clicked)
+    if (!dragTarget) {
+      for(let l of imageLayers) {
+        const ix = W * (l.x / 100);
+        const iy = H * (l.y / 100);
+        const sc = l.scale / 100;
+        const rw = l.img.width * sc;
+        const rh = l.img.height * sc;
+        
+        if (mx >= ix - rw/2 && mx <= ix + rw/2 && my >= iy - rh/2 && my <= iy + rh/2) {
+          dragTarget = { type: 'image', obj: l };
+          break;
+        }
+      }
+    }
+
+    if (dragTarget) {
+      isDragging = true;
+      // Calculate offset so it doesn't snap to center on click
+      const objPx = W * (dragTarget.obj.x / 100);
+      const objPy = H * (dragTarget.obj.y / 100);
+      dragOffsetX = mx - objPx;
+      dragOffsetY = my - objPy;
+    }
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if (!isDragging || !dragTarget) return;
+    
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width / dpr;
+    const scaleY = canvas.height / rect.height / dpr;
+    const mx = (e.clientX - rect.left) * scaleX;
+    const my = (e.clientY - rect.top) * scaleY;
+
+    // Apply offset
+    const newPx = mx - dragOffsetX;
+    const newPy = my - dragOffsetY;
+
+    // Convert back to percentage 0-100
+    let pctX = (newPx / W) * 100;
+    let pctY = (newPy / H) * 100;
+    
+    // Clamp values
+    pctX = Math.max(0, Math.min(100, pctX));
+    pctY = Math.max(0, Math.min(100, pctY));
+
+    dragTarget.obj.x = pctX;
+    dragTarget.obj.y = pctY;
+
+    render(); // Fast re-render
+  });
+
+  // End drag
+  window.addEventListener('mouseup', () => {
+    if (isDragging && dragTarget) {
+      isDragging = false;
+      // Sync UI sliders
+      const id = dragTarget.obj.id;
+      let pre = dragTarget.type === 'text' ? 'txt' : (dragTarget.type === 'shape' ? 'shp' : 'img');
+      const elX = document.getElementById(`${pre}-x-${id}`);
+      const elY = document.getElementById(`${pre}-y-${id}`);
+      if(elX) elX.value = dragTarget.obj.x;
+      if(elY) elY.value = dragTarget.obj.y;
+      dragTarget = null;
+    }
+  });
+}
+
+/* ─── CORE RENDERING ENGINE ─── */
+function hexToRgba(hex, alpha) {
+  let r=0,g=0,b=0;
+  if(hex.length===4){r=parseInt(hex[1]+hex[1],16);g=parseInt(hex[2]+hex[2],16);b=parseInt(hex[3]+hex[3],16);}
+  else if(hex.length===7){r=parseInt(hex.substr(1,2),16);g=parseInt(hex.substr(3,2),16);b=parseInt(hex.substr(5,2),16);}
+  return `rgba(${r},${g},${b},${alpha/100})`;
+}
+
+function render() {
+  const canvas = document.getElementById('main-canvas');
+  const ctx = canvas.getContext('2d');
+  ctx.save();
+  ctx.scale(dpr, dpr);
+  ctx.clearRect(0, 0, W, H);
+
+  // 1. BACKGROUND
+  if (masterBgImage) {
+    const sc = Math.max(W/masterBgImage.width, H/masterBgImage.height);
+    ctx.drawImage(masterBgImage, (W - masterBgImage.width*sc)/2, (H - masterBgImage.height*sc)/2, masterBgImage.width*sc, masterBgImage.height*sc);
+  } else {
+    const angle = document.getElementById('bg-angle').value * (Math.PI/180);
+    const x2 = W/2 + Math.cos(angle) * W;
+    const y2 = H/2 + Math.sin(angle) * H;
+    const grd = ctx.createLinearGradient(W/2 - Math.cos(angle)*W, H/2 - Math.sin(angle)*H, x2, y2);
+    grd.addColorStop(0, document.getElementById('bg-c1').value);
+    grd.addColorStop(1, document.getElementById('bg-c2').value);
+    ctx.fillStyle = grd; ctx.fillRect(0, 0, W, H);
+  }
+
+  // Vignette overlay
+  const vig = ctx.createRadialGradient(W/2,H/2,H*0.3, W/2,H/2,W*0.9);
+  vig.addColorStop(0, 'transparent'); vig.addColorStop(1, 'rgba(0,0,0,0.85)');
+  ctx.fillStyle = vig; ctx.fillRect(0,0,W,H);
+
+  // 2. IMAGE LAYERS (Bottom to Top)
+  [...imageLayers].reverse().forEach(l => {
+    ctx.save();
+    ctx.globalCompositeOperation = l.blend;
+    ctx.globalAlpha = l.alpha / 100;
+    const sc = l.scale / 100;
+    const rot = l.rot * (Math.PI/180);
+    const px = W * (l.x / 100);
+    const py = H * (l.y / 100);
+    const rw = l.img.width * sc; const rh = l.img.height * sc;
+    ctx.translate(px, py); ctx.rotate(rot);
+    ctx.drawImage(l.img, -rw/2, -rh/2, rw, rh);
+    ctx.restore();
+  });
+
+  // Snapshot for Glassmorphism
+  const offCanvas = document.createElement('canvas');
+  offCanvas.width = canvas.width; offCanvas.height = canvas.height;
+  offCanvas.getContext('2d').drawImage(canvas, 0, 0);
+
+  // 3. SHAPES (Bottom to Top)
+  [...shapeLayers].reverse().forEach(s => {
+    const sx = W * (s.x/100), sy = H * (s.y/100);
+    const sw = W * (s.w/100), sh = H * (s.h/100);
+    ctx.save(); ctx.beginPath();
+    if(s.type === 'rect') {
+      const r = Math.min(s.radius || 0, sw/2, sh/2);
+      ctx.moveTo(sx - sw/2 + r, sy - sh/2); ctx.lineTo(sx + sw/2 - r, sy - sh/2);
+      ctx.quadraticCurveTo(sx + sw/2, sy - sh/2, sx + sw/2, sy - sh/2 + r); ctx.lineTo(sx + sw/2, sy + sh/2 - r);
+      ctx.quadraticCurveTo(sx + sw/2, sy + sh/2, sx + sw/2 - r, sy + sh/2); ctx.lineTo(sx - sw/2 + r, sy + sh/2);
+      ctx.quadraticCurveTo(sx - sw/2, sy + sh/2, sx - sw/2, sy + sh/2 - r); ctx.lineTo(sx - sw/2, sy - sh/2 + r);
+      ctx.quadraticCurveTo(sx - sw/2, sy - sh/2, sx - sw/2 + r, sy - sh/2);
+    } else { ctx.arc(sx, sy, sw/2, 0, Math.PI*2); }
+    ctx.closePath();
+
+    if(s.glass) {
+      ctx.save(); ctx.clip();
+      ctx.filter = 'blur(20px) saturate(150%) brightness(110%)';
+      ctx.scale(1/dpr, 1/dpr); ctx.drawImage(offCanvas, 0, 0);
+      ctx.restore();
+      ctx.fillStyle = hexToRgba(s.color, s.alpha); ctx.fill();
+      ctx.lineWidth = 2;
+      const gStroke = ctx.createLinearGradient(sx-sw/2, sy-sh/2, sx+sw/2, sy+sh/2);
+      gStroke.addColorStop(0, 'rgba(255,255,255,0.8)'); gStroke.addColorStop(1, 'rgba(255,255,255,0.0)');
+      ctx.strokeStyle = gStroke; ctx.stroke();
+    } else {
+      ctx.fillStyle = hexToRgba(s.color, s.alpha); ctx.fill();
+    }
+    ctx.restore();
+  });
+
+  // 4. TEXT LAYERS (Bottom to Top)
+  [...textLayers].reverse().forEach(t => {
+    if(!t.text.trim()) return;
+    ctx.save();
+    ctx.globalAlpha = t.alpha / 100;
+    const tx = W * (t.x/100);
+    const ty = H * (t.y/100);
+    const lines = t.text.split('\n');
+    const lh = t.size * 1.15;
+    const totalH = (lines.length - 1) * lh;
+    
+    ctx.textAlign = t.align; ctx.textBaseline = 'middle';
+    ctx.font = `${t.weight} ${t.size}px ${t.font}, sans-serif`;
+    if(ctx.letterSpacing !== undefined) ctx.letterSpacing = t.spacing + "px";
+
+    lines.forEach((line, i) => {
+      const ly = ty - (totalH/2) + (i * lh);
+      
+      let ltx = tx;
+      if (t.align === 'left') ltx = tx - (W * 0.4); 
+      if (t.align === 'right') ltx = tx + (W * 0.4);
+
+      if(t.outlineWidth > 0) {
+        ctx.lineJoin = 'round'; ctx.miterLimit = 2;
+        ctx.lineWidth = t.outlineWidth; ctx.strokeStyle = t.outlineColor;
+        ctx.strokeText(line, ltx, ly);
+      }
+
+      if(t.style === 'gradient-gold') {
+        const grad = ctx.createLinearGradient(ltx, ly-t.size/2, ltx, ly+t.size/2);
+        grad.addColorStop(0, '#fff6cc'); grad.addColorStop(0.5, '#f5d06e'); grad.addColorStop(1, '#8b5e1a');
+        ctx.fillStyle = grad; ctx.fillText(line, ltx, ly);
+      }
+      else if(t.style === 'gradient-neon') {
+        const wTxt = ctx.measureText(line).width;
+        const grad = ctx.createLinearGradient(ltx-(wTxt/2), ly, ltx+(wTxt/2), ly);
+        grad.addColorStop(0, '#00f0ff'); grad.addColorStop(1, '#ff007a');
+        ctx.fillStyle = grad; ctx.fillText(line, ltx, ly);
+      }
+      else if(t.style === '3dgold') {
+        for(let j=12; j>=1; j--) {
+          ctx.fillStyle = j===12 ? 'rgba(0,0,0,0.7)' : '#5a3f00';
+          if(j===12) { ctx.shadowColor = 'rgba(0,0,0,0.8)'; ctx.shadowBlur = 25; ctx.shadowOffsetY = 15; }
+          ctx.fillText(line, ltx, ly + j);
+          ctx.shadowColor = 'transparent';
+        }
+        const grad = ctx.createLinearGradient(ltx, ly-t.size/2, ltx, ly+t.size/2);
+        grad.addColorStop(0, '#fff6cc'); grad.addColorStop(0.5, '#f5d06e'); grad.addColorStop(1, '#664200');
+        ctx.fillStyle = grad; ctx.fillText(line, ltx, ly);
+      }
+      else if(t.style === 'neon') {
+        ctx.shadowColor = t.color; ctx.shadowBlur = 40; ctx.fillStyle = '#fff'; ctx.fillText(line, ltx, ly);
+        ctx.shadowBlur = 80; ctx.fillText(line, ltx, ly); ctx.shadowBlur = 0;
+      }
+      else if(t.style === 'plastic') {
+        ctx.shadowColor = 'rgba(0,0,0,0.6)'; ctx.shadowBlur = 15; ctx.shadowOffsetY = 15;
+        ctx.fillStyle = t.color; ctx.fillText(line, ltx, ly); ctx.shadowColor = 'transparent';
+        const grad = ctx.createLinearGradient(ltx, ly-t.size/2, ltx, ly);
+        grad.addColorStop(0, 'rgba(255,255,255,0.7)'); grad.addColorStop(1, 'rgba(255,255,255,0)');
+        ctx.fillStyle = grad; ctx.fillText(line, ltx, ly);
+      }
+      else if(t.style === 'shadow') {
+        ctx.shadowColor = 'rgba(0,0,0,0.9)'; ctx.shadowBlur = 20; ctx.shadowOffsetY = 10;
+        ctx.fillStyle = t.color; ctx.fillText(line, ltx, ly); ctx.shadowColor = 'transparent';
+      }
+      else { 
+        ctx.fillStyle = t.color; ctx.fillText(line, ltx, ly); 
+      }
+    });
+    ctx.restore();
+  });
+
+  ctx.restore();
+}
+
+function randomizeAll() {
+  const bgGrads = [['#0f0c29','#302b63'], ['#141e30','#243b55'], ['#000000','#434343'], ['#021B79','#0575E6'], ['#3a2800','#8b5e1a']];
+  const bg = bgGrads[Math.floor(Math.random()*bgGrads.length)];
+  setBg(bg[0], bg[1]);
+  
+  const styles = ['solid', 'gradient-gold', 'gradient-neon', '3dgold', 'neon', 'plastic', 'shadow'];
+  const fonts = ["'Noto Sans Sinhala'", "'Anek Sinhala'", "'Gemunu Libre'", "'Stick No Bills'"];
+  
+  textLayers.forEach(t => {
+    t.style = styles[Math.floor(Math.random()*styles.length)];
+    t.font = fonts[Math.floor(Math.random()*fonts.length)];
+    t.outlineWidth = Math.random() > 0.5 ? Math.floor(Math.random()*10)+5 : 0;
+  });
+  renderTextUI(); render(); toast('🎲 UI Randomized');
+}
+
+/* ─── COPY TO CLIPBOARD & RENDER ─── */
+async function copyToClipboard() {
+  const canvas = document.getElementById('main-canvas');
+  canvas.toBlob(async blob => {
+    try {
+      await navigator.clipboard.write([new ClipboardItem({'image/png': blob})]);
+      toast('📋 Image Copied to Clipboard!');
+    } catch(err) {
+      toast('⚠️ Copy Failed (Browser restriction). Use Render.');
+    }
+  }, 'image/png');
+}
+
+function initRender() {
+  const modal = document.getElementById('render-modal');
+  modal.style.display = 'flex';
+  
+  setTimeout(() => {
+    const canvas = document.getElementById('main-canvas');
+    canvas.toBlob(blob => {
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `CinePrompt_Export_${W}x${H}.png`;
+      a.click();
+      modal.style.display = 'none';
+      toast('✅ Thumbnail Rendered & Downloaded');
+    }, 'image/png', 1.0);
+  }, 1000);
+}
+</script>
+</body>
+</html>

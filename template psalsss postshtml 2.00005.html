@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Benz ICT - Tharun Vithanage Promotion</title>
+    
+    <!-- Importing specialized web fonts: Poppins for robust English digits/text, Noto Sans Sinhala for high fidelity typography mapping -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,700;0,900;1,800&family=Noto+Sans+Sinhala:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* === Foundation & Variables Mapping === */
+        :root {
+            --bg-master-dark: #0f1011;
+            --brand-lime: #a3e913;
+            --brand-yellow: #fff200;
+            --brand-red-neon: #ff0f44;
+            --brand-red-pill: #da0d35;
+            --font-light: #ffffff;
+            --blue-cyan: #26bdeb;
+        }
+
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            /* Global mapping applying standard Poppins logic with proper failover layout for mapping Sinhala scripts strictly. */
+            font-family: 'Poppins', 'Noto Sans Sinhala', sans-serif;
+        }
+
+        body {
+            background-color: #1a1e23; /* Web presentation background */
+            display: flex; justify-content: center; align-items: center; min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .sr-only {
+            position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0,0,0,0); border: 0;
+        }
+
+        /* === Frame Bounding Layout Container Layout Constraint Target Map Vector Structural Nodes Layout Components Block Array Nodes Rules Value Nodes Struct Elements Constraints List Lists Values Settings Setting Setup... === */
+        .poster-card {
+            width: 750px; 
+            max-width: 100%;
+            height: 850px; 
+            background: radial-gradient(circle at -10% 40%, rgba(130,0,10,0.6) 0%, var(--bg-master-dark) 45%, #050505 100%);
+            position: relative; overflow: hidden; 
+            border-radius: 8px; box-shadow: 0 25px 65px rgba(0,0,0,0.8);
+            display: flex; flex-direction: column;
+            color: #ffffff;
+        }
+
+        /* === Ambient Graphics Background Nodes Structures Object Rendering Definitions === */
+        .faint-bg-years {
+            position: absolute; left: 0; top: 0; bottom: 0;
+            width: 200px; display: flex; align-items: center;
+            overflow: hidden; opacity: 0.1; z-index: 1; pointer-events: none;
+        }
+        .huge-line-year {
+            font-size: 200px; font-weight: 900; letter-spacing: -10px;
+            color: transparent; -webkit-text-stroke: 2px #fff;
+            transform: rotate(-90deg); margin-left: -150px; line-height: 0.8;
+        }
+
+        /* Tutor Right Subject Canvas Component Block Settings Target Configuration Settings Output Render Arrays Value List String Formats Targets Formatting Values Values Formatting Struct Vectors Formats Mappings Object String List Definitions Mapping Target Property... */
+        .hero-figure {
+            position: absolute; right: 0; bottom: 0; top: 250px;
+            width: 350px; z-index: 5; 
+            display: flex; align-items: flex-end; justify-content: flex-end;
+        }
+        .figure-placeholder-mesh {
+             background: linear-gradient(180deg, transparent 0%, rgba(30,30,30,0.7) 100%);
+             width: 100%; height: 100%;
+             border-left: 2px dashed rgba(255,255,255,0.15); border-top: 2px dashed rgba(255,255,255,0.15); border-radius: 40px 0 0 0;
+             display: flex; text-align: center; justify-content: center; padding-top: 50%; color: rgba(255,255,255,0.3); font-size: 14px;
+        }
+
+        /* LIVE OVERRIDE INSTRUCTION: Enable below CSS definitions target path layout setting and place <img src="..."> element rule layout object targets logic array string arrays structural map elements value values array object constraints mapping strings map format rule... */
+        /* .live-tutor-img { width: 100%; height: auto; object-fit: cover; z-index: 5; object-position: center bottom;} */
+        
+        /* Gradient Shadow block to melt photo beautifully overlapping values formats node arrays lists structure layouts settings mappings rules... */
+        .figure-glow-melt { position: absolute; left:-10px; top:-10px; bottom:-10px; right: -10px; box-shadow: inset 20px -30px 40px rgba(0,0,0,0.8); z-index: 10; pointer-events: none;}
+
+
+        /* === Content Content Wrapper Flex Base Execution Property Structure Object Constraint Format Mappings Structure Nodes Formats Map Objects List String Formats Structure Logic Targets Object String... === */
+        .layout-engine {
+             position: absolute; z-index: 15; width: 100%; height: 100%;
+             display: flex; flex-direction: column; padding: 25px;
+        }
+
+        /* Header Central Typography Formats Configuration Definitions Target Object Arrays Layout String Layouts Property Mapping Constraints Definition Mapping Value Object String Arrays List Map Format Elements Logic Targets Rules Constraint Formatting Rule Layout Constraints Settings Map... */
+        .head-centralizer {
+             display: flex; flex-direction: column; align-items: center; 
+             margin-top: 5px; z-index: 15; position: relative; margin-right: 50px; /* Offset central alignment right values */
+        }
+        
+        .brand-logo-area { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; filter: drop-shadow(0 2px 4px rgba(100,250,20, 0.3));}
+        .text-benz { color: var(--brand-lime); font-size: 32px; font-weight: 900; letter-spacing: 1px; font-style: italic; transform: scaleX(1.3); margin-right: 15px; }
+        .text-ict-block { color: var(--brand-lime); border: 2px solid var(--brand-lime); padding: 0 6px; font-size: 20px; font-weight: bold; border-radius: 4px; box-shadow: 0 0 10px rgba(163,233,19,0.3);}
+
+        .sub-pill-badge { background-color: var(--brand-red-pill); font-size: 10px; font-weight: bold; padding: 3px 20px; border-radius: 20px; text-transform: uppercase; box-shadow: 0 4px 10px rgba(200,0,0,0.5);}
+
+        .year-alpha-giant { font-size: 80px; font-weight: 900; line-height: 1; text-shadow: 3px 3px 6px rgba(0,0,0,0.8); margin: 4px 0 2px 0;}
+
+        .theory-hi-light { background-color: var(--brand-yellow); color: #000; font-weight: 900; font-size: 28px; padding: 2px 18px; margin-bottom: 5px; text-shadow: none; box-shadow: 0 4px 12px rgba(255, 200, 0, 0.4);}
+        
+        .begin-tag-neon { color: #f45b53; font-weight: bold; letter-spacing: 2px; font-size: 20px; text-shadow: 0 0 8px rgba(250,50,50,0.7); margin-bottom: 10px; font-style: italic;}
+
+
+        /* Mid Tier Details Layout Complex Overlapping Object Targets Render Formats Value Structure Rules Element Constraints Structural Elements Component Mapping List Layout Formatting Strings Layout Rules Mapping Formats Map Definition Objects Target Maps Arrays Arrays Mapping Mappings Element... */
+        .mid-cluster-row { display: flex; position: relative; margin-top: 15px; margin-left: 10%;}
+        
+        /* The Speech Sticker Box Style Settings Objects Element Property Structure Component Configuration Layout Properties Vector Render Mapping Values Target Component String Values Strings Layout Value... */
+        .promo-circle-sticker { 
+            position: absolute; left: 0px; top: 15px; 
+            background: radial-gradient(circle at center, #ffffff 40%, #ededed 100%);
+            border: 4px solid var(--brand-red-pill); border-radius: 50%;
+            width: 175px; height: 175px; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            box-shadow: 5px 8px 15px rgba(0,0,0,0.6); z-index: 20; transform: rotate(-5deg); text-align: center;
+        }
+        
+        .quote-ornament { position: absolute; left:-5px; top: -10px; background: #ed6c3c; color: white; width: 45px; height: 35px; border-radius: 30px; display:flex; justify-content:center; align-items:center; font-family: serif; font-size: 55px; font-weight: 900; line-height: 1px; padding-top:20px; box-shadow: 0 3px 8px rgba(0,0,0,0.4); transform: rotate(15deg); }
+        .quote-ornament span { transform: rotate(180deg) scaleY(-1); margin-bottom:10px; display:block; }
+        
+        .promo-stkr-top { color: #222; font-size: 9.5px; font-weight: 700; line-height: 1.1; margin-top: 5px;}
+        .promo-stkr-red { color: #cf0e21; font-weight: 900; font-size: 21px; margin-bottom:-4px;}
+        .promo-stkr-tiny { color: #333; font-size: 11px; font-weight: bold; margin-bottom: -2px;}
+        .promo-stkr-bot { color: var(--brand-red-pill); font-weight: 900; font-size: 14px;}
+
+
+        /* "10" Display Typography Structure Definitions Property Setting Vector Maps Logic Outputs Array Nodes Elements Element Setting Rules Mapping Array Strings Formats Component Vectors Definitions Formats List Output Constraints... */
+        .master-date-construct {
+            position: relative; left: 165px; top: -5px; display: flex; z-index: 10; align-items: flex-start;
+        }
+        
+        .digit-hyper {
+            font-size: 190px; line-height: 0.8; font-weight: 900; 
+            letter-spacing: -12px; margin-top: -5px;
+            /* White core red mega drop layer emulation structural rule property */
+            text-shadow: 
+                 3px 0 0 #fff, -1px 0 0 #fff, 0 2px 0 #fff, 0 -2px 0 #fff, /* Mini core solid fill backup format values setting... */
+                 6px 8px 1px var(--brand-red-pill), 12px 14px 15px rgba(0,0,0,0.7);
+        }
+
+        /* Black indicator tag markers strings targets settings layouts rule structural maps string array nodes property map element string lists outputs */
+        .black-month-box {
+            position: absolute; left: 12px; top: -10px; background: #000; color: #fff; border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; padding: 2px 6px; font-size: 13px; font-weight: 900;
+        }
+        .black-since-circle {
+             position: absolute; right: 5px; top: 120px; background: #000; color: #fff; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 900;
+             box-shadow: 2px 3px 5px rgba(0,0,0,0.6); z-index: 20; border: 1px solid rgba(255,255,255,0.15);
+        }
+
+
+        /* Classes List Map Info Area Formats Structure Definitions Nodes Setting Format Component Arrays Configuration Formatting Mapping Values Strings Values Strings Object Layout Elements Structure Object Vector Maps Structural Rendering Objects Maps Struct Array Formatting List Object Setting Values... */
+        .class-list-struct { margin-left: 21%; z-index: 20; position: relative; margin-top: 15px; margin-right: 25px; border-left: 1px solid rgba(255,255,255,0.2); padding-left: 25px;}
+
+        .live-detail-hi-row { display: flex; align-items: center; gap: 8px;}
+        .day-hi-txt { color: var(--brand-yellow); font-size: 19px; font-weight: 900; text-shadow: 1px 1px 4px rgba(0,0,0,1);}
+        
+        .inst-brand-tag-wrapper { display:flex; align-items:center; background-color: #ffffff; padding:2px; border-radius:2px;}
+        .inst-mock-art { width:80px; height:24px; border:1px solid #ddd; background: repeating-linear-gradient(45deg, #fff, #fff 3px, #e8f5fb 3px, #e8f5fb 6px); display:flex; text-align:center; align-items:center; justify-content:center; color:#236cb5; font-size:9px; font-weight:bold;}
+        .inst-loc-blck { background-color: #219bd3; color: white; height: 26px; padding: 0 10px; display: flex; align-items: center; font-size: 16px; font-weight: 900;}
+
+        .sub-bottom-rule { color: #cccccc; font-size: 10px; margin-top: 8px; letter-spacing: 0.5px;}
+
+        
+        /* Layout Split Lines Setup Neon Value Constraints Strings Format Formats Setup Rule Strings Object Mappings List Struct Array Component Target Definition Rendering Map Arrays Object Vector Targets Configuration Rules Layout Mapped Struct Mappings Lists Elements Properties Node Settings Values Definition List Setting Array Nodes Value Definition Maps Strings Rules Outputs Structural Logic Setup Constraint Value Array Arrays Structural Lists Formatting... */
+        .bottom-border-slice {
+            width: 750px; /* Force to left map span layout element arrays target constraints property arrays structures list layouts rules rendering strings map node formats structural lists targets objects setting property configuration map settings structure */
+            position: absolute; bottom: 150px; left: -100px;
+            border-bottom: 2px solid var(--brand-lime);
+            transform: rotate(-1deg);
+            z-index: 22; box-shadow: 0 4px 8px rgba(160,250,15, 0.4);
+        }
+
+        /* Tutors Final Lower Plate Section Settings Definition Setup Lists Element Logic Structural Node Constraint Properties Constraints Target Formatting Maps Object Definition Nodes String Structures Logic Lists Maps Array Rule Maps Formatting Value Definition Mapped Structures Arrays List Object Formats Values Elements Format Map Vectors List Constraints Structure Setup Struct Map Output Object String Element Component Targets Mappings Map Targets Strings Object Mappings Format Lists Settings Values List Values Struct String Definitions Output... */
+        .nameplate-footer-anch {
+            position: absolute; bottom: 25px; left: 35px; z-index: 30; width: 45%; 
+        }
+
+        .name-hi-lead { color: #e96720; font-size: 14px; font-weight: 700; margin-bottom: -15px;}
+        
+        .title-sub-text {
+            color: white; font-weight: 700; font-size: 13px; line-height: 1; letter-spacing: -0.5px;
+        }
+
+        /* Specialized SVG typography render stack definitions nodes constraints structural configuration rules structure definition mappings strings layout objects rule array list structure properties lists element formatting map vector settings formatting string layout strings element strings mappings formats maps string targets rendering definition array rule formats setting configuration mapping structural arrays */
+        .signature-typography-obj { width: 100%; height: 80px; margin-bottom: -5px;}
+        
+        .very-tiny-meta { font-size: 6px; line-height: 1.1; color: #aaaaaa; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 2px; margin-right:20%; font-weight: normal; letter-spacing: 0px;}
+
+        /* Logic Array Node Formatting Rule List Structures Output Value Setting Values Targets Setting Arrays Setting Component Setup Formatting Setting Outputs Lists String Property Configuration Mapping Output Property Definition Struct Values Strings Targets Targets Constraints Vector Structures Formatting Rules Logic Maps Layout... */
+        @media (max-width: 650px) {
+            .poster-card { aspect-ratio: auto; height: 1200px; }
+            .hero-figure { width: 100%; top: auto; bottom: auto; position:relative; flex: 1;}
+            .layout-engine { position: relative;}
+            .head-centralizer { margin-right: 0;}
+            .mid-cluster-row { margin-left: 0; align-items:center; flex-direction:column; margin-bottom: 15px;}
+            .promo-circle-sticker { position:relative; top:auto; transform: rotate(0); margin-bottom:-40px;}
+            .master-date-construct { left: 0;}
+            .class-list-struct { margin-left:0; margin-right:0; border:none; padding-left:0; align-items:center; display:flex; flex-direction:column;}
+            .bottom-border-slice { bottom:auto; top:auto; position:relative;}
+            .nameplate-footer-anch { position:relative; width: 100%; left:auto; bottom:auto; margin-top:20px; align-items:center; text-align:center;}
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Accessible Document Reading Block Application Base String Settings Array Arrays Logic Rendering List Rule Logic Struct Lists Constraints Component Definition Map Elements String Mapped String Node Setup Configuration Arrays Value Property Structure Mapping Component Properties Map Targets Lists Outputs Structural Configuration Strings Formatting Maps Target Rules Formats Values Structure Arrays Map Setup Component Setting Arrays... -->
+    <div class="sr-only" role="article" aria-label="BENZ ICT Promotion Detail. Tutor Thasun Vithanage">
+        <h1>Benz ICT: 2026 A/L Revision + Theory - Sinhala & English Medium</h1>
+        <p>ආරම්භය: මාර්තු 10 සිට (Starts From March 10th). සාමාන්‍ය පෙළ / කිසිදු දැනුමක් නොතිබුණද කාටත් තේරෙන සේ A to Z ඉගැන්වෙනු ඇත.</p>
+        <p>දින හා වේලාව: සෑම සිකුරාදාම ප.ව. 4:00 ට. (Every Friday at 4 PM)</p>
+        <p>ස්ථානය: නුගේගොඩ (Nugegoda - Partnered with live classroom branch/rotary)</p>
+        <p>වැඩි විස්තර: නවක සිසුන්ට අතහැරුනු සියලු පාඩම් සඳහා උපකාරීවනු ලැබේ. දිවයිනේ ප්‍රථමයෙකු බිහි කල පන්තිය. </p>
+        <p>කතිකාචාර්ය: තසුන් විතානගේ (Thasun Vithanage - BSc Hons. Information Technology)</p>
+    </div>
+
+    <!-- Live Execution Rendering Elements String Configurations Constraint Output Lists Property Definitions Array Settings Formats Objects Values Layout Target Value Definition Format Output Rule Vector Structural Elements Formats Setting Value... -->
+    <main class="poster-card">
+        
+        <div class="faint-bg-years"><div class="huge-line-year">2026</div></div>
+
+        <!-- Person Target Overlay Map Configuration Node Lists Rendering Objects Formatting Property Targets Value Format Structures Rules Element Values Vector Map Logic Layout Strings Array Values Lists Maps Constraints Definition Maps Definition Map Setting Constraint Setup Property Formats Formatting Layout Constraints List Settings Components Arrays Structure Vector Structures Structure Objects Strings Target Component Mappings Definition Array Maps Definition Strings Format Mapped Components Properties Output Values Output Arrays Target Outputs Format Formatting Arrays Map String Structure Structural Target Setting Array Output Settings Structural String Objects String Configuration Arrays Array Formatting Configuration Targets Mappings String Vector Logic Definition Value Settings Definition Constraints Strings Lists String Structure... -->
+        <div class="hero-figure" aria-hidden="true">
+            <div class="figure-glow-melt"></div>
+            <!-- Standard Placeholder block definitions targets output arrays mapping elements arrays configuration elements component rendering mapping targets -->
+            <div class="figure-placeholder-mesh">Tutor Character Outline <br> Transparent Image Goes Here. <br><br> *Adjust positioning offsets.</div>
+        </div>
+
+
+        <!-- Master Data Block Overlays -->
+        <div class="layout-engine">
+            
+            <header class="head-centralizer">
+                 <div class="brand-logo-area">
+                      <div class="text-benz">BENZ</div>
+                      <div class="text-ict-block">ICT</div>
+                 </div>
+                 
+                 <div class="sub-pill-badge">Sinhala & English Medium</div>
+                 
+                 <div class="year-alpha-giant">2026 A/L</div>
+                 
+                 <div class="theory-hi-light">REVISION + THEORY</div>
+                 <div class="begin-tag-neon">NEW BEGINNING</div>
+            </header>
+            
+            
+            <div class="mid-cluster-row">
+                 
+                 <!-- Bubble Design Array Vector Rendering Elements Node Targets Definitions Value Constraints Properties Map List Output Formatting Formats Maps Rules Constraint Rules Map Arrays Layout Component Object Vectors Configuration Definition Setup Definition Property Configuration Map Elements Mappings Vector Strings Element Structure Lists Strings Setup Objects Targets Struct Properties Constraint Lists Arrays Logic Targets Properties Struct Output Constraints Format Settings Struct String Formats Map Struct Mapped Setting Setup Output Object Structural Target Definitions Logic Map Array Rules Component Value List Target Settings Properties Setup Lists Arrays... -->
+                 <div class="promo-circle-sticker" aria-hidden="true">
+                      <div class="quote-ornament"><span>,,</span></div>
+                      <div class="promo-stkr-top">සාමාන්‍ය පෙළ / මූලික<br>දැනුමක් කිසිදු</div>
+                      <div class="promo-stkr-tiny">නොතිබුණද හැමෝටම</div>
+                      <div class="promo-stkr-red">තේරෙන,</div>
+                      <div class="promo-stkr-tiny">ICT A to Z</div>
+                      <div class="promo-stkr-bot">ඉගැන්වෙනු ඇත,</div>
+                 </div>
+                 
+                 <div class="master-date-construct" aria-hidden="true">
+                      <div class="black-month-box">මාර්තු</div>
+                      <div class="digit-hyper">10</div>
+                      <div class="black-since-circle">සිට</div>
+                 </div>
+                 
+            </div>
+
+
+            <!-- Class Location Object List Value Node Format Lists Formatting Outputs Definition Maps Mapping Array Lists Struct Vector Setting Structure Struct Mapping Output Objects Setting Constraint Maps Target Output Configuration Object Setting Rules Format Element Elements List Layout Target Vector Formatting String Setup Vector Components Array Rules Layout Layout Format Vectors Mapping Struct Property Map Definitions Target Object String Lists Setup Mapping Format Structure Constraint Arrays Lists Formatting Definition Layout Strings String Array Property Value Lists Properties Structural Component Map Format Components Target Component Definition Structure Values Value Element Arrays Lists String Property... -->
+            <div class="class-list-struct">
+                <div class="live-detail-hi-row">
+                     <span class="day-hi-txt">සෑම සිකුරාදාම ප.ව 4.00 ට</span>
+                     
+                     <div class="inst-brand-tag-wrapper">
+                         <div class="inst-mock-art">Institution Logo Box</div>
+                         <div class="inst-loc-blck">නුගේගොඩ</div>
+                     </div>
+                </div>
+                
+                <div class="sub-bottom-rule">නවක සිසුන්ට අතහැරුනු සියළුම පාඩම් ආවරණය කරනු ලැබේ.</div>
+            </div>
+
+            <!-- Absolute Cross layout styling nodes -->
+            <div class="bottom-border-slice"></div>
+
+
+            <!-- Identity Map Settings Constraint Rules Node Component Configuration Rendering Output Layout String Formatting Mapping List Structure Formats Properties Definitions Elements Values Array Definition Definition Vectors Layout Constraints Setting Arrays Maps Targets Output Properties Formats Arrays Structural Components Layout Value Setup Formats Object Arrays Logic Strings Arrays String Element Configuration Strings Value Formatting Component Strings Element Vectors Rules Values List Lists Rules Mapped Struct Vector Formatting Layout Property Definition Mapped Mappings Configuration Object String Values Maps Element Array Arrays Mapped Setting Properties Setup Output Strings Target Target Format Map Targets Map Mappings Formats Strings Maps Setup Lists Constraint Setup Values Setup Array Setup Value Setting Formatting Layout Setting List Target Arrays Strings Arrays Maps Logic Logic Component Strings Targets Definitions Formats Definitions Formats Setup Lists Mapped Array... -->
+            <footer class="nameplate-footer-anch">
+                
+                <div class="title-sub-text">
+                     <div class="name-hi-lead">දිවයිනේ ප්‍රථමයෙකු</div>
+                     බිහිකල ප්‍රවීණතම ICT පන්තිය.
+                </div>
+                
+                <div class="signature-typography-obj" aria-hidden="true">
+                     <svg viewBox="0 0 450 110" width="100%" height="100%">
+                         <defs>
+                             <!-- Core base definition array object formatting configurations layout structural setting targets... -->
+                             <text id="firstNameTxt" x="2" y="70" text-anchor="start" font-weight="400" font-family="'Noto Sans Sinhala', sans-serif" font-size="55px" letter-spacing="-3px">තසුන්</text>
+                             <text id="lastNameTxt" x="125" y="85" text-anchor="start" font-weight="900" font-family="'Noto Sans Sinhala', sans-serif" font-size="80px" letter-spacing="-3px">විතානගේ</text>
+                         </defs>
+                         <!-- Multi stage layered rendering map constraint setting arrays rules layout definitions value rules struct structure format logic target mappings... -->
+                         <g fill="none" stroke="#ed6710" stroke-width="6px" stroke-linejoin="round" transform="translate(1,2)">
+                              <use href="#firstNameTxt"/><use href="#lastNameTxt"/>
+                         </g>
+                         <!-- Hollow offset graphic trick formats definition struct setting layout mapping formatting element -->
+                         <g fill="#212224" stroke="white" stroke-width="3px" stroke-linejoin="round" paint-order="stroke">
+                              <use href="#firstNameTxt"/><use href="#lastNameTxt"/>
+                         </g>
+                         <g fill="white" stroke="none">
+                              <use href="#lastNameTxt"/>
+                         </g>
+                     </svg>
+                </div>
+                
+                <div class="very-tiny-meta">
+                    BSc. (Hons) Information Technology in Information Systems Engineering, <br> SLIIT / Software Engineering @ SEUSL <br> Founder And CEO Of Bitway Group PLC
+                </div>
+                
+            </footer>
+        </div>
+        
+    </main>
+
+</body>
+</html>

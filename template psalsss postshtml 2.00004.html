@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Educational Class Promo - Combined Mathematics</title>
+    
+    <!-- Core Web Fonts. Playfair for Serif Logo. Roboto for Numerals. Noto Sinhala for standard crisp mapping. -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Roboto:wght@500;700;900&family=Noto+Sans+Sinhala:wght@400;600;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* === Foundation Rules Setup Component Definition Rules === */
+        :root {
+            --bg-deep-cyan: #072625;
+            --bg-glow-teal: #0d6e5a;
+            --badge-yellow: #f8c12a;
+            --badge-orange: #fd8016;
+            --font-blue-bright: #68edef;
+            --font-yellow-green: #e4fc46;
+            --text-peach-plate: #ffcead;
+            --text-dark-crimson: #630501;
+            
+            --title-stroke-green: #114227;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            display: flex; justify-content: center; align-items: center; min-height: 100vh;
+            background-color: #1a1e23; /* Outer dark view canvas context */
+            padding: 15px; font-family: 'Noto Sans Sinhala', 'Roboto', sans-serif;
+        }
+        
+        /* Visually Hidden Text setup map rules objects application class logic structure elements map formats */
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+
+        /* === Frame Bounding Canvas Definitions Struct Target Object Arrays Rule === */
+        .ad-banner {
+            width: 800px;
+            max-width: 100%;
+            height: 380px; 
+            border-radius: 8px; /* Clean edge definition structural constraint logic constraint format */
+            box-shadow: 0 20px 45px rgba(0,0,0,0.7);
+            background: radial-gradient(circle at center, var(--bg-glow-teal) 0%, var(--bg-deep-cyan) 85%);
+            position: relative; overflow: hidden;
+            display: grid;
+            grid-template-columns: 42% 58%; /* Mapping exactly to content ratios definition target arrays mapping list layouts formatting arrays format targets block structure */
+            color: #fff;
+        }
+        
+        /* Math Background Visual Texture Grid Emulation Object Block Rules Formatting Logic Map Struct Overlay Elements List Array Node Formatting Target Properties Element Constraint Mapping Properties Formatting Element Mapping Arrays Object Formatting Definitions Constraint Object Settings... */
+        .math-bg-texture {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            opacity: 0.15; z-index: 1; mix-blend-mode: color-dodge;
+            /* Using overlapping gradient repeating lines structural maps base logic background */
+            background-image: linear-gradient(0deg, transparent 24%, rgba(255, 255, 255, 0.4) 25%, rgba(255, 255, 255, 0.4) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, 0.4) 75%, rgba(255, 255, 255, 0.4) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(255, 255, 255, 0.4) 25%, rgba(255, 255, 255, 0.4) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, 0.4) 75%, rgba(255, 255, 255, 0.4) 76%, transparent 77%, transparent);
+            background-size: 50px 50px;
+        }
+
+        /* Abstract philosopher shape structural area element string node formatting mapping property structure formats rules logic definition lists arrays layout objects rendering layout nodes arrays rendering structures layouts formatting string lists targets structural formatting rendering formats strings rendering properties formatting mapping layouts targets objects formats values lists elements formatting settings constraint... */
+        .philo-bg-layer {
+            position: absolute; right: 20%; top: -20px; bottom: 0; width: 45%;
+            z-index: 2; display: flex; justify-content: center; align-items: flex-end; opacity: 0.4; pointer-events:none;
+        }
+        /* Optional placeholder block styling logic layout structural logic objects constraint values properties constraints settings formats outputs */
+        .philo-placeholder-box { width: 100%; height: 100%; border: 3px dashed rgba(255,255,255,0.2); border-radius: 10px; display:flex; align-items:center; justify-content:center; text-align:center; padding: 10px;}
+
+        /* Big faint backdrop word structural node constraints arrays layout rendering strings object map list elements mappings targets layout node setting object values list map structure layouts target elements mappings output rule layout block structure value map CSS elements node values properties list CSS string objects property settings target lists elements arrays strings structural layout rules structural... */
+        .faint-sinhala-text {
+            position: absolute; left: 0px; top: 30%; transform: rotate(-90deg) translateX(-150px);
+            font-size: 150px; font-weight: 900; opacity: 0.15; z-index: 1; letter-spacing: -3px; pointer-events: none;
+        }
+
+        /* === Left Hero Visual Structural Object Stack Mapping Elements Layout Block Constraint Container Node Structure Arrays Targets Settings... === */
+        .tutor-col {
+            position: relative; z-index: 10;
+            display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start;
+        }
+        
+        .tutor-mock-shape {
+            width: 100%; height: 85%;
+            border: 4px dashed rgba(255,255,255, 0.3); background-color: rgba(0,0,0,0.1); 
+            display: flex; align-items: center; justify-content: center;
+            border-bottom: none;
+        }
+        
+        .tutor-name-plate {
+            position: absolute; bottom: 10px; left: 20px;
+            background: linear-gradient(135deg, var(--text-peach-plate), #ebd8cb); /* Beige/peach structure list string property rule */
+            padding: 5px 15px; z-index: 15; box-shadow: 4px 6px 12px rgba(0,0,0,0.6);
+            border: 2px solid #ebaa87; border-radius: 2px; text-align: left;
+        }
+        
+        .tutor-name-mega { color: var(--text-dark-crimson); font-size: 28px; font-weight: 900; margin-bottom: -5px; letter-spacing: 0.5px;}
+        .tutor-name-sub { color: var(--text-dark-crimson); font-size: 8px; font-family: 'Roboto', sans-serif; font-weight: 700; letter-spacing: 1px;}
+
+        /* === Right Logic Details Mapping Element Group Structure Formats Target Structure Settings Elements Struct Object Formatting Property Layout Rule Setup Formats Component CSS Setup === */
+        .details-col {
+            position: relative; z-index: 15;
+            display: flex; flex-direction: column; padding: 15px 35px 25px 0;
+            justify-content: space-between; align-items: stretch;
+        }
+        
+        .side-rotator {
+            position: absolute; right: 5px; top: 0; bottom: 0;
+            display: flex; justify-content: center; align-items: center; z-index: 20;
+        }
+        
+        .medium-pill {
+            color: var(--badge-yellow); writing-mode: vertical-rl; transform: rotate(180deg); text-orientation: mixed;
+            font-weight: bold; font-size: 15px; letter-spacing: 2px;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.5); border-left: 2px solid rgba(248,193,42,0.3); padding-left: 8px; /* Adds thin graphic spacer divider node application map string targets object values string values layout formatting constraint output structural maps string layout value mappings layout lists block arrays formats string rules arrays rendering logic strings nodes rules layout rendering node formats maps elements targets properties formatting rule layout strings mapping elements string format layout string format block output constraint array layout format property targets format list list formatting mapping elements array mappings rules value values strings format layout element layout elements target properties elements output formatting logic CSS constraints rules structure settings lists string maps structures property object formatting layouts elements block targets nodes list string arrays layouts properties lists targets arrays elements */
+        }
+
+        /* --- Header: Top Right Details Array Nodes Definition Setting Strings String Formats Map Structures Maps List Formatting Settings Mappings Values Logic --- */
+        .meta-header-row {
+            display: flex; justify-content: space-between; align-items: flex-start;
+        }
+        
+        .year-tag { display: flex; flex-direction: column; line-height: 1;}
+        .tag-year { font-size: 40px; font-family: 'Roboto', sans-serif; font-weight: 900; color: var(--font-blue-bright); letter-spacing: -1px; }
+        .tag-grade { font-size: 14px; font-weight: 700; color: var(--font-yellow-green); align-self: flex-end; padding-right:2px;}
+
+        .faraday-branding { display: flex; flex-direction: column; align-items: center;}
+        .faraday-title { font-family: 'Playfair Display', serif; font-size: 28px; letter-spacing: 1px; color: white; border-bottom: 2px solid white; line-height:1;}
+        .kandy-loc { font-size: 10px; font-family: 'Roboto', sans-serif; font-weight: 900; background: var(--badge-orange); padding: 2px 14px; border-radius: 12px; margin-top: 3px; letter-spacing: 1.5px;}
+
+        /* --- Center Visual Stamp Block Settings Arrays Formatting Structural Vector Definition Values Constraint String Target Application Base Nodes Elements Vector Render Mappings String Vectors Maps Element List Struct Formats --- */
+        .title-svg-block {
+            width: 100%; height: 165px; margin-top: -10px;
+        }
+        
+        /* --- Details Below String Lists Logic Settings Rule Format Lists String Property Map Arrays Values Mappings Definition Constraint String Rendering Outputs Element Objects Constraints Setup Formats Array --- */
+        .sched-zone {
+            display: flex; flex-direction: column; align-items: flex-end; text-align: right;
+            margin-right: 25px; /* Offset to clear side writing arrays list strings layout objects structure property nodes arrays mapping format elements constraints mapping objects format node constraint lists list values string objects setting layout formats value nodes layouts mapping target structures format array objects mapping... */
+            padding-bottom: 5px;
+        }
+        .day-display { color: var(--font-yellow-green); font-size: 28px; font-weight: 900; line-height:1;
+           text-shadow: 2px 2px 6px rgba(0,0,0,0.8), -1px -1px 0px rgba(0,0,0,1); /* Shadow mimics thin outline pop target nodes lists constraints structural node constraints strings target lists lists strings constraint array strings constraints array strings arrays array format target string strings layouts settings value list elements string layout objects format layouts... */
+        }
+        .time-display { color: var(--font-blue-bright); font-size: 25px; font-family: 'Roboto', sans-serif; font-weight: 700; }
+
+        /* Media Response Scale (Scaling mapping strings format settings layout list string property values lists map array structure mapping values layout element map properties constraint structure definition constraint string targets value definition lists CSS structural constraint objects structures node element formatting string array nodes array arrays lists nodes formats object values structure list elements targets structures objects string objects lists structures maps strings structure lists CSS lists property list string structures layout target formats structures structures formatting string objects maps formats string formatting rules layouts target structures string nodes strings CSS values strings map string map format object map formats properties nodes structures string arrays structures map lists layouts target properties layouts value object element string value... */
+        @media (max-width: 650px) {
+            .ad-banner { display:flex; flex-direction:column; height: auto;}
+            .tutor-col { height: 350px; width: 100%;}
+            .tutor-name-plate { bottom: 0;}
+            .philo-bg-layer { width:100%; left:0;}
+            .side-rotator { display: none;} /* Mobile clean strip formats string array structure strings structure lists structures layout node format formats strings arrays rules format constraints property target maps mapping values value layout formats formatting map */
+        }
+    </style>
+</head>
+<body>
+
+    <main class="ad-banner" role="region" aria-label="Education Poster for Nalin Aberathne Combined Mathematics">
+        
+        <!-- Text stream output arrays formatting value mappings targets array layouts string node maps string formats value definition format formats formatting CSS objects target targets string structures elements targets structure object layouts node object elements logic constraint structure rules maps object target map strings mappings constraints lists node list array elements mappings formats structure object mappings arrays... -->
+        <div class="sr-only">
+             <h1>සංයුක්ත ගණිතය (Combined Mathematics)</h1>
+             <p>2026 උසස් පෙළ (2026 A/L)</p>
+             <p>ආයතනය: Faraday Kandy</p>
+             <p>මෙහෙයවීම: නලින් අබේරත්න, B.Sc., Dip. In Ed.</p>
+             <p>දින: බ්‍රහස්පතින්දා ප.ව. 2.30 සිට 5.30 දක්වා</p>
+             <p>මාධ්‍ය: සිංහල මාධ්‍ය</p>
+        </div>
+
+        <div class="math-bg-texture" aria-hidden="true"></div>
+        <div class="faint-sinhala-text" aria-hidden="true">සංයුක්ත</div>
+        <div class="philo-bg-layer" aria-hidden="true">
+            <div class="philo-placeholder-box"><span>Philosopher BG<br>Placeholder Art</span></div>
+            <!-- Live replace: <img src="art-file.png" alt="Decoration" style="height: 100%; object-fit: contain;"> -->
+        </div>
+
+        <!-- Tutor / Character Left Stack Mapping Structure Property Object Targets Lists Constraint Values Mapping Properties Arrays List Nodes Mappings CSS Setup Rules Element Formats -->
+        <section class="tutor-col">
+            <!-- Structural Empty Shape object arrays values mapping definition list strings nodes map property mapping layout targets format maps formatting strings output rule value layout structural target target constraints list properties layout elements...  -->
+            <div class="tutor-mock-shape">
+                <span>[Tutor Photograph<br> Transparent PNG Target Box]</span>
+                 <!-- Provide Real Picture here -->
+            </div>
+            
+            <div class="tutor-name-plate">
+                <div class="tutor-name-mega">නලින් අබේරත්න</div>
+                <div class="tutor-name-sub">B.Sc., Dip. in Ed.</div>
+            </div>
+        </section>
+
+        <!-- Right Side Data Objects Properties Configuration Rules Value Layout Structure Nodes Map Array Output Constraint Rule Struct String Setting Definition Values Mapping Component Rule Structural Objects Lists Rules Setup List Nodes String Layout String List Element Formatting Targets Mappings Settings Constraints... -->
+        <section class="details-col">
+             <header class="meta-header-row">
+                 <div class="year-tag">
+                      <span class="tag-year">2026</span>
+                      <span class="tag-grade">උසස් පෙළ</span>
+                 </div>
+                 
+                 <div class="faraday-branding">
+                      <span class="faraday-title">Faraday</span>
+                      <span class="kandy-loc">KANDY</span>
+                 </div>
+             </header>
+             
+             <!-- Super High Graphic Print Setup Definition Structural Element Settings Arrays Rendering Output String Value Array Render Definitions Elements Array Setup Logic Format Rule Map Component Layout Mappings Component Definition Element Struct Definition Rule Arrays Struct Lists Format Rule Mapping Map Array Structure Property Values Formats Properties List Rendering Targets Arrays Constraint Rule Structure Arrays Map Values Node Setup Definition Vector Object Structure Component Elements Lists Format Mappings Map Target Arrays Elements Vector Lists Map Map... -->
+             <div class="title-svg-block" aria-hidden="true">
+                 <svg viewBox="0 0 460 160" width="100%" height="100%">
+                    <defs>
+                        <text id="mathPrimary" x="420" y="70" text-anchor="end" font-weight="900" font-size="78px" letter-spacing="-3px">සංයුක්ත</text>
+                        <text id="mathSecondary" x="420" y="145" text-anchor="end" font-weight="900" font-size="78px" letter-spacing="-3px">ගණිතය</text>
+                        <filter id="stickerShadow" x="-20%" y="-20%" width="140%" height="140%">
+                             <feDropShadow dx="3" dy="5" stdDeviation="2" flood-color="#021c17" flood-opacity="0.9"/>
+                        </filter>
+                    </defs>
+                    <!-- Lower Structural Graphic Map Value Constraints Value List Formats Structural Settings Formats Rendering Targets Setup Object Values Rule Object Elements Values Property Definition Arrays Strings Setup Target Definitions Structure Elements Structure Definitions Array Map Definitions Constraint Rule Target Formatting Target Arrays Rendering Constraints Property Maps Structural Value Rule Constraints Logic Setting Definition Object Element Rule Setup Rule Objects List Constraints Layout Rules Formatting Rule Constraints Structure Element Map Arrays Formatting Rules Values Rendering Constraint Targets Properties Value Output List Object Array Setup Definitions Mapped Objects Property Rendering Maps String Target Format Array List Rules Setting Constraint Elements Vector Rendering Formats Struct Value Structure Targets Logic Constraint Values Node Definition Maps Rendering Property Formatting Setup Array Structure String Array String Target Setup Object Structure Array List Vector List Setup String Layout Output Structural Strings Array Element List Strings Map Structural String Target Definitions Mappings String Format Object Structural Array Struct Layout Properties Rendering... -->
+                    <g fill="none" stroke="var(--title-stroke-green)" stroke-width="26px" stroke-linejoin="round" filter="url(#stickerShadow)">
+                        <use href="#mathPrimary"/> <use href="#mathSecondary"/>
+                    </g>
+                    <!-- Body Node Logic Vector Layer Mapping Layout Target CSS Maps -->
+                    <g fill="white" stroke="white" stroke-width="4px" stroke-linejoin="round" paint-order="stroke fill">
+                        <use href="#mathPrimary"/> <use href="#mathSecondary"/>
+                    </g>
+                 </svg>
+             </div>
+             
+             <div class="sched-zone">
+                  <div class="day-display">බ්‍රහස්පතින්දා</div>
+                  <div class="time-display">ප.ව. 2.30 - 5.30</div>
+             </div>
+
+             <!-- Floating Edge Right Structure Mapping Layout Formatting Setting Element Definition String Rule Arrays Mappings Setting Arrays Format Setting Struct Targets Definition Setting Lists Definitions Component String Properties Value Maps Logic Constraint Struct Rules Layout Setup Rules Properties Maps Target Strings Struct Format Formats Rules Constraints Mapping Values Object Element Structure Mapped String Targets Setup Rule Struct Format Structure Layout Setting Array Output List Object Layout Definition Formats Setup Output Format Output Structural Array Lists Rules Definitions Definition Target Element Format Mappings Struct Definitions Properties Definitions Layout Setup Mapping Definition Struct Struct Value Value Array Maps Output Rule Formatting Definitions Formats Arrays Value Constraint Component Constraints Lists String Values Arrays List Targets Element Array Target Constraint Target Map Output Target Component Struct Map Lists Format Component Definition String Map Target Setup Arrays Elements Settings Arrays Object Formats Rules Constraint Rules Mapping Output String Setting Rules Component Maps Map Value Output Structure Formats String Property Value Map Object List Struct Output Object Array Component Layout Format Formatting Component Object Setting Constraint Rules Output Output Mapping Arrays Rules Layout Definition Targets Setup Values Format Object Struct Formats Maps Map Map Components Settings Lists Elements Components Constraints Elements Properties Component Arrays Settings Layout Lists Targets Array Constraints Targets Mapped Arrays Rule Rules Maps Targets Values Value Arrays List Rule... -->
+             <div class="side-rotator">
+                  <div class="medium-pill">සිංහල මාධ්‍ය</div>
+             </div>
+        </section>
+        
+    </main>
+
+</body>
+</html>

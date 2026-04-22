@@ -1,0 +1,2613 @@
+<!DOCTYPE html>
+<html lang="si">
+
+<head>
+  <!-- Playables SDK -->
+  <script>// Playables SDK v1.0.0
+    // Game lifecycle bridge: rAF-based game-ready detection + event communication
+    (function () {
+      'use strict';
+
+      // Idempotency: skip if already initialized (e.g., server-side injection
+      // followed by client-side inject-javascript via the Bloks webview component).
+      if (window.playablesSDK) return;
+
+      var HANDLER_NAME = 'playablesGameEventHandler';
+      var ANDROID_BRIDGE_NAME = '_MetaPlayablesBridge';
+      var RAF_FRAME_THRESHOLD = 3;
+
+      var gameReadySent = false;
+      var firstInteractionSent = false;
+      var errorSent = false;
+      var frameCount = 0;
+      var originalRAF = window.requestAnimationFrame;
+
+      // --- Transport Layer ---
+
+      function hasIOSBridge() {
+        return !!(window.webkit &&
+          window.webkit.messageHandlers &&
+          window.webkit.messageHandlers[HANDLER_NAME]);
+      }
+
+      function hasAndroidBridge() {
+        return !!(window[ANDROID_BRIDGE_NAME] &&
+          typeof window[ANDROID_BRIDGE_NAME].postEvent === 'function');
+      }
+
+      function isInIframe() {
+        return !!(window.parent && window.parent !== window);
+      }
+
+      function sendEvent(eventName, payload) {
+        var message = {
+          type: eventName,
+          payload: payload || {},
+          timestamp: Date.now()
+        };
+
+        if (hasIOSBridge()) {
+          try {
+            window.webkit.messageHandlers[HANDLER_NAME].postMessage(message);
+          } catch (e) { /* ignore */ }
+          return;
+        }
+
+        if (hasAndroidBridge()) {
+          try {
+            var p = payload || {};
+            p.__secureToken = window.__fbAndroidBridgeAuthToken || '';
+            window[ANDROID_BRIDGE_NAME].postEvent(
+              eventName,
+              JSON.stringify(p)
+            );
+          } catch (e) { /* ignore */ }
+          return;
+        }
+
+        if (isInIframe()) {
+          try {
+            window.parent.postMessage(message, '*');
+          } catch (e) { /* ignore */ }
+          return;
+        }
+      }
+
+      // --- rAF Game-Ready Detection ---
+
+      function onFrame() {
+        if (gameReadySent) return;
+
+        frameCount++;
+        if (frameCount >= RAF_FRAME_THRESHOLD) {
+          gameReadySent = true;
+          sendEvent('game_ready', {
+            frame_count: frameCount,
+            detected_at: Date.now()
+          });
+          return;
+        }
+
+        originalRAF.call(window, onFrame);
+      }
+
+      if (originalRAF) {
+        window.requestAnimationFrame = function (callback) {
+          if (!gameReadySent) {
+            return originalRAF.call(window, function (timestamp) {
+              frameCount++;
+              if (frameCount >= RAF_FRAME_THRESHOLD && !gameReadySent) {
+                gameReadySent = true;
+                sendEvent('game_ready', {
+                  frame_count: frameCount,
+                  detected_at: Date.now()
+                });
+              }
+              callback(timestamp);
+            });
+          }
+          return originalRAF.call(window, callback);
+        };
+      }
+
+      // --- First User Interaction Detection ---
+
+      function setupFirstInteractionDetection() {
+        var events = ['touchstart', 'mousedown', 'keydown'];
+
+        function onFirstInteraction() {
+          if (firstInteractionSent) return;
+          firstInteractionSent = true;
+          sendEvent('user_interaction_start', null);
+
+          for (var i = 0; i < events.length; i++) {
+            document.removeEventListener(events[i], onFirstInteraction, true);
+          }
+        }
+
+        for (var i = 0; i < events.length; i++) {
+          document.addEventListener(events[i], onFirstInteraction, true);
+        }
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setupFirstInteractionDetection);
+      } else {
+        setupFirstInteractionDetection();
+      }
+
+      // --- Auto Error Capture ---
+
+      window.addEventListener('error', function (event) {
+        if (errorSent) return;
+        errorSent = true;
+        sendEvent('error', {
+          message: event.message || 'Unknown error',
+          source: event.filename || '',
+          lineno: event.lineno || 0,
+          colno: event.colno || 0,
+          auto_captured: true
+        });
+      });
+
+      window.addEventListener('unhandledrejection', function (event) {
+        if (errorSent) return;
+        errorSent = true;
+        var reason = event.reason;
+        sendEvent('error', {
+          message: (reason instanceof Error) ? reason.message : String(reason),
+          type: 'unhandled_promise_rejection',
+          auto_captured: true
+        });
+      });
+
+      // --- Public API ---
+
+      window.playablesSDK = {
+        complete: function (score) {
+          sendEvent('game_ended', {
+            score: score,
+            completed: true
+          });
+        },
+
+        error: function (message) {
+          if (errorSent) return;
+          errorSent = true;
+          sendEvent('error', {
+            message: message || 'Unknown error',
+            auto_captured: false
+          });
+        },
+
+        sendEvent: function (eventName, payload) {
+          if (!eventName || typeof eventName !== 'string') return;
+          sendEvent(eventName, payload);
+        }
+      };
+
+      // Kick off rAF detection in case no game code calls rAF immediately
+      if (originalRAF) {
+        originalRAF.call(window, onFrame);
+      }
+    })();</script>
+  <script>window.Intl = window.Intl || {}; Intl.t = function (s) { return (Intl._locale && Intl._locale[s]) || s; };</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tuition Class Flyer Maker | Pro Studio</title>
+
+  <!-- PREMIUM SINHALA FONTS FOR TUITION FLYERS -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Anek+Sinhala:wght@400;700;800;900&family=Noto+Sans+Sinhala:wght@400;700;900&family=Noto+Serif+Sinhala:wght@400;700&family=Abhaya+Libre:wght@600;800&family=Gemunu+Libre:wght@400;700;800&family=Yaldevi:wght@400;600;700&family=Maname&family=Baloo+2:wght@400;700;800&family=Poppins:wght@400;600;800&family=Montserrat:wght@400;700;900&family=Bebas+Neue&family=Inter:wght@400;600;800&display=swap"
+    rel="stylesheet">
+
+  <style>
+    /* ═════════ FIGMA-STYLE UI VARIABLES ═════════ */
+    :root {
+      --bg: #121212;
+      --panel: #1e1e1e;
+      --panel-border: #333333;
+      --accent: #ff0055;
+      --accent-hover: #ff3377;
+      --text-main: #cccccc;
+      --text-bright: #ffffff;
+      --gold: #f5d06e;
+      --layer-hover: #2a2d2e;
+      --layer-selected: #4a1525;
+      --font-ui: 'Inter', sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text-main);
+      font-family: var(--font-ui);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #555;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--panel);
+    }
+
+    /* ─── TOP BAR ─── */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      height: 55px;
+      background: #252526;
+      border-bottom: 1px solid var(--panel-border);
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 16px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo span {
+      background: var(--accent);
+      color: #fff;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      text-transform: uppercase;
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .canvas-size-select {
+      background: #111;
+      color: #fff;
+      border: 1px solid #555;
+      padding: 8px;
+      border-radius: 6px;
+      font-size: 12px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border-radius: 6px;
+      border: 1px solid transparent;
+      font-family: var(--font-ui);
+      font-size: 12px;
+      cursor: pointer;
+      transition: 0.2s;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text-bright);
+      border-color: #555;
+    }
+
+    .btn-outline:hover {
+      background: #444;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+    }
+
+    /* ─── WORKSPACE (3 COLUMNS) ─── */
+    .workspace {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* 1. LEFT PANEL (LAYERS & TEMPLATES) */
+    .left-panel {
+      width: 300px;
+      background: var(--panel);
+      border-right: 1px solid var(--panel-border);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .panel-header {
+      padding: 12px 16px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #999;
+      border-bottom: 1px solid var(--panel-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #181818;
+    }
+
+    .layer-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 0;
+    }
+
+    .layer-item {
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--text-main);
+      border-left: 3px solid transparent;
+      transition: 0.1s;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+    }
+
+    .layer-item:hover {
+      background: var(--layer-hover);
+    }
+
+    .layer-item.active {
+      background: var(--layer-selected);
+      border-left-color: var(--accent);
+      color: var(--text-bright);
+    }
+
+    .layer-name {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      font-weight: 500;
+    }
+
+    .layer-icon {
+      font-size: 14px;
+      width: 16px;
+      text-align: center;
+    }
+
+    .layer-actions {
+      display: flex;
+      gap: 4px;
+      opacity: 0;
+      transition: 0.2s;
+    }
+
+    .layer-item:hover .layer-actions,
+    .layer-item.active .layer-actions {
+      opacity: 1;
+    }
+
+    .icon-btn {
+      background: #444;
+      border: none;
+      color: #ccc;
+      cursor: pointer;
+      font-size: 10px;
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .icon-btn:hover {
+      background: #666;
+      color: #fff;
+    }
+
+    /* TUITION TEMPLATES SECTION */
+    .add-tools {
+      padding: 15px;
+      border-top: 1px solid var(--panel-border);
+      background: #1a1a1a;
+    }
+
+    .add-tools-title {
+      font-size: 11px;
+      color: #aaa;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .add-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .add-btn {
+      background: #2d2d2d;
+      color: #ddd;
+      border: 1px solid #444;
+      padding: 10px;
+      font-size: 11px;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .add-btn:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .full-btn {
+      grid-column: span 2;
+      background: #0055ff;
+      border-color: #0055ff;
+      color: white;
+    }
+
+    .full-btn:hover {
+      background: #0044cc;
+    }
+
+    /* 2. CENTER CANVAS AREA */
+    .canvas-container {
+      flex: 1;
+      background: #0a0a0a;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background-image: radial-gradient(#333 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+
+    #canvas-wrap {
+      position: relative;
+      box-shadow: 0 10px 50px rgba(0, 0, 0, 0.8);
+      outline: 1px solid #444;
+      cursor: grab;
+      transition: width 0.3s, height 0.3s;
+    }
+
+    #canvas-wrap:active {
+      cursor: grabbing;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* 3. RIGHT PANEL (PROPERTIES/INSPECTOR) */
+    .right-panel {
+      width: 320px;
+      background: var(--panel);
+      border-left: 1px solid var(--panel-border);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    .prop-section {
+      border-bottom: 1px solid var(--panel-border);
+      padding: 16px;
+    }
+
+    .prop-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #aaa;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .prop-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px;
+      align-items: flex-end;
+    }
+
+    .prop-col {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .prop-label {
+      font-size: 11px;
+      color: #999;
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Forms */
+    input[type=text],
+    textarea,
+    select {
+      width: 100%;
+      background: #121212;
+      color: #fff;
+      border: 1px solid #444;
+      padding: 8px 10px;
+      border-radius: 6px;
+      font-family: 'Noto Sans Sinhala', sans-serif;
+      font-size: 13px;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    input[type=text]:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--accent);
+      background: #1a1a1a;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 60px;
+      line-height: 1.5;
+    }
+
+    input[type=color] {
+      -webkit-appearance: none;
+      border: none;
+      width: 100%;
+      height: 32px;
+      border-radius: 6px;
+      cursor: pointer;
+      background: transparent;
+      padding: 0;
+    }
+
+    input[type=color]::-webkit-color-swatch-wrapper {
+      padding: 0;
+    }
+
+    input[type=color]::-webkit-color-swatch {
+      border: 1px solid #555;
+      border-radius: 6px;
+    }
+
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 4px;
+      background: #444;
+      outline: none;
+      border-radius: 2px;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      background: #fff;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid var(--accent);
+    }
+
+    /* File Upload Button */
+    .clip-upload {
+      border: 2px dashed var(--accent);
+      background: rgba(255, 0, 85, 0.05);
+      color: var(--accent);
+      padding: 16px;
+      text-align: center;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      transition: 0.2s;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .clip-upload:hover {
+      background: rgba(255, 0, 85, 0.15);
+      border-style: solid;
+    }
+
+    .clip-remove {
+      border: 1px solid #ff4444;
+      color: #ff4444;
+      padding: 10px;
+      text-align: center;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 8px;
+    }
+
+    .clip-remove:hover {
+      background: rgba(255, 68, 68, 0.1);
+    }
+
+    .empty-state {
+      padding: 40px 20px;
+      text-align: center;
+      color: #666;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    /* TOAST */
+    #toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: #fff;
+      color: #000;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 13px;
+      z-index: 2000;
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.3s;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    #toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ─── TEMPLATE GALLERY MODAL ─── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 5000;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      background: #1a1a1a;
+      border-bottom: 2px solid var(--accent);
+      flex-shrink: 0;
+    }
+
+    .modal-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .modal-close {
+      background: #444;
+      border: none;
+      color: #fff;
+      width: 34px;
+      height: 34px;
+      border-radius: 6px;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-close:hover {
+      background: var(--accent);
+    }
+
+    .modal-body {
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-grid-view {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 14px;
+    }
+
+    .tpl-card {
+      background: #2a2a2a;
+      border: 2px solid #444;
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .tpl-card:hover {
+      border-color: var(--accent);
+      transform: scale(1.03);
+      box-shadow: 0 8px 24px rgba(255, 0, 85, 0.3);
+    }
+
+    .tpl-card-thumb {
+      width: 100%;
+      height: 120px;
+      border: none;
+      pointer-events: none;
+      background: #fff;
+      transform-origin: top left;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .tpl-card-thumb iframe {
+      width: 600px;
+      height: 800px;
+      border: none;
+      transform: scale(0.3);
+      transform-origin: top left;
+      pointer-events: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .tpl-card-label {
+      padding: 8px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #ddd;
+      text-align: center;
+      background: #1e1e1e;
+      border-top: 1px solid #333;
+    }
+
+    /* Preview pane */
+    .modal-preview {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .modal-preview-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 18px;
+      background: #222;
+      border-bottom: 1px solid #333;
+      flex-shrink: 0;
+    }
+
+    .modal-preview-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .modal-preview-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .modal-preview-body {
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+    }
+
+    .modal-preview-body iframe {
+      flex: 1;
+      border: none;
+      background: #fff;
+    }
+
+    .tpl-grid-btn {
+      background: #2d2d2d;
+      border: 1px solid #555;
+      color: #ddd;
+      padding: 7px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .tpl-grid-btn:hover {
+      background: #444;
+    }
+
+    .tpl-use-btn {
+      background: var(--accent);
+      border: 1px solid var(--accent);
+      color: #fff;
+      padding: 7px 16px;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .tpl-use-btn:hover {
+      background: var(--accent-hover);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="topbar">
+    <div class="logo">TuitionStudio <span>PRO</span></div>
+    <div class="top-actions">
+      <select class="canvas-size-select" id="canvas-ratio" onchange="initCanvas()">
+        <option value="1:1">Square Poster (1080x1080)</option>
+        <option value="4:5">Facebook/Insta Portrait (1080x1350)</option>
+        <option value="16:9">YouTube Cover (1280x720)</option>
+        <option value="9:16">Reels / TikTok (720x1280)</option>
+      </select>
+      <button class="btn btn-outline" onclick="copyToClipboard()">📋 Copy Image</button>
+      <button class="btn btn-primary" onclick="exportRender()">⬇ Download Poster</button>
+      <button class="btn btn-primary" style="background:#00c853" onclick="generateWebsite()">🌐 Generate Website</button>
+    </div>
+  </div>
+
+  <div class="workspace">
+
+    <!-- 1. LAYERS PANEL (LEFT) -->
+    <div class="left-panel">
+      <div class="panel-header">Layers (Drag & Drop)</div>
+      <div class="layer-list" id="layer-list">
+        <!-- Layers render here -->
+      </div>
+
+      <div class="add-tools">
+        <div class="add-tools-title">Quick Templates</div>
+        <div class="add-grid">
+          <div class="add-btn full-btn" style="background:#252526; border-color:#555" onclick="openTemplateGallery()">
+            📂 Browse Full Template Gallery</div>
+          <div class="add-btn" style="background:#e6003e; border-color:#e6003e" onclick="loadTemplate('red')">
+            🔴 Red A/L</div>
+          <div class="add-btn" style="background:#6a1b9a; border-color:#6a1b9a" onclick="loadTemplate('purple')">
+            🟣 Purple O/L</div>
+          <div class="add-btn" style="background:#f7cd1b; color:#000; border-color:#f7cd1b" onclick="loadTemplate('maths')">
+            🟡 Maths Yellow</div>
+        </div>
+
+        <div class="add-tools-title" style="margin-top:15px">Add Elements</div>
+        <div class="add-grid">
+          <div class="add-btn" onclick="addLayer('text')"><i>T</i> Add Text</div>
+          <div class="add-btn" onclick="addLayer('shape')"><i>⬛</i> Add Shape</div>
+          <div class="add-btn full-btn" style="background:#333; border-color:#555;"
+            onclick="document.getElementById('img-upload').click()"><i>🖼️</i> Upload Standard Image</div>
+          <input type="file" id="img-upload" accept="image/*" style="display:none" onchange="addLayer('image', this)">
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. CANVAS AREA (CENTER) -->
+    <div class="canvas-container" id="canvas-container">
+      <div id="canvas-wrap">
+        <canvas id="main-canvas"></canvas>
+      </div>
+    </div>
+
+    <!-- 3. PROPERTIES INSPECTOR (RIGHT) -->
+    <div class="right-panel" id="prop-panel">
+      <!-- Dynamic Properties render here -->
+    </div>
+
+  </div>
+
+  <div id="toast"></div>
+
+  <!-- ============== TEMPLATE GALLERY MODAL ============== -->
+  <div id="tpl-modal" class="modal-overlay" style="display:none">
+    <div class="modal-header">
+      <div class="modal-title">📁 HTML Template Gallery <span
+          style="font-size:11px; color:#999; font-weight:400; margin-left:8px">Click a template to preview it</span>
+      </div>
+      <button class="modal-close" onclick="closeTemplateGallery()">✕</button>
+    </div>
+    <div class="modal-body">
+      <!-- Grid view shown by default -->
+      <div id="tpl-grid-view" class="modal-grid-view"></div>
+      <!-- Preview view shown when card clicked -->
+      <div id="tpl-preview-view" class="modal-preview" style="display:none">
+        <div class="modal-preview-header">
+          <div class="modal-preview-title" id="tpl-preview-name">Template Preview</div>
+          <div class="modal-preview-actions">
+            <button class="tpl-grid-btn" onclick="showTemplateGrid()">◀ Back to Gallery</button>
+            <button class="tpl-use-btn" onclick="importCurrentTemplateToCanvas()">⬇ Import to Canvas</button>
+          </div>
+        </div>
+        <div class="modal-preview-body">
+          <iframe id="tpl-preview-iframe" src="about:blank" sandbox="allow-scripts allow-same-origin"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== SCRIPT ENGINE ========================================== -->
+  <script>
+    /* ─── STATE MANAGEMENT ─── */
+    const RATIOS = { '1:1': [1080, 1080], '4:5': [1080, 1350], '16:9': [1280, 720], '9:16': [720, 1280] };
+    let W = 1080, H = 1080;
+    const dpr = 2; // Retina resolution for crisp export
+
+    let canvas, ctx, wrap;
+    let layers = [];
+    let layerIdCount = 1;
+    let selectedId = null;
+    let templatesList = [
+      "template psalsss postshtml 200001.html",
+      "template psalsss postshtml 200002.html",
+      "template psalsss postshtml 200003.html",
+      "template psalsss postshtml 200004.html",
+      "template psalsss postshtml 200005.html",
+      "template psalsss postshtml 200006.html",
+      "template psalsss postshtml 200007.html",
+      "template psalsss postshtml 200008.html",
+      "template psalsss postshtml 200009.html",
+      "template psalsss postshtml 200010.html",
+      "template psalsss postshtml 200011.html",
+      "template psalsss postshtml 2.00001.html",
+      "template psalsss postshtml 2.00003.html",
+      "template psalsss postshtml 2.00004.html",
+      "template psalsss postshtml 2.00005.html",
+      "template psalsss postshtml 2.00006.html",
+      "template psalsss postshtml 2.00012.html"
+    ];
+
+    const TEMPLATE_PARTICLES = {
+      "red": {
+        name: "Red A/L Template",
+        ratio: "1:1",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#ffffff', c2: '#f0f0f0', angle: 0, vignette: false },
+          { type: 'shape', name: 'Top Red BG', sType: 'rect', x: 540, y: 150, w: 1080, h: 300, color: '#e6003e', opacity: 100, rotation: 0, glass: false, clipImg: null, strokeW: 0 },
+          { type: 'shape', name: 'Bottom Banner', sType: 'rect', x: 540, y: 1020, w: 1080, h: 120, color: '#0f4a2b', opacity: 100, rotation: 0, glass: false, clipImg: null, strokeW: 0 },
+          { type: 'text', name: 'Subject Main', text: 'සිංහල', x: 300, y: 160, font: "'Abhaya Libre'", size: 160, color: '#ffffff', weight: 800, align: 'center', rotation: 0, opacity: 100, style: 'solid', strokeW: 10, strokeC: '#e6003e', spacing: 5 },
+          { type: 'text', name: 'Year/Level', text: '2025 A/L', x: 300, y: 310, font: "'Bebas Neue'", size: 150, color: '#e6003e', weight: 700, align: 'center', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000', spacing: 5 },
+          { type: 'text', name: 'Online Text', text: 'Online\nලංකාවට ම', x: 250, y: 440, font: "'Noto Sans Sinhala'", size: 60, color: '#222222', weight: 900, align: 'center', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000', spacing: 0 },
+          { type: 'shape', name: 'Date Box', sType: 'rect', x: 220, y: 620, w: 250, h: 100, color: '#111111', opacity: 100, rotation: 0, glass: false, clipImg: null, strokeW: 0, radius: 10 },
+          { type: 'text', name: 'Date Text', text: 'පෙබ. 08\nනොමිලේ', x: 220, y: 620, font: "'Anek Sinhala'", size: 45, color: '#ffffff', weight: 800, align: 'center', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000', spacing: 0 },
+          { type: 'text', name: 'Teacher Name', text: 'අකිල විමංග', x: 300, y: 880, font: "'Gemunu Libre'", size: 80, color: '#e6003e', weight: 800, align: 'center', rotation: 0, opacity: 100, style: 'solid', strokeW: 8, strokeC: '#ffffff', spacing: 2 },
+          { type: 'text', name: 'Phone', text: '📞 070 413 63 38', x: 540, y: 1020, font: "'Inter'", size: 50, color: '#ffffff', weight: 700, align: 'center', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000', spacing: 5 },
+          { type: 'shape', name: 'Teacher Image Frame', sType: 'circle', x: 800, y: 650, w: 500, h: 500, color: '#cccccc', opacity: 100, rotation: 0, glass: false, clipImg: null, strokeW: 8, strokeC: '#ffffff', radius: 0 }
+        ]
+      },
+      "purple": {
+        name: "Purple O/L Template",
+        ratio: "1:1",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#1a0b2e', c2: '#2d1445', angle: 135, vignette: true },
+          { type: 'text', name: 'Subject Main', text: 'සිංහල', x: 750, y: 200, font: "'Anek Sinhala'", size: 160, color: '#ff007a', weight: 900, align: 'center', rotation: 0, opacity: 100, style: 'solid', strokeW: 12, strokeC: '#ffffff', spacing: 5 },
+          { type: 'shape', name: 'Time Box 1', sType: 'rect', x: 750, y: 400, w: 400, h: 80, color: '#ffffff', opacity: 10, rotation: 0, glass: true, clipImg: null, strokeW: 1, strokeC: '#ffffff', radius: 10 },
+          { type: 'text', name: 'Grade 10 Time', text: 'Grade 10 | Tuesday 5.15 PM', x: 750, y: 400, font: "'Space Grotesk'", size: 25, color: '#f5d06e', weight: 700, align: 'center', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000', spacing: 1 },
+          { type: 'shape', name: 'Time Box 2', sType: 'rect', x: 750, y: 520, w: 400, h: 80, color: '#ffffff', opacity: 10, rotation: 0, glass: true, clipImg: null, strokeW: 1, strokeC: '#ffffff', radius: 10 },
+          { type: 'text', name: 'Grade 11 Time', text: 'Grade 11 | Tuesday 3.30 PM', x: 750, y: 520, font: "'Space Grotesk'", size: 25, color: '#00f0ff', weight: 700, align: 'center', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000', spacing: 1 },
+          { type: 'shape', name: 'Bottom Banner', sType: 'rect', x: 540, y: 1020, w: 1080, h: 120, color: '#000000', opacity: 80, rotation: 0, glass: false, clipImg: null, strokeW: 0 },
+          { type: 'text', name: 'Name & Phone', text: 'Mr. Sharm | 07 1199 1177', x: 540, y: 1020, font: "'Inter'", size: 40, color: '#ffffff', weight: 800, align: 'center', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000', spacing: 2 },
+          { type: 'shape', name: 'Teacher Placeholder Frame', sType: 'rect', x: 250, y: 650, w: 500, h: 800, color: '#cccccc', opacity: 100, rotation: 0, glass: false, clipImg: null, strokeW: 0, radius: 0 }
+        ]
+      },
+      "maths": {
+        name: "Maths Yellow Template",
+        ratio: "4:5",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#f6f6f8', c2: '#e4e7ed', angle: 0 },
+          { type: 'shape', name: 'Top Yellow', sType: 'rect', x: 540, y: 210, w: 1080, h: 420, color: '#f7cd1b', opacity: 100, rotation: 0, strokeW: 0 },
+          { type: 'shape', name: 'Art Line 1', sType: 'rect', x: 90, y: 140, w: 180, h: 6, color: '#000000', opacity: 15, rotation: 70, strokeW: 0 },
+          { type: 'shape', name: 'Art Line 2', sType: 'rect', x: 140, y: 130, w: 200, h: 6, color: '#000000', opacity: 15, rotation: 70, strokeW: 0 },
+          { type: 'shape', name: 'Art Line 3', sType: 'rect', x: 220, y: 140, w: 180, h: 6, color: '#000000', opacity: 15, rotation: -70, strokeW: 0 },
+          { type: 'shape', name: 'Art Line 4', sType: 'rect', x: 270, y: 130, w: 200, h: 6, color: '#000000', opacity: 15, rotation: -70, strokeW: 0 },
+          { type: 'shape', name: 'Art Circle 1', sType: 'circle', x: 130, y: 280, w: 50, h: 50, color: '#f58e13', opacity: 15, rotation: 0, strokeW: 0 },
+          { type: 'shape', name: 'Art Circle 2', sType: 'circle', x: 210, y: 280, w: 50, h: 50, color: '#f58e13', opacity: 15, rotation: 0, strokeW: 0 },
+          { type: 'shape', name: 'Red Separator', sType: 'rect', x: 540, y: 430, w: 1080, h: 30, color: '#db1821', opacity: 100, rotation: 0, strokeW: 0 },
+          { type: 'text', name: 'Tagline 1', text: 'ඇවිද්දා ඇති,', x: 180, y: 130, font: "'Noto Sans Sinhala'", size: 55, color: '#1a1a1a', weight: 900, align: 'left', rotation: -3, opacity: 100, style: 'solid', strokeW: 3, strokeC: '#ffffff', spacing: -1 },
+          { type: 'text', name: 'Tagline 2', text: 'නැවතිලා', x: 200, y: 220, font: "'Noto Sans Sinhala'", size: 140, color: '#d81619', weight: 900, align: 'left', rotation: 0, opacity: 100, style: 'solid', strokeW: 6, strokeC: '#ffffff', spacing: -3 },
+          { type: 'text', name: 'Tagline 3', text: 'හිතන්න..', x: 260, y: 340, font: "'Noto Sans Sinhala'", size: 140, color: '#1a1a1a', weight: 900, align: 'left', rotation: 0, opacity: 100, style: 'solid', strokeW: 4, strokeC: '#ffffff', spacing: -2 },
+          { type: 'shape', name: 'Navy Bubble', sType: 'rect', x: 800, y: 160, w: 360, h: 150, color: '#074780', opacity: 100, rotation: 0, strokeW: 0, radius: 40 },
+          { type: 'shape', name: 'Navy Tail', sType: 'rect', x: 610, y: 190, w: 40, h: 20, color: '#074780', opacity: 100, rotation: -20, strokeW: 0 },
+          { type: 'text', name: 'Navy Text', text: 'විෂය නිර්දේශය\nආවරණය කරන්නේ\nදිනෙන් දින කියා\nඔබ තවමත් ලතැවෙනවා\nද ?', x: 800, y: 160, font: "'Noto Sans Sinhala'", size: 24, color: '#ffffff', weight: 700, align: 'center', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000', spacing: 0 },
+          { type: 'shape', name: 'Green Bubble', sType: 'rect', x: 750, y: 330, w: 380, h: 170, color: '#0f7652', opacity: 100, rotation: 0, strokeW: 0, radius: 60 },
+          { type: 'shape', name: 'Green Tail', sType: 'rect', x: 550, y: 360, w: 50, h: 24, color: '#0f7652', opacity: 100, rotation: -15, strokeW: 0 },
+          { type: 'text', name: 'Green Text', text: 'නිසි පරිදි වන දේශන\nමඟහැරෙනු\nප්‍රශ්නයක්\nවෙනවාද?\nඒ ගැන\nහිතනවද?', x: 750, y: 330, font: "'Noto Sans Sinhala'", size: 24, color: '#ffffff', weight: 700, align: 'center', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000', spacing: 0 },
+          { type: 'shape', name: 'EN Badge', sType: 'rect', x: 150, y: 500, w: 120, h: 60, color: '#db1821', opacity: 100, rotation: 0, strokeW: 0, radius: 5 },
+          { type: 'text', name: 'EN Text', text: 'ENGLISH\nMEDIUM', x: 150, y: 500, font: "'Montserrat'", size: 20, color: '#ffffff', weight: 900, align: 'center', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000', spacing: 0 },
+          { type: 'shape', name: 'SI Badge', sType: 'rect', x: 280, y: 500, w: 120, h: 60, color: '#1a1a1a', opacity: 100, rotation: 0, strokeW: 0, radius: 5 },
+          { type: 'text', name: 'SI Text', text: 'සිංහල\nමාධ්‍යය', x: 280, y: 500, font: "'Noto Sans Sinhala'", size: 24, color: '#ffffff', weight: 900, align: 'center', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000', spacing: 0 },
+          { type: 'text', name: 'Subject', text: 'ගණිතය', x: 150, y: 640, font: "'Noto Sans Sinhala'", size: 150, color: '#151515', weight: 900, align: 'left', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000', spacing: -2 },
+          { type: 'shape', name: 'UL Red', sType: 'rect', x: 180, y: 730, w: 50, h: 8, color: '#db1821', opacity: 100, rotation: 0, strokeW: 0 },
+          { type: 'shape', name: 'UL Blue', sType: 'rect', x: 235, y: 730, w: 50, h: 8, color: '#074780', opacity: 100, rotation: 0, strokeW: 0 },
+          { type: 'shape', name: 'UL Green', sType: 'rect', x: 290, y: 730, w: 50, h: 8, color: '#0f7652', opacity: 100, rotation: 0, strokeW: 0 },
+          { type: 'text', name: 'Tutor Name', text: 'තරිඳු වික්‍රමරත්න', x: 150, y: 820, font: "'Noto Sans Sinhala'", size: 70, color: '#1a1a1a', weight: 900, align: 'left', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000', spacing: -1 },
+          { type: 'text', name: 'Qualifications', text: 'B.Sc. (Eng) Hons, AMIE(SL)\nFaculty of Engineering, University of Peradeniya.', x: 150, y: 900, font: "'Inter'", size: 24, color: '#333333', weight: 600, align: 'left', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000', spacing: 0 },
+          { type: 'text', name: 'Contact', text: 'Voice- 076 076 41 42', x: 150, y: 970, font: "'Inter'", size: 30, color: '#000000', weight: 700, align: 'left', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000', spacing: 1 },
+          { type: 'shape', name: 'Blue Plaque', sType: 'rect', x: 540, y: 720, w: 150, h: 250, color: '#074780', opacity: 100, rotation: 0, strokeW: 0, radius: 8 },
+          { type: 'text', name: 'Plaque Text', text: 'වැඩිම\nගණිත\nගැටළු\nසමඟින්', x: 540, y: 720, font: "'Noto Sans Sinhala'", size: 30, color: '#ffffff', weight: 800, align: 'center', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000', spacing: 0 },
+          { type: 'shape', name: 'Teacher Image Frame', sType: 'circle', x: 540, y: 540, w: 240, h: 240, color: '#cccccc', opacity: 100, rotation: 0, strokeW: 6, strokeC: '#ffffff' },
+          { type: 'text', name: 'ZOOM', text: 'ZOOM', x: 850, y: 650, font: "'Montserrat'", size: 60, color: '#175fad', weight: 900, align: 'left', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000', spacing: 0 },
+          { type: 'shape', name: 'Online BG', sType: 'rect', x: 910, y: 700, w: 130, h: 28, color: '#3e9eeb', opacity: 100, rotation: 0, strokeW: 0, radius: 3 },
+          { type: 'text', name: 'ONLINE CLASS', text: 'ONLINE CLASS', x: 910, y: 700, font: "'Montserrat'", size: 20, color: '#ffffff', weight: 800, align: 'center', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000', spacing: 0 },
+          { type: 'text', name: 'MERIT', text: 'MERIT', x: 850, y: 780, font: "'Montserrat'", size: 60, color: '#e51e18', weight: 900, align: 'left', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000', spacing: 0 },
+          { type: 'text', name: 'Location', text: 'ILLIMBA HORANA', x: 910, y: 830, font: "'Montserrat'", size: 22, color: '#e51e18', weight: 800, align: 'center', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000', spacing: 0 }
+        ]
+      },
+      "template psalsss postshtml 200001.html": {
+        name: "History Professional",
+        ratio: "1:1",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#3b090a', c2: '#200506', angle: 45 },
+          { type: 'shape', name: 'Main Frame', sType: 'rect', x: 540, y: 540, w: 900, h: 1000, color: '#ffffff', radius: 10 },
+          { type: 'shape', name: 'Header Maroon', sType: 'rect', x: 540, y: 300, w: 900, h: 500, color: '#751416', radius: 0 },
+          { type: 'text', name: 'Year', text: '2024', x: 540, y: 120, font: "'Poppins'", size: 60, color: '#ffffff', weight: 900 },
+          { type: 'shape', name: 'Class Start Pill', sType: 'rect', x: 540, y: 190, w: 400, h: 60, color: '#ffffff', radius: 30 },
+          { type: 'text', name: 'Class Start Text', text: 'නව පන්ති ආරම්භය', x: 540, y: 190, font: "'Noto Sans Sinhala'", size: 35, color: '#751416', weight: 900 },
+          { type: 'text', name: 'Subject', text: 'ඉතිහාසය', x: 540, y: 350, font: "'Noto Sans Sinhala'", size: 120, color: '#fccc00', weight: 900, strokeW: 15, strokeC: '#250505' },
+          { type: 'shape', name: 'Venue Bar', sType: 'rect', x: 540, y: 780, w: 500, h: 80, color: '#ffffff', radius: 5, strokeW: 2, strokeC: '#751416' },
+          { type: 'shape', name: 'Venue Red Part', sType: 'rect', x: 700, y: 780, w: 180, h: 80, color: '#d31e15', radius: 0 },
+          { type: 'text', name: 'Teacher Name', text: 'චන්දන සමරසිංහ', x: 540, y: 920, font: "'Noto Sans Sinhala'", size: 70, color: '#751416', weight: 900 }
+        ]
+      },
+      "template psalsss postshtml 200003.html": {
+        name: "Maths Professional",
+        ratio: "4:5",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#f2f3f7', c2: '#e1e5ee', angle: 0 },
+          { type: 'shape', name: 'Top Yellow Banner', sType: 'rect', x: 540, y: 250, w: 1080, h: 500, color: '#fdcd1e' },
+          { type: 'text', name: 'Tagline 1', text: 'ඇවිද්දා ඇති,', x: 250, y: 150, font: "'Noto Sans Sinhala'", size: 50, color: '#181919', weight: 900, rotation: -3 },
+          { type: 'text', name: 'Tagline 2', text: 'නැවතිලා හිතන්න..', x: 350, y: 280, font: "'Noto Sans Sinhala'", size: 100, color: '#db1920', weight: 900 },
+          { type: 'shape', name: 'Navy Bubble', sType: 'rect', x: 800, y: 180, w: 400, h: 180, color: '#064580', radius: 50 },
+          { type: 'text', name: 'Bubble Text 1', text: 'විෂය නිර්දේශය ආවරණය\nකරන්නේ දිනෙන් දින කියා\nඔබ තවමත් ලතැවෙනවා ද?', x: 800, y: 180, font: "'Noto Sans Sinhala'", size: 24, color: '#ffffff', weight: 700 },
+          { type: 'shape', name: 'Red Belt', sType: 'rect', x: 540, y: 500, w: 1080, h: 30, color: '#db1920' },
+          { type: 'text', name: 'Subject', text: 'ගණිතය', x: 300, y: 650, font: "'Noto Sans Sinhala'", size: 150, color: '#181919', weight: 900 },
+          { type: 'shape', name: 'Teacher Frame', sType: 'circle', x: 540, y: 500, w: 250, h: 250, color: '#ffffff', strokeW: 8, strokeC: '#cbcfd8' },
+          { type: 'text', name: 'Tutor Name', text: 'තරිඳු වික්‍රමරත්න', x: 300, y: 820, font: "'Noto Sans Sinhala'", size: 60, color: '#db1920', weight: 900 }
+        ]
+      },
+      "template psalsss postshtml 200002.html": {
+        name: "Paper Class Professional",
+        ratio: "1:1",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#48317F', c2: '#2d1a5e', angle: 45 },
+          { type: 'text', name: 'Subject', text: 'ගණිතය', x: 350, y: 150, font: "'Noto Sans Sinhala'", size: 180, color: '#FFED00', weight: 900, strokeW: 10, strokeC: '#111111' },
+          { type: 'shape', name: 'Orange Banner', sType: 'rect', x: 300, y: 350, w: 450, h: 80, color: '#ED8B1E', radius: 10 },
+          { type: 'text', name: 'Banner Text', text: 'ප්‍රශ්න පත්‍ර පන්තිය', x: 300, y: 350, font: "'Noto Sans Sinhala'", size: 50, color: '#ffffff', weight: 800 },
+          { type: 'text', name: 'Title Main', text: 'CLASS', x: 350, y: 500, font: "'Oswald'", size: 200, color: '#ffffff', weight: 900, strokeW: 12, strokeC: '#394A9C' },
+          { type: 'shape', name: 'Badge Red', sType: 'rect', x: 650, y: 550, w: 150, h: 80, color: '#ED1A29', radius: 10 },
+          { type: 'text', name: 'Exam Year', text: '2024', x: 650, y: 550, font: "'Oswald'", size: 60, color: '#ffffff', weight: 700 },
+          { type: 'shape', name: 'Teacher Photo Frame', sType: 'rect', x: 800, y: 300, w: 400, h: 500, color: '#ffffff', radius: 40, strokeW: 5, strokeC: '#ffffff' },
+          { type: 'shape', name: 'Footer Bar', sType: 'rect', x: 540, y: 1000, w: 1000, h: 100, color: '#058869', radius: 5 }
+        ]
+      },
+      "template psalsss postshtml 200004.html": {
+        name: "Modern Yellow Professional",
+        ratio: "4:5",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#f6f6f8', c2: '#e4e7ed', angle: 0 },
+          { type: 'shape', name: 'Top Banner', sType: 'rect', x: 540, y: 250, w: 1080, h: 500, color: '#f7cd1b' },
+          { type: 'text', name: 'Tagline', text: 'ඇවිද්දා ඇති,', x: 220, y: 150, font: "'Noto Sans Sinhala'", size: 50, color: '#1a1a1a', weight: 900, rotation: -3 },
+          { type: 'text', name: 'Main 1', text: 'නැවතිලා', x: 250, y: 250, font: "'Noto Sans Sinhala'", size: 120, color: '#d81619', weight: 900 },
+          { type: 'text', name: 'Main 2', text: 'හිතන්න..', x: 300, y: 380, font: "'Noto Sans Sinhala'", size: 120, color: '#1a1a1a', weight: 900 },
+          { type: 'shape', name: 'Navy Bubble', sType: 'rect', x: 800, y: 180, w: 350, h: 150, color: '#074780', radius: 40 },
+          { type: 'text', name: 'Bubble Text', text: 'විෂය නිර්දේශය ආවරණය කරන්නේ\nදිනෙන් දින කියා ඔබ තවමත් ලතැවෙනවා ද?', x: 800, y: 180, font: "'Noto Sans Sinhala'", size: 22, color: '#ffffff', weight: 700 },
+          { type: 'shape', name: 'Separator', sType: 'rect', x: 540, y: 500, w: 1080, h: 30, color: '#db1821' },
+          { type: 'text', name: 'Subject', text: 'ගණිතය', x: 300, y: 650, font: "'Noto Sans Sinhala'", size: 150, color: '#151515', weight: 900 },
+          { type: 'text', name: 'Tutor', text: 'තරිඳු වික්‍රමරත්න', x: 300, y: 820, font: "'Noto Sans Sinhala'", size: 65, color: '#db1821', weight: 900 }
+        ]
+      },
+      "template psalsss postshtml 200005.html": {
+        name: "Abstract Blue Professional",
+        ratio: "1:1",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#ffffff', c2: '#f0f0f0', angle: 0 },
+          { type: 'shape', name: 'Blue Side', sType: 'rect', x: 150, y: 540, w: 300, h: 1080, color: '#175fad' },
+          { type: 'text', name: 'Subject', text: 'SCIENCE', x: 540, y: 200, font: "'Montserrat'", size: 150, color: '#175fad', weight: 900, strokeW: 5, strokeC: '#ffffff' },
+          { type: 'shape', name: 'Badge', sType: 'rect', x: 540, y: 350, w: 300, h: 80, color: '#e51e18', radius: 10 },
+          { type: 'text', name: 'Badge Text', text: '2025 A/L', x: 540, y: 350, font: "'Montserrat'", size: 45, color: '#ffffff', weight: 800 },
+          { type: 'shape', name: 'Teacher Frame', sType: 'circle', x: 800, y: 600, w: 400, h: 400, color: '#ffffff', strokeW: 10, strokeC: '#175fad' },
+          { type: 'text', name: 'Tutor', text: 'Dr. Wickramasinghe', x: 400, y: 800, font: "'Poppins'", size: 60, color: '#175fad', weight: 900 }
+        ]
+      },
+      "template psalsss postshtml 200006.html": {
+        name: "Engineering Tech Professional",
+        ratio: "4:5",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#111314', c2: '#000000', angle: 0 },
+          { type: 'shape', name: 'Hero Placeholder', sType: 'rect', x: 540, y: 175, w: 1080, h: 350, color: '#333333' },
+          { type: 'text', name: 'Script Text', text: 'ජයග්‍රහණයේ', x: 250, y: 320, font: "'Noto Sans Sinhala'", size: 45, color: '#ffe772', weight: 400, rotation: -3 },
+          { type: 'text', name: 'Main Title', text: 'අවසන් පියවර', x: 300, y: 380, font: "'Noto Sans Sinhala'", size: 60, color: '#ffffff', weight: 900 },
+          { type: 'text', name: 'Year Revision', text: '2017 Revision', x: 300, y: 550, font: "'Montserrat'", size: 80, color: '#ffffff', weight: 900 },
+          { type: 'text', name: 'Subject 1', text: 'ඉංජිනේරු', x: 350, y: 680, font: "'Noto Sans Sinhala'", size: 140, color: '#f8db08', weight: 900 },
+          { type: 'text', name: 'Subject 2', text: 'තාක්ෂණවේදය', x: 400, y: 820, font: "'Noto Sans Sinhala'", size: 100, color: '#f8db08', weight: 900 },
+          { type: 'shape', name: 'Footer Zone', sType: 'rect', x: 540, y: 1050, w: 1080, h: 250, color: '#ed1c24' },
+          { type: 'shape', name: 'Badge Stamp', sType: 'circle', x: 150, y: 1000, w: 150, h: 150, color: '#c1001a', strokeW: 4, strokeC: '#ffffff' },
+          { type: 'text', name: 'Badge Text', text: 'නවක\nසිසුන්', x: 150, y: 1000, font: "'Noto Sans Sinhala'", size: 30, color: '#ffffff', weight: 900, rotation: -10 }
+        ]
+      },
+      "template psalsss postshtml 200007.html": {
+        name: "Science Masterclass",
+        ratio: "1:1",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#00204a', c2: '#005792', angle: 45 },
+          { type: 'shape', name: 'Light Glow', sType: 'circle', x: 540, y: 540, w: 800, h: 800, color: '#00bbff', opacity: 10 },
+          { type: 'text', name: 'Main Title', text: 'SCIENCE', x: 540, y: 200, font: "'Montserrat'", size: 180, color: '#ffffff', weight: 900, style: 'neon' },
+          { type: 'text', name: 'Sub Title', text: 'Masterclass 2024', x: 540, y: 350, font: "'Poppins'", size: 50, color: '#fdb44b', weight: 700 },
+          { type: 'shape', name: 'Teacher Frame', sType: 'rect', x: 540, y: 700, w: 450, h: 550, color: '#ffffff', radius: 30, strokeW: 10, strokeC: '#00bbff' },
+          { type: 'shape', name: 'Bottom Bar', sType: 'rect', x: 540, y: 1000, w: 1080, h: 100, color: '#fdb44b' },
+          { type: 'text', name: 'Footer Text', text: 'Register Now: 071 234 5678', x: 540, y: 1000, font: "'Inter'", size: 40, color: '#00204a', weight: 800 }
+        ]
+      },
+      "template psalsss postshtml 200008.html": {
+        name: "Elegant Emerald",
+        ratio: "1:1",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#0a2e1e', c2: '#051a10', angle: 135 },
+          { type: 'shape', name: 'Gold Trim', sType: 'rect', x: 540, y: 540, w: 1000, h: 1000, color: 'transparent', strokeW: 2, strokeC: '#c5a059' },
+          { type: 'text', name: 'Title', text: 'COMMERCE', x: 540, y: 250, font: "'Gemunu Libre'", size: 140, color: '#c5a059', weight: 900 },
+          { type: 'shape', name: 'Teacher Image', sType: 'circle', x: 540, y: 600, w: 400, h: 400, color: '#ffffff', strokeW: 5, strokeC: '#c5a059' },
+          { type: 'text', name: 'Name', text: 'Saman Kumara', x: 540, y: 850, font: "'Noto Sans Sinhala'", size: 60, color: '#ffffff', weight: 800 }
+        ]
+      },
+      "template psalsss postshtml 200009.html": {
+        name: "Tech Orange",
+        ratio: "4:5",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#1a1a1a', c2: '#000000', angle: 0 },
+          { type: 'shape', name: 'Orange Accent', sType: 'rect', x: 0, y: 540, w: 20, h: 1080, color: '#ff6600' },
+          { type: 'text', name: 'Header', text: 'ICT 2024', x: 540, y: 150, font: "'Montserrat'", size: 120, color: '#ff6600', weight: 900 },
+          { type: 'shape', name: 'Code Frame', sType: 'rect', x: 540, y: 600, w: 800, h: 600, color: '#333333', radius: 20 },
+          { type: 'text', name: 'Contact', text: 'Join our Telegram Group', x: 540, y: 1000, font: "'Poppins'", size: 40, color: '#ffffff', weight: 600 }
+        ]
+      },
+      "template psalsss postshtml 200010.html": {
+        name: "Minimalist Red",
+        ratio: "1:1",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#ffffff', c2: '#f5f5f5', angle: 0 },
+          { type: 'shape', name: 'Red Circle', sType: 'circle', x: 1080, y: 0, w: 600, h: 600, color: '#ff0000' },
+          { type: 'text', name: 'Subject', text: 'PHYSICS', x: 150, y: 150, font: "'Bebas Neue'", size: 120, color: '#1a1a1a', weight: 900, align: 'left' },
+          { type: 'shape', name: 'Photo Frame', sType: 'rect', x: 540, y: 600, w: 900, h: 500, color: '#eeeeee', radius: 10 },
+          { type: 'text', name: 'Tutor', text: 'Eng. Kamal Perera', x: 150, y: 950, font: "'Inter'", size: 60, color: '#ff0000', weight: 800, align: 'left' }
+        ]
+      },
+      "template psalsss postshtml 200011.html": {
+        name: "Bold Yellow",
+        ratio: "1:1",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#f7cd1b', c2: '#e5ab10', angle: 0 },
+          { type: 'text', name: 'Subject', text: 'ACCOUNTING', x: 540, y: 200, font: "'Montserrat'", size: 140, color: '#1a1a1a', weight: 900 },
+          { type: 'shape', name: 'Center Circle', sType: 'circle', x: 540, y: 600, w: 500, h: 500, color: '#ffffff', strokeW: 10, strokeC: '#1a1a1a' },
+          { type: 'text', name: 'Name', text: 'Bandara Sir', x: 540, y: 900, font: "'Noto Sans Sinhala'", size: 80, color: '#1a1a1a', weight: 800 }
+        ]
+      },
+      "template psalsss postshtml 2.00001.html": {
+        name: "Modern Physics",
+        ratio: "4:5",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#0f0c29', c2: '#302b63', angle: 90 },
+          { type: 'text', name: 'Header', text: 'PHYSICS 2025', x: 540, y: 150, font: "'Bebas Neue'", size: 130, color: '#00d2ff', weight: 900, style: 'neon' },
+          { type: 'shape', name: 'Glass Panel', sType: 'rect', x: 540, y: 600, w: 900, h: 700, color: 'rgba(255,255,255,0.1)', radius: 40, strokeW: 1, strokeC: 'rgba(255,255,255,0.3)' },
+          { type: 'text', name: 'Tutor', text: 'Amila Perera', x: 540, y: 1050, font: "'Poppins'", size: 70, color: '#ffffff', weight: 800 }
+        ]
+      },
+      "template psalsss postshtml 2.00003.html": {
+        name: "Chemistry Pro",
+        ratio: "1:1",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#61045f', c2: '#aa076b', angle: 45 },
+          { type: 'text', name: 'Title', text: 'CHEMISTRY', x: 540, y: 250, font: "'Montserrat'", size: 150, color: '#ffffff', weight: 900, style: '3dgold' },
+          { type: 'shape', name: 'Hexagon Frame', sType: 'circle', x: 540, y: 650, w: 450, h: 450, color: '#ffffff', strokeW: 15, strokeC: '#ff0080' },
+          { type: 'text', name: 'Details', text: 'New Batch Starts Monday', x: 540, y: 950, font: "'Inter'", size: 40, color: '#ffffff', weight: 600 }
+        ]
+      },
+      "template psalsss postshtml 2.00004.html": {
+        name: "Combined Maths Pro",
+        ratio: "16:9",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#072625', c2: '#0d6e5a', angle: 0 },
+          { type: 'text', name: 'Faint Text', text: 'සංයුක්ත', x: 100, y: 400, font: "'Noto Sans Sinhala'", size: 150, color: '#ffffff', weight: 900, opacity: 15, rotation: -90 },
+          { type: 'text', name: 'Main Title', text: 'සංයුක්ත\nගණිතය', x: 800, y: 350, font: "'Noto Sans Sinhala'", size: 80, color: '#ffffff', weight: 900, align: 'right', strokeW: 20, strokeC: '#114227' },
+          { type: 'shape', name: 'Teacher Frame', sType: 'rect', x: 250, y: 400, w: 400, h: 600, color: 'rgba(0,0,0,0.2)', radius: 10, strokeW: 4, strokeC: 'rgba(255,255,255,0.3)' },
+          { type: 'shape', name: 'Name Plate', sType: 'rect', x: 250, y: 650, w: 300, h: 100, color: '#ffcead', radius: 5 },
+          { type: 'text', name: 'Name', text: 'නලින් අබේරත්න', x: 250, y: 650, font: "'Noto Sans Sinhala'", size: 30, color: '#630501', weight: 900 }
+        ]
+      },
+      "template psalsss postshtml 2.00005.html": {
+        name: "Benz ICT Master",
+        ratio: "4:5",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#0f1011', c2: '#050505', angle: 45 },
+          { type: 'text', name: 'Benz', text: 'BENZ', x: 540, y: 100, font: "'Poppins'", size: 60, color: '#a3e913', weight: 900 },
+          { type: 'text', name: 'ICT', text: 'ICT', x: 540, y: 180, font: "'Poppins'", size: 40, color: '#a3e913', weight: 700, strokeW: 2, strokeC: '#a3e913' },
+          { type: 'text', name: 'Year', text: '2026 A/L', x: 540, y: 300, font: "'Poppins'", size: 100, color: '#ffffff', weight: 900 },
+          { type: 'shape', name: 'Theory Badge', sType: 'rect', x: 540, y: 420, w: 400, h: 80, color: '#fff200', radius: 10 },
+          { type: 'text', name: 'Theory Text', text: 'REVISION + THEORY', x: 540, y: 420, font: "'Poppins'", size: 30, color: '#000000', weight: 900 },
+          { type: 'shape', name: 'Photo Frame', sType: 'rect', x: 800, y: 800, w: 400, h: 600, color: 'rgba(30,30,30,0.7)', radius: 40 }
+        ]
+      },
+      "template psalsss postshtml 2.00006.html": {
+        name: "Accounting District 1",
+        ratio: "4:5",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#defb24', c2: '#ffde00', angle: 115 },
+          { type: 'text', name: 'Main Title', text: 'Accounting', x: 540, y: 450, font: "'Anton'", size: 120, color: '#ed2126', weight: 400, strokeW: 10, strokeC: '#ffffff' },
+          { type: 'text', name: 'Name Lead', text: 'රුසිරු', x: 540, y: 650, font: "'Noto Sans Sinhala'", size: 140, color: '#ffde00', weight: 900, strokeW: 30, strokeC: '#251213' },
+          { type: 'text', name: 'Name Sub', text: 'සම්පත්', x: 540, y: 800, font: "'Noto Sans Sinhala'", size: 100, color: '#ffde00', weight: 900, strokeW: 25, strokeC: '#1d1615' },
+          { type: 'shape', name: 'Footer Arch', sType: 'circle', x: 540, y: 1300, w: 1200, h: 600, color: '#ef202c' }
+        ]
+      },
+      "template psalsss postshtml 2.00012.html": {
+        name: "Sinhala O/L Master",
+        ratio: "1:1",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#120038', c2: '#000000', angle: 0 },
+          { type: 'shape', name: 'Left Panel', sType: 'rect', x: 216, y: 540, w: 432, h: 1080, color: '#f3ece1' },
+          { type: 'text', name: 'Subject', text: 'සිංහල', x: 800, y: 250, font: "'Noto Sans Sinhala'", size: 150, color: '#ffffff', weight: 900, strokeW: 10, strokeC: '#ffffff', style: 'gradient' },
+          { type: 'shape', name: 'Grade Box 1', sType: 'rect', x: 650, y: 500, w: 120, h: 120, color: '#ffbc00', radius: 15 },
+          { type: 'text', name: 'Grade 10', text: 'Grade\n10', x: 650, y: 500, font: "'Poppins'", size: 30, color: '#000000', weight: 800 },
+          { type: 'text', name: 'Tutor', text: 'Mr. Sinhala', x: 800, y: 900, font: "'Noto Sans Sinhala'", size: 60, color: '#ffffff', weight: 800 }
+        ]
+      }
+    };
+
+    // Mouse Drag State
+    let isDragging = false;
+    let dragOffsetX = 0, dragOffsetY = 0;
+
+    window.onload = () => {
+      canvas = document.getElementById('main-canvas');
+      ctx = canvas.getContext('2d');
+      wrap = document.getElementById('canvas-wrap');
+
+      // Directly load the template first
+      loadTemplate('red');
+      setupMouseEvents();
+      populateTemplateGallery();
+    };
+
+    function populateTemplateGallery() {
+      const grid = document.getElementById('tpl-grid-view');
+      grid.innerHTML = '';
+      templatesList.forEach(tpl => {
+        const card = document.createElement('div');
+        card.className = 'tpl-card';
+        card.onclick = () => previewTemplate(tpl);
+        card.innerHTML = `
+          <div class="tpl-card-thumb">
+            <iframe src="${tpl}" scrolling="no"></iframe>
+          </div>
+          <div class="tpl-card-label">${tpl.replace('.html', '').replace('template psalsss postshtml ', '')}</div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function previewTemplate(tpl) {
+      document.getElementById('tpl-grid-view').style.display = 'none';
+      document.getElementById('tpl-preview-view').style.display = 'flex';
+      document.getElementById('tpl-preview-name').innerText = tpl;
+      document.getElementById('tpl-preview-iframe').src = tpl;
+    }
+
+    function showTemplateGrid() {
+      document.getElementById('tpl-grid-view').style.display = 'grid';
+      document.getElementById('tpl-preview-view').style.display = 'none';
+    }
+
+    function openTemplateGallery() {
+      document.getElementById('tpl-modal').style.display = 'flex';
+    }
+
+    function closeTemplateGallery() {
+      document.getElementById('tpl-modal').style.display = 'none';
+    }
+
+    function importCurrentTemplateToCanvas() {
+      const tpl = document.getElementById('tpl-preview-name').innerText;
+      
+      if (TEMPLATE_PARTICLES[tpl]) {
+        loadTemplate(tpl);
+        closeTemplateGallery();
+      } else {
+        toast(`Importing ${tpl}... Note: Standard Overlay Import.`);
+        layers.push({
+          id: layerIdCount++,
+          type: 'html',
+          name: 'Template Overlay',
+          src: tpl,
+          x: W / 2,
+          y: H / 2,
+          w: W,
+          h: H,
+          opacity: 50,
+          rotation: 0,
+          blendMode: 'normal'
+        });
+        selectedId = layerIdCount - 1;
+        closeTemplateGallery();
+        updateUI();
+      }
+    }
+
+    function toast(msg) {
+      const t = document.getElementById('toast');
+      t.innerText = msg; t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2500);
+    }
+
+    function initCanvas() {
+      const ratio = document.getElementById('canvas-ratio').value;
+      W = RATIOS[ratio][0]; H = RATIOS[ratio][1];
+
+      canvas.width = W * dpr; canvas.height = H * dpr;
+
+      // Fit canvas visually in the center area
+      const scale = Math.min((window.innerWidth - 650) / W, (window.innerHeight - 100) / H);
+      wrap.style.width = `${W * scale}px`;
+      wrap.style.height = `${H * scale}px`;
+
+      updateUI();
+    }
+
+    window.onresize = () => {
+      const scale = Math.min((window.innerWidth - 650) / W, (window.innerHeight - 100) / H);
+      wrap.style.width = `${W * scale}px`;
+      wrap.style.height = `${H * scale}px`;
+    };
+
+    /* ─── PRE-BUILT TUITION TEMPLATES ─── */
+    function loadTemplate(style) {
+      if (!TEMPLATE_PARTICLES[style]) {
+        toast(`⚠️ Template "${style}" breakdown not found.`);
+        return;
+      }
+      
+      const data = TEMPLATE_PARTICLES[style];
+      toast(`✨ Loading ${data.name}...`);
+      
+      // Reset state
+      layers = [];
+      layerIdCount = 1;
+
+      // Change ratio if specified
+      const targetRatio = data.ratio || '1:1';
+      document.getElementById('canvas-ratio').value = targetRatio;
+      const ratioParts = RATIOS[targetRatio] || [1080, 1080];
+      W = ratioParts[0]; H = ratioParts[1];
+      canvas.width = W * dpr; canvas.height = H * dpr;
+
+      // Add particles as editable layers
+      data.particles.forEach(p => {
+        const layer = {
+          id: layerIdCount++,
+          ...p,
+          rotation: p.rotation || 0,
+          opacity: p.opacity || 100,
+          brightness: p.brightness || 100,
+          contrast: p.contrast || 100,
+          saturation: p.saturation || 100,
+          grayscale: p.grayscale || 0,
+          blur: p.blur || 0,
+          color2: p.color2 || p.color || '#000000',
+          color3: p.color3 || '#000000',
+          gAngle: p.gAngle || 0,
+          blendMode: p.blendMode || 'source-over',
+          hidden: false,
+          locked: false
+        };
+        layers.push(layer);
+      });
+
+      // Set the visual scale
+      const scale = Math.min((window.innerWidth - 650) / W, (window.innerHeight - 100) / H);
+      wrap.style.width = `${W * scale}px`;
+      wrap.style.height = `${H * scale}px`;
+
+      // Select a relevant frame if exists
+      const tFrame = layers.find(l => l.name && (l.name.includes('Teacher') || l.name.includes('Frame') || l.name.includes('Photo')));
+      selectedId = tFrame ? tFrame.id : (layers.length > 1 ? layers[1].id : layers[0].id);
+
+      updateUI();
+    }
+
+    /* ─── LAYER CREATION (MANUAL) ─── */
+    function addLayer(type, fileInput = null) {
+      const cx = W / 2; const cy = H / 2;
+
+      if (type === 'text') {
+        layers.push({ id: layerIdCount++, type: 'text', name: 'Text Layer', text: 'නව පෙළ', x: cx, y: cy, font: "'Noto Sans Sinhala'", size: 80, color: '#ffffff', weight: 800, align: 'center', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000000', spacing: 0 });
+      }
+      else if (type === 'shape') {
+        layers.push({ id: layerIdCount++, type: 'shape', name: 'Shape / Frame', sType: 'rect', x: cx, y: cy, w: 300, h: 300, color: '#444444', color2: '#222222', color3: '#000000', gAngle: 0, opacity: 100, rotation: 0, brightness: 100, contrast: 100, saturation: 100, grayscale: 0, blur: 0, clipImg: null, strokeW: 0, strokeC: '#ffffff', radius: 20 });
+      }
+      else if (type === 'image' && fileInput && fileInput.files[0]) {
+        const r = new FileReader();
+        r.onload = e => {
+          const img = new Image();
+          img.onload = () => {
+            let sc = 1; if (img.width > W * 0.8) sc = (W * 0.8) / img.width;
+            layers.push({ id: layerIdCount++, type: 'image', name: 'Image', img: img, x: cx, y: cy, w: img.width * sc, h: img.height * sc, rotation: 0, opacity: 100, brightness: 100, contrast: 100, saturation: 100, grayscale: 0, blur: 0 });
+            selectedId = layerIdCount - 1; updateUI();
+          };
+          img.src = e.target.result;
+        };
+        r.readAsDataURL(fileInput.files[0]);
+        fileInput.value = ''; return;
+      }
+
+      selectedId = layerIdCount - 1;
+      updateUI();
+    }
+
+    /* ─── LAYER OPERATIONS ─── */
+    function deleteLayer(id) {
+      if (layers.find(x => x.id === id).type === 'bg') return;
+      layers = layers.filter(x => x.id !== id);
+      if (selectedId === id) selectedId = layers[0].id;
+      updateUI();
+    }
+
+    function moveLayer(id, dir) {
+      const idx = layers.findIndex(x => x.id === id);
+      if (idx <= 0) return; // Cant move BG
+      if (dir === 'up' && idx < layers.length - 1) {
+        [layers[idx], layers[idx + 1]] = [layers[idx + 1], layers[idx]];
+      } else if (dir === 'down' && idx > 1) {
+        [layers[idx], layers[idx - 1]] = [layers[idx - 1], layers[idx]];
+      }
+      updateUI();
+    }
+
+    function duplicateLayer(id) {
+      const l = layers.find(x => x.id === id);
+      if (!l || l.type === 'bg') return;
+      const clone = JSON.parse(JSON.stringify(l));
+      clone.id = layerIdCount++; clone.name += ' Copy'; clone.x += 40; clone.y += 40;
+      if (l.type === 'image') clone.img = l.img;
+      if (l.type === 'shape') clone.clipImg = l.clipImg;
+
+      const idx = layers.findIndex(x => x.id === id);
+      layers.splice(idx + 1, 0, clone);
+      selectedId = clone.id; updateUI();
+    }
+
+    /* ─── PROPERTIES UPDATES ─── */
+    function updateProp(id, prop, val, isNum = true) {
+      const l = layers.find(x => x.id === id);
+      if (l) { 
+        l[prop] = isNum ? Number(val) : val; 
+        
+        // Fix for shape height when switching types
+        if (prop === 'sType') {
+          if ((val === 'rect' || val === 'triangle' || val === 'ribbon') && (!l.h || l.h === 0)) {
+             l.h = l.w; 
+          }
+          l.name = val.charAt(0).toUpperCase() + val.slice(1);
+          renderLayerPanel();
+          renderProps(); // Full re-render of props to show/hide height slider
+        }
+
+        renderCanvas(); 
+        
+        // Update label value in real-time without full re-render
+        const target = event?.target;
+        if (target && target.previousElementSibling && target.previousElementSibling.querySelector('.val-display')) {
+          const display = target.previousElementSibling.querySelector('.val-display');
+          if (prop === 'rotation' || prop === 'angle' || prop === 'gAngle') display.innerText = val + '°';
+          else if (prop === 'opacity' || prop === 'brightness' || prop === 'contrast' || prop === 'saturation' || prop === 'grayscale') display.innerText = val + '%';
+          else if (prop === 'blur') display.innerText = val + 'px';
+          else display.innerText = val;
+        }
+      }
+    }
+    function updateTextContent(id, text) {
+      const l = layers.find(x => x.id === id);
+      if (l) { l.text = text; renderCanvas(); renderLayerPanel(); }
+    }
+
+    /* ─── CLIPPING MASK (TEACHER PHOTO ENGINE) ─── */
+    function loadClipImage(id, input) {
+      if (!input.files[0]) return;
+      const l = layers.find(x => x.id === id);
+      if (!l || l.type !== 'shape') return;
+
+      const r = new FileReader();
+      r.onload = e => {
+        const img = new Image();
+        img.onload = () => {
+          l.clipImg = img;
+          l.color = '#ffffff'; // White BG behind image
+          updateUI();
+          toast('✅ Teacher Photo Clipped Successfully!');
+        };
+        img.src = e.target.result;
+      };
+      r.readAsDataURL(input.files[0]);
+      input.value = '';
+    }
+    function removeClip(id) {
+      const l = layers.find(x => x.id === id);
+      if (l) { l.clipImg = null; updateUI(); }
+    }
+
+    /* ─── UI RENDERING ─── */
+    function updateUI() {
+      renderLayerPanel();
+      renderProps();
+      renderCanvas();
+    }
+
+    function renderLayerPanel() {
+      const list = document.getElementById('layer-list');
+      list.innerHTML = '';
+      // Reverse loop so top Z-index appears at the top of the panel (Photoshop style)
+      [...layers].reverse().forEach(l => {
+        let icon = l.type === 'bg' ? '🎨' : l.type === 'text' ? 'T' : l.type === 'shape' ? '⬛' : '🖼️';
+        let html = `
+    <div class="layer-item ${selectedId === l.id ? 'active' : ''}" onclick="selectedId=${l.id}; updateUI();">
+      <div class="layer-name">
+        <span class="layer-icon" style="opacity: ${l.hidden ? 0.3 : 1}" onclick="event.stopPropagation(); toggleVisibility(${l.id})">${l.hidden ? '👁️‍🗨️' : '👁️'}</span>
+        <span class="layer-icon">${icon}</span> 
+        <span style="${l.locked ? 'text-decoration: line-through' : ''}">${l.name}</span>
+      </div>
+      <div class="layer-actions">`;
+        if (l.type !== 'bg') {
+          html += `
+        <button class="icon-btn" onclick="event.stopPropagation(); toggleLock(${l.id})" title="${l.locked ? 'Unlock' : 'Lock'}">${l.locked ? '🔒' : '🔓'}</button>
+        <button class="icon-btn" onclick="event.stopPropagation(); moveLayer(${l.id}, 'up')" title="Move Forward">▲</button>
+        <button class="icon-btn" onclick="event.stopPropagation(); moveLayer(${l.id}, 'down')" title="Move Backward">▼</button>
+        <button class="icon-btn" onclick="event.stopPropagation(); duplicateLayer(${l.id})" title="Duplicate">⧉</button>
+        <button class="icon-btn" style="color:var(--accent)" onclick="event.stopPropagation(); deleteLayer(${l.id})" title="Delete">✕</button>`;
+        }
+        html += `</div></div>`;
+        list.insertAdjacentHTML('beforeend', html);
+      });
+    }
+
+    function toggleVisibility(id) {
+      const l = layers.find(x => x.id === id);
+      if (l) { l.hidden = !l.hidden; renderCanvas(); renderLayerPanel(); }
+    }
+
+    function toggleLock(id) {
+      const l = layers.find(x => x.id === id);
+      if (l) { l.locked = !l.locked; renderLayerPanel(); }
+    }
+
+    function renderProps() {
+      const panel = document.getElementById('prop-panel');
+      if (layers.length === 0) return; // Safeguard
+
+      const l = layers.find(x => x.id === selectedId);
+      if (!l) { panel.innerHTML = '<div class="empty-state"><i>🖱️</i><br>Select a layer on the canvas to edit its properties.</div>'; return; }
+
+      let html = `<div class="prop-section" style="background:#1a1a1a; border-bottom: 2px solid var(--accent)">
+    <div class="prop-title" style="color:#fff; margin:0">⚙️ Editing: ${l.name}</div>
+  </div>`;
+
+      if (l.type !== 'bg') {
+        html += `
+    <div class="prop-section">
+      <div class="prop-title">Position & Transform</div>
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">Pos X <span class="val-display">${Math.round(l.x)}</span></label><input type="range" min="-500" max="${W + 500}" value="${l.x}" oninput="updateProp(${l.id}, 'x', this.value)"></div>
+        <div class="prop-col"><label class="prop-label">Pos Y <span class="val-display">${Math.round(l.y)}</span></label><input type="range" min="-500" max="${H + 500}" value="${l.y}" oninput="updateProp(${l.id}, 'y', this.value)"></div>
+      </div>
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">Rotation <span class="val-display">${l.rotation}°</span></label><input type="range" min="-180" max="180" value="${l.rotation}" oninput="updateProp(${l.id}, 'rotation', this.value)"></div>
+        <div class="prop-col"><label class="prop-label">Opacity <span class="val-display">${l.opacity}%</span></label><input type="range" min="0" max="100" value="${l.opacity}" oninput="updateProp(${l.id}, 'opacity', this.value)"></div>
+      </div>
+      <div class="prop-row">
+        <div class="prop-col">
+          <label class="prop-label">Blend Mode</label>
+          <select onchange="updateProp(${l.id}, 'blendMode', this.value, false)">
+            <option value="source-over" ${l.blendMode === 'source-over' || !l.blendMode ? 'selected' : ''}>Normal</option>
+            <option value="multiply" ${l.blendMode === 'multiply' ? 'selected' : ''}>Multiply</option>
+            <option value="screen" ${l.blendMode === 'screen' ? 'selected' : ''}>Screen</option>
+            <option value="overlay" ${l.blendMode === 'overlay' ? 'selected' : ''}>Overlay</option>
+            <option value="darken" ${l.blendMode === 'darken' ? 'selected' : ''}>Darken</option>
+            <option value="lighten" ${l.blendMode === 'lighten' ? 'selected' : ''}>Lighten</option>
+            <option value="color-dodge" ${l.blendMode === 'color-dodge' ? 'selected' : ''}>Color Dodge</option>
+            <option value="color-burn" ${l.blendMode === 'color-burn' ? 'selected' : ''}>Color Burn</option>
+            <option value="hard-light" ${l.blendMode === 'hard-light' ? 'selected' : ''}>Hard Light</option>
+            <option value="soft-light" ${l.blendMode === 'soft-light' ? 'selected' : ''}>Soft Light</option>
+            <option value="difference" ${l.blendMode === 'difference' ? 'selected' : ''}>Difference</option>
+            <option value="exclusion" ${l.blendMode === 'exclusion' ? 'selected' : ''}>Exclusion</option>
+            <option value="hue" ${l.blendMode === 'hue' ? 'selected' : ''}>Hue</option>
+            <option value="saturation" ${l.blendMode === 'saturation' ? 'selected' : ''}>Saturation</option>
+            <option value="color" ${l.blendMode === 'color' ? 'selected' : ''}>Color</option>
+            <option value="luminosity" ${l.blendMode === 'luminosity' ? 'selected' : ''}>Luminosity</option>
+          </select>
+        </div>
+      </div>
+    </div>`;
+      }
+
+      // --- BACKGROUND ---
+      if (l.type === 'bg') {
+        html += `
+    <div class="prop-section">
+      <div class="prop-title">Canvas Gradient</div>
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">Top Color</label><input type="color" value="${l.c1}" onchange="updateProp(${l.id}, 'c1', this.value, false)"></div>
+        <div class="prop-col"><label class="prop-label">Bottom Color</label><input type="color" value="${l.c2}" onchange="updateProp(${l.id}, 'c2', this.value, false)"></div>
+      </div>
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">Gradient Angle <span class="val-display">${l.angle || 0}°</span></label><input type="range" min="0" max="360" value="${l.angle || 0}" oninput="updateProp(${l.id}, 'angle', this.value)"></div>
+      </div>
+    </div>`;
+      }
+
+      // --- TEXT ---
+      else if (l.type === 'text') {
+        html += `
+    <div class="prop-section">
+      <div class="prop-title">Text Content</div>
+      <textarea oninput="updateTextContent(${l.id}, this.value)">${l.text}</textarea>
+      
+      <div class="prop-row" style="margin-top:12px">
+        <div class="prop-col">
+          <label class="prop-label">Typography (Sinhala/Eng)</label>
+          <select onchange="updateProp(${l.id}, 'font', this.value, false)">
+            <optgroup label="Modern Sinhala">
+              <option value="'Noto Sans Sinhala'" ${l.font.includes('Noto Sans Sinhala') ? 'selected' : ''}>Noto Sans Sinhala</option>
+              <option value="'Anek Sinhala'" ${l.font.includes('Anek') ? 'selected' : ''}>Anek Sinhala</option>
+              <option value="'Yaldevi'" ${l.font.includes('Yaldevi') ? 'selected' : ''}>Yaldevi (New)</option>
+              <option value="'Maname'" ${l.font.includes('Maname') ? 'selected' : ''}>Maname (New)</option>
+              <option value="'Baloo 2'" ${l.font.includes('Baloo') ? 'selected' : ''}>Baloo 2 (Rounded)</option>
+            </optgroup>
+            <optgroup label="Display / Headers">
+              <option value="'Gemunu Libre'" ${l.font.includes('Gemunu') ? 'selected' : ''}>Gemunu Libre</option>
+              <option value="'Abhaya Libre'" ${l.font.includes('Abhaya') ? 'selected' : ''}>Abhaya Libre</option>
+              <option value="'Noto Serif Sinhala'" ${l.font.includes('Serif') ? 'selected' : ''}>Noto Serif Sinhala</option>
+            </optgroup>
+            <optgroup label="English / Stylish">
+              <option value="'Poppins'" ${l.font.includes('Poppins') ? 'selected' : ''}>Poppins (New)</option>
+              <option value="'Montserrat'" ${l.font.includes('Montserrat') ? 'selected' : ''}>Montserrat (New)</option>
+              <option value="'Bebas Neue'" ${l.font.includes('Bebas') ? 'selected' : ''}>Bebas Neue</option>
+              <option value="'Inter'" ${l.font.includes('Inter') ? 'selected' : ''}>Inter</option>
+            </optgroup>
+          </select>
+        </div>
+      </div>
+      
+      <div class="prop-row">
+        <div class="prop-col">
+          <label class="prop-label">Text Style Effect</label>
+          <select onchange="updateProp(${l.id}, 'style', this.value, false)">
+            <optgroup label="Essential & Basic">
+              <option value="solid" ${l.style === 'solid' ? 'selected' : ''}>Solid Color</option>
+              <option value="outline" ${l.style === 'outline' ? 'selected' : ''}>Bold Outline</option>
+              <option value="shadow" ${l.style === 'shadow' ? 'selected' : ''}>Deep Drop Shadow</option>
+              <option value="gradient" ${l.style === 'gradient' ? 'selected' : ''}>Sunset Gradient</option>
+              <option value="rainbow" ${l.style === 'rainbow' ? 'selected' : ''}>Rainbow Spectrum</option>
+            </optgroup>
+            <optgroup label="Premium & Metallic">
+              <option value="3dgold" ${l.style === '3dgold' ? 'selected' : ''}>Premium 3D Gold</option>
+              <option value="royal" ${l.style === 'royal' ? 'selected' : ''}>Royal Purple & Gold</option>
+              <option value="metal" ${l.style === 'metal' ? 'selected' : ''}>Brushed Metal</option>
+              <option value="chrome" ${l.style === 'chrome' ? 'selected' : ''}>Polished Chrome</option>
+            </optgroup>
+            <optgroup label="Cyber & Neon">
+              <option value="neon" ${l.style === 'neon' ? 'selected' : ''}>Cyber Neon Glow</option>
+              <option value="cyber" ${l.style === 'cyber' ? 'selected' : ''}>Cyberpunk Pink</option>
+              <option value="matrix" ${l.style === 'matrix' ? 'selected' : ''}>Matrix Digital</option>
+              <option value="retro" ${l.style === 'retro' ? 'selected' : ''}>80s Retro Synth</option>
+              <option value="hologram" ${l.style === 'hologram' ? 'selected' : ''}>Holographic</option>
+              <option value="electric" ${l.style === 'electric' ? 'selected' : ''}>Electric Lightning</option>
+            </optgroup>
+            <optgroup label="Nature & Elements">
+              <option value="fire" ${l.style === 'fire' ? 'selected' : ''}>Burning Fire</option>
+              <option value="ice" ${l.style === 'ice' ? 'selected' : ''}>Ice Crystal</option>
+              <option value="lava" ${l.style === 'lava' ? 'selected' : ''}>Hot Lava</option>
+              <option value="water" ${l.style === 'water' ? 'selected' : ''}>Deep Water</option>
+              <option value="ocean" ${l.style === 'ocean' ? 'selected' : ''}>Ocean Breeze</option>
+              <option value="forest" ${l.style === 'forest' ? 'selected' : ''}>Deep Forest</option>
+              <option value="sunset" ${l.style === 'sunset' ? 'selected' : ''}>Golden Sunset</option>
+            </optgroup>
+            <optgroup label="Artistic & Textures">
+              <option value="glass" ${l.style === 'glass' ? 'selected' : ''}>Frosted Glass</option>
+              <option value="bubble" ${l.style === 'bubble' ? 'selected' : ''}>Shiny Bubble</option>
+              <option value="comic" ${l.style === 'comic' ? 'selected' : ''}>Comic Book Pop</option>
+              <option value="paper" ${l.style === 'paper' ? 'selected' : ''}>Paper Cutout</option>
+              <option value="wood" ${l.style === 'wood' ? 'selected' : ''}>Polished Wood</option>
+              <option value="stone" ${l.style === 'stone' ? 'selected' : ''}>Ancient Stone</option>
+              <option value="plastic" ${l.style === 'plastic' ? 'selected' : ''}>Plastic Emboss</option>
+              <option value="stamp" ${l.style === 'stamp' ? 'selected' : ''}>Rough Stamp</option>
+              <option value="sketch" ${l.style === 'sketch' ? 'selected' : ''}>Pencil Sketch</option>
+              <option value="chalk" ${l.style === 'chalk' ? 'selected' : ''}>Blackboard Chalk</option>
+            </optgroup>
+            <optgroup label="3D & Special">
+              <option value="longshadow" ${l.style === 'longshadow' ? 'selected' : ''}>3D Long Shadow</option>
+            </optgroup>
+          </select>
+        </div>
+      </div>
+
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">Fill Color</label><input type="color" value="${l.color}" onchange="updateProp(${l.id}, 'color', this.value, false)"></div>
+        <div class="prop-col"><label class="prop-label">Font Size <span class="val-display">${l.size}</span></label><input type="range" min="10" max="600" value="${l.size}" oninput="updateProp(${l.id}, 'size', this.value)"></div>
+      </div>
+
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">Align</label>
+          <select onchange="updateProp(${l.id}, 'align', this.value, false)">
+            <option value="left" ${l.align === 'left' ? 'selected' : ''}>Left</option>
+            <option value="center" ${l.align === 'center' ? 'selected' : ''}>Center</option>
+            <option value="right" ${l.align === 'right' ? 'selected' : ''}>Right</option>
+          </select>
+        </div>
+        <div class="prop-col"><label class="prop-label">Letter Spacing <span class="val-display">${l.spacing}</span></label><input type="range" min="-20" max="100" value="${l.spacing}" oninput="updateProp(${l.id}, 'spacing', this.value)"></div>
+      </div>
+      
+      <div class="prop-title" style="margin-top:15px; border-top:1px solid #333; padding-top:15px;">Outer Stroke / Outline</div>
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">Stroke Color</label><input type="color" value="${l.strokeC}" onchange="updateProp(${l.id}, 'strokeC', this.value, false)"></div>
+        <div class="prop-col"><label class="prop-label">Thickness <span class="val-display">${l.strokeW}</span></label><input type="range" min="0" max="50" value="${l.strokeW}" oninput="updateProp(${l.id}, 'strokeW', this.value)"></div>
+      </div>
+    </div>`;
+      }
+
+      // --- SHAPE / CLIPPING MASK ---
+      else if (l.type === 'shape') {
+        html += `
+    <div class="prop-section">
+      <div class="prop-title">Shape Properties</div>
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">Shape Geometry</label>
+          <select onchange="updateProp(${l.id}, 'sType', this.value, false)">
+            <option value="rect" ${l.sType === 'rect' ? 'selected' : ''}>Rectangle / Square</option>
+            <option value="circle" ${l.sType === 'circle' ? 'selected' : ''}>Perfect Circle</option>
+            <option value="triangle" ${l.sType === 'triangle' ? 'selected' : ''}>Triangle</option>
+            <option value="star" ${l.sType === 'star' ? 'selected' : ''}>Five-Point Star</option>
+            <option value="polygon" ${l.sType === 'polygon' ? 'selected' : ''}>Hexagon Polygon</option>
+            <option value="badge" ${l.sType === 'badge' ? 'selected' : ''}>Seal Badge</option>
+            <option value="ribbon" ${l.sType === 'ribbon' ? 'selected' : ''}>Ribbon Banner</option>
+            <option value="line" ${l.sType === 'line' ? 'selected' : ''}>Line</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">Width <span class="val-display">${l.w}</span></label><input type="range" min="10" max="2000" value="${l.w}" oninput="updateProp(${l.id}, 'w', this.value)"></div>
+        ${(l.sType === 'rect' || l.sType === 'triangle' || l.sType === 'ribbon') ? `<div class="prop-col"><label class="prop-label">Height <span class="val-display">${l.h}</span></label><input type="range" min="10" max="2000" value="${l.h}" oninput="updateProp(${l.id}, 'h', this.value)"></div>` : ''}
+      </div>
+      ${l.sType === 'rect' ? `<div class="prop-row"><div class="prop-col"><label class="prop-label">Corner Radius <span class="val-display">${l.radius || 0}</span></label><input type="range" min="0" max="500" value="${l.radius || 0}" oninput="updateProp(${l.id}, 'radius', this.value)"></div></div>` : ''}
+
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">Fill Color</label><input type="color" value="${l.color}" onchange="updateProp(${l.id}, 'color', this.value, false)"></div>
+        <div class="prop-col"><label class="prop-label">Gradient Fill</label>
+          <select onchange="updateProp(${l.id}, 'gType', this.value, false)">
+            <option value="none" ${l.gType === 'none' ? 'selected' : ''}>None (Solid)</option>
+            <option value="linear" ${l.gType === 'linear' ? 'selected' : ''}>Linear Gradient</option>
+            <option value="radial" ${l.gType === 'radial' ? 'selected' : ''}>Radial Glow</option>
+            <option value="gold" ${l.gType === 'gold' ? 'selected' : ''}>Premium Gold</option>
+            <option value="silver" ${l.gType === 'silver' ? 'selected' : ''}>Polished Silver</option>
+            <option value="glass" ${l.gType === 'glass' ? 'selected' : ''}>Frosted Glass</option>
+          </select>
+        </div>
+      </div>
+      
+      ${l.gType && l.gType !== 'none' && l.gType !== 'gold' && l.gType !== 'silver' && l.gType !== 'glass' ? `
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">Color 2</label><input type="color" value="${l.color2 || '#000000'}" onchange="updateProp(${l.id}, 'color2', this.value, false)"></div>
+        <div class="prop-col"><label class="prop-label">Color 3</label><input type="color" value="${l.color3 || '#000000'}" onchange="updateProp(${l.id}, 'color3', this.value, false)"></div>
+      </div>
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">Grad Angle <span class="val-display">${l.gAngle || 0}°</span></label><input type="range" min="0" max="360" value="${l.gAngle || 0}" oninput="updateProp(${l.id}, 'gAngle', this.value)"></div>
+      </div>` : ''}
+      
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">Border Color</label><input type="color" value="${l.strokeC || '#ffffff'}" onchange="updateProp(${l.id}, 'strokeC', this.value, false)"></div>
+        <div class="prop-col"><label class="prop-label">Border Thick <span class="val-display">${l.strokeW || 0}</span></label><input type="range" min="0" max="50" value="${l.strokeW || 0}" oninput="updateProp(${l.id}, 'strokeW', this.value)"></div>
+      </div>
+
+      <!-- RETOUCHING / FILTERS -->
+      <div style="margin-top:15px; border-top:1px solid #333; padding-top:15px;">
+        <div class="prop-title">Image Retouching</div>
+        <div class="prop-row">
+          <div class="prop-col"><label class="prop-label">Brightness <span class="val-display">${l.brightness || 100}%</span></label><input type="range" min="0" max="200" value="${l.brightness || 100}" oninput="updateProp(${l.id}, 'brightness', this.value)"></div>
+          <div class="prop-col"><label class="prop-label">Contrast <span class="val-display">${l.contrast || 100}%</span></label><input type="range" min="0" max="200" value="${l.contrast || 100}" oninput="updateProp(${l.id}, 'contrast', this.value)"></div>
+        </div>
+        <div class="prop-row">
+          <div class="prop-col"><label class="prop-label">Saturation <span class="val-display">${l.saturation || 100}%</span></label><input type="range" min="0" max="200" value="${l.saturation || 100}" oninput="updateProp(${l.id}, 'saturation', this.value)"></div>
+          <div class="prop-col"><label class="prop-label">Grayscale <span class="val-display">${l.grayscale || 0}%</span></label><input type="range" min="0" max="100" value="${l.grayscale || 0}" oninput="updateProp(${l.id}, 'grayscale', this.value)"></div>
+        </div>
+        <div class="prop-row">
+          <div class="prop-col"><label class="prop-label">Blur <span class="val-display">${l.blur || 0}px</span></label><input type="range" min="0" max="20" value="${l.blur || 0}" oninput="updateProp(${l.id}, 'blur', this.value)"></div>
+        </div>
+      </div>
+
+      <!-- CRITICAL TUITION FEATURE: PHOTO CLIPPING MASK -->
+      <div style="margin-top:20px; padding-top:20px; border-top:1px solid #444">
+        <div class="prop-title" style="color:var(--accent)">📸 Teacher Photo Frame</div>
+        <div style="font-size:11px; color:#888; margin-bottom:10px; line-height:1.4">Upload a teacher's photo here. It will be perfectly cropped inside this shape.</div>
+        ${l.clipImg ?
+            `<div class="clip-remove" onclick="removeClip(${l.id})">🗑️ Remove Photo</div>` :
+            `<input type="file" id="clip-file" accept="image/*" style="display:none" onchange="loadClipImage(${l.id}, this)">
+           <div class="clip-upload" onclick="document.getElementById('clip-file').click()">
+             <i style="font-size:24px; margin-bottom:4px">🖼️</i>
+             Click to Upload Photo
+           </div>`
+          }
+      </div>
+    </div>`;
+      }
+
+      // --- IMAGE PROPS ---
+      else if (l.type === 'image') {
+        html += `
+    <div class="prop-section">
+      <div class="prop-title">Image Sizing</div>
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">Scale Width <span class="val-display">${Math.round(l.w)}</span></label><input type="range" min="10" max="3000" value="${l.w}" oninput="updateProp(${l.id}, 'w', this.value); l.h = l.img.height * (this.value/l.img.width); renderCanvas();"></div>
+      </div>
+      
+      <!-- RETOUCHING / FILTERS -->
+      <div style="margin-top:15px; border-top:1px solid #333; padding-top:15px;">
+        <div class="prop-title">Image Retouching</div>
+        <div class="prop-row">
+          <div class="prop-col"><label class="prop-label">Brightness <span class="val-display">${l.brightness || 100}%</span></label><input type="range" min="0" max="200" value="${l.brightness || 100}" oninput="updateProp(${l.id}, 'brightness', this.value)"></div>
+          <div class="prop-col"><label class="prop-label">Contrast <span class="val-display">${l.contrast || 100}%</span></label><input type="range" min="0" max="200" value="${l.contrast || 100}" oninput="updateProp(${l.id}, 'contrast', this.value)"></div>
+        </div>
+        <div class="prop-row">
+          <div class="prop-col"><label class="prop-label">Saturation <span class="val-display">${l.saturation || 100}%</span></label><input type="range" min="0" max="200" value="${l.saturation || 100}" oninput="updateProp(${l.id}, 'saturation', this.value)"></div>
+          <div class="prop-col"><label class="prop-label">Grayscale <span class="val-display">${l.grayscale || 0}%</span></label><input type="range" min="0" max="100" value="${l.grayscale || 0}" oninput="updateProp(${l.id}, 'grayscale', this.value)"></div>
+        </div>
+        <div class="prop-row">
+          <div class="prop-col"><label class="prop-label">Blur <span class="val-display">${l.blur || 0}px</span></label><input type="range" min="0" max="20" value="${l.blur || 0}" oninput="updateProp(${l.id}, 'blur', this.value)"></div>
+        </div>
+      </div>
+    </div>`;
+      }
+
+      // --- HTML OVERLAY PROPS ---
+      else if (l.type === 'html') {
+        html += `
+    <div class="prop-section">
+      <div class="prop-title">Template Overlay Sizing</div>
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">Width <span class="val-display">${l.w}</span></label><input type="range" min="10" max="2000" value="${l.w}" oninput="updateProp(${l.id}, 'w', this.value)"></div>
+        <div class="prop-col"><label class="prop-label">Height <span class="val-display">${l.h}</span></label><input type="range" min="10" max="2000" value="${l.h}" oninput="updateProp(${l.id}, 'h', this.value)"></div>
+      </div>
+    </div>`;
+      }
+
+      panel.innerHTML = html;
+    }
+
+    /* ─── INTERACTIVE MOUSE ENGINE (HIT TEST & DRAG) ─── */
+    function setupMouseEvents() {
+      wrap.addEventListener('mousedown', (e) => {
+        if (layers.length === 0) return;
+
+        const rect = wrap.getBoundingClientRect();
+        const scaleX = W / rect.width;
+        const scaleY = H / rect.height;
+        const mx = (e.clientX - rect.left) * scaleX;
+        const my = (e.clientY - rect.top) * scaleY;
+
+        // Hit test reverse (top layer first)
+        let clickedId = null;
+        for (let i = layers.length - 1; i >= 1; i--) {
+          const l = layers[i];
+          if (l.hidden) continue;
+          const rad = -(l.rotation * Math.PI / 180);
+          const dx = mx - l.x; const dy = my - l.y;
+          const lx = dx * Math.cos(rad) - dy * Math.sin(rad);
+          const ly = dx * Math.sin(rad) + dy * Math.cos(rad);
+
+          let hit = false;
+          if (l.type === 'image' || (l.type === 'shape' && (l.sType === 'rect' || l.sType === 'triangle' || l.sType === 'star' || l.sType === 'polygon' || l.sType === 'badge' || l.sType === 'ribbon')) || l.type === 'html') {
+            const hw = l.w / 2; const hh = (l.sType === 'rect' || l.sType === 'triangle' || l.sType === 'ribbon' || l.type === 'image' || l.type === 'html') ? l.h / 2 : l.w / 2;
+            if (lx >= -hw && lx <= hw && ly >= -hh && ly <= hh) hit = true;
+          }
+          else if (l.type === 'shape' && l.sType === 'circle') {
+            // Circle hit test
+            if (lx * lx + ly * ly <= (l.w / 2) * (l.w / 2)) hit = true;
+          }
+          else if (l.type === 'shape' && l.sType === 'line') {
+             if (Math.abs(ly) < 10 && Math.abs(lx) < l.w / 2) hit = true;
+          }
+          else if (l.type === 'text') {
+            ctx.font = `${l.weight} ${l.size}px ${l.font}`;
+            const lines = l.text.split('\n');
+            let maxW = 0;
+            lines.forEach(line => {
+              const m = ctx.measureText(line).width + (line.length * l.spacing);
+              if (m > maxW) maxW = m;
+            });
+            const th = lines.length * (l.size * 1.15);
+            let left = -maxW / 2;
+            if (l.align === 'left') left = 0;
+            if (l.align === 'right') left = -maxW;
+
+            if (lx >= left && lx <= left + maxW && ly >= -th / 2 && ly <= th / 2) hit = true;
+          }
+
+          if (hit) {
+            clickedId = l.id;
+            if (l.locked) {
+               toast('🔒 Layer is Locked');
+               isDragging = false;
+            } else {
+               dragOffsetX = mx - l.x;
+               dragOffsetY = my - l.y;
+               isDragging = true;
+            }
+            break;
+          }
+        }
+
+        if (clickedId) {
+          selectedId = clickedId;
+          updateUI();
+        } else {
+          selectedId = layers[0].id; // BG
+          isDragging = false;
+          updateUI();
+        }
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (!isDragging || selectedId === layers[0].id) return;
+        const l = layers.find(x => x.id === selectedId);
+        if (!l || l.locked) return;
+        
+        const rect = wrap.getBoundingClientRect();
+        const scaleX = W / rect.width;
+        const scaleY = H / rect.height;
+        const mx = (e.clientX - rect.left) * scaleX;
+        const my = (e.clientY - rect.top) * scaleY;
+
+        l.x = mx - dragOffsetX;
+        l.y = my - dragOffsetY;
+        renderCanvas();
+      });
+
+      window.addEventListener('mouseup', () => {
+        if (isDragging) {
+          isDragging = false;
+          renderProps(); // Sync sliders
+        }
+      });
+    }
+
+    /* ─── CORE RENDERING ENGINE ─── */
+    function hexToRgba(hex, alpha) {
+      if (!hex) return 'rgba(0,0,0,0)';
+      let r = 0, g = 0, b = 0;
+      if (hex.length === 4) { r = parseInt(hex[1] + hex[1], 16); g = parseInt(hex[2] + hex[2], 16); b = parseInt(hex[3] + hex[3], 16); }
+      else if (hex.length === 7) { r = parseInt(hex.substr(1, 2), 16); g = parseInt(hex.substr(3, 2), 16); b = parseInt(hex.substr(5, 2), 16); }
+      return `rgba(${r},${g},${b},${alpha / 100})`;
+    }
+
+    function renderCanvas() {
+      if (layers.length === 0) return; // Safeguard
+
+      ctx.save();
+      ctx.scale(dpr, dpr);
+      ctx.clearRect(0, 0, W, H);
+
+      // Background
+      const bg = layers[0];
+      const angle = bg.angle * (Math.PI / 180);
+      const x2 = W / 2 + Math.cos(angle) * W;
+      const y2 = H / 2 + Math.sin(angle) * H;
+      const grd = ctx.createLinearGradient(W / 2 - Math.cos(angle) * W, H / 2 - Math.sin(angle) * H, x2, y2);
+      grd.addColorStop(0, bg.c1); grd.addColorStop(1, bg.c2);
+      ctx.fillStyle = grd; ctx.fillRect(0, 0, W, H);
+
+      // Render Layers Loop (Bottom to Top)
+      for (let i = 1; i < layers.length; i++) {
+        const l = layers[i];
+        if (l.hidden) continue;
+        ctx.save();
+
+        ctx.translate(l.x, l.y);
+        ctx.rotate(l.rotation * Math.PI / 180);
+        ctx.globalAlpha = l.opacity / 100;
+        if (l.blendMode) ctx.globalCompositeOperation = l.blendMode;
+        else ctx.globalCompositeOperation = 'source-over';
+
+        /* --- HTML TEMPLATE LAYER (OVERLAY) --- */
+        if (l.type === 'html') {
+          ctx.fillStyle = 'rgba(0, 200, 255, 0.2)';
+          ctx.fillRect(-l.w / 2, -l.h / 2, l.w, l.h);
+          ctx.strokeStyle = '#00c8ff';
+          ctx.lineWidth = 2;
+          ctx.strokeRect(-l.w / 2, -l.h / 2, l.w, l.h);
+          ctx.fillStyle = '#fff';
+          ctx.font = 'bold 20px Inter';
+          ctx.textAlign = 'center';
+          ctx.fillText(`HTML TEMPLATE: ${l.src}`, 0, 0);
+          ctx.font = '12px Inter';
+          ctx.fillText('This template will render fully in Website Export', 0, 30);
+        }
+
+        /* --- IMAGE LAYER --- */
+        if (l.type === 'image') {
+          // Apply Retouching Filters
+          const filters = [];
+          if (l.brightness !== undefined && l.brightness !== 100) filters.push(`brightness(${l.brightness}%)`);
+          if (l.contrast !== undefined && l.contrast !== 100) filters.push(`contrast(${l.contrast}%)`);
+          if (l.saturation !== undefined && l.saturation !== 100) filters.push(`saturate(${l.saturation}%)`);
+          if (l.grayscale !== undefined && l.grayscale > 0) filters.push(`grayscale(${l.grayscale}%)`);
+          if (l.blur !== undefined && l.blur > 0) filters.push(`blur(${l.blur}px)`);
+          
+          if (filters.length > 0) ctx.filter = filters.join(' ');
+          else ctx.filter = 'none';
+
+          ctx.drawImage(l.img, -l.w / 2, -l.h / 2, l.w, l.h);
+          ctx.filter = 'none'; // Reset after drawing
+        }
+
+        /* --- SHAPE / TEACHER PHOTO FRAME --- */
+        else if (l.type === 'shape') {
+          ctx.beginPath();
+          if (l.sType === 'rect') {
+            const r = l.radius || 0;
+            const sx = -l.w / 2; const sy = -l.h / 2;
+            ctx.moveTo(sx + r, sy); ctx.lineTo(sx + l.w - r, sy);
+            ctx.quadraticCurveTo(sx + l.w, sy, sx + l.w, sy + r); ctx.lineTo(sx + l.w, sy + l.h - r);
+            ctx.quadraticCurveTo(sx + l.w, sy + l.h, sx + l.w - r, sy + l.h); ctx.lineTo(sx + r, sy + l.h);
+            ctx.quadraticCurveTo(sx, sy + l.h, sx, sy + l.h - r); ctx.lineTo(sx, sy + r);
+            ctx.quadraticCurveTo(sx, sy, sx + r, sy);
+          } else if (l.sType === 'circle') {
+            ctx.arc(0, 0, l.w / 2, 0, Math.PI * 2);
+          } else if (l.sType === 'triangle') {
+            ctx.moveTo(0, -l.h / 2);
+            ctx.lineTo(l.w / 2, l.h / 2);
+            ctx.lineTo(-l.w / 2, l.h / 2);
+          } else if (l.sType === 'star') {
+            const spikes = 5; const outerRadius = l.w / 2; const innerRadius = l.w / 4;
+            let rot = Math.PI / 2 * 3; let x = 0; let y = 0; const step = Math.PI / spikes;
+            ctx.moveTo(0, -outerRadius);
+            for (let j = 0; j < spikes; j++) {
+              x = Math.cos(rot) * outerRadius; y = Math.sin(rot) * outerRadius; ctx.lineTo(x, y); rot += step;
+              x = Math.cos(rot) * innerRadius; y = Math.sin(rot) * innerRadius; ctx.lineTo(x, y); rot += step;
+            }
+          } else if (l.sType === 'polygon') {
+            const sides = 6; const r = l.w / 2;
+            ctx.moveTo(r * Math.cos(-Math.PI / 2), r * Math.sin(-Math.PI / 2));
+            for (let j = 1; j < sides; j++) {
+              const ang = (j * 2 * Math.PI / sides) - Math.PI / 2;
+              ctx.lineTo(r * Math.cos(ang), r * Math.sin(ang));
+            }
+          } else if (l.sType === 'badge') {
+            const spikes = 16; const outer = l.w / 2; const inner = l.w / 2.2;
+            ctx.moveTo(outer, 0);
+            for (let j = 1; j < spikes * 2; j++) {
+              const r = j % 2 === 0 ? outer : inner;
+              const ang = j * Math.PI / spikes;
+              ctx.lineTo(r * Math.cos(ang), r * Math.sin(ang));
+            }
+          } else if (l.sType === 'ribbon') {
+            const hw = l.w / 2; const hh = l.h / 2;
+            const bend = l.w * 0.1;
+            ctx.moveTo(-hw, -hh); 
+            ctx.lineTo(hw, -hh); 
+            ctx.lineTo(hw - bend, 0); 
+            ctx.lineTo(hw, hh); 
+            ctx.lineTo(-hw, hh); 
+            ctx.lineTo(-hw + bend, 0);
+          } else if (l.sType === 'line') {
+            ctx.moveTo(-l.w / 2, 0);
+            ctx.lineTo(l.w / 2, 0);
+          }
+          ctx.closePath();
+
+          if (l.clipImg) {
+            // Clipping Mask Logic (Photo inside Shape)
+            ctx.save();
+            ctx.clip();
+            
+            // Apply Retouching Filters to Clipped Image
+            const filters = [];
+            if (l.brightness !== undefined && l.brightness !== 100) filters.push(`brightness(${l.brightness}%)`);
+            if (l.contrast !== undefined && l.contrast !== 100) filters.push(`contrast(${l.contrast}%)`);
+            if (l.saturation !== undefined && l.saturation !== 100) filters.push(`saturate(${l.saturation}%)`);
+            if (l.grayscale !== undefined && l.grayscale > 0) filters.push(`grayscale(${l.grayscale}%)`);
+            if (l.blur !== undefined && l.blur > 0) filters.push(`blur(${l.blur}px)`);
+            
+            if (filters.length > 0) ctx.filter = filters.join(' ');
+            else ctx.filter = 'none';
+
+            const imgRatio = l.clipImg.width / l.clipImg.height;
+            const boxRatio = l.sType === 'rect' ? (l.w / l.h) : 1;
+            let cw = l.w, ch = l.h;
+            if (imgRatio > boxRatio) { cw = ch * imgRatio; } else { ch = cw / imgRatio; }
+            ctx.drawImage(l.clipImg, -cw / 2, -ch / 2, cw, ch);
+            ctx.filter = 'none'; // Reset filter
+            ctx.restore();
+          }
+          else {
+            // Shape Fill Logic
+            const sh = (l.sType === 'rect' || l.sType === 'triangle' || l.sType === 'ribbon') ? l.h : l.w;
+            if (l.gType === 'linear') {
+              const ang = (l.gAngle || 0) * Math.PI / 180;
+              const g = ctx.createLinearGradient(-Math.cos(ang) * l.w / 2, -Math.sin(ang) * sh / 2, Math.cos(ang) * l.w / 2, Math.sin(ang) * sh / 2);
+              g.addColorStop(0, l.color); 
+              if (l.color2) g.addColorStop(0.5, l.color2);
+              g.addColorStop(1, l.color3 || '#000');
+              ctx.fillStyle = g;
+            } else if (l.gType === 'radial') {
+              const g = ctx.createRadialGradient(0, 0, 0, 0, 0, l.w / 2);
+              g.addColorStop(0, l.color); 
+              if (l.color2) g.addColorStop(0.5, l.color2);
+              g.addColorStop(1, l.color3 || '#000');
+              ctx.fillStyle = g;
+            } else if (l.gType === 'gold') {
+              const g = ctx.createLinearGradient(-l.w / 2, -sh / 2, l.w / 2, sh / 2);
+              g.addColorStop(0, '#bf953f'); g.addColorStop(0.2, '#fcf6ba'); g.addColorStop(0.5, '#b38728'); g.addColorStop(0.8, '#fcf6ba'); g.addColorStop(1, '#aa8029');
+              ctx.fillStyle = g;
+            } else if (l.gType === 'silver') {
+              const g = ctx.createLinearGradient(-l.w / 2, -sh / 2, l.w / 2, sh / 2);
+              g.addColorStop(0, '#777'); g.addColorStop(0.5, '#eee'); g.addColorStop(1, '#777');
+              ctx.fillStyle = g;
+            } else if (l.gType === 'glass') {
+              ctx.fillStyle = 'rgba(255,255,255,0.1)';
+              ctx.shadowColor = 'rgba(255,255,255,0.2)'; ctx.shadowBlur = 10;
+            } else {
+              ctx.fillStyle = l.color;
+            }
+            ctx.fill();
+            ctx.shadowBlur = 0; // Reset shadow
+          }
+
+          // Border / Stroke
+          if (l.strokeW > 0) {
+            ctx.lineWidth = l.strokeW;
+            ctx.strokeStyle = l.strokeC || '#ffffff';
+            ctx.stroke();
+          }
+        }
+
+        /* --- TEXT LAYER --- */
+        else if (l.type === 'text') {
+          const lines = l.text.split('\n');
+          const lh = l.size * 1.15;
+          const totalH = (lines.length - 1) * lh;
+
+          ctx.textAlign = l.align; ctx.textBaseline = 'middle';
+          ctx.font = `${l.weight} ${l.size}px ${l.font}, sans-serif`;
+          if (ctx.letterSpacing !== undefined) ctx.letterSpacing = l.spacing + "px";
+
+          lines.forEach((line, li) => {
+            const ly = -(totalH / 2) + (li * lh);
+
+            // Outline Stroke (Drawn behind)
+            if (l.strokeW > 0) {
+              ctx.lineJoin = 'round'; ctx.lineWidth = l.strokeW; ctx.strokeStyle = l.strokeC;
+              ctx.strokeText(line, 0, ly);
+            }
+
+            // Fill Colors
+            if (l.style === '3dgold') {
+              const depth = Math.min(15, l.size * 0.15);
+              for (let j = depth; j >= 1; j--) {
+                ctx.fillStyle = '#664200';
+                ctx.fillText(line, 0, ly + j);
+              }
+              const grad = ctx.createLinearGradient(0, ly - l.size / 2, 0, ly + l.size / 2);
+              grad.addColorStop(0, '#fff6cc'); grad.addColorStop(0.5, '#f5d06e'); grad.addColorStop(1, '#8b5e1a');
+              ctx.fillStyle = grad; ctx.fillText(line, 0, ly);
+            } else if (l.style === 'cyber') {
+              ctx.shadowColor = '#ff00ff'; ctx.shadowBlur = 15;
+              ctx.strokeStyle = '#00ffff'; ctx.lineWidth = 2; ctx.strokeText(line, 2, 2);
+              ctx.fillStyle = '#ffffff'; ctx.fillText(line, 0, 0);
+            } else if (l.style === 'royal') {
+              const grad = ctx.createLinearGradient(0, ly - l.size / 2, 0, ly + l.size / 2);
+              grad.addColorStop(0, '#6a1b9a'); grad.addColorStop(0.5, '#ffd700'); grad.addColorStop(1, '#4a148c');
+              ctx.fillStyle = grad; ctx.fillText(line, 0, ly);
+              ctx.shadowColor = 'rgba(0,0,0,0.5)'; ctx.shadowBlur = 5;
+            } else if (l.style === 'forest') {
+              const grad = ctx.createLinearGradient(0, ly - l.size / 2, 0, ly + l.size / 2);
+              grad.addColorStop(0, '#2e7d32'); grad.addColorStop(0.5, '#a5d6a7'); grad.addColorStop(1, '#1b5e20');
+              ctx.fillStyle = grad; ctx.fillText(line, 0, ly);
+            } else if (l.style === 'sunset') {
+              const grad = ctx.createLinearGradient(0, ly - l.size / 2, 0, ly + l.size / 2);
+              grad.addColorStop(0, '#ff512f'); grad.addColorStop(1, '#dd2476');
+              ctx.fillStyle = grad; ctx.fillText(line, 0, ly);
+            } else if (l.style === 'ocean') {
+              const grad = ctx.createLinearGradient(0, ly - l.size / 2, 0, ly + l.size / 2);
+              grad.addColorStop(0, '#2193b0'); grad.addColorStop(1, '#6dd5ed');
+              ctx.fillStyle = grad; ctx.fillText(line, 0, ly);
+            } else if (l.style === 'metal') {
+              const grad = ctx.createLinearGradient(0, ly - l.size / 2, 0, ly + l.size / 2);
+              grad.addColorStop(0, '#777'); grad.addColorStop(0.5, '#eee'); grad.addColorStop(1, '#777');
+              ctx.fillStyle = grad; ctx.fillText(line, 0, ly);
+              ctx.strokeStyle = 'rgba(255,255,255,0.5)'; ctx.lineWidth = 1; ctx.strokeText(line, 0, ly);
+            } else if (l.style === 'matrix') {
+              ctx.shadowColor = '#0f0'; ctx.shadowBlur = 10;
+              ctx.fillStyle = '#000'; ctx.fillText(line, 0, ly);
+              ctx.fillStyle = '#0f0'; ctx.font = `bold ${l.size}px monospace`; ctx.fillText(line, 0, ly);
+              ctx.font = `${l.weight} ${l.size}px ${l.font}`;
+            } else if (l.style === 'stamp') {
+              ctx.fillStyle = l.color; ctx.globalAlpha = 0.8;
+              ctx.fillText(line, 0, ly);
+              ctx.strokeStyle = l.color; ctx.lineWidth = 2; ctx.strokeText(line, 1, ly + 1);
+              ctx.globalAlpha = 1.0;
+            } else if (l.style === 'paper') {
+              ctx.shadowColor = 'rgba(0,0,0,0.3)'; ctx.shadowBlur = 5; ctx.shadowOffsetX = 3; ctx.shadowOffsetY = 3;
+              ctx.fillStyle = '#fff'; ctx.fillText(line, 0, ly);
+              ctx.shadowBlur = 0; ctx.shadowOffsetX = 0; ctx.shadowOffsetY = 0;
+            } else if (l.style === 'longshadow') {
+              for (let j = 1; j < 30; j++) {
+                ctx.fillStyle = hexToRgba(l.color, 20);
+                ctx.fillText(line, j, ly + j);
+              }
+              ctx.fillStyle = l.color; ctx.fillText(line, 0, ly);
+            } else if (l.style === 'bubble') {
+              const grad = ctx.createRadialGradient(0, ly, 0, 0, ly, l.size);
+              grad.addColorStop(0, '#fff'); grad.addColorStop(0.5, l.color); grad.addColorStop(1, l.color);
+              ctx.fillStyle = grad; ctx.fillText(line, 0, ly);
+            } else if (l.style === 'sketch') {
+              ctx.strokeStyle = l.color; ctx.lineWidth = 1;
+              ctx.strokeText(line, 1, ly + 1); ctx.strokeText(line, -1, ly - 1);
+              ctx.fillStyle = 'transparent'; ctx.fillText(line, 0, ly);
+            } else if (l.style === 'chalk') {
+              ctx.fillStyle = '#fff'; ctx.globalAlpha = 0.7;
+              ctx.font = `italic ${l.size}px 'Comic Sans MS'`;
+              ctx.fillText(line, 0, ly);
+              ctx.font = `${l.weight} ${l.size}px ${l.font}`;
+              ctx.globalAlpha = 1.0;
+            } else if (l.style === 'lava') {
+              const grad = ctx.createLinearGradient(0, ly - l.size / 2, 0, ly + l.size / 2);
+              grad.addColorStop(0, '#ff0'); grad.addColorStop(0.5, '#f60'); grad.addColorStop(1, '#300');
+              ctx.fillStyle = grad; ctx.fillText(line, 0, ly);
+              ctx.shadowColor = '#f30'; ctx.shadowBlur = 20;
+            } else if (l.style === 'chrome') {
+              const grad = ctx.createLinearGradient(0, ly - l.size / 2, 0, ly + l.size / 2);
+              grad.addColorStop(0, '#444'); grad.addColorStop(0.2, '#fff'); grad.addColorStop(0.5, '#aaa'); grad.addColorStop(0.8, '#fff'); grad.addColorStop(1, '#444');
+              ctx.fillStyle = grad; ctx.fillText(line, 0, ly);
+            } else if (l.style === 'retro') {
+              ctx.fillStyle = '#ff00ff'; ctx.fillText(line, 4, ly + 4);
+              ctx.fillStyle = '#00ffff'; ctx.fillText(line, -2, ly - 2);
+              ctx.fillStyle = l.color; ctx.fillText(line, 0, ly);
+            } else if (l.style === 'hologram') {
+              const grad = ctx.createLinearGradient(-100, 0, 100, 0);
+              grad.addColorStop(0, '#00ffff'); grad.addColorStop(0.5, '#ff00ff'); grad.addColorStop(1, '#00ffff');
+              ctx.globalAlpha = 0.6; ctx.fillStyle = grad; ctx.fillText(line, 2, ly);
+              ctx.globalAlpha = 1.0; ctx.fillStyle = '#fff'; ctx.fillText(line, 0, ly);
+            } else if (l.style === 'comic') {
+              ctx.strokeStyle = '#000'; ctx.lineWidth = 8; ctx.strokeText(line, 0, ly);
+              ctx.fillStyle = l.color; ctx.fillText(line, 0, ly);
+              ctx.fillStyle = '#fff'; ctx.globalAlpha = 0.3; ctx.fillText(line, -2, ly - 2); ctx.globalAlpha = 1.0;
+            } else if (l.style === 'glass') {
+              ctx.shadowColor = 'rgba(255,255,255,0.5)'; ctx.shadowBlur = 10;
+              ctx.fillStyle = 'rgba(255,255,255,0.2)'; ctx.fillText(line, 0, ly);
+              ctx.strokeStyle = 'rgba(255,255,255,0.5)'; ctx.lineWidth = 1; ctx.strokeText(line, 0, ly);
+            } else if (l.style === 'electric') {
+              ctx.shadowColor = '#0088ff'; ctx.shadowBlur = 20;
+              ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.strokeText(line, Math.random() * 4, ly + Math.random() * 4);
+              ctx.fillStyle = '#fff'; ctx.fillText(line, 0, ly);
+            } else if (l.style === 'wood') {
+              const grad = ctx.createLinearGradient(0, ly - l.size / 2, 0, ly + l.size / 2);
+              grad.addColorStop(0, '#8B4513'); grad.addColorStop(0.5, '#A0522D'); grad.addColorStop(1, '#8B4513');
+              ctx.fillStyle = grad; ctx.fillText(line, 0, ly);
+              ctx.strokeStyle = 'rgba(0,0,0,0.3)'; ctx.lineWidth = 1; ctx.strokeText(line, 0, ly);
+            } else if (l.style === 'stone') {
+              ctx.fillStyle = '#666'; ctx.fillText(line, 2, ly + 2);
+              ctx.fillStyle = '#aaa'; ctx.fillText(line, 0, ly);
+              ctx.strokeStyle = '#444'; ctx.lineWidth = 1; ctx.strokeText(line, 0, ly);
+            } else if (l.style === 'water') {
+              ctx.shadowColor = '#00bbff'; ctx.shadowBlur = 15;
+              const grad = ctx.createLinearGradient(0, ly - l.size / 2, 0, ly + l.size / 2);
+              grad.addColorStop(0, 'rgba(255,255,255,0.8)'); grad.addColorStop(0.5, '#0099ff'); grad.addColorStop(1, '#004466');
+              ctx.fillStyle = grad; ctx.fillText(line, 0, ly);
+            } else if (l.style === 'neon') {
+              ctx.shadowColor = l.color; ctx.shadowBlur = 25; ctx.shadowOffsetX = 0; ctx.shadowOffsetY = 0;
+              ctx.fillStyle = '#ffffff'; ctx.fillText(line, 0, ly);
+              ctx.shadowBlur = 15; ctx.fillStyle = l.color; ctx.fillText(line, 0, ly);
+              ctx.shadowBlur = 0;
+            } else if (l.style === 'plastic') {
+              ctx.fillStyle = '#000000'; ctx.globalAlpha = 0.3; ctx.fillText(line, 2, ly + 2); ctx.globalAlpha = l.opacity / 100;
+              const grad = ctx.createLinearGradient(0, ly - l.size / 2, 0, ly + l.size / 2);
+              grad.addColorStop(0, '#ffffff'); grad.addColorStop(0.5, l.color); grad.addColorStop(1, '#000000');
+              ctx.fillStyle = grad; ctx.fillText(line, 0, ly);
+            } else if (l.style === 'shadow') {
+              ctx.shadowColor = 'rgba(0,0,0,0.5)'; ctx.shadowBlur = 10; ctx.shadowOffsetX = 4; ctx.shadowOffsetY = 4;
+              ctx.fillStyle = l.color; ctx.fillText(line, 0, ly);
+              ctx.shadowBlur = 0; ctx.shadowOffsetX = 0; ctx.shadowOffsetY = 0;
+            } else if (l.style === 'outline') {
+              ctx.lineWidth = Math.max(4, l.size * 0.08); ctx.strokeStyle = '#000000'; ctx.lineJoin = 'round'; ctx.strokeText(line, 0, ly);
+              ctx.fillStyle = l.color; ctx.fillText(line, 0, ly);
+            } else if (l.style === 'gradient') {
+              const grad = ctx.createLinearGradient(-ctx.measureText(line).width / 2, 0, ctx.measureText(line).width / 2, 0);
+              grad.addColorStop(0, '#ff0055'); grad.addColorStop(0.5, '#ffaa00'); grad.addColorStop(1, '#ff0055');
+              ctx.fillStyle = grad; ctx.fillText(line, 0, ly);
+            } else if (l.style === 'fire') {
+              ctx.shadowColor = '#ff4400'; ctx.shadowBlur = 20; ctx.fillStyle = '#ff6600'; ctx.fillText(line, 0, ly);
+              ctx.shadowBlur = 10; ctx.fillStyle = '#ffcc00'; ctx.fillText(line, 0, ly);
+              ctx.shadowBlur = 0; ctx.fillStyle = '#ffffff'; ctx.fillText(line, 0, ly - 1);
+            } else if (l.style === 'ice') {
+              ctx.shadowColor = '#00ccff'; ctx.shadowBlur = 20; ctx.fillStyle = '#e0f7ff'; ctx.fillText(line, 0, ly);
+              ctx.shadowBlur = 0; ctx.strokeStyle = '#00aaff'; ctx.lineWidth = 2; ctx.strokeText(line, 0, ly);
+            } else if (l.style === 'rainbow') {
+              const grad = ctx.createLinearGradient(-ctx.measureText(line).width / 2, 0, ctx.measureText(line).width / 2, 0);
+              grad.addColorStop(0, '#ff0000'); grad.addColorStop(0.17, '#ff8800'); grad.addColorStop(0.33, '#ffff00');
+              grad.addColorStop(0.5, '#00ff00'); grad.addColorStop(0.67, '#0088ff'); grad.addColorStop(0.83, '#8800ff'); grad.addColorStop(1, '#ff0088');
+              ctx.fillStyle = grad; ctx.fillText(line, 0, ly);
+            } else {
+              ctx.fillStyle = l.color;
+              ctx.fillText(line, 0, ly);
+            }
+          });
+        }
+
+        ctx.restore();
+
+        // Selection Bounding Box Overlay
+        if (selectedId === l.id && !isDragging) {
+          ctx.save();
+          ctx.translate(l.x, l.y);
+          ctx.rotate(l.rotation * Math.PI / 180);
+          ctx.strokeStyle = '#0d99ff'; ctx.lineWidth = 2;
+
+          let bw = 0, bh = 0;
+          const sh = (l.sType === 'rect' || l.sType === 'triangle' || l.sType === 'ribbon' || l.sType === 'line') ? (l.h || l.w) : l.w;
+          if (l.type === 'shape' || l.type === 'image' || l.type === 'html') { 
+            bw = l.w; 
+            bh = (l.type === 'shape' && l.sType === 'line') ? 20 : sh; 
+          }
+          else if (l.type === 'text') {
+            ctx.font = `${l.weight} ${l.size}px ${l.font}`;
+            const lines = l.text.split('\n');
+            bw = Math.max(...lines.map(x => ctx.measureText(x).width + (x.length * l.spacing)));
+            bh = lines.length * (l.size * 1.15);
+          }
+
+          let bx = -bw / 2;
+          if (l.type === 'text') {
+            if (l.align === 'left') bx = 0;
+            if (l.align === 'right') bx = -bw;
+          }
+
+          ctx.strokeRect(bx - 5, -bh / 2 - 5, bw + 10, bh + 10);
+          // Nodes
+          ctx.fillStyle = '#fff'; 
+          const nodes = [
+            [bx - 5, -bh / 2 - 5],
+            [bx + bw + 5, -bh / 2 - 5],
+            [bx - 5, bh / 2 + 5],
+            [bx + bw + 5, bh / 2 + 5]
+          ];
+          nodes.forEach(n => {
+            ctx.beginPath(); ctx.arc(n[0], n[1], 4, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+          });
+          ctx.restore();
+        }
+      }
+
+      ctx.restore();
+    }
+
+    /* ─── EXPORT & CLIPBOARD ─── */
+    function copyToClipboard() {
+      const prevId = selectedId; selectedId = null; renderCanvas(); // Hide box
+      canvas.toBlob(async blob => {
+        try {
+          await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+          toast('📋 Image Copied to Clipboard!');
+        } catch (e) { toast('⚠️ Clipboard copy failed.'); }
+        selectedId = prevId; renderCanvas();
+      }, 'image/png');
+    }
+
+    function exportRender() {
+      const prevId = selectedId; selectedId = null; renderCanvas(); // Hide box
+      canvas.toBlob(blob => {
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `Tuition_Poster_${W}x${H}.png`;
+        a.click();
+        toast('✅ HD Poster Downloaded!');
+        selectedId = prevId; renderCanvas();
+      }, 'image/png', 1.0);
+    }
+
+    function generateWebsite() {
+      toast('🚀 Generating Production Website...');
+      
+      const bg = layers[0];
+      let layersHtml = '';
+      
+      // Process layers from bottom to top
+      layers.forEach((l, i) => {
+        if (l.type === 'bg') return;
+        
+        let style = `position: absolute; left: ${l.x}px; top: ${l.y}px; transform: translate(-50%, -50%) rotate(${l.rotation}deg); opacity: ${l.opacity / 100}; mix-blend-mode: ${l.blendMode || 'normal'}; z-index: ${i};`;
+        
+        // Add Retouching Filters to Style
+        let filters = [];
+        if (l.brightness !== undefined && l.brightness !== 100) filters.push(`brightness(${l.brightness}%)`);
+        if (l.contrast !== undefined && l.contrast !== 100) filters.push(`contrast(${l.contrast}%)`);
+        if (l.saturation !== undefined && l.saturation !== 100) filters.push(`saturate(${l.saturation}%)`);
+        if (l.grayscale !== undefined && l.grayscale > 0) filters.push(`grayscale(${l.grayscale}%)`);
+        if (l.blur !== undefined && l.blur > 0) filters.push(`blur(${l.blur}px)`);
+        if (filters.length > 0) style += `filter: ${filters.join(' ')};`;
+
+        if (l.type === 'text') {
+          style += `font-family: ${l.font}; font-size: ${l.size}px; color: ${l.color}; font-weight: ${l.weight}; text-align: ${l.align}; letter-spacing: ${l.spacing}px; line-height: 1.15; white-space: pre-wrap; width: auto;`;
+          if (l.strokeW > 0) {
+             style += `-webkit-text-stroke: ${l.strokeW}px ${l.strokeC};`;
+          }
+          // Basic effect mapping for CSS
+          if (l.style === 'neon') style += `text-shadow: 0 0 10px ${l.color}, 0 0 20px ${l.color}; color: #fff;`;
+          if (l.style === 'shadow') style += `text-shadow: 4px 4px 4px rgba(0,0,0,0.5);`;
+          
+          layersHtml += `<div style="${style}">${l.text.replace(/\n/g, '<br>')}</div>\n`;
+        }
+        else if (l.type === 'shape') {
+          let borderRadius = l.sType === 'circle' ? '50%' : (l.radius || 0) + 'px';
+          let clipPath = '';
+          const sh = (l.sType === 'rect' || l.sType === 'triangle' || l.sType === 'ribbon') ? l.h : l.w;
+
+          if (l.sType === 'triangle') {
+            clipPath = 'polygon(50% 0%, 0% 100%, 100% 100%)';
+          } else if (l.sType === 'star') {
+            clipPath = 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)';
+          } else if (l.sType === 'polygon') {
+            clipPath = 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)';
+          } else if (l.sType === 'badge') {
+            clipPath = 'polygon(50% 0%, 60% 6%, 72% 3%, 79% 12%, 91% 12%, 93% 24%, 100% 33%, 97% 45%, 100% 57%, 93% 66%, 95% 79%, 84% 84%, 80% 97%, 68% 95%, 58% 100%, 46% 94%, 34% 98%, 24% 89%, 12% 91%, 9% 79%, 0% 72%, 4% 60%, 0% 47%, 7% 37%, 4% 24%, 14% 17%, 17% 4%, 29% 7%, 39% 0%)';
+          } else if (l.sType === 'ribbon') {
+             const b = (sh > 0) ? (l.w * 0.1 / l.w * 100) : 10;
+             clipPath = `polygon(0% 0%, 100% 0%, ${100-b}% 50%, 100% 100%, 0% 100%, ${b}% 50%)`;
+          }
+          
+          style += `width: ${l.w}px; height: ${sh}px; background-color: ${l.color}; border: ${l.sType === 'line' ? 'none' : `${l.strokeW}px solid ${l.strokeC}`}; border-radius: ${borderRadius}; overflow: hidden; ${clipPath ? `clip-path: ${clipPath};` : ''}`;
+          
+          if (l.sType === 'line') {
+            style += `height: ${l.strokeW || 2}px; border-top: ${l.strokeW || 2}px solid ${l.color};`;
+          }
+
+          // Shape Gradients for Website
+          if (l.gType === 'linear') {
+            style += `background: linear-gradient(${l.gAngle || 0}deg, ${l.color}, ${l.color2 ? l.color2 + ',' : ''} ${l.color3 || '#000'});`;
+          } else if (l.gType === 'radial') {
+            style += `background: radial-gradient(circle, ${l.color}, ${l.color2 ? l.color2 + ',' : ''} ${l.color3 || '#000'});`;
+          } else if (l.gType === 'gold') {
+            style += `background: linear-gradient(45deg, #bf953f, #fcf6ba, #b38728, #fcf6ba, #aa8029);`;
+          } else if (l.gType === 'silver') {
+            style += `background: linear-gradient(45deg, #777, #eee, #777);`;
+          }
+
+          let content = '';
+          if (l.clipImg) {
+            content = `<img src="${l.clipImg.src}" style="width: 100%; height: 100%; object-fit: cover;">`;
+          }
+          layersHtml += `<div style="${style}">${content}</div>\n`;
+        }
+        else if (l.type === 'image') {
+          style += `width: ${l.w}px; height: ${l.h}px;`;
+          layersHtml += `<img src="${l.img.src}" style="${style}">\n`;
+        }
+        else if (l.type === 'html') {
+          style += `width: ${l.w}px; height: ${l.h}px; border: none;`;
+          layersHtml += `<iframe src="${l.src}" style="${style}" scrolling="no"></iframe>\n`;
+        }
+      });
+
+      const fullHtml = `
+<!DOCTYPE html>
+<html lang="si">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generated Poster Website</title>
+  <link href="https://fonts.googleapis.com/css2?family=Anek+Sinhala:wght@400;700;800;900&family=Noto+Sans+Sinhala:wght@400;700;900&family=Noto+Serif+Sinhala:wght@400;700&family=Abhaya+Libre:wght@600;800&family=Gemunu+Libre:wght@400;700;800&family=Yaldevi:wght@400;600;700&family=Maname&family=Baloo+2:wght@400;700;800&family=Poppins:wght@400;600;800&family=Montserrat:wght@400;700;900&family=Bebas+Neue&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    #site-container {
+      width: ${W}px;
+      height: ${H}px;
+      position: relative;
+      background: linear-gradient(${bg.angle}deg, ${bg.c1}, ${bg.c2});
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    @media (max-width: ${W}px) {
+      #site-container {
+        transform: scale(calc(100vw / ${W}));
+        transform-origin: center center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="site-container">
+    ${layersHtml}
+  </div>
+</body>
+</html>`;
+
+      const blob = new Blob([fullHtml], { type: 'text/html' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'tuition_website.html';
+      a.click();
+      
+      toast('✨ Website Generated & Downloaded!');
+    }
+  </script>
+</body>
+
+</html>

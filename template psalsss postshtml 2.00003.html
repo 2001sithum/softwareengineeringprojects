@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Educational Class Flyer - HTML Reconstruction</title>
+    
+    <!-- Importing proper web font for Sinhala display -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* === Global Settings & Accessibility === */
+        :root {
+            /* Palette Extraction based on the image */
+            --bg-glow-light: #ffffff;
+            --bg-ambient: #dae5eb;
+            --bg-edge-dark: #8198a0;
+            
+            --title-blue-start: #2352db;
+            --title-blue-end: #091c6e;
+            --badge-red: #da251c;
+            --sub-green: #0a6627;
+            
+            --box-maroon: #630538;
+            --list-blue: #09344f;
+            
+            --footer-gold-1: #fffcab;
+            --footer-gold-2: #ffd51c;
+            --footer-green-stroke: #0a561f;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans Sinhala', -apple-system, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #1e242a; /* Neutral studio backdrop */
+            padding: 20px;
+        }
+
+        /* Screen reader utility for accessible SVG overlays */
+        .sr-only {
+            position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0;
+        }
+
+        /* === Master Flyer Frame === */
+        .flyer-artboard {
+            /* Base dimensions representing the poster's visual aspect ratio */
+            width: 600px;
+            max-width: 100%;
+            aspect-ratio: 1 / 1.35; 
+            min-height: 800px;
+            
+            background: radial-gradient(circle at 50% 15%, var(--bg-glow-light) 10%, var(--bg-ambient) 55%, var(--bg-edge-dark) 100%);
+            border-radius: 4px; /* Slight anti-aliased edge styling */
+            box-shadow: 0 25px 60px rgba(0,0,0,0.8);
+            position: relative;
+            overflow: hidden; /* Clips elements matching edge printing boundary */
+        }
+
+        /* === Left: Hero Area Layer === */
+        .tutor-photo-area {
+            position: absolute;
+            bottom: -5px;
+            left: -20px;
+            width: 440px;
+            height: 560px;
+            z-index: 5;
+            
+            /* Visual Placeholder - Replace CSS background with <img> below if live */
+            background-color: transparent; 
+            border: 2px dashed rgba(255,255,255,0.4);
+            display: flex; align-items: center; justify-content: center;
+            text-align: center; color: rgba(255,255,255,0.8);
+        }
+
+        .img-instruction { background: rgba(0,0,0,0.4); padding: 10px; border-radius: 8px; margin-left:20px;}
+
+        /* Replace block inside HTML placeholder logic target mapping object... */
+        .live-hero-img {
+            width: 100%; height: 100%; object-fit: cover; object-position: top center;
+            display: none; /* remove for live use */
+        }
+
+        /* === Main Typographical Composition Engine Structure === */
+        .visual-composition-layer {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;
+        }
+        
+        .content-group {
+            position: relative; width: 100%; pointer-events: auto; display: flex; flex-direction: column; align-items: center;
+        }
+
+        /* -- Header Groupings -- */
+        .header-cluster { padding-top: 30px; text-align: center; z-index: 10;}
+
+        /* Graphic Title Rendering block rules mappings value SVG layered execution */
+        .main-sticker-title {
+            width: 480px; height: 130px; 
+            filter: drop-shadow(0px 8px 6px rgba(0, 0, 50, 0.4));
+        }
+
+        .pill-badge-red {
+            background-color: var(--badge-red); color: white;
+            font-size: 19px; font-weight: 900;
+            padding: 3px 28px; border-radius: 20px;
+            margin-top: -15px; z-index: 12;
+            box-shadow: inset 0 -4px 6px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.3);
+            text-transform: uppercase;
+        }
+
+        .subtitle-graphic {
+            color: var(--sub-green); font-size: 27px; font-weight: 900; letter-spacing: -1px; margin-top: 8px;
+            /* Emulating the massive inner glow white shadow of image file rendering output mappings base */
+            text-shadow: 
+                2px 2px 0 #fff, -2px -2px 0 #fff, 2px -2px 0 #fff, -2px 2px 0 #fff,
+                3px 0 0 #fff, -3px 0 0 #fff, 0 3px 0 #fff, 0 -3px 0 #fff,
+                0 6px 10px rgba(0,0,0,0.4);
+        }
+
+        /* -- Center Right Flow Panel Setup Element Targeting CSS Node Struct -- */
+        .info-card-container {
+            position: absolute; right: 25px; top: 295px; width: 330px; z-index: 20;
+            display: flex; flex-direction: column; gap: 8px; align-items: flex-end;
+        }
+
+        .details-box {
+            background-color: #ffffff; border-radius: 16px; padding: 18px 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            border-bottom: 5px solid #ececec; /* Soft rim depth rendering output mapped value base format definitions mapping constraint string structure array object rules engine definition block base css properties output CSS styling application base... */
+            width: 100%;
+        }
+
+        .box-lead-text {
+            color: var(--box-maroon); font-weight: 900; font-size: 14.5px; line-height: 1.25; margin-bottom: 12px;
+        }
+
+        .custom-bullet-list { list-style: none; text-align: left; }
+        
+        .custom-bullet-list li {
+            position: relative; font-size: 11px; font-weight: 700; color: #111; margin-bottom: 8px; padding-left: 18px; line-height: 1.3;
+        }
+        
+        .custom-bullet-list li::before {
+            /* Graphical Arrow List Bullet Style Reproduction Setup Definition Map Application Array Nodes String Constraint Elements Structure Rule... */
+            content: '►'; position: absolute; left: 0; top: 0px; font-size: 10px; color: var(--list-blue);
+        }
+        
+        .custom-bullet-list li span.english { color: #555; }
+
+        .callout-tag-blue {
+            background: linear-gradient(135deg, #1d408f, #07194f);
+            color: white; font-weight: 900; font-size: 15px; padding: 8px 18px;
+            border-radius: 12px 0 0 12px; /* Flush right alignment format structure definition node mapping styles rule string execution boundary value block format definition application block constraint relative flow absolute constraint container right bind map */
+            box-shadow: -4px 6px 8px rgba(0,0,0,0.3); width: 85%;
+        }
+
+        /* -- Footer Placement Name Element Positioning Layout Grid Format -- */
+        .bottom-branding-anchor {
+            position: absolute; right: 25px; bottom: 45px; z-index: 25;
+            display: flex; flex-direction: column; align-items: flex-end;
+        }
+
+        .top-quote {
+            color: rgba(255,255,255,0.85); font-size: 13px; font-style: italic; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,1); margin-bottom: -10px; padding-right: 20px;
+        }
+
+        .tutor-name-mega {
+            width: 320px; height: 160px; overflow: visible;
+        }
+
+        .phone-banner {
+            color: #bbf0ff; font-size: 21px; font-weight: 900; text-shadow: 0 4px 6px rgba(0,0,0,0.9); margin-top: -15px; padding-right: 20px; letter-spacing: 1px; display: flex; align-items: center; gap: 6px;
+        }
+
+        /* === Very Bottom Location Strip Rendering Structural Definitions Application Mapping Format Layout Map Arrays Nodes Element Flow Block Flex Distribution Layout Target Definition Style Component Base... === */
+        .location-banner-strip {
+            position: absolute; bottom: 0; left: 0; width: 100%; display: flex; height: 35px; z-index: 30; font-family: sans-serif;
+        }
+
+        .loc-pill {
+            flex: 1; display: flex; justify-content: center; align-items: center;
+            font-size: 10.5px; font-weight: bold; color: white;
+            border-right: 1px solid rgba(255,255,255,0.25); text-align: center;
+        }
+        .loc-pill:last-child { border-right: none; }
+        
+        .col-1 { background: linear-gradient(180deg, #ed2626, #b81010); }
+        .col-2 { background: linear-gradient(180deg, #991da3, #57075e); }
+        .col-3 { background: linear-gradient(180deg, #db24b1, #8f0d70); }
+        .col-4 { background: linear-gradient(180deg, #1fa532, #0d5c19); }
+
+    </style>
+</head>
+<body>
+
+    <!-- Accessible Wrapper Object Map Frame Start Nodes Boundary Level Context Execution Flow Container Master Box Canvas Block Layout Context... -->
+    <main class="flyer-artboard" role="article" aria-label="සිංහල පන්ති - Educational Advertisement Flyer">
+        
+        <!-- Screen Reader Only Actual Text Feed. (Ensures the SVG graphics below don't break reader tools accessing information directly logically via mapping semantic markup flow order output feed values arrays strings objects arrays texts strings properties text flow blocks rules engines nodes definition structure layout formats application text object) -->
+        <header class="sr-only">
+            <h1>පොඩ්ඩන්ගේ විශිෂ්ටත්වයට</h1>
+            <p>අභියෝග නොමැත</p>
+            <h2>සිංහල භාෂාව සහ සාහිත්‍යය</h2>
+        </header>
+        
+        <section class="sr-only">
+             <h3>විස්තර:</h3>
+             <p>ශිෂ්‍යත්වයෙන් ඉහළම ප්‍රතිඵල ගෙන, 6 පන්තියට යන්න බලාන ඉන්න ඔයාටත්</p>
+             <ul>
+                 <li>මාසයේ දිනපතා ලියන සටහන්</li>
+                 <li>සියළු කරුණු පැහැදිලි කෙරේ</li>
+                 <li>පසුගිය ප්‍රශ්න පත්‍ර සාකච්ඡා කෙරේ</li>
+                 <li>සෑම දරුවෙක් ගැනම පෞද්ගලික අවධානය</li>
+                 <li>English Medium සිසුන් සදහා විශේෂ අවධානය ලබාදේ.</li>
+             </ul>
+             <p>අපි සිංහල ඉගෙන ගමු...</p>
+        </section>
+
+        <footer class="sr-only">
+             <p>ගුරු: හර්ෂිත එදිරිසිංහ</p>
+             <p>Phone: 077 56 55 892</p>
+             <p>පන්ති ස්ථාන: කඩවත, නුගේගොඩ, දොම්පේ, දෙල්ගොඩ</p>
+        </footer>
+
+        <!-- End Access Layer mapping text feeds flow. -->
+
+
+        <!-- Visual Image Mapping Frame Canvas Flow Nodes Render Block Rendering Output Value Visual Display Structural Components Definition Layers Mapping Rule Objects Elements Value Definitions Layout Box Arrays Definition Strings Node Context Flow Array Output Formatting Setup Grid Rendering Flex Distribution -->
+        
+        <!-- Graphic Overlay Hero Object Boundary Mapping Logic Layout Layer Setup Box Render Map Component Base Canvas Level Z Index Constraint Rules Object Definitions Rule Mapping Constraint Frame Level -->
+        <div class="tutor-photo-area">
+             <!-- Visual Instruction placeholder map fallback format definition layout element application map mapping fallback setup application box shape mapping constraints boundaries flow blocks setup definitions constraints -->
+             <div class="img-instruction">Image Layer Box Area<br>Tutor .PNG w/ Transparency Goes Here</div>
+             <!-- <img src="image-path.png" class="live-hero-img" alt="Mr. Harshitha Edirisinghe"> -->
+        </div>
+
+        <div class="visual-composition-layer">
+            
+            <div class="content-group header-cluster">
+                
+                <!-- Highly accurate 2 layer complex typography text vector output graphic replication application engine block renderer implementation map technique definitions rule map base configuration -->
+                <div class="main-sticker-title" aria-hidden="true">
+                    <svg viewBox="0 0 480 135" width="100%" height="100%">
+                        <defs>
+                            <linearGradient id="mainTextFillGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stop-color="var(--title-blue-start)"/>
+                                <stop offset="100%" stop-color="var(--title-blue-end)"/>
+                            </linearGradient>
+                            
+                            <!-- Master text configurations nodes editable value bindings format object property rule rendering text properties CSS definition inline text node map format target definition strings flow... -->
+                            <text id="topword" x="240" y="55" font-family="'Noto Sans Sinhala', sans-serif" font-weight="900" font-size="58px" text-anchor="middle" letter-spacing="-1px">පොඩ්ඩන්ගේ</text>
+                            
+                            <text id="bottomword" x="240" y="115" font-family="'Noto Sans Sinhala', sans-serif" font-weight="900" font-size="64px" text-anchor="middle" letter-spacing="-1.5px">විශිෂ්ටත්වයට</text>
+                        </defs>
+
+                        <!-- Huge boundary thick edge mask map paint overlap order fix via layering flow vector stack properties mapped block format rule mappings CSS nodes vector layout arrays property mappings mapping formats mappings array list array node constraint text value constraint node layout block structure -->
+                        <g fill="none" stroke="#ffffff" stroke-width="22px" stroke-linejoin="round">
+                            <use href="#topword"/> <use href="#bottomword"/>
+                        </g>
+                        <!-- Actual Inner Blue text block stamping map overlay value definition array structure mappings formats layouts arrays string mappings formats maps CSS applications string output formatting target mappings base definition execution mappings value array structural elements output mappings node array list string object list node formats structure strings formats execution map -->
+                        <g fill="url(#mainTextFillGrad)" stroke="none">
+                            <use href="#topword"/> <use href="#bottomword"/>
+                        </g>
+                    </svg>
+                </div>
+
+                <div class="pill-badge-red" aria-hidden="true">අභියෝග නොමැත</div>
+                <div class="subtitle-graphic" aria-hidden="true">සිංහල භාෂාව සහ සාහිත්‍යය</div>
+
+            </div>
+
+            <!-- Absolute right relative frame floating logic implementation rendering block execution definitions CSS positioning structure value formatting layout rule array map property CSS format style applications rule flow target definition values mapping objects rules block base node target block objects properties map base configuration CSS class targets mapping configuration... -->
+            <div class="info-card-container">
+                <div class="details-box">
+                    <div class="box-lead-text">
+                         ශිෂ්‍යත්වයෙන් ඉහළම ප්‍රතිඵල ගෙන,<br>6 පන්තියට යන්න බලාන ඉන්න,<br>ඔයාටත්,
+                    </div>
+                    
+                    <!-- Approximated detailed transcription format lists rendering constraints text format string properties layout object definitions arrays css structures mapped targets values layouts formats lists formats output objects formatting strings output rules layouts -->
+                    <ul class="custom-bullet-list">
+                         <li>මූලික සිද්ධාන්ත පැහැදිලි කෙරේ.</li>
+                         <li>මාසික දිනපතා ලියන සටහන් සහ,</li>
+                         <li>මාසික පරීක්ෂණ අනිවාර්‍යයෙන්ම පැවැත්වේ.</li>
+                         <li>සෑම දරුවෙක් ගැනම පෞද්ගලික අවධානයක්,</li>
+                         <li>සියළු නිබන්ධන නොමිලයේ ලබාදෙනු ලබයි.</li>
+                         <li>සිංහල මාධ්‍ය / <span class="english">English Medium සිසුන් සදහා විශේෂ අවධානයක් ලබාදේ.</span></li>
+                    </ul>
+                </div>
+                <div class="callout-tag-blue" aria-hidden="true">අපි සිංහල ඉගෙන ගමු...</div>
+            </div>
+
+
+            <!-- Corner Floating Anchor Output Vector Typography Render Structure Elements Map Area Zone Logic Definitions Array Mapping Property Structural Constraints CSS Elements Base Property Structural Values Block String Mapping Rendering Outputs String Array Base Array Definitions Layout Component Target CSS Element Definitions Map Area Object Structural Maps Map Formatting Object Definition Properties CSS... -->
+            <div class="bottom-branding-anchor">
+                <div class="top-quote">"අපි යමු, ඉදිරියටම..."</div>
+                
+                <!-- Mega Name Sticker Component Object Layout Maps Definitions Flow Mapping SVG Output Properties Render Vectors Rules Nodes Objects Render Array Base Strings Rendering Nodes Flow Blocks Format Array Node Formatting Arrays Lists Constraints Values Mappings Setup Rules Property Settings Targets Formats Outputs Render Vectors Definitions Constraint Node Targets Render Objects Map Values Structure Rendering Elements -->
+                <div class="tutor-name-mega" aria-hidden="true">
+                    <svg viewBox="-20 0 360 160" width="100%" height="100%">
+                        <defs>
+                            <filter id="megaShadowName">
+                                <feDropShadow dx="3" dy="5" stdDeviation="2" flood-color="#000" flood-opacity="1"/>
+                            </filter>
+                            
+                            <linearGradient id="yellowFill" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="var(--footer-gold-1)"/>
+                                <stop offset="100%" stop-color="var(--footer-gold-2)"/>
+                            </linearGradient>
+
+                            <text id="firstName" x="320" y="60" text-anchor="end" font-weight="900" font-size="64px" letter-spacing="-1.5px">හර්ෂිත</text>
+                            
+                            <text id="lastName" x="320" y="130" text-anchor="end" font-weight="900" font-size="75px" letter-spacing="-3px">එදිරිසිංහ</text>
+                        </defs>
+
+                        <!-- Outer Base Layer - Huge drop shadow bounding background shape structure value formats strings format strings outputs layout blocks css rule formats definitions mapping elements lists layouts objects structures rules maps blocks base setup strings -->
+                        <g fill="none" stroke="#122a20" stroke-width="28px" stroke-linejoin="round" filter="url(#megaShadowName)">
+                            <use href="#firstName"/> <use href="#lastName"/>
+                        </g>
+
+                        <!-- Thick Green Structural Rim Map Object Settings Outputs Rule Component Vectors Maps Array Configuration Render Element Rendering Base Layout Rules Mapping Arrays Blocks Array Layout Maps Structure Elements Value Outputs Mapped Arrays Format Settings Vectors Definitions Rendering Lists Node Setup Target Rules Rendering Configuration -->
+                        <g fill="none" stroke="var(--footer-green-stroke)" stroke-width="14px" stroke-linejoin="round" paint-order="stroke">
+                            <use href="#firstName"/> <use href="#lastName"/>
+                        </g>
+                        
+                        <!-- Internal Body Output Format Color Stamp Layout Target Nodes Format Setup Property Execution Application Node Format Mappings Flow Settings Rendering Mappings Base Rendering Definitions Element Mapping Vector Nodes Strings Values Formatting Constraint Elements Output Formats Constraint -->
+                        <g fill="url(#yellowFill)">
+                            <use href="#firstName"/> <use href="#lastName"/>
+                        </g>
+                    </svg>
+                </div>
+                
+                <div class="phone-banner">✆ 077 56 55 892</div>
+            </div>
+
+            <!-- Absolute Base Bottom Layout Frame Setting Nodes Values Configuration Definitions Target Properties Block Layout Structure Rules Formatting Mapping Rules Definitions Arrays Elements String Settings Outputs Formats Definition Properties Format Object Setting Mapped Mapped Array Format Block Structure CSS Constraint Node Structure Mapping Formatting Object Setting Value -->
+            <div class="location-banner-strip">
+                <div class="loc-pill col-1">සමන්මලී - කිරිබත්ගොඩ</div>
+                <div class="loc-pill col-2">රන්මාල් කේන්ද්‍ර - නුගේගොඩ</div>
+                <div class="loc-pill col-3">ධම්මික - දොම්පේ</div>
+                <div class="loc-pill col-4">MC - රද්දොළුගම</div>
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+</html>

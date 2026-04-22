@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sinhala Class Poster</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,800;1,600&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #333; /* Dark background for the page */
+            padding: 20px;
+        }
+
+        /* Main Poster Container */
+        .poster-container {
+            width: 800px;
+            height: 800px;
+            display: flex;
+            background-color: #fff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* --- Left Side (Image Area) --- */
+        .left-panel {
+            width: 40%;
+            background-color: #f3ece1; /* Light beige color */
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            overflow: hidden;
+        }
+
+        /* Faint background text on the left */
+        .bg-text {
+            position: absolute;
+            left: -80px;
+            top: 50%;
+            transform: translateY(-50%) rotate(-90deg);
+            font-size: 120px;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.5); /* Very faint white */
+            letter-spacing: 5px;
+            pointer-events: none;
+        }
+
+        /* Placeholder for the student image */
+        .student-img {
+            width: 130%;
+            height: auto;
+            position: absolute;
+            bottom: -20px;
+            left: -15%;
+            /* Note: Replace this URL with your actual transparent PNG image */
+        }
+
+        /* Fallback shape if no image is provided */
+        .image-placeholder-box {
+            width: 80%;
+            height: 70%;
+            background: #d4c4b5;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            text-align: center;
+            padding: 20px;
+            z-index: 10;
+        }
+
+        /* --- Right Side (Content Area) --- */
+        .right-panel {
+            width: 60%;
+            background-color: #120038; /* Very dark purple */
+            padding: 50px 40px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header / Titles */
+        .header-section {
+            text-align: right;
+            margin-bottom: 30px;
+        }
+
+        .sub-title {
+            font-size: 14px;
+            letter-spacing: 1px;
+            color: #ddd;
+        }
+
+        /* Styling the Sinhala Text */
+        .main-title {
+            font-size: 90px;
+            font-weight: bold;
+            line-height: 1.1;
+            /* Creating the colorful gradient text with a white stroke */
+            background: linear-gradient(45deg, #e40066, #6b21a8, #00b4d8, #f48c06);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            -webkit-text-stroke: 3px white;
+            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.6));
+            margin-top: 5px;
+            text-align: right;
+        }
+
+        /* Schedule Lines */
+        .schedule-container {
+            margin-top: 20px;
+            flex-grow: 1;
+        }
+
+        .schedule-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        /* Yellow Grade Boxes */
+        .grade-box {
+            background-color: #ffbc00;
+            color: #000;
+            border-radius: 8px;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-right: 20px;
+            font-weight: 800;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+        }
+
+        .grade-box span:nth-child(1) {
+            font-size: 14px;
+            line-height: 1;
+            font-weight: 600;
+        }
+
+        .grade-box span:nth-child(2) {
+            font-size: 32px;
+            line-height: 1;
+        }
+
+        /* Special sizing for Revision Class box */
+        .grade-box.revision span {
+            font-size: 12px;
+            line-height: 1.1;
+        }
+        .grade-box.revision span.year {
+            font-size: 24px;
+            margin-top: 2px;
+        }
+
+        /* Time details next to boxes */
+        .time-details h3 {
+            font-size: 32px;
+            font-style: italic;
+            font-weight: 800;
+            margin-bottom: -5px;
+            letter-spacing: 1px;
+        }
+
+        .time-details p {
+            font-size: 16px;
+            color: #e0e0e0;
+            letter-spacing: 0.5px;
+        }
+
+        /* Dividers */
+        hr {
+            border: none;
+            border-top: 2px solid rgba(255, 255, 255, 0.3);
+            margin: 15px 0 25px 0;
+            width: 100%;
+        }
+
+        /* Footer Area (Teacher Info) */
+        .footer-section {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            margin-top: auto;
+        }
+
+        .teacher-pic {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            background-color: #555;
+            margin-right: 15px;
+            overflow: hidden;
+        }
+
+        .teacher-pic img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .teacher-details {
+            display: flex;
+            flex-direction: column;
+            text-align: right; /* Aligned right to match design flow */
+            align-items: flex-start;
+        }
+
+        .teacher-details .by {
+            font-size: 14px;
+            color: #ddd;
+            margin-bottom: -5px;
+        }
+
+        .teacher-details .name {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .teacher-details .phone {
+            font-size: 24px;
+            font-weight: 800;
+            color: #ff3b30; /* Bright orange/red */
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="poster-container">
+        
+        <!-- Left Side (Illustration) -->
+        <div class="left-panel">
+            <div class="bg-text">Sinhala</div>
+            
+            <!-- Replace the src below with your actual 3D character image -->
+            <!-- <img src="your-character-image.png" alt="Student" class="student-img"> -->
+            
+            <!-- Placeholder visible until you add your image -->
+            <div class="image-placeholder-box">
+                [Insert Character Image Here (Transparent PNG)]
+            </div>
+        </div>
+
+        <!-- Right Side (Information) -->
+        <div class="right-panel">
+            
+            <div class="header-section">
+                <div class="sub-title">Ordinary Level Examination</div>
+                <div class="main-title">සිංහල</div>
+            </div>
+
+            <div class="schedule-container">
+                
+                <!-- Grade 10 Block -->
+                <div class="schedule-row">
+                    <div class="grade-box">
+                        <span>Grade</span>
+                        <span>10</span>
+                    </div>
+                    <div class="time-details">
+                        <h3>Tuesday</h3>
+                        <p>5.15 pm - 7.00 pm</p>
+                    </div>
+                </div>
+                
+                <hr>
+
+                <!-- Grade 11 Block -->
+                <div class="schedule-row">
+                    <div class="grade-box">
+                        <span>Grade</span>
+                        <span>11</span>
+                    </div>
+                    <div class="time-details">
+                        <h3>Tuesday</h3>
+                        <p>3.30 pm - 5.15 pm</p>
+                    </div>
+                </div>
+                
+                <hr>
+
+                <!-- Revision Class Block -->
+                <div class="schedule-row">
+                    <div class="grade-box revision">
+                        <span>Revision</span>
+                        <span>CLASS</span>
+                        <span class="year">2025</span>
+                    </div>
+                    <div class="time-details">
+                        <h3>Tuesday</h3>
+                        <p>7.00 pm - 8.30 pm</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Footer Block -->
+            <div class="footer-section">
+                <div class="teacher-pic">
+                    <!-- Replace with teacher's photo -->
+                    <img src="https://via.placeholder.com/100" alt="Mr. Sharm">
+                </div>
+                <div class="teacher-details">
+                    <span class="by">By Mr.</span>
+                    <span class="name">Sharm</span>
+                    <span class="phone">07 1199 1177</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto-Scroll Sinhala Prompter</title>
+    <style>
+        :root {
+            --bg: #000000;
+            --text: #ffffff;
+            --highlight: #00ff88;
+            --font-size: 5vw; /* Auto-scaling font */
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Iskoola Pota', 'Arial', sans-serif;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        /* Input Screen */
+        #setup {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: #111;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            width: 90%;
+            max-width: 800px;
+            height: 300px;
+            background: #222;
+            color: #fff;
+            border: 2px solid #444;
+            padding: 20px;
+            font-size: 18px;
+            border-radius: 10px;
+        }
+
+        .btn-start {
+            margin-top: 20px;
+            padding: 20px 60px;
+            background: var(--highlight);
+            color: #000;
+            border: none;
+            border-radius: 50px;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Prompter Engine */
+        #prompter {
+            display: none;
+            height: 100vh;
+            width: 100%;
+            position: relative;
+        }
+
+        #scroll-box {
+            height: 100%;
+            overflow: hidden;
+            padding-top: 50vh; /* Starts text in middle */
+            padding-bottom: 90vh;
+        }
+
+        #text-content {
+            width: 85%;
+            margin: 0 auto;
+            font-size: var(--font-size);
+            line-height: 1.6;
+            text-align: center;
+            font-weight: bold;
+            white-space: pre-wrap;
+        }
+
+        /* Reading Zone Guide */
+        #guide-bar {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 95%;
+            height: 1.4em;
+            background: rgba(0, 255, 136, 0.1);
+            border-top: 2px solid var(--highlight);
+            border-bottom: 2px solid var(--highlight);
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* Countdown Overlay */
+        #countdown {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 150px;
+            color: var(--highlight);
+            z-index: 100;
+        }
+
+        /* HUD Status */
+        #hud {
+            position: fixed;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            font-family: monospace;
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. SETUP -->
+    <div id="setup">
+        <h1 style="color:var(--highlight)">Auto-Scroll Prompter</h1>
+        <textarea id="script-input" placeholder="Paste your Sinhala script here...">
+සේවකයින් ශුන්‍යයක් සහිත සමාගමක් ඊළඟ දශකයේ වඩාත්ම වටිනා සමාගම බවට පත් වුවහොත්?
+
+10 නෙවෙයි. 5 නෙවෙයි. එකක්වත් නෙවෙයි.
+
+එක් මිනිහෙක්. AI එකක්. ඒ විතරයි.
+
+OpenAI CEO සෑම් ඇල්ට්මන් මේ කිව්වේ 2023දී. 
+දැන් data කතා කරනවා.
+        </textarea>
+        <button class="btn-start" onclick="launch()">START AUTO-SCROLL</button>
+        <p style="color:#666">Speed: Up/Down Arrows | Font: Left/Right Arrows | Pause: Space</p>
+    </div>
+
+    <!-- 2. COUNTDOWN -->
+    <div id="countdown">3</div>
+
+    <!-- 3. PROMPTER -->
+    <div id="prompter">
+        <div id="guide-bar"></div>
+        <div id="scroll-box">
+            <div id="text-content"></div>
+        </div>
+        <div id="hud">SPEED: <span id="sp-val">3</span> | FONT: <span id="fs-val">5vw</span></div>
+    </div>
+
+    <script>
+        let speed = 3;
+        let isPaused = true;
+        let scrollY = 0;
+        let fontSize = 5;
+
+        function launch() {
+            const txt = document.getElementById('script-input').value;
+            if(!txt) return alert("Please paste text!");
+
+            document.getElementById('text-content').innerText = txt;
+            document.getElementById('setup').style.display = 'none';
+            document.getElementById('countdown').style.display = 'flex';
+
+            // 3 Second Countdown
+            let count = 3;
+            const timer = setInterval(() => {
+                count--;
+                if(count === 0) {
+                    clearInterval(timer);
+                    document.getElementById('countdown').style.display = 'none';
+                    document.getElementById('prompter').style.display = 'block';
+                    isPaused = false;
+                    autoScroll();
+                } else {
+                    document.getElementById('countdown').innerText = count;
+                }
+            }, 1000);
+        }
+
+        function autoScroll() {
+            if (!isPaused) {
+                scrollY += speed / 10;
+                document.getElementById('scroll-box').scrollTop = scrollY;
+            }
+            requestAnimationFrame(autoScroll);
+        }
+
+        // Keyboard Controls
+        window.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                isPaused = !isPaused;
+            }
+            if (e.code === 'ArrowUp') {
+                speed += 0.5;
+                document.getElementById('sp-val').innerText = speed.toFixed(1);
+            }
+            if (e.code === 'ArrowDown') {
+                speed = Math.max(0, speed - 0.5);
+                document.getElementById('sp-val').innerText = speed.toFixed(1);
+            }
+            if (e.code === 'ArrowRight') {
+                fontSize += 0.2;
+                document.documentElement.style.setProperty('--font-size', fontSize + 'vw');
+                document.getElementById('fs-val').innerText = fontSize.toFixed(1) + 'vw';
+            }
+            if (e.code === 'ArrowLeft') {
+                fontSize = Math.max(1, fontSize - 0.2);
+                document.documentElement.style.setProperty('--font-size', fontSize + 'vw');
+                document.getElementById('fs-val').innerText = fontSize.toFixed(1) + 'vw';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suneth Dance Academy Flyer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Using Noto Sans Sinhala for main text, standard sans-serif for fallbacks, and a condensed font for English heading -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;600;700;900&family=Oswald:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables for Colors and Fonts */
+        :root {
+            --color-orange-dark: #cc4d00;
+            --color-orange-light: #ff7b00;
+            --color-teal-dark: #005f6b;
+            --color-teal-light: #008a9c;
+            --color-text-brown: #5c1e04;
+            --color-text-red: #8b1100;
+            --color-white: #ffffff;
+            --color-black: #000000;
+            
+            --font-sinhala: 'Noto Sans Sinhala', sans-serif;
+            --font-english-bold: 'Oswald', sans-serif;
+        }
+
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #e0e5ec;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: var(--font-sinhala);
+            padding: 20px;
+        }
+
+        /* Main Flyer Container */
+        .flyer-wrapper {
+            background-color: var(--color-white);
+            width: 100%;
+            max-width: 800px;
+            /* Background simulation of clouds/texture */
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(240, 240, 240, 0.8) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(230, 230, 230, 0.8) 0%, transparent 50%),
+                linear-gradient(to bottom, #ffffff, #f0f0f0);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Content Area (Two Columns) */
+        .main-content {
+            display: flex;
+            flex-direction: row;
+            flex: 1;
+        }
+
+        /* Left Column - Dancer Image */
+        .left-column {
+            flex: 0 0 45%;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        .left-column img {
+            width: 100%;
+            height: auto;
+            max-height: 100%;
+            object-fit: cover;
+            object-position: bottom;
+            /* subtle shadow to separate from background */
+            filter: drop-shadow(5px 5px 15px rgba(0,0,0,0.3));
+        }
+
+        /* Right Column - Text Content */
+        .right-column {
+            flex: 1;
+            padding: 30px 20px 20px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* Title Section */
+        .title-section {
+            margin-bottom: 25px;
+            line-height: 1.1;
+        }
+
+        .title-main {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--color-text-red);
+            /* Gradient text effect for the main title */
+            background: linear-gradient(to bottom, #a31d00, #5c0f00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            margin-bottom: -5px;
+        }
+
+        .title-sub {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--color-text-red);
+            margin-bottom: 5px;
+        }
+
+        .title-desc {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--color-text-brown);
+        }
+
+        /* Schedule Box */
+        .schedule-box {
+            display: flex;
+            flex-direction: column;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+            margin-bottom: 25px;
+            width: 80%;
+            max-width: 250px;
+        }
+
+        .schedule-day {
+            background: linear-gradient(to right, var(--color-orange-dark), var(--color-orange-light));
+            color: var(--color-white);
+            padding: 10px;
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+
+        .schedule-time {
+            background: linear-gradient(to right, var(--color-teal-dark), var(--color-teal-light));
+            color: var(--color-white);
+            padding: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* Academy Info */
+        .academy-info {
+            margin-bottom: 20px;
+        }
+
+        .academy-name {
+            font-family: var(--font-english-bold);
+            font-size: 2.2rem;
+            color: var(--color-orange-dark);
+            line-height: 1;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+            /* Subtle text stroke effect */
+            -webkit-text-stroke: 1px rgba(0,0,0,0.1);
+        }
+
+        .academy-desc {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--color-text-brown);
+            line-height: 1.3;
+        }
+
+        /* Instructor Info */
+        .instructor-section {
+            margin-bottom: 20px;
+        }
+
+        .instructor-label {
+            font-size: 1.1rem;
+            color: var(--color-text-red);
+            font-weight: 700;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .instructor-name {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--color-text-brown);
+            /* Approximating calligraphic style with standard font styling */
+            font-style: italic; 
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        /* Bottom Notice */
+        .notice-text {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--color-black);
+            margin-bottom: 10px;
+            background-color: rgba(255,255,255,0.7);
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        /* Footer / Contact Bar */
+        .footer-bar {
+            background: linear-gradient(to right, #e65100, #ffb300, #e65100);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            box-shadow: 0 -3px 10px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 2;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--color-white);
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: transform 0.2s ease;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .contact-item:hover {
+            transform: scale(1.05);
+        }
+
+        .icon {
+            font-size: 1.3rem;
+            /* Specific colors for icons to stand out against gradient */
+            color: #fff; 
+        }
+
+        /* Responsive Design */
+        @media (max-width: 650px) {
+            .main-content {
+                flex-direction: column;
+            }
+
+            .left-column {
+                width: 100%;
+                height: 350px; /* Fixed height for image area on mobile */
+                overflow: hidden;
+            }
+
+            .left-column img {
+                width: auto;
+                height: 110%; /* Slight zoom to fit better horizontally */
+                object-fit: cover;
+                object-position: top center;
+            }
+
+            .right-column {
+                padding: 20px 15px;
+            }
+
+            .title-main { font-size: 2.5rem; }
+            .title-sub { font-size: 1.8rem; }
+            .academy-name { font-size: 1.8rem; }
+            
+            .footer-bar {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="flyer-wrapper">
+        
+        <main class="main-content">
+            <!-- Left Side: Dancer Image -->
+            <div class="left-column">
+                <!-- Using a visually similar placeholder for a Kandyan dancer -->
+                <img src="https://images.unsplash.com/photo-1601662528567-526cd06f6582?q=80&w=800&auto=format&fit=crop" alt="Traditional Sri Lankan Dancer" style="mix-blend-mode: multiply; filter: contrast(1.1) drop-shadow(5px 5px 10px rgba(0,0,0,0.2));">
+            </div>
+
+            <!-- Right Side: Text Information -->
+            <div class="right-column">
+                
+                <!-- Main Sinhala Headings -->
+                <header class="title-section">
+                    <h1 class="title-main">අලව්ව</h1>
+                    <h2 class="title-sub">පහතරට</h2>
+                    <p class="title-desc">නර්තනාලංකාරය</p>
+                </header>
+
+                <!-- Schedule Box -->
+                <div class="schedule-box">
+                    <div class="schedule-day">සිකුරාදා</div>
+                    <div class="schedule-time">දවල් 2.30 - 4.30</div>
+                </div>
+
+                <!-- Academy Branding -->
+                <section class="academy-info">
+                    <h2 class="academy-name">SUNETH<br>DANCE ACADEMY</h2>
+                    <p class="academy-desc">සාම්ප්‍රදායික නර්තන<br>ශිල්පීන්ගේ සභාව</p>
+                </section>
+
+                <!-- Instructor Information -->
+                <section class="instructor-section">
+                    <span class="instructor-label">මෙහෙයවීම</span>
+                    <!-- Approximated styled text for instructor name -->
+                    <div class="instructor-name">සුනෙත් චාමර</div>
+                </section>
+
+                <!-- Additional Instructions -->
+                <p class="notice-text">සියළුම දරුවන් අනිවාර්යයෙන් පැමිණිය යුතුය.</p>
+
+            </div>
+        </main>
+
+        <!-- Footer Call to Action -->
+        <footer class="footer-bar">
+            <!-- Telephone Contact -->
+            <a href="tel:0706659191" class="contact-item" aria-label="Call 070 665 9191">
+                <span class="icon" aria-hidden="true">☎</span> 070 6659191
+            </a>
+            
+            <span style="color:white;">|</span>
+
+            <!-- WhatsApp Contact -->
+            <a href="https://wa.me/94777467869" class="contact-item" aria-label="WhatsApp 077 746 7869">
+                <!-- Using standard unicode icon for messaging/whatsapp representation -->
+                <span class="icon" aria-hidden="true">💬</span> 077 7467869
+            </a>
+        </footer>
+
+    </div>
+
+</body>
+</html>

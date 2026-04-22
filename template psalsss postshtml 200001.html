@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Educational Promotion - History</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;700;900&family=Poppins:wght@700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --poster-maroon: #751416;
+            --poster-yellow: #fccc00;
+            --poster-white: #ffffff;
+            --poster-red: #d31e15;
+            --poster-green: #117a41;
+            --font-fallback: 'Noto Sans Sinhala', 'Poppins', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--font-fallback);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: #3b090a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .ambient-texture-canvas {
+            position: absolute;
+            inset: 0;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            opacity: 0.05;
+            color: #fff;
+            pointer-events: none;
+            overflow: hidden;
+            align-content: space-evenly;
+            font-size: 20px;
+            font-weight: 900;
+            transform: rotate(-10deg);
+        }
+
+        .ambient-texture-canvas span {
+            white-space: nowrap;
+        }
+
+        .meta-tag-strip {
+            position: absolute;
+            top: 25px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            z-index: 10;
+        }
+
+        .meta-line {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 8px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .meta-website {
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            color: rgba(255, 255, 255, 0.7);
+            border-radius: 20px;
+            padding: 1px 12px;
+            font-size: 7px;
+            letter-spacing: 1px;
+            margin-top: 2px;
+        }
+
+        .promo-frame {
+            width: 100%;
+            max-width: 480px;
+            background: var(--poster-white);
+            box-shadow: 0 35px 80px rgba(0, 0, 0, 0.85);
+            position: relative;
+            z-index: 20;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .red-scaffold-layer {
+            background-color: var(--poster-maroon);
+            border-radius: 0 0 50% 50% / 0 0 55px 55px;
+            padding: 45px 0 25px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 10;
+            position: relative;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .launch-badges-stack {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .yr-flag {
+            font-size: 34px;
+            font-weight: 900;
+            color: var(--poster-white);
+            border: 2px solid var(--poster-white);
+            padding: 0px 8px;
+            line-height: 1;
+            letter-spacing: 1px;
+        }
+
+        .cls-init-pill {
+            background-color: var(--poster-white);
+            color: var(--poster-maroon);
+            font-size: 26px;
+            font-weight: 900;
+            padding: 0 15px;
+            letter-spacing: -0.5px;
+            line-height: 1.25;
+            margin-top: 6px;
+            white-space: nowrap;
+        }
+
+        .master-typography-object {
+            width: 380px;
+            height: 95px;
+            margin: -5px 0 10px 0;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.6));
+        }
+
+        .schedule-grid-hub {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-right: 15px;
+            transform: translateX(-5%);
+        }
+
+        .vertical-announce-tag {
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+            color: var(--poster-white);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-align: right;
+            border-left: 2px solid rgba(255, 255, 255, 0.4);
+            padding-left: 8px;
+            margin-right: 15px;
+            line-height: 1.4;
+        }
+
+        .curriculum-flow-rack {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .agenda-node-row {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .badge-numerical {
+            width: 36px;
+            height: 42px;
+            background-color: var(--poster-green);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--poster-white);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .node-telemetry {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .segment-lead {
+            color: var(--poster-white);
+            font-size: 16.5px;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            margin-bottom: -1px;
+        }
+
+        .duration-pod {
+            background-color: var(--poster-white);
+            color: var(--poster-maroon);
+            padding: 1px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 900;
+        }
+
+        .venue-pointer-group {
+            display: flex;
+            flex-direction: row;
+            align-items: stretch;
+            height: 38px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            border-radius: 1px;
+            overflow: hidden;
+        }
+
+        .venue-primary-plate {
+            background-color: var(--poster-white);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0 14px;
+            color: var(--poster-maroon);
+            text-align: center;
+        }
+
+        .title-prime {
+            font-weight: 900;
+            font-size: 16px;
+            line-height: 1;
+        }
+
+        .subtitle-prime {
+            font-size: 7px;
+            font-weight: 900;
+            line-height: 1;
+            letter-spacing: -0.2px;
+            margin-top: -1px;
+        }
+
+        .venue-second-plate {
+            background-color: var(--poster-red);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 15px;
+            color: var(--poster-white);
+            font-weight: 900;
+            font-size: 14.5px;
+        }
+
+        .presentation-base-panel {
+            padding: 40px 0 25px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-top: -10px; 
+            z-index: 1;
+        }
+
+        .lecturer-monikers {
+            color: var(--poster-maroon);
+            font-size: 40px;
+            font-weight: 900;
+            letter-spacing: -2px;
+            text-shadow: 0px 3px 5px rgba(0,0,0,0.1);
+            line-height: 1.1;
+        }
+
+        .lecturer-credentials-cluster {
+            color: var(--poster-maroon);
+            font-family: 'Poppins', sans-serif;
+            font-size: 7px;
+            line-height: 1.1;
+            margin-top: 6px;
+            text-align: right;
+            transform: translateX(80px);
+            opacity: 0.9;
+        }
+
+        @media (max-width: 520px) {
+            body { padding: 10px; }
+            .promo-frame { width: 100%; border-radius: 8px;}
+            .red-scaffold-layer { border-radius: 8px 8px 50% 50% / 0 0 35px 35px; }
+            .master-typography-object { width: 85%; height: auto;}
+            .lecturer-credentials-cluster { transform: translateX(50px);}
+            .schedule-grid-hub { transform: translateX(0); width: 95%; justify-content: center;}
+            .vertical-announce-tag { margin-right: 10px; padding-left: 5px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-texture-canvas" aria-hidden="true">
+        <span>ප.ව 6.00</span><span>- 8.30</span><span>ඉරිදා</span><span>ශ්‍රේණිය</span>
+        <span>ගුරු ගෙදර</span><span>ඉතිහාසය</span><span>පන්සල පාර</span><span>2024</span>
+        <span>ප.ව 6.00</span><span>- 8.30</span><span>බදාදා</span><span>ඉතිහාසය</span>
+        <span>නව පන්ති</span><span>ආරම්භය</span><span>ශ්‍රේණිය</span><span>චන්දන</span>
+    </div>
+
+    <nav class="meta-tag-strip" aria-label="Template Author Attribution">
+        <span class="meta-line">SOCIAL MEDIA POSTER DESIGN</span>
+        <span class="meta-line" style="font-weight: bold; letter-spacing: 0.2px;">CONTACT US FOR MORE INFO</span>
+        <div class="meta-website">www.macopicedesing.com</div>
+    </nav>
+
+    <main class="promo-frame" aria-label="Educational Subject Promo Event Details">
+        <section class="red-scaffold-layer">
+            
+            <header class="launch-badges-stack">
+                <div class="yr-flag">2024</div>
+                <div class="cls-init-pill">නව පන්ති ආරම්භය</div>
+            </header>
+
+            <div class="master-typography-object" aria-hidden="true">
+                 <svg viewBox="0 0 450 115" width="100%" height="100%">
+                    <defs>
+                        <text id="primaryFocusTextNode" x="225" y="90" font-family="'Noto Sans Sinhala', sans-serif" font-weight="900" font-size="105px" text-anchor="middle" letter-spacing="-3px">ඉතිහාසය</text>
+                    </defs>
+                    <g fill="none" stroke="#250505" stroke-width="26px" stroke-linejoin="round">
+                        <use href="#primaryFocusTextNode"/>
+                    </g>
+                    <g fill="#fcce00" stroke="none">
+                        <use href="#primaryFocusTextNode"/>
+                    </g>
+                 </svg>
+            </div>
+
+            <article class="schedule-grid-hub">
+                
+                <aside class="vertical-announce-tag">
+                    නවක සිසුන් දැන්<br>ලියාපදිංචිය ඇරඹේ
+                </aside>
+
+                <div class="curriculum-flow-rack">
+                    <div class="agenda-node-row">
+                        <span class="badge-numerical">9</span>
+                        <div class="node-telemetry">
+                            <span class="segment-lead">ශ්‍රේණිය - බදාදා</span>
+                            <span class="duration-pod">ප.ව 6.00 - 8.30</span>
+                        </div>
+                    </div>
+                    
+                    <div class="agenda-node-row">
+                        <span class="badge-numerical">10</span>
+                        <div class="node-telemetry">
+                            <span class="segment-lead">ශ්‍රේණිය - බ්‍රහස්පතින්දා</span>
+                            <span class="duration-pod">ප.ව 6.00 - 8.30</span>
+                        </div>
+                    </div>
+                    
+                    <div class="agenda-node-row">
+                        <span class="badge-numerical">11</span>
+                        <div class="node-telemetry">
+                            <span class="segment-lead">ශ්‍රේණිය - ඉරිදා</span>
+                            <span class="duration-pod">ප.ව 6.00 - 8.30</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <div class="venue-pointer-group">
+                <div class="venue-primary-plate">
+                    <span class="title-prime">ගුරු ගෙදර</span>
+                    <span class="subtitle-prime">පන්සල පාර</span>
+                </div>
+                <div class="venue-second-plate">
+                    ගල්කන්ද
+                </div>
+            </div>
+
+        </section>
+
+        <section class="presentation-base-panel">
+            <h1 class="lecturer-monikers">චන්දන සමරසිංහ</h1>
+            <div class="lecturer-credentials-cluster">
+                B.A (University of Kelaniya)<br>
+                P.G Diploma (NIE)<br>
+                Sound Basis Centre
+            </div>
+        </section>
+    </main>
+
+    <div class="visually-hidden">
+        <h1>2024 නව පන්ති ආරම්භය - ඉතිහාසය</h1>
+        <p>නවක සිසුන් දැන් ලියාපදිංචිය ඇරඹේ.</p>
+        <h2>කාලසටහන:</h2>
+        <ul>
+            <li>9 ශ්‍රේණිය - බදාදා, ප.ව 6.00 - 8.30</li>
+            <li>10 ශ්‍රේණිය - බ්‍රහස්පතින්දා, ප.ව 6.00 - 8.30</li>
+            <li>11 ශ්‍රේණිය - ඉරිදා, ප.ව 6.00 - 8.30</li>
+        </ul>
+        <h3>පන්ති පැවැත්වෙන ස්ථාන:</h3>
+        <p>ගුරු ගෙදර (පන්සල පාර), ගල්කන්ද</p>
+        <h3>මෙහෙයවීම:</h3>
+        <p>චන්දන සමරසිංහ (B.A University of Kelaniya, P.G Diploma NIE, Sound Basis Centre)</p>
+    </div>
+
+</body>
+</html>

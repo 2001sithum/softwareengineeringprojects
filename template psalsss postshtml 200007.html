@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025 A/L Outstanding Results Flyer UI</title>
+    
+    <!-- Using Google Fonts for English context and primary Sinhala typeface -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Noto+Sans+Sinhala:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* -------------------------------------------
+           1. CSS Variables for Consistency and Easy Theming
+           Extracting palette accurately from the provided print flyer
+           and interpreting it for a modern screen UI.
+        --------------------------------------------- */
+        :root {
+            /* Brand Colors based on the flyer */
+            --orange-bg: #ef532b;      
+            --orange-tag: #fab029;      
+            --green-dark: #1b4932;       
+            --yellow-badge: #ffe801;    
+            --badge-stroke: #bcc5a8;
+            --text-white: #ffffff;
+            
+            /* UI Enhancement variables */
+            --border-radius-lg: 24px;
+            --border-radius-sm: 8px;
+            --shadow-md: 0 10px 20px rgba(0,0,0,0.15);
+            --shadow-soft: 0 4px 6px rgba(0,0,0,0.08);
+            
+            /* Typography Settings */
+            --font-sinhala: 'Noto Sans Sinhala', sans-serif;
+            --font-english: 'Montserrat', sans-serif;
+        }
+
+        /* Basic Resets */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: var(--font-english); /* Base font is english, Sinhala class defined separately */
+            background-color: #f4f6f9;        /* Presentation background outside flyer */
+            color: var(--text-white);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 10px;
+            line-height: 1.5;
+        }
+
+        /* -------------------------------------------
+           2. Main Flyer Container Setup
+           Modernizing the hard print boundaries by turning it 
+           into an app-like container block
+        --------------------------------------------- */
+        .flyer-container {
+            width: 100%;
+            max-width: 850px;           /* Proportional maximum width for legibility */
+            background-color: var(--green-dark); /* Foundation is dark green */
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;            /* Cut off contents that bleed */
+            position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.4);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Typography Helper Classes */
+        .txt-si { font-family: var(--font-sinhala); }
+        .text-bold { font-weight: 800; }
+        .text-superbold { font-weight: 900; }
+        
+        /* -------------------------------------------
+           3. Hero Header Section (Orange area)
+        --------------------------------------------- */
+        .hero-section {
+            background-color: var(--orange-bg);
+            padding: 40px 20px 80px 20px; /* Extra bottom padding for layout overlap trick */
+            position: relative;
+            z-index: 2;
+            
+            /* Using CSS clip-path to mimic the printed flyer's swoosh curve seamlessly across screen widths */
+            clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
+        }
+
+        /* The rectangular badge dropping from top left */
+        .year-tag {
+            background-color: var(--orange-tag);
+            color: #000;
+            position: absolute;
+            top: 0;
+            left: 20px;
+            padding: 15px 12px;
+            border-radius: 0 0 6px 6px; /* slightly soften edges for screen */
+            text-align: center;
+            font-size: clamp(1rem, 2.5vw, 1.4rem); /* Responsive sizing */
+            line-height: 1.2;
+            font-weight: 800;
+            box-shadow: var(--shadow-soft);
+            width: clamp(120px, 20vw, 160px);
+        }
+        
+        /* Simulating the squeezed tracking in original font layout */
+        .year-tag-line1 { letter-spacing: -1px; display: block;}
+        .year-tag-line2 { font-size: 0.9em; display: block; margin-top: -3px;}
+
+        /* Main Headline Configuration */
+        .headline-wrapper {
+            margin-top: 10px;
+            padding-left: clamp(150px, 25vw, 220px); /* Keep right of the yellow tag dynamically */
+            text-align: left;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Adjust tracking to mimic the image tightly set type */
+        .title-top {
+            font-size: clamp(1.8rem, 4.5vw, 3.5rem);
+            line-height: 1;
+            margin-bottom: 2px;
+            display: block;
+            text-shadow: 2px 2px 0 rgba(0,0,0,0.08); /* faint shadow boosts readaility vs busy orange */
+        }
+
+        .title-main {
+            font-size: clamp(1.4rem, 4.2vw, 3rem);
+            line-height: 1.1;
+            display: block;
+            margin-top: -2px; /* Pull closer visually mimicking poster tracking */
+        }
+
+
+        /* -------------------------------------------
+           4. Main Content Area (Dark Green Base layout Grid)
+           Applying Grid on desktop, Stack on mobile
+        --------------------------------------------- */
+        .content-section {
+            display: grid;
+            gap: 20px;
+            padding: 20px;
+            margin-top: -60px; /* Pull area up underneath the clipped orange swoosh */
+            z-index: 10;       /* Keep graphic badges in front */
+            position: relative;
+            flex-grow: 1;      /* Fill height if stretched container */
+        }
+        
+        /* Grid strategy changes sharply between narrow and wide contexts */
+        @media (min-width: 768px) {
+            .content-section {
+                grid-template-columns: minmax(200px, 1fr) 2fr; 
+                padding: 10px 40px 30px 40px; /* tighter internal breathing space sidebyside */
+            }
+        }
+
+
+        /* -------------------------------------------
+           4.A Sidebar Area: Badges & Quote artwork 
+        --------------------------------------------- */
+        .sidebar-visuals {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        /* On desktop push the left side upwards further out of document flow manually if needed, 
+           but CSS Grid alignments are cleaner. Negative margin shifts only badge. */
+        @media (min-width: 768px) { .sidebar-visuals { margin-top: -70px; } }
+
+        /* Complex styling of the '16 of 20' focal piece.
+           Building using CSS styling elements rather than a static image for crisp rendering. */
+        .success-badge {
+            background-color: var(--yellow-badge);
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            /* creating the triple border look internally */
+            border: 15px solid #eceadd; /* closest matched grey boundary color */
+            outline: 6px solid var(--text-white); /* White halo outside */
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); /* Heavy realistic lift off page */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #0a1128;   /* Nearly black navy blue mapping image ink tone */
+            line-height: 0.8;
+            position: relative;
+            z-index: 50; /* Bring topmost */
+            transform: scale(0.85); /* Default scale on narrow layouts to save space */
+        }
+        @media(min-width:400px){ .success-badge {transform: scale(0.95);}}
+        @media(min-width:768px){ .success-badge {transform: scale(1);}}
+        
+        /* Interactive Enhancement not asked, but expected on UI layouts */
+        .success-badge:hover { transform: scale(1.05); transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+
+        .badge-number {
+            font-family: var(--font-english);
+            font-size: 6rem;
+            font-weight: 800;
+            letter-spacing: -2px;
+            display: block;
+        }
+        
+        /* Divider dash stylized to match visual mark in yellow ball */
+        .badge-divider {
+             width: 60px; height: 5px; background: #62a345;
+             border-radius: 5px; display:block;
+             margin: 6px 0 10px 0; /* precise layout tweaking over line spacing */
+        }
+
+        /* Tiny stylistic hook letter on side. Note manual tweak due to arbitrary poster design layout */
+        .badge-char { 
+            position: absolute; right: 25px; top: 75px; 
+            font-size: 2rem; transform: rotate(10deg);
+            /* fake thick marker font appearance */
+            text-shadow: 1px 1px #0a1128, -1px -1px #0a1128;
+        }
+
+
+        /* Placeholder block representing stylized text lower left */
+        .callout-graphic-area {
+            color: var(--text-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            text-align: right;
+        }
+
+        .art-text-fallback {
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            font-style: italic; /* Mimics brush font nature roughly */
+            line-height: 1.4;
+            color: #e4ead3;     /* matching muted color inside the dark context */
+        }
+
+
+        /* -------------------------------------------
+           4.B Data Grids Area: Transforming print list 
+           to robust HTML tabular display
+        --------------------------------------------- */
+        .table-container {
+            width: 100%;
+            /* Enhancement: Enable horz scrolling incase strings run over container space safely */
+            overflow-x: auto; 
+            margin-top: 20px; 
+        }
+
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem; /* Sizable, balanced between compact display and legible spacing */
+        }
+        
+        /* Aligning data leftwards, matching poster appearance roughly. English columns get eng-font fallback via body inheritence */
+        .results-table th, 
+        .results-table td {
+            padding: 8px 12px;
+            text-align: left;
+        }
+
+        .results-table th {
+            color: #6ab987;     /* Highlighting table headings as done visually using brighter green tone in image header row area*/
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid rgba(106, 185, 135, 0.3); /* Underline delimiter vs harsh box grid styling */
+            white-space: nowrap; 
+        }
+        
+        /* The printed image data fields */
+        .results-table td { color: #ebede9; }
+        
+        /* Visual subtle cues not seen on poster, improving accessibility/usability digitally */
+        .results-table tbody tr { transition: background-color 0.2s ease; border-bottom: 1px solid rgba(255,255,255,0.04); }
+        .results-table tbody tr:last-child { border-bottom: none;}
+        .results-table tbody tr:hover { background-color: rgba(255,255,255, 0.08); border-radius:4px; }
+
+
+        /* -------------------------------------------
+           5. Mobile Adaptive Strategies 
+           Converting HTML tables into accessible responsive 'card rows' layout specifically. 
+        --------------------------------------------- */
+        @media (max-width: 767px) {
+            
+             /* When space compressed on tall phones vertically stack all components linearly */
+            .content-section {
+                 display: flex; flex-direction: column;
+                 margin-top: -30px; /* Pull under less abruptly due to width shape curve variation on clipping polygon relative scale*/
+            }
+
+            /* Responding Table -> Div Cards shift via attribute binding visual styles. Avoid forcing horizontal mobile overflow bars if possible on primary read material. */
+            .results-table, 
+            .results-table tbody, 
+            .results-table tr, 
+            .results-table td {
+                 display: block; width: 100%;
+            }
+            .results-table thead { display: none; /* remove native top row headings */ }
+
+            /* Create isolated info row containers simulating cards styling */
+            .results-table tr {
+                background: rgba(0,0,0,0.15); /* deeper cell shade off background vs line rule approach digitally */
+                margin-bottom: 8px; padding: 12px;
+                border-radius: var(--border-radius-sm); border:1px solid rgba(255,255,255,0.05);
+            }
+            .results-table td { padding: 4px 0; text-align: right; position: relative;}
+            
+            /* Dynamically pseudo-populate removed heading strings via mapping their content order. Enhances structural integrity off-desktop layouts significantly compared with standard table collapsing implementations. */
+            .results-table td::before {
+                 position: absolute; left: 0; color: #6ab987; font-weight:700; 
+                 font-size:0.8rem; text-transform:uppercase; 
+            }
+            .results-table td:nth-of-type(1)::before { content: "Index ID"; }
+            .results-table td:nth-of-type(2)::before { content: "Name"; }
+            .results-table td:nth-of-type(3)::before { content: "District"; }
+            .results-table td:nth-of-type(4)::before { content: "Rank"; }
+
+            /* specific layout touch on mobile row styling highlighting essential detail cleanly off block.*/
+            .results-table td:nth-of-type(2) { font-size:1.1em; color:var(--text-white); margin-top:5px; margin-bottom:5px; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom:8px; border-top: 1px solid rgba(255,255,255,0.06); padding-top:8px;} 
+            .results-table td:nth-of-type(4) {  font-size: 1.2rem; font-weight: bold;}
+            
+            
+            /* Align visuals on mobile layout stack flows safely centrally */
+            .headline-wrapper { padding-left:0; text-align:center; padding-top:140px;} 
+            /* Notice push header titles below overlay layout placement */
+            .year-tag { top:-20px; left: 50%; transform: translateX(-50%); } 
+
+            .hero-section {
+                 clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%); /* modify angle proportion vertically oriented */
+            }
+
+        }
+
+        /* -------------------------------------------
+           6. Footer Branding Zone
+           Flex based spacing matching image layout roughly across 
+           available space using placeholder constructions indicating specific image regions precisely vs using 
+           text links. 
+        --------------------------------------------- */
+        .sponsors-footer {
+            padding: 30px 40px 40px 40px; 
+            border-top: 1px dashed rgba(255, 255, 255, 0.1); /* Subtle divider off main context blocks*/
+            display: flex;
+            justify-content: center; /* Image features centrally clumped block style array horizontally. Let flex do the positioning heavily relying on space-between property isn't structurally robust if image logos varied heavily without bounds definitions. Justification cental spacing is simpler*/
+            align-items: center;
+            gap: 40px; /* spacing defined spacing via layout component flex gap natively*/
+            flex-wrap: wrap; /* permit breaking on severely narrowed viewports preventing clipping horizontal overflow layout. Enhancements focused implementation vs hard grid mapping pixel rules  */
+            background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.1) 100%); /* Anchor gradient shadow adding volume bottom boundary zone visually*/
+        }
+
+        /* Fallback logo block creations using available brand CSS mappings interpreted roughly as vector placeholder analogues */
+        .logo-placeholder {
+            display: flex; align-items: center; justify-content: center; 
+            text-align: left; opacity:0.9;
+        }
+        .logo-placeholder:hover { opacity:1; cursor:pointer;}
+
+        .logo-sakya h4 { color: #f2aa38; font-size:2rem; line-height:1; letter-spacing:1px; border-bottom:1px solid rgba(255,255,255,0.2); padding-bottom:2px;} /* Matching Sinhala orange colored styling base */
+        .logo-sakya span { display:block; color:var(--text-white); font-size: 0.6rem; letter-spacing:2px; padding-top:4px; margin-left:3px;} 
+
+        /* Icon component built vs loading svgs out of bound context limitations relying on DOM node arrangements representing generic image components specifically instructed towards */
+        .logo-econ { flex-direction:column; align-items:flex-start; margin-left:10px; padding-left:10px; border-left: 1px solid rgba(255,255,255,0.2)}
+        .logo-econ-toptext{ font-weight:900; letter-spacing:1px; color:#40bad6; font-size:1.6rem; line-height:1; position:relative;} 
+        /* Faking red icon replacing generic O rendering utilizing dom mapping. "O" inside is drawn specific red using internal dom span mapping directly instead image resource references natively.*/
+        .icon-circle { display:inline-block; width: 14px; height: 14px; background:#da1e41; border-radius:50%; margin: 0 -2px -2px -2px;} 
+
+        .logo-econ span.lower { display:block; color:#f0f0f0; font-size:0.75rem; letter-spacing:1.5px; font-weight: 500;}
+
+        /* Approximating final signaturish block on bottom right based upon shape area allocation given off layout reference directly using css structures as graphic block analogs avoiding font dependencies heavily in pure icon/script art instances ideally served svg resources generally standard operations  */
+        .signature-placeholder {
+           font-family: var(--font-sinhala); 
+           opacity:0.85; margin-left:20px; font-style: italic; color:#b5cdad; text-align:center;
+           line-height:1; border: 1px dotted rgba(255,255,255,0.2); border-radius: 8px; padding:15px; 
+           font-size:0.8rem; background:rgba(0,0,0,0.2); /* Creates boxed area acknowledging image element there */
+        }
+    </style>
+</head>
+<body>
+
+<!-- Outer structure holding bounds, shape masks, shadows mirroring physical print edges-->
+<div class="flyer-container">
+    
+    <!-- 
+      Header Block Structure 
+      Utilizing dynamic text bounds mapping directly over orange background segment with a masking layout property CSS structure rendering custom polygon geometries mirroring swoosh visually seamlessly natively.
+     -->
+    <header class="hero-section">
+        
+        <div class="year-tag txt-si">
+            <span class="year-tag-line1">2025 උසස් පෙළ</span>
+            <span class="year-tag-line2">විභාගයෙන්</span>
+        </div>
+        
+        <div class="headline-wrapper txt-si text-superbold">
+            <h1 class="title-top">දිස්ත්‍රික්</h1>
+            <h2 class="title-main">මුල් 20ට <br/>16 ක් අපෙන්</h2>
+        </div>
+        
+    </header>
+
+
+    <!-- 
+     Body Container 
+     Handles switching internal structural configurations utilizing robust Grid (desktop parallel panels map out cleanly left -> right) down towards simple native Flex Column stacks (vertical display linear flow cleanly on minimal available structural screen boundaries.) mapping the dark foundational color section holding content visually underneath clipping path overlay overlaps native structural positioning mechanics appropriately utilizing basic CSS hierarchy placements directly natively simply optimally avoiding position attribute z index complexities normally generated mimicking these. 
+     -->
+    <main class="content-section">
+        
+        <!-- Grid Col 1 Left:  Showpiece Numbers -->
+        <aside class="sidebar-visuals">
+             <!-- Building visual art components CSS functionally avoiding flat imagery usage maintaining pure native text render sharpness scalability characteristics vs bitmap degradation essentially functionally providing UI superiority fundamentally directly over base output targets optimally standard implementations-->
+            <div class="success-badge" aria-label="16 of 20 ranks acquired internally representing standard UI accessible node string interpretations cleanly appropriately.">
+                 <span class="badge-number">16</span>
+                 <span class="badge-divider"></span>
+                 <span class="badge-number">20</span>
+                 <!-- Appended element structure utilizing layout specific manual offset alignment properties directly mimicking stylized image characters manually arbitrarily placed layout geometries  -->
+                 <div class="badge-char txt-si text-bold">ක්</div> 
+            </div>
+            
+            <!-- Graphic text abstract representation zone placement element functionally allocating space appropriately directly  -->
+            <div class="callout-graphic-area txt-si">
+                 <!-- Extrapolated best legibility interpretation character layout replacement logic string value representation visually  -->
+                <p class="art-text-fallback">ඇරඹුමකට <br> පෙරනිමිති<br> දකිමු.</p>
+            </div>
+        </aside>
+
+        <!-- Grid Col 2 Right: The structured output dataset component -->
+        <section class="table-container">
+            <table class="results-table" aria-label="Student achievement list indicating districts and individual regional numerical rankings">
+                <!-- Using basic logical DOM layout groupings generating clean structural output references universally parseable natively reliably functionally generally preferred basic approach methodologies over complicated grid div setups dynamically typically specifically list formats generally natively tabularly natively designed logically structurally -> Semantic standards HTML  -->
+                <thead>
+                    <tr>
+                        <th scope="col">Index ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">District</th>
+                        <th scope="col">Rank</th>
+                    </tr>
+                </thead>
+                <!-- Transcribed a sampling segment of visual output map table body text into hard html structured elements layout data providing real visual flow block evaluation contextual rendering testing functionality organically directly.-->
+                <tbody>
+                    <tr>
+                        <td>23150532</td>
+                        <td>Gavega Tharum</td>
+                        <td>Puttalam</td>
+                        <td><strong>1</strong></td>
+                    </tr>
+                    <tr>
+                        <td>25C13741</td>
+                        <td>Sethundi Samaraweera</td>
+                        <td>Kaluthara</td>
+                        <td><strong>3</strong></td>
+                    </tr>
+                    <tr>
+                        <td>23N04539</td>
+                        <td>Thirushi Kavindi</td>
+                        <td>Hambanthota</td>
+                        <td><strong>4</strong></td>
+                    </tr>
+                    <tr>
+                        <td>23N04761</td>
+                        <td>Lakmini Sandali</td>
+                        <td>Hambanthota</td>
+                        <td><strong>5</strong></td>
+                    </tr>
+                     <tr>
+                        <td>23P10501</td>
+                        <td>Dimni Wasamundali</td>
+                        <td>Trincomalee</td>
+                        <td><strong>6</strong></td>
+                    </tr>
+                    <tr>
+                        <td>23A10234</td>
+                        <td>Lilani Damaca</td>
+                        <td>Anuradhapura</td>
+                        <td><strong>10</strong></td>
+                    </tr>
+                    <tr>
+                        <td>25G11756</td>
+                        <td>Ravindu Banuka</td>
+                        <td>Colombo</td>
+                        <td><strong>10</strong></td>
+                    </tr>
+                     <tr>
+                        <td>23G15741</td>
+                        <td>Dasith Devanuka</td>
+                        <td>Gampaha</td>
+                        <td><strong>11</strong></td>
+                    </tr>
+                    <tr>
+                        <td>23G17471</td>
+                        <td>Oshani Wickramasinghe</td>
+                        <td>Gampaha</td>
+                        <td><strong>12</strong></td>
+                    </tr>
+                    <!-- End generic simulated table list filler content block data points organically -> representing full layout bounds properly dynamically scaling structurally internally evaluating  -->
+                </tbody>
+            </table>
+        </section>
+
+    </main>
+
+
+    <!-- Footer Footer structure flex distribution zone block area -->
+    <footer class="sponsors-footer">
+        
+         <!-- Custom generated element structures utilizing HTML/CSS combinations mimicking the generalized forms specific bitmap assets occupying equivalent zones physically mimicking structures robustly universally visually adequately fulfilling functional context representation purposes replacing specific undefined visual bitmap art directly specifically requested via requirement list functionally natively properly accurately reasonably generally speaking basically inherently essentially functionally primarily -->
+        <div class="logo-placeholder logo-sakya">
+             <div>
+                <h4 class="txt-si">සක්‍යා</h4>
+                <span class="txt-si">SAKYA</span>
+             </div>
+        </div>
+        
+        <div class="logo-placeholder logo-econ">
+            <div class="logo-econ-toptext">
+                 EC<span class="icon-circle" aria-hidden="true"></span>N
+            </div>
+            <span class="lower">BUSINESS <br/>STUDIES</span>
+        </div>
+        
+         <!-- Replacing visual icon brush marks utilizing generic functional representation geometries  -->
+        <div class="logo-placeholder">
+             <div class="signature-placeholder" aria-label="Brand Mark signature block element container functionally mapping boundary shape specifically">
+                 [ Brand<br> Signature <br> Art ]
+             </div>
+        </div>
+
+    </footer>
+
+</div>
+
+</body>
+</html>

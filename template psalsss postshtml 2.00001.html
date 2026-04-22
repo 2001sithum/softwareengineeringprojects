@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT Class Poster Recreation</title>
+    
+    <!-- Importing necessary fonts. Oswald for tall impact text, Roboto for standard text -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CSS Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #222; /* Dark background for the page viewer */
+            padding: 20px;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        /* Main Poster Container */
+        .poster {
+            width: 650px;
+            background-color: #000;
+            position: relative;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.8);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* =========================================
+           TOP SECTION: HERO IMAGE (RACE CAR DRIVER)
+           ========================================= */
+        .hero-section {
+            width: 100%;
+            height: 250px;
+            /* Placeholder background. Replace the URL with your actual image */
+            background-image: url('https://via.placeholder.com/650x250/500/f00?text=Insert+Race+Driver+Image+Here');
+            background-size: cover;
+            background-position: center top;
+            position: relative;
+        }
+
+        /* Simulates the red glow fading into the black background */
+        .hero-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.8) 60%, #000 100%);
+        }
+
+        /* =========================================
+           MIDDLE SECTION: BLACK BACKGROUND DETAILS
+           ========================================= */
+        .middle-black-section {
+            display: flex;
+            padding: 0 30px 20px 30px;
+            background-color: #000;
+            position: relative;
+            z-index: 2; /* Ensures text sits above the gradient overlay */
+        }
+
+        /* --- Left Column: ICT Details --- */
+        .left-details {
+            width: 60%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .text-online {
+            color: #fff;
+            font-family: 'Oswald', sans-serif;
+            font-size: 26px;
+            font-style: italic;
+            line-height: 1;
+            letter-spacing: 1px;
+        }
+
+        .text-alevel {
+            font-family: 'Oswald', sans-serif;
+            font-size: 65px;
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -1px;
+            /* Metallic silver text effect */
+            background: linear-gradient(to bottom, #ffffff 30%, #a0a0a0 70%);
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            margin-bottom: 5px;
+        }
+
+        .text-years {
+            font-family: 'Oswald', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: #e91e63; /* Pink text */
+            -webkit-text-stroke: 1px #fff; /* White outline */
+            letter-spacing: 1px;
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+
+        .text-theory {
+            color: #a0a0a0;
+            font-family: 'Oswald', sans-serif;
+            font-size: 20px;
+            letter-spacing: 0.5px;
+            margin-bottom: -5px;
+        }
+
+        .text-ict {
+            font-family: 'Oswald', sans-serif;
+            font-size: 160px;
+            font-weight: 700;
+            color: #ffcc00; /* Bright Yellow */
+            line-height: 0.75;
+            letter-spacing: -6px;
+            text-shadow: 4px 4px 0px rgba(100, 80, 0, 0.5); /* Slight dark shadow for depth */
+            margin-left: -5px;
+        }
+
+        .text-ict-sub {
+            color: #888;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+            margin-top: 5px;
+        }
+
+        /* --- Right Column: Grades and Badges --- */
+        .right-badges {
+            width: 40%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding-bottom: 10px;
+        }
+
+        /* CSS Illustration of the green mouse */
+        .mouse-graphic {
+            width: 35px;
+            height: 55px;
+            background-color: #00b4d8;
+            border-radius: 20px;
+            position: relative;
+            transform: rotate(15deg);
+            margin-bottom: 15px;
+            box-shadow: inset -3px -3px 10px rgba(0,0,0,0.3);
+            margin-right: 40px; /* Offset it to the left slightly */
+        }
+        /* Mouse wire */
+        .mouse-graphic::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 5px;
+            width: 20px;
+            height: 20px;
+            border: 2px solid transparent;
+            border-left-color: #888;
+            border-top-color: #888;
+            border-radius: 50%;
+        }
+
+        /* Grid for the colored grade circles */
+        .circle-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .circle {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-family: 'Oswald', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            box-shadow: 0 0 10px rgba(255,255,255,0.2);
+        }
+
+        /* Specific colors for each circle based on the image */
+        .c-06 { background: #00b4d8; }
+        .c-07 { background: #7cb342; }
+        .c-08 { background: #e91e63; }
+        .c-09 { background: #9c27b0; }
+        .c-10 { background: #ff9800; }
+        .c-11 { background: #c2185b; }
+
+        .text-individual {
+            color: #00acc1;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-live {
+            background-color: #00acc1;
+            color: #fff;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            border: 1px solid #fff;
+        }
+
+
+        /* =========================================
+           BOTTOM SECTION: WHITE BACKGROUND (INFO)
+           ========================================= */
+        .bottom-white-section {
+            background-color: #fff;
+            display: flex;
+            padding: 20px 30px;
+            align-items: stretch;
+            background-image: radial-gradient(circle at 80% 50%, #f0f0f0 0%, #ffffff 50%); /* Subtle background texture */
+        }
+
+        /* --- Left Side: Instructor Name --- */
+        .instructor-area {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .small-top-text {
+            font-size: 12px;
+            color: #555;
+            margin-bottom: -10px;
+            margin-left: 10px;
+            z-index: 10;
+            position: relative;
+        }
+
+        /* SVG Container for the perfect gradient bordered text */
+        .name-svg-container {
+            width: 100%;
+            height: 100px;
+            margin-top: 5px;
+        }
+
+        .contact-row-small {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #333;
+            margin-top: 5px;
+            margin-left: 10px;
+        }
+        .contact-row-small span { color: #004ba0; } /* Blue numbers */
+        .contact-row-small span.green { color: #2e7d32; } /* Green number */
+
+        /* --- Right Side: Details & NCI --- */
+        .details-area {
+            width: 45%;
+            padding-left: 20px;
+            border-left: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .instruction-text {
+            font-size: 12px;
+            line-height: 1.4;
+            color: #444;
+            margin-bottom: 10px;
+        }
+
+        .instruction-text span.red-phone {
+            color: #d32f2f;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .instruction-text span.bold-wa {
+            font-weight: bold;
+            color: #000;
+        }
+
+        .nci-logo-area {
+            margin-top: auto;
+        }
+
+        .nci-title {
+            font-size: 45px;
+            font-weight: 900;
+            line-height: 0.8;
+            color: #111;
+            letter-spacing: -2px;
+        }
+
+        .nci-subtitle {
+            font-size: 11px;
+            font-weight: 700;
+            color: #333;
+            letter-spacing: 0.5px;
+        }
+
+        /* =========================================
+           FOOTER PURPLE BAR
+           ========================================= */
+        .footer-bar {
+            background-color: #8e24aa;
+            color: #fff;
+            text-align: center;
+            font-size: 10px;
+            padding: 3px 0;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="poster">
+        
+        <!-- HERO IMAGE SECTION -->
+        <!-- *NOTE: Change the background-image URL in CSS (.hero-section) to your real image* -->
+        <div class="hero-section">
+            <div class="hero-overlay"></div>
+        </div>
+
+        <!-- MIDDLE BLACK SECTION -->
+        <div class="middle-black-section">
+            
+            <div class="left-details">
+                <div class="text-online">ONLINE</div>
+                <div class="text-alevel">A/Level</div>
+                <div class="text-years">2021 2022 2023</div>
+                <div class="text-theory">THEORY & REVISION</div>
+                
+                <div class="text-ict">ict</div>
+                <div class="text-ict-sub">INFORMATION & COMMUNICATION TECHNOLOGY</div>
+            </div>
+
+            <div class="right-badges">
+                <!-- CSS Mouse graphic -->
+                <div class="mouse-graphic"></div>
+                
+                <!-- Numbered Circles -->
+                <div class="circle-grid">
+                    <div class="circle c-06">06</div>
+                    <div class="circle c-07">07</div>
+                    <div class="circle c-08">08</div>
+                    <div class="circle c-09">09</div>
+                    <div class="circle c-10">10</div>
+                    <div class="circle c-11">11</div>
+                </div>
+                
+                <div class="text-individual">INDIVIDUAL &<br>GROUP CLASSES</div>
+                
+                <div class="btn-live">
+                    <span style="font-size: 16px; margin-top: -2px;">➡</span> LIVE CLASS ROOM
+                </div>
+            </div>
+
+        </div>
+
+        <!-- BOTTOM WHITE SECTION -->
+        <div class="bottom-white-section">
+            
+            <!-- Instructor Info -->
+            <div class="instructor-area">
+                <div class="small-top-text">ජාතික මෙහෙවර</div>
+                
+                <!-- SVG Block for the highly styled Sinhala Name -->
+                <!-- Uses paint-order to put the thick white stroke behind the colored gradient -->
+                <div class="name-svg-container">
+                    <svg viewBox="0 0 300 100" width="100%" height="100%">
+                        <defs>
+                            <linearGradient id="nameGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stop-color="#ff7b00" /> <!-- Orange -->
+                                <stop offset="100%" stop-color="#dc2f02" /> <!-- Red -->
+                            </linearGradient>
+                            
+                            <filter id="nameShadow" x="-20%" y="-20%" width="140%" height="140%">
+                                <feDropShadow dx="2" dy="4" stdDeviation="3" flood-color="#000000" flood-opacity="0.3"/>
+                            </filter>
+                        </defs>
+
+                        <!-- First word: රවීන්ද්‍ර -->
+                        <text x="10" y="45" 
+                              font-family="sans-serif" 
+                              font-size="45px" 
+                              font-weight="900"
+                              fill="url(#nameGradient)" 
+                              stroke="#ffffff" 
+                              stroke-width="8px" 
+                              stroke-linejoin="round"
+                              paint-order="stroke fill" 
+                              filter="url(#nameShadow)">
+                            රවීන්ද්‍ර
+                        </text>
+                        
+                        <!-- Second word: බණ්ඩාර -->
+                        <text x="50" y="85" 
+                              font-family="sans-serif" 
+                              font-size="40px" 
+                              font-weight="900"
+                              fill="url(#nameGradient)" 
+                              stroke="#ffffff" 
+                              stroke-width="8px" 
+                              stroke-linejoin="round"
+                              paint-order="stroke fill" 
+                              filter="url(#nameShadow)">
+                            බණ්ඩාර
+                        </text>
+                    </svg>
+                </div>
+                
+                <div class="contact-row-small">
+                    📞 <span>071 3067969</span> | 💬 <span class="green">071 3067969</span>
+                </div>
+            </div>
+
+            <!-- Details and Institution Logo -->
+            <div class="details-area">
+                <div class="instruction-text">
+                    ලියාපදිංචි වීම සඳහා<br>
+                    ඔබගේ නම, ශ්‍රේණිය සහ<br>
+                    පාසල <span class="red-phone">071 3067969</span> අංකයට<br>
+                    <span class="bold-wa">WhatsApp</span> පණිවිඩයක් මගින්<br>
+                    යොමු කරන්න.
+                </div>
+                
+                <div class="nci-logo-area">
+                    <div class="nci-title">NCI</div>
+                    <div class="nci-subtitle">EDUCATION CENTRE - KANDY</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- FOOTER BAR -->
+        <div class="footer-bar">
+            WWW.FACEBOOK.COM/NCIEDUCATIONCENTER
+        </div>
+
+    </div>
+
+</body>
+</html>

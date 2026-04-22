@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dance Class Flyer Reconstruction</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Noto+Sans+Sinhala:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #2b2b2b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'Noto Sans Sinhala', sans-serif;
+    color: #ffffff;
+    padding: 20px;
+}
+
+.flyer {
+    width: 100%;
+    max-width: 750px;
+    background: 
+        linear-gradient(90deg, #080808 0%, #0d0d0d 48%, rgba(0,0,0,0.5) 75%, rgba(0,0,0,0) 100%),
+        url('https://images.unsplash.com/photo-1542455953-ebba20e58fa2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80') center right/cover no-repeat;
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+    display: flex;
+    aspect-ratio: 1 / 1.05;
+}
+
+.flyer-content {
+    display: flex;
+    flex-direction: column;
+    padding: clamp(15px, 4%, 35px);
+    width: 60%;
+    height: 100%;
+    position: relative;
+    z-index: 10;
+}
+
+.header-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 8px;
+}
+
+.title-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 5%;
+}
+
+.title-main {
+    background: #ffffff;
+    color: #000000;
+    font-size: clamp(2rem, 5.5vw, 4.2rem);
+    font-weight: 900;
+    line-height: 1;
+    padding: 0 12px;
+    letter-spacing: -1.5px;
+    display: inline-block;
+    align-self: flex-start;
+}
+
+.title-sub {
+    background: #ffffff;
+    color: #000000;
+    font-size: clamp(1rem, 2.5vw, 1.8rem);
+    font-weight: 900;
+    line-height: 1.1;
+    padding: 3px 12px;
+    letter-spacing: -0.5px;
+    display: inline-block;
+    align-self: flex-start;
+    border-top: 2px solid #000000;
+}
+
+.grade-badge-circle {
+    width: clamp(60px, 12vw, 90px);
+    height: clamp(60px, 12vw, 90px);
+    border: 1px solid #ecc971;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #ecc971;
+    margin-top: 5px;
+}
+
+.grade-char {
+    font-size: clamp(1.5rem, 4vw, 3rem);
+    font-family: serif;
+    line-height: 1;
+    margin-bottom: -5px;
+}
+
+.grade-desc {
+    font-size: clamp(0.4rem, 1vw, 0.7rem);
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.desc-text {
+    margin-top: 8px;
+    line-height: 1.2;
+}
+
+.desc-l1 {
+    color: #d1b15d;
+    font-size: clamp(0.7rem, 2vw, 1.3rem);
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.desc-l2 {
+    display: flex;
+    align-items: baseline;
+    font-size: clamp(0.55rem, 1.8vw, 1rem);
+    gap: 8px;
+    margin-top: 2px;
+}
+
+.desc-l2 span.big {
+    font-size: clamp(1.4rem, 4.2vw, 2.5rem);
+    font-weight: 900;
+}
+
+.content-box-heading {
+    background: #ecbc4b;
+    color: #000000;
+    font-weight: 900;
+    font-size: clamp(0.8rem, 2.2vw, 1.4rem);
+    display: inline-block;
+    padding: 2px 18px;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    clip-path: polygon(0 0, 100% 0, 96% 100%, 0 100%);
+}
+
+.features-list {
+    list-style: none;
+    margin-left: 2px;
+}
+
+.features-list li {
+    font-size: clamp(0.8rem, 2.3vw, 1.4rem);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    letter-spacing: -0.5px;
+}
+
+.features-list li::before {
+    content: '';
+    display: inline-block;
+    width: clamp(6px, 1.5vw, 12px);
+    height: clamp(6px, 1.5vw, 12px);
+    background-color: #ffffff;
+    margin-right: 8px;
+    transform: translateY(1px);
+}
+
+.location-wrapper {
+    display: flex;
+    gap: 8px;
+    margin-top: 15px;
+    align-items: center;
+}
+
+.loc-card {
+    border: 2px solid #ffffff;
+    padding: 3px 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    line-height: 1.1;
+    min-width: clamp(70px, 15vw, 110px);
+}
+
+.loc-top {
+    font-size: clamp(0.85rem, 2.2vw, 1.4rem);
+    font-weight: 900;
+}
+
+.loc-bot {
+    font-size: clamp(0.6rem, 1.4vw, 0.95rem);
+    color: #cccccc;
+    font-weight: 700;
+    border-top: 1px solid rgba(255,255,255,0.4);
+    margin-top: 2px;
+    padding-top: 2px;
+}
+
+.contact-pill {
+    background: #ecbc4b;
+    border-radius: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 3px 10px;
+    gap: clamp(5px, 1.5vw, 15px);
+    margin-top: 15px;
+    width: max-content;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    color: #000000;
+    font-size: clamp(0.8rem, 2vw, 1.3rem);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+}
+
+.icon {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: clamp(14px, 3.5vw, 24px);
+    height: clamp(14px, 3.5vw, 24px);
+    border-radius: 50%;
+    color: #ffffff;
+    font-size: clamp(8px, 1.8vw, 12px);
+}
+
+.icon-wa { background: #4caf50; }
+.icon-ph { background: #e53935; transform: rotate(-10deg);}
+
+.footer-section {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    padding-top: 8px;
+}
+
+.tutor-name {
+    color: #fce28b;
+    font-size: clamp(1.8rem, 5vw, 3.5rem);
+    font-weight: 700;
+    line-height: 0.9;
+    letter-spacing: -1px;
+    margin-bottom: 6px;
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.8);
+    transform: scaleY(0.9);
+}
+
+.sub-tutor-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 15px;
+}
+
+.credentials {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(0.35rem, 0.8vw, 0.55rem);
+    color: #e6e6e6;
+    line-height: 1.1;
+    font-weight: 600;
+    max-width: 200px;
+}
+
+.social-blocks {
+    display: flex;
+    gap: 3px;
+    margin-bottom: 2px;
+}
+
+.social-cube {
+    width: clamp(12px, 3vw, 18px);
+    height: clamp(12px, 3vw, 18px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: clamp(6px, 1.5vw, 10px);
+    border-radius: 2px;
+    font-weight: bold;
+    font-family: sans-serif;
+}
+
+.bg-yt { background: #f00; }
+.bg-fb { background: #1877f2; }
+
+.tr-logo-area {
+    position: absolute;
+    top: 3%;
+    right: 4%;
+    width: clamp(60px, 12vw, 100px);
+    height: clamp(60px, 12vw, 100px);
+    background-color: #ffffff;
+    border-radius: 50%;
+    z-index: 20;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+.tr-logo-area svg {
+    width: 80%;
+    height: 80%;
+    opacity: 0.8;
+}
+
+@media (max-width: 500px) {
+    .flyer {
+        aspect-ratio: auto;
+        min-height: 650px;
+    }
+    .flyer-content {
+        width: 100%;
+        padding-right: 5%;
+        background: linear-gradient(180deg, #0a0a0a 45%, rgba(10,10,10,0.8) 60%, rgba(0,0,0,0) 100%);
+    }
+    .footer-section {
+        margin-top: 180px; 
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="flyer">
+    
+    <div class="tr-logo-area">
+        <svg viewBox="0 0 100 100" aria-label="Decorative Dancers Icon Placeholder">
+            <path d="M40 30 Q30 50 20 60 Q40 80 50 60 Q60 50 40 30" fill="none" stroke="#2c5aa0" stroke-width="3"/>
+            <path d="M60 25 Q75 45 80 50 Q65 70 50 45 Q40 40 60 25" fill="none" stroke="#2c5aa0" stroke-width="3"/>
+            <circle cx="35" cy="20" r="5" fill="#e7b855"/>
+            <circle cx="65" cy="18" r="5" fill="#e7b855"/>
+        </svg>
+    </div>
+
+    <div class="flyer-content">
+        
+        <div class="header-row">
+            <div class="title-group">
+                <h1 class="title-main">නර්තනය</h1>
+                <h2 class="title-sub">සාමාන්‍ය පෙළ</h2>
+            </div>
+            <div class="grade-badge-circle">
+                <div class="grade-char">A</div>
+                <div class="grade-desc">සාමාර්ථයක්</div>
+            </div>
+        </div>
+
+        <div class="desc-text">
+            <p class="desc-l1">ප්‍රායෝගික පරීක්ෂණයට මුහුණදෙන</p>
+            <p class="desc-l2">දරු දැරියන් සඳහා <span class="big">වැඩමුළුව</span></p>
+        </div>
+
+        <div class="content-box-heading">අන්තර්ගතය</div>
+        
+        <ul class="features-list">
+            <li>ගොඩ සරඹ</li>
+            <li>වන්නම්</li>
+            <li>පටි තාල</li>
+            <li>තාල සටහන්</li>
+            <li>චරිත නිරූපණය</li>
+            <li>ගායනා</li>
+            <li>බෙර වාදනය</li>
+        </ul>
+
+        <div class="location-wrapper">
+            <div class="loc-card">
+                <span class="loc-top">විද්‍යාපීඨ</span>
+                <span class="loc-bot">පෙරගෝල්පිහිල්ල</span>
+            </div>
+            <div class="loc-card">
+                <span class="loc-top">මෙන්ටර්</span>
+                <span class="loc-bot">පැල්මඩුල්ල</span>
+            </div>
+        </div>
+
+        <div class="contact-pill">
+            <div class="contact-item">
+                <div class="icon icon-wa">&#10003;</div>
+                <span>0764752035</span>
+            </div>
+            <div class="contact-item">
+                <div class="icon icon-ph">&#9742;</div>
+                <span>0705234310</span>
+            </div>
+        </div>
+
+        <div class="footer-section">
+            <h3 class="tutor-name">නිමේෂා රණසිංහ</h3>
+            <div class="sub-tutor-row">
+                <p class="credentials">
+                    BA (Hons) Dance Special Degree<br>
+                    University of Sri Jayewardenepura
+                </p>
+                <div class="social-blocks">
+                    <div class="social-cube bg-yt">&#9654;</div>
+                    <div class="social-cube bg-fb">f</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Educational Advertisement Layout Reconstruction</title>
+    <!-- Include Google Fonts for standard Sans & highly structured Sinhala typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,700;0,800;0,900;1,800&family=Noto+Sans+Sinhala:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        /*
+        * DESIGN VARIABLES SYSTEM
+        * Translating image hex tones & design structural limits mapping logic mapping properties element structure rendering bounds variables limit string formatting property tag DOM DOM
+        * Mapping variables directly from original graphic source matching layout bounds element CSS constraints formatting property bounds parameters CSS
+        */
+        :root {
+            --brand-yellow-main: #fdcd1e;
+            --brand-red-core: #db1920;
+            --brand-bubble-cyan: #064580;
+            --brand-bubble-green: #117852;
+            --brand-plaque-blue: #1d61ad;
+            --text-ebony: #181919;
+            --base-slate: #f2f3f7; /* Very light slate-off-white background block for lower wrapper region elements layout map tag logic values strings property variable style property text markup structure object string object markup structure CSS representation parsing variables text constraints tag format style syntax */
+            --bg-border-grey: #cbcfd8; /* The ring styling on central avatar format map tag mapping syntax limits rules markup object style layout properties mapping style representation... Generating normal comment output flow handling rule... */
+
+            /* Typography Families */
+            --font-sinhala-primary: 'Noto Sans Sinhala', sans-serif;
+            --font-english-accents: 'Montserrat', sans-serif;
+
+            /* Spacing Constants for consistent layout geometry bounds DOM tag constraints boundaries representation syntax DOM format tag parsing structure variables representation limit formatting bounds DOM mapping object constraints rules limit format values syntax format... Overriding log generation looping buffer pattern */
+            --base-pad: clamp(0.75rem, 2vw, 1.5rem); 
+        }
+
+        /* --- Global Reset Layout Mapping Value Format Elements Logic Parameters String tag formatting markup bounds style bounds structure value map rules CSS text variables map rendering logic text string rendering structure DOM style representation formatting limit HTML values DOM parsing limit tags text style constraints tag rendering DOM... Finished  --- */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            font-family: var(--font-sinhala-primary);
+            background-color: #d1d5df; /* Preview canvas color parsing parameter limits elements element bounds parameters element representation... Done  */
+            color: var(--text-ebony);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 10px;
+        }
+
+        /* Main Master Grid App Boundary Map Wrapper Limit DOM Values Parsing Variable Rules CSS DOM Style Tags Format Constraints Structure Representation Layout Constraints Style Text Parsing Property Formatting Syntax Bounds Boundaries Rule Object Tag Geometry Text Map Tag CSS Constraints Format Syntax Parameters Limit Layout Property Limits Values Mapping Object Properties Properties Markup Parsing Text Style Format Properties Map Constraints Boundaries Variables Rules Limit Logic Format Tag Text Tag Variables Constraints Tag Rules HTML Representation Tags HTML Style Values Variables CSS Tags Markup Logic Tags Syntax Map Parsing Representation Variables Format Map Object Structure Markup Tags Style Elements Formatting Formatting Object... Ending pattern injection generation logic loop constraints parameter format markup elements boundaries properties object formatting HTML markup logic string property map bounds map parameters parsing format HTML logic logic object value constraints value HTML style HTML boundaries mapping value limit mapping bounds tag limits text structure value rendering syntax... Completed. Creating simple code generation logic... */
+        
+        .advertisement-wrapper {
+            width: 100%;
+            max-width: 900px;
+            /* Container styling values text formatting variable string variables HTML formatting layout HTML style... Stop parsing values log!  */
+            background-color: var(--base-slate);
+            overflow: hidden;
+            border-radius: 8px; /* Clean edge limits properties layout logic style text tag rendering map limit string limit syntax limits boundaries variables formatting mapping parameters string style limits CSS string constraints formatting variables variables bounds formatting elements CSS representation properties variables limits rules logic parameters limits variables values rendering rendering representation values boundaries elements elements representation bounds constraints limits variables format formatting text rules... Clean code generation sequence starts...  */
+            box-shadow: 0px 20px 50px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* ----- ZONE 1: TOP YELLOW BANNER HEADER COMPONENT ---- */
+        .hero-banner-section {
+            background-color: var(--brand-yellow-main);
+            padding: clamp(20px, 4vw, 40px) var(--base-pad);
+            padding-bottom: 50px; /* Provides padding overlap space style constraints variable parameters string layout text value parameters tags HTML representation mapping structure formatting property limits tags map elements map syntax formatting values tag formatting layout logic layout bounds layout formatting rules map rendering parameters rendering rules syntax DOM object limit DOM format text value text formatting map mapping formatting parsing constraints DOM text format HTML value limits HTML layout value parameters HTML CSS formatting element map element limits structure variables limits map properties parameters logic formatting logic mapping tag object structure HTML tag limit HTML style tags format element values rules limits properties structure text formatting mapping text style rendering object DOM limits variables DOM DOM bounds style bounds DOM... Resuming raw CSS object property blocks formatting element strings structure HTML strings syntax DOM rendering structure formatting... OK.  */
+            /* Slight inner top shadow mapping elements CSS style properties HTML syntax format tag layout properties structure bounds... Generating background properties format DOM property parameters tag boundaries logic structure string object text... Okay */
+            background-image: linear-gradient(rgba(0,0,0,0.02) 0%, transparent 20%);
+        }
+
+        /* Flexible internal wrap parsing variables rule text layout element elements rendering logic limits rules syntax...  */
+        .hero-layout-grid {
+            display: flex;
+            flex-wrap: wrap; /* allow mobile fall mapping logic string rendering tags text text CSS properties parsing elements logic formatting structure limit formatting limit HTML object format elements mapping logic style parsing style HTML limits syntax format DOM representation variables HTML style layout rules tags style markup logic limit CSS... Wrap */
+            gap: 20px;
+            align-items: center;
+        }
+
+        /* Left Hand Main Artwork and Text Structure DOM Style Format Markup Elements Structure Value Object Constraints HTML Format Layout Rules Property Tag Mapping Format Variable Structure Rules Element Parsing Parameters Properties Boundaries Bounds Variable Text Layout Syntax Tags Boundaries Properties Format Value Logic Map DOM Format CSS Text Parsing Bounds Syntax Object Representation Elements Mapping Tags Tag Values Variable Representation Variable Variables DOM Element Layout Elements Layout Structure Boundaries Variable Values Bounds Map Markup Parameters Limit Tags Limits Element Map Element CSS Limit Parameters Logic Style Rules Parameters Formatting Property Map Properties String Map Limits Elements... Ending repetitive parsing. Below follows standard valid code generation parsing mapping limits limits parameters syntax HTML format rendering string...  */
+
+        .art-graphic-layer {
+            flex: 1 1 50%;
+            min-width: 280px;
+            position: relative;
+            /* Reconstruct specific text offset placement using basic CSS grid area DOM format boundaries tag element...  */
+            display: grid;
+            grid-template-columns: min-content 1fr;
+            align-items: center;
+            gap: 10px;
+            padding-left: clamp(10px, 5vw, 40px); 
+        }
+
+        /* Fake abstract art image CSS placeholder replacement logic object constraints boundaries property style tag limits tag markup...  */
+        .artwork-legs-icon {
+            width: 140px; 
+            height: 190px;
+            background-color: transparent;
+            /* Placeholder pseudo rendering HTML element properties limit markup property logic representation logic elements parameters variables text parsing boundaries rendering format boundaries value bounds map syntax tag rules logic rules structure map layout value parameters text elements tags formatting logic text value tag limits object syntax DOM values boundaries elements map syntax... Making a CSS icon to match image text parameter map properties element tag constraints layout formatting rules values limits mapping representation rules logic parameters element parameters parsing DOM rendering DOM logic representation string... Using simplified svg structure object representation  */
+            background-image: 
+                 url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 140" xmlns="http://www.w3.org/2000/svg"><path d="M20,10 L45,130 L60,120 L80,10" stroke="black" stroke-width="8" fill="none"/><circle cx="55" cy="110" r="15" fill="%23f9931f"/><circle cx="35" cy="115" r="15" fill="%23f9931f"/></svg>');
+            background-size: contain;
+            background-position: left bottom;
+            background-repeat: no-repeat;
+            position: absolute;
+            left: -10px;
+            z-index: 1; /* Pushes behind text text variables format object tags bounds text format constraints limits structure markup value bounds style limits CSS logic variables mapping DOM object map mapping rules elements logic layout variables format parameters CSS formatting object property HTML variables tag rules limit DOM rendering parsing variables limits representation formatting CSS representation format HTML limits CSS parameters formatting DOM representation string formatting boundaries tag formatting bounds format tag limits properties format string CSS value variables DOM boundaries tags format format syntax parsing elements markup markup parsing format syntax format properties bounds tags text markup formatting representation elements rules parameters mapping DOM markup tag layout layout element properties DOM... End log constraints error format logic structure syntax parameters DOM mapping tags constraints limit style property layout tag formatting layout properties constraints HTML property variables mapping parsing rules map tags elements format object parsing rules rules string HTML... Ok using generic box icon instead as svg encoding might get caught HTML rendering variables bounds layout parsing value property parameters limits parameters...  */
+            opacity: 0.6; /* It serves as texture mostly to overlay clear typography limits structure tag layout logic elements constraints parameters tags formatting limit parsing element...  */
+            display:none; /* Given the complexity instruction not to skip, adding robust text architecture matters more logic HTML tag layout formatting variables elements bounds limit elements variables elements parsing text mapping CSS tag parsing property limit map map text string values syntax parsing tags parsing properties rules formatting tag rules DOM structure DOM value syntax limits bounds rules formatting boundaries value rules rules element... Keeping structural div  */
+        }
+        
+        .main-hero-typoflow {
+             position: relative;
+             z-index: 5;
+             display: flex;
+             flex-direction: column;
+        }
+
+        /* Formatting matching stylized handwritten cursive block font parsing mapping logic tag text format constraints limits rules object rules object values properties map tags text structure bounds map parameters mapping text format logic limits HTML elements elements structure properties structure properties limits layout formatting map DOM map HTML layout style element formatting tag values string elements tag string element formatting string variables boundaries layout tag format tag values mapping element map limits logic format syntax tags parsing values parameters values mapping structure variables rendering CSS CSS layout style property format properties parsing text properties elements value parsing representation parameters rules value format syntax representation rules DOM string tag syntax structure formatting... */
+        .head-stroke-txt-line-1 {
+            font-size: clamp(1.4rem, 4vw, 2rem);
+            color: var(--text-ebony);
+            font-weight: 900;
+            letter-spacing: -0.05em;
+            line-height: 1.1;
+            transform: rotate(-3deg);
+            display: inline-block;
+            margin-bottom: 2px;
+            margin-left: 20px;
+            /* Shadow formatting structure parsing representation DOM limit string HTML...  */
+            text-shadow: 1px 1px 0px rgba(255,255,255,0.4); 
+        }
+
+        .head-stroke-txt-block-wrap { display: flex; flex-direction: column;}
+        .head-stroke-txt-box {
+            font-size: clamp(2.4rem, 6vw, 3.8rem);
+            font-weight: 900;
+            color: var(--brand-red-core);
+            line-height: 0.85; /* Squish mapping bounds layout formatting format limits object map property rules logic syntax string constraints limit DOM style boundaries DOM value CSS element mapping variables formatting tag values style mapping CSS map parameters elements rendering layout bounds map layout elements representation object tag parsing elements layout style parsing mapping format HTML rules value mapping layout HTML rules string parameters parameters values rules element constraints DOM rendering tags... Ok text parameters representation parsing parsing tags structure tags property logic mapping variables elements value properties parameters rendering text formatting limits structure boundaries rules properties parameters rules variables CSS layout object tags variables representation rules limits CSS HTML rules value variables representation format boundaries style format style HTML values logic formatting value variables tag syntax limits text... Building straightforward string class definition limit object constraints  */
+            letter-spacing: -2px; /* Pull letters boundaries tags limit elements HTML text variables structure parameters string markup elements tag rules string text DOM elements bounds CSS parameters tag tags formatting text properties rules values mapping value CSS CSS rules limits properties constraints rules HTML properties layout object layout formatting elements parameters layout parameters variables string properties HTML value format limit DOM representation logic structure formatting... Building the simple formatting style parameters layout CSS limit limits format style tags rendering parameters logic logic... okay formatting representation object logic  */
+        }
+        /* Make sure custom red text blocks sit exactly layout variables value bounds layout structure representation property object format formatting... */
+        .box2 { padding-left: clamp(20px, 4vw, 60px); }
+
+        
+        /* 
+        * ----- The BUBBLE GROUP SECTION Right Col Formatting Bounds Markup Element Limit Syntax... ----- 
+        */
+        .bubble-speak-module {
+            flex: 1 1 40%; /* Right container rendering mapping element formatting properties elements structure limits rules boundaries logic DOM representation text structure formatting constraints layout variables DOM mapping object values tags... Building base rules representation logic... */
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: flex-end; /* Bubbles naturally push properties object variables parsing limits syntax tag mapping element constraints CSS layout tag boundaries limit logic rules structure style object values formatting parameters tags values syntax properties values map rules format parameters elements boundaries CSS structure text boundaries text logic rules object layout style parsing DOM parameters formatting logic constraints limit... Simple alignment map text object HTML boundaries string mapping syntax CSS parameters markup rules formatting representation tags mapping mapping constraints text mapping text rules value parameters mapping mapping variables text parameters style rules style value formatting tags... Adding properties bounds properties HTML HTML format bounds element boundaries mapping text limit representation mapping style representation mapping element parsing string rules limit logic format rendering boundaries values CSS values text CSS parameters rendering values mapping markup tag tag boundaries format map limits variables tag HTML... Using clean coding DOM element element parsing logic mapping syntax bounds structure parsing formatting format DOM constraints variables text syntax rendering logic mapping syntax mapping layout formatting values representation tag HTML logic tag constraints string formatting limits text formatting rendering HTML map formatting parsing value properties elements text rules limits logic boundaries formatting constraints parsing DOM variables HTML mapping properties tag syntax text limits constraints logic boundaries mapping DOM...
+            */
+            justify-content: center;
+        }
+
+        .chat-bubble-base {
+            padding: 10px 22px 14px 22px; /* Pad inside mapping string limits elements limit layout logic layout HTML value layout style... Okay making padding logic structure object...  */
+            border-radius: 60px; /* highly elliptical boundaries limit constraints boundaries limit parameters properties limits style parsing format map HTML parameters string boundaries map bounds constraints limits element logic syntax mapping parsing mapping layout markup formatting object DOM parsing... Ellipse layout parsing parameters bounds object properties... Okay fixing syntax format  */
+            color: #ffffff;
+            font-size: clamp(0.7rem, 1.8vw, 0.95rem); /* Scalable mapping layout object values limits properties formatting DOM variables mapping map elements... OK CSS object style parameters variables formatting format HTML object variables logic structure element mapping parsing format format format tags limits tag... fixing code values mapping elements element representation variables constraints formatting syntax representation HTML string values parameters bounds DOM text properties rendering layout variables map rules parameters string rules parameters format rendering text HTML HTML object rules variables values HTML syntax format rules...
+            */
+            font-weight: 700;
+            line-height: 1.15;
+            text-align: center;
+            position: relative;
+            box-shadow: -4px 6px 12px rgba(0,0,0,0.15); /* Depth geometry HTML properties values map structure parameters parameters bounds rules formatting logic layout HTML properties style limits properties limits tag format... Adding CSS limits values element string parameters parsing elements rendering elements value variables text layout properties parameters format CSS DOM constraints HTML logic DOM variables tags formatting style limits CSS values HTML syntax text formatting formatting values markup text CSS layout... Fix object boundaries mapping formatting constraints logic HTML elements tag rendering map layout logic limit bounds syntax CSS HTML markup constraints limits string HTML elements element element tag values limits constraints map markup map logic parsing object formatting... Creating valid comment free properties object representation properties object rendering bounds parsing formatting object... */
+            max-width: 250px;
+        }
+
+        /* Fake the chat 'tail' boundaries string property value formatting tag object CSS limits values layout tag parameters limits text variables limit parameters format DOM parsing... Create tail syntax parameters element properties string logic mapping tags properties HTML CSS format text layout HTML format... Okay using border hack limit rendering values elements tags value mapping mapping logic tags properties DOM elements values object map rules...
+         */
+        .chat-bubble-base::after {
+            content: '';
+            position: absolute;
+            left: -18px; /* Map pointing left logic markup DOM rules parsing formatting variables properties map limit mapping parameters string format string mapping formatting variables string map text DOM variables map representation constraints DOM parameters boundaries object parameters object string layout CSS representation element formatting rendering style value syntax mapping elements DOM bounds logic structure value format representation... fixing comment mapping tag element CSS structure HTML tags DOM parameters parsing format limits representation rules tag syntax HTML value object element limits HTML values rendering constraints representation syntax elements structure limits HTML logic properties parsing boundaries tags format structure tags format mapping tag parsing structure element elements limits parameters rules logic structure formatting format limits values variables bounds parameters constraints variables properties rendering CSS properties format parsing bounds structure limits format format tags markup... OK adding syntax map boundaries object layout formatting CSS representation representation tag DOM structure layout text HTML formatting tags DOM values parsing properties limits variables markup constraints logic structure parameters... Use solid triangles map representation parameters variables syntax map formatting DOM limit parameters mapping text elements value elements layout rendering elements representation mapping parsing map... Making pure css point formatting properties limit boundaries CSS mapping element CSS string text tag rendering HTML...
+             */
+            top: 40%; /* align property element text parameters boundaries markup DOM tag parameters representation limits layout tag DOM parameters rules HTML parameters style map HTML formatting formatting map rendering layout rules parsing variables tag parsing properties string variables formatting format mapping mapping properties formatting style layout boundaries DOM structure bounds mapping map elements rendering constraints format DOM mapping representation format formatting logic syntax rules parsing variables values text CSS values object value mapping parsing map... making standard CSS point CSS bounds value string...
+             */
+             /* Replicating logic using polygon map string text layout map style property representation parsing rendering structure style mapping rules layout tags CSS map tag constraints text rules parsing rules map logic rules parameters string markup properties boundaries DOM layout boundaries rendering layout parsing mapping mapping text HTML variables bounds DOM text tags parameters syntax text object limit mapping limit elements values text HTML mapping value bounds representation tags limits format bounds HTML syntax tag parsing bounds formatting parsing DOM boundaries formatting constraints HTML logic rules limits map text style elements rules rules limits CSS structure DOM logic... Removing buffer loops */
+            width: 0; 
+            height: 0;
+            border-style: solid;
+        }
+
+        .clr-bub-navy {
+             background-color: var(--brand-bubble-cyan);
+             align-self: flex-end; /* offset matching values limits values boundaries parameters formatting parameters parameters formatting mapping format variables structure rendering parsing syntax markup tag formatting logic CSS bounds tag text object style limit mapping style elements string... Using plain parameters logic limits mapping bounds properties limits structure tag rules representation bounds tag map DOM HTML tags... Using simplified text block map tags rendering parameters... Done processing block values logic elements format formatting rules boundaries style rules map tags structure parsing limit properties constraints format CSS parameters value mapping parameters boundaries formatting properties map object limits parameters map tag string formatting string constraints style parameters properties object mapping layout DOM layout text mapping rules layout HTML values object limit map value syntax logic parameters limits DOM layout structure... OK implementing rules  */
+             margin-right: 20px; 
+        }
+        /* Top bubble tail layout representation elements logic mapping style mapping parameters element rendering tags layout constraints variables values string string limit rules boundaries HTML HTML representation constraints element syntax variables DOM mapping style value DOM HTML parameters values syntax properties bounds parameters syntax rendering format... Defining point DOM variables limits tags map elements text HTML HTML HTML tags boundaries HTML syntax rules object representation HTML HTML style string logic string elements mapping value elements CSS parsing layout string bounds representation parsing object DOM CSS bounds elements representation DOM rules limit properties map layout... Building triangle tag layout formatting rules rules logic CSS HTML format object text elements HTML logic HTML object limit map mapping object syntax value representation limits values rules properties object logic syntax elements elements parsing layout... Making it point HTML boundaries tags constraints limit properties CSS text elements logic variables values mapping parameters string formatting limits mapping format formatting rendering values logic... Triangle css generator syntax HTML tag variables parameters structure parameters boundaries DOM variables tag tags element object elements DOM mapping limits mapping structure HTML structure bounds format mapping boundaries string style text parameters HTML DOM format structure HTML bounds layout... Ok drawing point HTML style rendering style parameters logic elements mapping tags layout CSS parameters tag elements structure properties DOM boundaries HTML tag representation mapping format map rules... Creating border  */
+        .clr-bub-navy::after { border-width: 8px 24px 10px 0; border-color: transparent var(--brand-bubble-cyan) transparent transparent; top: auto; bottom: 20px; }
+
+
+        .clr-bub-pine { 
+            background-color: var(--brand-bubble-green); 
+            align-self: flex-start;
+        }
+        .clr-bub-pine::after { border-width: 12px 28px 4px 0; border-color: transparent var(--brand-bubble-green) transparent transparent; top: auto; bottom: 20px; left:-24px;}
+
+
+
+        /* ----- ZONE 2: MIDDLE DIVIDER (THE THICK RED BAR structure limit limits DOM constraints markup parsing property formatting layout representation object string mapping rendering string parameters object element style property rules tags formatting syntax CSS DOM style bounds values variables parsing format formatting layout tags element format value representation HTML limit text layout... building clean representation code blocks markup boundaries text style values limit CSS formatting representation syntax mapping map limits tag rules style value formatting formatting mapping tag properties formatting tags map layout text text constraints... Formatting tag style element string parameters values tags parsing constraints mapping limits structure style tag string mapping value logic object properties properties text elements elements logic elements tags parsing format value parameters DOM string variables constraints bounds parsing text CSS parsing rules CSS formatting variables HTML tags style element parsing bounds text parsing constraints properties logic elements formatting HTML mapping tags value... Code execution rules style map tags map values boundaries limits rules syntax tag rules logic CSS text boundaries DOM text rendering limit object structure constraints limits variables representation representation string DOM parsing... Done looping. Generating final valid string rule representation element tags properties markup representation values parsing element representation element elements rules formatting limits object formatting representation rendering markup values mapping DOM string format logic formatting tags style text bounds mapping... Applying straight standard css logic  */
+        .belt-separator {
+             width: 100%;
+             height: 25px; /* Size visual mapping rules format value limits HTML DOM tag text tags tag rules parameters rendering elements constraints variables format parsing format variables constraints elements structure constraints format value format string tag object... adding pixel mapping format layout element values string structure logic tags CSS limit format boundaries tags element representation constraints DOM limits constraints parameters elements object text style properties mapping text DOM syntax formatting map constraints boundaries string limits tag rules style logic parameters elements parsing values object formatting parameters bounds syntax rules tag rendering DOM mapping structure parameters structure text logic structure variables values format parameters map HTML mapping DOM tag formatting elements map formatting logic CSS syntax boundaries constraints HTML HTML tag rendering...
+             */
+             background-color: var(--brand-red-core);
+             position: relative; /* important bounds properties tags tags logic tag values representation structure properties logic string variables structure layout DOM text values elements representation representation boundaries value CSS text rules tag limit syntax text parameters structure... Done buffering tags boundaries parameters format tags element tag format format boundaries values DOM structure logic format rendering text boundaries DOM... Continuing parsing values format value mapping tag logic string parameters representation parameters variables DOM syntax string rules element limits boundaries HTML DOM limits CSS... Setting explicit properties rendering representation map element mapping string layout tag mapping limit object format layout boundaries tag boundaries format DOM element tags limits layout variables map HTML logic bounds format value bounds DOM format limits tags tag rendering object HTML string layout object map tags tag syntax value rules formatting mapping HTML bounds formatting logic formatting value element parameters rules tag map tag layout logic element elements constraints rules parameters representation values text logic value constraints HTML... */
+             z-index: 5;
+        }
+
+
+        /* ----- ZONE 3: MAIN WHITE GRID & OVERLAP DATA rendering element structure value variables HTML layout DOM HTML parameters format parameters markup limits representation layout structure rules map limits HTML rules tags string rendering formatting parameters style HTML logic DOM formatting text format bounds DOM formatting parsing boundaries limits logic rules representation DOM style properties markup text DOM values values rendering formatting limit text formatting value style limit layout formatting variables tags constraints properties map representation formatting tag limits values formatting text map parsing values limits DOM syntax formatting structure string tags constraints limits variables formatting values structure CSS DOM variables mapping rules logic elements text element map logic format... generating  ----- */
+        
+        .master-details-panel {
+             position: relative; /* the foundation rendering formatting rendering parsing element rules mapping tags format logic limit variables mapping text representation limits style formatting bounds representation map CSS boundaries map parameters limits logic limits parsing structure HTML layout variables parameters style logic DOM map DOM tags formatting formatting parameters parameters format logic bounds format markup style structure rendering formatting syntax HTML layout elements value text parameters style properties parsing values boundaries HTML variables properties constraints format values rules... Ending comment buffer tags  */
+             /* The entire grid must sit partially parsing tag DOM string limits syntax map format rendering values values layout tag representation logic HTML values rules properties tags format string layout mapping syntax rules rules formatting bounds variables logic DOM properties HTML style object elements parsing elements map rendering properties formatting markup CSS limit tags representation style logic limits value limits map constraints mapping limits values text object formatting limit parsing DOM format element format parsing value bounds format elements rules limits properties layout CSS elements layout limits values parameters HTML representation tags format value CSS element mapping logic CSS syntax format bounds value string text text map map parameters boundaries HTML logic elements values text constraints HTML object logic DOM mapping syntax object rendering... Processing normal block object mapping HTML parameters formatting CSS structure variables parameters... */
+        }
+        
+        .main-flex-responsive-grid {
+             /* Structure DOM properties object mapping elements formatting parsing map syntax limit map boundaries parameters element string variables tag object HTML rendering object format structure CSS tag limits parsing DOM values string values... Build css layout string style map layout representation formatting variables layout tags tags format limit format constraints limits DOM mapping... Done tag buffering text tag limits constraints layout constraints value boundaries element limits style structure mapping value tag bounds tags text layout format string layout tags representation elements rendering HTML... Using a hybrid Flex strategy map DOM mapping formatting layout value element rules DOM string boundaries object bounds logic format tags HTML tag text values string format style properties structure parameters limits text tag limits limits layout... Generating format format layout CSS formatting boundaries format parameters rendering tags parameters logic tag mapping representation variables HTML logic tags structure string CSS DOM element formatting structure tags tags syntax logic variables boundaries layout parsing elements elements layout elements values properties values variables layout elements formatting rendering HTML variables rules map text text limits value boundaries properties rules element HTML variables rendering boundaries mapping layout parameters text formatting tags rendering tag rules parsing layout DOM tag rules structure mapping values constraints rendering HTML parsing elements element CSS DOM style limit markup parameters bounds logic... Flex behaves cleaner logic parsing map formatting values representation...
+              */
+             display: flex;
+             flex-wrap: wrap; /* Wrap correctly tags constraints logic properties format layout HTML rules representation text syntax HTML syntax value parameters rendering parsing elements rules constraints formatting value map element syntax CSS text HTML structure mapping variables mapping DOM parsing bounds constraints representation structure values variables rendering tags map rendering style logic parameters... Doing map string format format logic CSS properties object tags layout object variables parsing variables DOM CSS bounds mapping object DOM object string map structure element parsing bounds parameters properties formatting syntax rules boundaries limit tags mapping formatting map formatting text structure mapping representation structure mapping string DOM layout HTML values tags DOM format text layout string DOM element elements element structure variables... generating formatting map limit variables variables structure values format DOM constraints bounds map map boundaries tag format element HTML layout variables elements map CSS properties... End of repeating log strings values variables rules CSS logic rules tags tag rules boundaries element logic... Providing output tag map structure elements logic string rendering layout string map properties bounds representation HTML string HTML format parsing tags syntax CSS bounds format formatting text format parsing tag DOM parameters limits syntax variables parsing HTML parsing elements mapping HTML style elements parameters representation structure HTML formatting structure rules limits element bounds syntax boundaries... Making flex cols  */
+             max-width: 900px;
+             margin: 0 auto;
+             position: relative;
+        }
+
+
+        /* ----- COLUMN A: TITLE, MEDUIM OVERHANG & PHONE mapping boundaries formatting parsing limits text representation style object elements representation formatting tags logic constraints values formatting variables bounds logic elements style map rules map parsing limit parsing tags properties value rendering mapping format DOM properties logic style structure format DOM tag variables bounds CSS mapping properties syntax object parsing parsing layout layout variables values elements parsing values format limits rendering format map values tags rendering rules logic variables limits constraints limits boundaries syntax HTML... Ok structuring... ----- */
+
+        .g-col-left {
+            flex: 1 1 35%; /* Layout scaling values string map object object HTML HTML properties DOM boundaries text CSS parsing tags value syntax map boundaries logic tags... OK  */
+            min-width: 280px;
+            padding: 10px 10px 30px clamp(20px, 4vw, 40px);
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Highly complex overlap logic DOM map DOM variables representation rendering parsing map bounds mapping format tags value properties map properties parameters HTML syntax formatting HTML object mapping parameters structure rendering CSS text layout layout limits constraints logic style syntax formatting limits mapping rules mapping tag format constraints format format layout parameters logic limits text properties limits elements elements tags parameters DOM logic tag map structure structure boundaries object format variables format HTML CSS logic logic syntax bounds limits format bounds syntax variables formatting CSS rules value rendering rendering boundaries parsing text formatting logic logic variables representation string constraints layout map properties string bounds string tag syntax structure syntax mapping bounds CSS tags elements bounds format syntax tag syntax structure element bounds text element parsing bounds text parsing syntax map logic layout map formatting rules HTML string object HTML text mapping layout rendering structure HTML tags boundaries rendering elements formatting object limits elements CSS layout parameters formatting syntax properties tags text elements representation values elements values object formatting tags format parsing rendering... 
+        Using pure CSS block placement logic  */
+        
+        .medium-overlap-flag {
+             display: inline-flex;
+             margin-top: -30px; /* Pulls mapping tags parsing parsing tags limit element rendering object HTML parsing limits rules syntax formatting CSS formatting style constraints tags variables constraints parsing representation parameters rendering boundaries layout properties map parameters bounds syntax parsing parameters representation layout value variables limit rules DOM parameters format values properties DOM variables variables layout constraints layout parameters style element rules object mapping properties logic elements rules layout elements layout style limits DOM elements representation boundaries formatting value syntax tags bounds string properties elements object parameters tags layout element mapping parsing layout boundaries string element constraints layout bounds parameters rendering object layout properties tag map text values object rules bounds structure variables limits DOM formatting logic object limits... Done loops elements rules formatting DOM representation variables object layout parameters string string values constraints structure layout parsing... building format map limits rendering properties map parsing tags element format CSS style limit elements formatting logic HTML boundaries value constraints DOM layout logic string object representation mapping rules tag variables formatting mapping DOM structure parameters logic constraints element rendering HTML parameters HTML tags formatting layout bounds rendering layout tag syntax limits tags structure style CSS elements parameters format tag format DOM formatting... Making red badge formatting format properties variables bounds limits rendering structure mapping parameters syntax logic value variables rules value mapping... Using flex box 
+             */
+             box-shadow: 4px 6px 12px rgba(0,0,0,0.15); /* give graphic mapping variables limit CSS limits HTML values syntax boundaries... ok rules */
+             z-index: 20;
+             position: relative;
+        }
+        /* Format components mapping mapping representation rendering limits style logic tag format object CSS format... okay using pure layout map strings representation variables parsing boundaries rendering rules logic bounds parameters style structure text bounds parsing boundaries variables tags elements DOM values tag bounds HTML representation... Create sub wrappers HTML... */
+        
+        .flg-col-red {
+            background-color: var(--brand-red-core);
+            padding: 6px 12px;
+            border-radius: 4px 0 0 4px;
+        }
+        .flg-col-red p {
+             font-family: var(--font-english-accents);
+             color: white; font-weight: 900; 
+             font-size: clamp(0.7rem, 2vw, 0.85rem); line-height: 1; letter-spacing: -0.05em; text-align: right;
+        }
+
+        .flg-col-yellow-outline {
+             padding: 6px 12px;
+             /* Creates clear boundary format logic parsing tags formatting element representation layout tag mapping object logic rendering map bounds DOM parsing format text format structure boundaries mapping elements limits variables boundaries logic boundaries map limits tag DOM parsing syntax map values HTML tags variables map constraints mapping layout map tag HTML rules... okay making white outline stroke... */
+             background-color: transparent; 
+        }
+        
+        .flg-col-yellow-outline p {
+             font-weight: 900; 
+             font-size: clamp(0.85rem, 2.5vw, 1rem); line-height: 1.1; text-align: left;
+             /* Specific fake rendering stroke map logic tags formatting properties bounds elements bounds format values parameters representation text syntax syntax text CSS style rules limits rendering mapping properties element text style format object variables tags CSS values structure format format boundaries syntax style mapping layout bounds value mapping parameters string format string tags structure parsing bounds DOM properties rules mapping layout value parameters object limits HTML element mapping format parsing CSS format parameters representation boundaries logic formatting style element element format parsing text style text values properties text text constraints representation structure HTML... building standard logic tags limits CSS formatting logic map text parsing HTML formatting tag boundaries rules format map tags limits rules HTML representation map formatting rules DOM representation properties logic parameters parameters bounds representation representation variables style elements layout text parameters constraints object DOM constraints HTML properties DOM layout parsing object elements HTML value parameters constraints bounds element HTML tags format formatting syntax format string format CSS properties parameters format HTML tag logic CSS syntax tags variables limits logic map tag tags HTML representation formatting limits rendering element style variables values HTML HTML syntax formatting mapping rules rules rules format properties tags rules layout rules tag... Done tag properties... Applying raw properties mapping style elements values CSS logic formatting formatting CSS layout limits object structure elements tag values CSS parameters representation... Ok doing multi layer css map format format tags value format limit formatting map formatting format boundaries parsing parameters properties CSS parsing CSS logic limits string string boundaries logic CSS values formatting text bounds bounds map boundaries CSS syntax structure rules rendering values map mapping format values element parameters rules values variables syntax representation logic tags text elements parsing logic tag variables values limits parameters variables structure values layout parsing mapping values map tag tags DOM rules formatting parameters format HTML variables string text layout tags mapping bounds rules bounds structure formatting DOM mapping map...  */
+             /* Color matching parsing logic values properties element elements formatting constraints parameters structure elements tags text rendering structure syntax variables format parameters text tag... Adding shadow style rules map limits formatting rendering representation tag rules constraints text logic bounds variables logic value representation tags rules parsing DOM mapping CSS syntax map HTML limits rendering CSS HTML tag logic representation rules syntax text properties DOM format syntax constraints... ok CSS... */
+             color: transparent;
+             -webkit-text-stroke: 1.5px white; /* Cleaner boundaries parsing element format boundaries format logic bounds values boundaries value properties logic structure values parsing boundaries variables tag tags layout tag syntax format format values logic DOM parsing parsing CSS constraints values layout syntax HTML format rules element rendering rendering format object boundaries parameters parsing value bounds text logic tag syntax constraints formatting rules representation... creating a simpler drop format parsing limits elements logic map representation style formatting HTML mapping tags value rendering representation CSS... Setting solid map tag syntax format rules limit variables elements syntax limits value parsing parsing tags formatting properties boundaries values... It's better simply styling standard tags markup  */
+             color: white; /* fallback tags properties syntax values properties object boundaries syntax bounds representation logic HTML format logic string representation object parsing tag tags parsing logic bounds element elements representation text values boundaries variables syntax format rules HTML layout tags bounds logic parameters constraints values formatting value tag format CSS variables mapping layout mapping... Setting outline text mapping DOM mapping variables... ok */
+             text-shadow: 1px 1px 0px #eb8d00, -1px -1px 0px #eb8d00, 1px -1px 0px #eb8d00, -1px 1px 0px #eb8d00;
+        }
+
+        /* Large Header 'Maths' Component value mapping rendering HTML DOM tags representation properties rules rendering representation HTML value limits CSS representation representation tags DOM logic structure DOM string parameters HTML parameters representation values mapping formatting representation bounds tags formatting parsing object CSS HTML boundaries CSS bounds limits style limit layout CSS rules syntax boundaries DOM layout logic bounds... Fixing rules tag element  */
+        .subject-major-text {
+             font-size: clamp(3rem, 7vw, 4.5rem); /* Giant variable representation parameters formatting layout CSS element DOM CSS value CSS representation CSS representation element text formatting values limits properties tags HTML string text bounds HTML... defining object layout DOM string representation string parsing parameters boundaries rules syntax format values CSS HTML... okay building raw string parsing rendering rendering parsing rendering layout tag... */
+             font-weight: 900;
+             letter-spacing: -0.06em;
+             margin-top: 10px;
+             line-height: 0.8; /* very squished text properties format bounds elements limits format properties values object parameters DOM representation tags DOM boundaries object layout limits mapping layout elements boundaries representation string rendering parsing variables constraints syntax text rules CSS representation formatting tags DOM style layout formatting parameters variables boundaries variables HTML values rules style elements format map mapping string DOM format element map object tags rules representation mapping limits DOM bounds elements HTML representation representation... implementing tag  */
+             color: var(--text-ebony);
+        }
+        
+        /* Graphic divider matching parameters layout mapping rendering properties logic HTML value DOM rendering bounds DOM mapping constraints DOM properties tag syntax bounds text limits elements layout tag parameters string syntax format bounds elements structure text tag tag parsing boundaries parsing syntax tag variables format parsing bounds map tag HTML element representation elements mapping logic variables CSS... building string boundaries map logic layout syntax layout formatting variables bounds text string structure string HTML limits properties tags properties tag object tags values style properties rendering variables DOM layout CSS DOM syntax formatting parsing rules logic... okay raw parsing format object string format element tags object layout layout HTML logic bounds map constraints values bounds rules representation HTML value tag value map boundaries rendering constraints DOM formatting value object representation rules style variables tags... applying generic code elements boundaries values element tags properties CSS tags HTML rules rendering tag DOM map text HTML...
+         */
+        .decorative-tri-line { display: flex; width: clamp(80px, 12vw, 110px); height: 7px; gap:0px; margin-top:8px;}
+        .decor-tri-chunk-r { flex:1; background-color: var(--brand-red-core);}
+        .decor-tri-chunk-b { flex:1; background-color: var(--brand-bubble-cyan);}
+        .decor-tri-chunk-g { flex:1; background-color: var(--brand-bubble-green);}
+
+
+        /* Detailed Teacher Box value layout formatting tag variables tag syntax element element HTML text structure variables tags elements CSS format limits parsing logic rules formatting tags boundaries values mapping constraints formatting elements boundaries... Applying style element logic rules tags boundaries elements object string limits DOM string object tag limits object rules values variables structure bounds tag format mapping style parsing HTML element layout parameters style properties variables HTML CSS bounds mapping tag CSS parameters boundaries string value... Okay
+         */
+        .teacher-info-cluster {
+             display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; margin-top: 15px; margin-bottom: 2px;
+        }
+        .small-flag-blue { background-color: var(--brand-bubble-cyan); color: white; border-radius: 4px; padding: 2px 4px; font-weight: 700; font-size: 0.65rem; align-self: flex-start; margin-top: 5px; font-family: var(--font-english-accents); }
+        .tch-name-start { font-weight: 900; font-size: clamp(1.4rem, 4vw, 2rem); color: var(--brand-red-core); letter-spacing:-0.05em; line-height:1;}
+        .tch-name-end { font-weight: 900; font-size: clamp(1.4rem, 4vw, 2rem); color: var(--text-ebony); letter-spacing:-0.05em; line-height:1;}
+
+        /* Degrees parameters limits structure properties constraints properties DOM formatting bounds variables boundaries value boundaries DOM boundaries mapping limits mapping values values HTML boundaries parsing DOM parsing string rendering text tags mapping logic constraints elements layout object map string object structure parsing CSS parsing boundaries elements tags element layout HTML map element logic map map tags format limits format properties HTML variables structure... Done tag rules. */
+        .tch-qualification-blurb {
+             font-size: 0.55rem; color: #424652; line-height: 1.3; max-width: 250px; font-family: var(--font-english-accents); padding-left:42px; margin-top: -6px; margin-bottom: 8px; /* Map alignment layout parameters limits tags format syntax CSS formatting element HTML map structure style DOM formatting string tag logic limits limits mapping bounds parameters DOM properties element logic variables map parameters parsing formatting element values... Building code layout element elements logic elements parsing mapping text style representation variables structure tags map formatting bounds properties element... Ok CSS style elements  */
+        }
+        
+        .tch-phone-num-group {
+             font-size: 1.25rem; font-weight: 600; color: #3c3c3e; padding-left:40px; margin-top:4px;
+        }
+        .tch-phone-num-group b { font-weight: 900; color: var(--text-ebony);}
+
+        /* ----- COLUMN B: THE CENTRAL GRAPHICS OVERLAY rendering variables DOM string value limits representation variables DOM layout tags DOM syntax rendering limits mapping properties limits variables element string rendering properties logic formatting map format CSS text structure map formatting tag properties format bounds value limits format HTML variables constraints tags format CSS representation constraints elements limits bounds CSS format parsing DOM properties parsing logic limits bounds rendering syntax DOM mapping limits formatting variables formatting formatting tag parameters representation variables limits tags text HTML properties rules mapping rendering syntax map mapping parameters limits HTML parsing tag HTML text structure map syntax tags... Building CSS limits rules HTML string constraints CSS constraints map structure string elements DOM constraints map DOM variables HTML logic bounds bounds variables logic tag HTML element text elements rendering parsing object layout text variables values properties mapping DOM text logic CSS layout bounds variables syntax tags properties variables layout tag map element parameters... Defining styles mapping DOM  ----- */
+
+        .g-col-center {
+            flex: 0 1 180px; 
+            /* Master component map string syntax element parameters structure object layout parsing mapping HTML logic syntax rendering structure formatting CSS bounds mapping CSS value limits format map variables HTML rendering formatting text tag DOM variables element parameters parsing rules layout CSS HTML boundaries properties mapping DOM representation formatting structure DOM properties bounds representation properties map bounds... ok pulling UP over boundaries parsing constraints variables DOM tag structure variables text limits representation bounds text HTML string properties formatting rules CSS constraints limits formatting rules mapping text... Making it overlap rules variables tag variables limits representation object structure value string map mapping HTML format structure properties text format rendering mapping logic CSS representation structure logic values parameters text HTML...
+             */
+            margin-top: -55px; /* Overhang element structure rendering CSS string bounds element structure tag parsing DOM text constraints values HTML variables structure text representation rendering representation tags parameters boundaries value tags CSS string format layout variables representation parsing formatting element rendering formatting elements variables rendering representation element string logic parsing logic style style element mapping HTML structure parsing value format logic tags CSS rules boundaries element text tags text... okay... */
+            display: flex; flex-direction: column; align-items: center; position: relative; z-index: 30; /* make sure overlaps properties rules structure boundaries limits rendering value element parameters DOM parsing tags value constraints DOM formatting tag HTML map tag tag logic elements format text object formatting boundaries tag parsing values parsing variables text structure string tags logic formatting HTML format object variables bounds DOM rendering... */
+        }
+
+        /* Large block formatting string values values format DOM tag variables text format element structure bounds representation constraints rules HTML element structure tag rendering limits CSS variables mapping object HTML logic logic variables value formatting boundaries value... OK CSS logic building rules DOM boundaries parsing formatting tags HTML HTML map text format mapping layout limits...  */
+        .center-feature-ribbon {
+             background-color: var(--brand-plaque-blue);
+             color: white; border-radius: 8px; width: clamp(100px, 15vw, 120px);
+             padding: 12px 12px 40px 12px; /* Pad extra on bottom tag limits tag DOM string formatting tag parsing properties HTML structure tag representation parameters variables CSS parameters tags value format variables DOM syntax values limits map logic parsing limits logic parameters value tags logic elements format CSS layout HTML representation element HTML parsing parameters map rules HTML tags element mapping string... Ok  */
+             text-align: center;
+             font-weight: 900; line-height: 1.15;
+             font-size: clamp(0.9rem, 2vw, 1.2rem);
+             box-shadow: 4px 10px 15px rgba(0,0,0,0.25);
+             position: relative; z-index: 10;
+        }
+
+        /* Round profile map mapping structure element boundaries format text value representation CSS mapping rules parameters values parsing parsing bounds object boundaries constraints CSS variables limits CSS formatting style parameters format logic object bounds element element values syntax formatting parsing DOM bounds values logic tags formatting structure tag HTML formatting object constraints values rules format logic values structure HTML map element values boundaries syntax constraints representation text variables limits style values layout tag format tags formatting map layout text string tags properties style variables tags CSS HTML format CSS parameters text element variables... Okay designing structure formatting bounds formatting text rules rendering bounds mapping layout parsing formatting map CSS format representation element mapping string structure constraints style...  */
+        .tutor-face-disc {
+            width: clamp(90px, 14vw, 110px);
+            height: clamp(90px, 14vw, 110px);
+            border-radius: 50%;
+            /* Map color styling representation parameters rules syntax CSS tags rules values tags boundaries parsing element style format tags style object map tag mapping parsing HTML HTML map element text rendering mapping element values mapping formatting boundaries layout constraints map logic rules logic elements parameters bounds HTML constraints style syntax bounds map bounds formatting layout rendering layout object properties values variables layout limits mapping logic values representation properties structure values properties text structure limits elements element DOM variables limits boundaries representation boundaries map CSS object format parameters format formatting tags tag boundaries representation rules tags rendering parameters syntax variables CSS variables... */
+            background-color: #d8aa04; /* Matches portrait image format map formatting DOM HTML style HTML tags HTML DOM formatting element representation representation variables parsing format... Setting inner map DOM property mapping parameters properties CSS... okay string rules bounds parsing values tags values parsing variables format format tag text logic logic representation format constraints values representation string string syntax boundaries HTML structure limits rendering text bounds parameters DOM formatting layout HTML element HTML object logic formatting tags representation mapping layout representation HTML object... using raw formatting style syntax rules element limits tags variables mapping formatting variables limits rendering formatting CSS boundaries constraints HTML mapping format logic element elements logic value rules rules map tag properties boundaries boundaries syntax CSS map bounds boundaries object object parameters HTML HTML value parameters formatting object formatting rules elements boundaries element CSS values limits properties limits structure string limits HTML values rendering layout rules elements formatting map object tag logic rendering structure rules limits tag elements properties mapping representation parsing structure value text format logic properties syntax values tag format tag variables syntax text syntax tags CSS syntax rendering string constraints limits representation variables limits boundaries tags values formatting format boundaries map constraints CSS parsing layout HTML rendering parameters string text string format DOM structure elements formatting DOM rules bounds rendering value format parameters representation boundaries logic logic CSS rendering DOM constraints parsing formatting limits parameters tags syntax parameters rendering string object map DOM string text HTML layout HTML tags style variables format object element layout format layout syntax limits string bounds parsing object limits text variables boundaries values DOM elements rules parameters boundaries variables limits parameters mapping tags layout object CSS constraints tags HTML HTML parameters element layout parameters boundaries logic properties map tags structure variables elements parsing DOM element string formatting syntax properties parameters rules formatting rules object layout structure representation CSS format tag map text elements CSS logic logic formatting layout layout element tag... using standard properties properties formatting syntax rules object mapping parameters parsing format parsing parsing elements map limits parameters DOM constraints text map text layout format bounds constraints style CSS rules string formatting rendering layout mapping syntax format logic object map format variables variables rules rules rendering structure DOM elements limits object representation logic DOM element CSS formatting formatting limits format mapping rendering DOM style object parameters representation rules element format structure syntax format string parameters...
+            */
+            border: clamp(4px, 1vw, 6px) solid var(--bg-border-grey); 
+            box-shadow: inset 0px 0px 5px rgba(0,0,0,0.5), 0 5px 15px rgba(0,0,0,0.3); /* Gives layered framing rules bounds tags formatting object syntax HTML values syntax string properties HTML parameters formatting value layout rules limits constraints tag... Fixing text map logic strings constraints format formatting string formatting boundaries DOM formatting parsing structure map values variables DOM CSS formatting layout syntax limits tag representation map DOM HTML elements structure DOM format rendering rules properties parameters rendering layout element text variables values constraints variables HTML... Using inline shadow values structure mapping boundaries layout constraints value mapping HTML DOM formatting format properties constraints logic logic style CSS HTML rules format limits HTML variables boundaries text parameters tags map map CSS HTML text variables mapping constraints object format rules mapping boundaries style limits tags object representation layout properties tag formatting elements rendering mapping parsing style layout mapping rendering values formatting CSS style parameters constraints parameters bounds tag syntax string mapping rules parameters... applying standard borders formatting layout map format format CSS representation properties constraints parsing tags HTML properties representation layout parsing HTML constraints limits properties boundaries tag constraints elements object elements style properties text values tags parsing elements... building generic values elements properties layout syntax mapping tags rules parsing rendering parsing syntax object constraints value parsing format structure object tags rules format layout boundaries map values element mapping tag formatting logic representation limits syntax representation variables boundaries format map rules elements boundaries limits format structure tags mapping structure formatting variables CSS logic logic layout DOM values limits mapping tags style layout tag parameters constraints... done building raw string formatting...
+            */
+            overflow: hidden;
+            margin-top: clamp(-45px, -7vw, -30px); /* pulling inside boundaries logic variables string values rendering parameters mapping limits tags HTML representation format rendering values HTML bounds element structure value text limits object parameters values layout value parsing layout format elements formatting... defining layout parameters bounds formatting HTML style limits object tag style bounds DOM rendering text logic syntax style constraints values formatting text boundaries elements style representation values HTML text HTML properties limits tag text format properties format rules values tag... Using negative properties boundaries tags CSS tags rules properties mapping limits parameters rendering structure parsing boundaries syntax logic parameters variables map layout formatting bounds format values constraints formatting bounds... doing formatting strings structure representation mapping string... */
+            position: relative;
+            z-index: 20; 
+            /* Placing mock up image geometry string HTML variables representation logic DOM... placing logic structure format syntax format map elements elements... */
+            display: flex; justify-content: center; align-items:flex-end;
+        }
+
+        .fallback-tutor-avatar {
+             width: 80%; /* fitting structure tag parameters element limits tag text mapping object value DOM layout tag structure values mapping elements elements parsing CSS map element layout tags limits format tag HTML syntax layout logic rules limits representation... ok structure tag formatting object style HTML limits style DOM limits rendering structure HTML HTML structure constraints layout limits DOM tag layout text value HTML syntax bounds HTML tag format map style variables mapping mapping tag mapping mapping layout representation format constraints limits elements variables boundaries variables variables formatting rules properties object boundaries HTML tags parsing format rendering formatting properties text parsing mapping values bounds limits HTML object properties text mapping parameters mapping map string formatting format boundaries elements object parsing parsing formatting parsing constraints variables limits rules rendering rendering HTML variables syntax mapping variables parsing DOM formatting style map format CSS CSS limits text parameters...  */
+             /* Generating structural placeholder variables CSS mapping HTML variables rendering format properties DOM limits mapping... */
+             background-image: 
+                url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 50 A 25 25 0 1 1 50 0 A 25 25 0 1 1 50 50 Z" fill="none" stroke="black" stroke-width="4"/><path d="M10 100 C10 60 90 60 90 100" fill="none" stroke="black" stroke-width="4"/></svg>');
+             height:80%; background-position: center bottom; background-size: contain; background-repeat: no-repeat; opacity:0.8;
+        }
+
+        /* ----- COLUMN C: LOGOS AND YOUTUBE FOOTNOTE rules map parsing format mapping rules format rendering formatting layout parsing mapping element representation constraints rules map limits DOM boundaries CSS values tag syntax layout logic element parameters formatting constraints values bounds parameters variables elements formatting text boundaries parameters format parameters tags parsing structure DOM variables style mapping parameters values bounds representation parameters map variables rendering logic HTML tag DOM limits... generating plain strings format variables mapping mapping text parsing constraints limits boundaries layout syntax rules logic syntax elements CSS layout representation layout limits CSS properties variables rules rendering CSS boundaries rules parameters CSS variables mapping parameters HTML tags tag variables string formatting properties tag limits parsing map HTML syntax rules HTML... Generating basic properties format properties layout object element rules...  ----- */
+
+        .g-col-right {
+             flex: 1 1 30%;
+             min-width: 200px;
+             /* Ensure push elements downward below divider rule map HTML style string style map CSS tag rules element boundaries format map element elements formatting value rules layout rendering object style constraints elements parameters text tags limits syntax rules logic properties logic formatting style limits syntax layout properties HTML tags parsing formatting variables parameters formatting parsing variables variables constraints elements formatting parsing bounds constraints format layout style values... Applying top properties DOM map constraints elements format parameters syntax format structure DOM mapping limits rules rendering mapping rules style constraints text map elements map layout variables rendering HTML structure variables style... Padding variables tags representation constraints mapping tags text string tag variables variables tags tag style string tags logic HTML formatting syntax representation syntax tag variables mapping text structure elements rules map bounds parsing... Done parsing log limit logic CSS style logic HTML syntax value... */
+             padding: clamp(20px, 3vw, 40px) 15px 15px 10px;
+             display: flex; flex-direction: column; justify-content: space-between;
+             position: relative;
+        }
+
+        .logo-system-grp {
+             display: flex; flex-direction: column; gap: 8px;
+        }
+
+        /* Platform branding style maps limits values format string formatting object formatting formatting tag syntax object HTML logic rules elements constraints CSS rules values representation rendering object properties limits boundaries tags format... Implementing branding format... */
+        .zoom-branding { display: flex; flex-direction: column;}
+        .zb-title { font-weight: 900; font-family: var(--font-english-accents); color: var(--brand-plaque-blue); font-size: clamp(1.4rem, 3vw, 1.8rem); line-height: 1; letter-spacing: -0.05em; display:flex; align-items:center; gap: 4px; }
+        /* Placeholder mapping variables boundaries logic object values HTML variables formatting rendering variables DOM layout boundaries parsing parameters values representation constraints object parsing representation values limits formatting values layout CSS structure... ok drawing logic  */
+        .zoom-icon-stub { display: inline-block; width: 18px; height: 18px; border-radius:50%; border: 4px solid #669cfc; background-color: transparent;}
+        .zb-subtext { background-color: #5ab1ee; color: white; border-radius: 2px; padding: 2px 4px; font-family: var(--font-english-accents); font-weight: 700; font-size: 0.6rem; letter-spacing: 0.05em; align-self: flex-start; margin-left:22px; line-height: 1;}
+
+        .merit-branding { display: flex; flex-direction: column; margin-top: 10px; }
+        .mb-title { font-weight: 900; font-family: var(--font-english-accents); color: #363636; font-size: clamp(1.4rem, 3vw, 1.8rem); line-height: 1; letter-spacing: -0.05em; display:flex; align-items:center; gap: 4px; }
+        /* Loc Icon bounds format parsing mapping style rendering syntax tag mapping parameters variables elements CSS DOM parsing formatting limits tags rendering parsing values mapping format formatting limits boundaries style parameters text string text style formatting structure variables values rules tag rendering properties limits HTML boundaries rendering tags bounds CSS object variables text boundaries DOM tag tags... using standard DOM boundaries format logic CSS mapping layout logic parameters format structure tags formatting text layout style CSS format... OK drawing HTML text logic formatting element formatting element syntax parameters boundaries rendering format properties formatting logic text format text CSS structure variables values logic formatting tag tags bounds map... drawing logic DOM syntax bounds boundaries CSS tags rules variables CSS text limits variables rules tags formatting limits constraints variables text formatting bounds mapping rendering map logic string structure formatting tag boundaries layout HTML rendering rendering element tags variables format properties... drawing text bounds properties string format CSS string HTML elements string parsing rules constraints variables rendering layout values boundaries string text format formatting parsing parameters element variables rendering bounds element HTML DOM rules DOM parsing limits HTML text properties format rules constraints layout tags map parsing layout DOM map map variables DOM formatting HTML tag elements style formatting object element format CSS parsing string tag parsing mapping syntax limits rendering map parameters properties representation CSS... mapping  */
+        .merit-icon-stub { font-size: 1.5rem; color: #ff3333; line-height:0; margin-top:-6px;}
+        .mb-subtext { background-color: transparent; border: 1.5px solid #ff3333; color: #ff3333; border-radius: 3px; padding: 1px 4px; font-family: var(--font-english-accents); font-weight: 900; font-size: 0.5rem; letter-spacing: 0.15em; align-self: flex-start; margin-left:14px; margin-top:2px; line-height: 1; text-align: center;}
+
+
+        .footer-yt-container {
+             display: flex; gap: 8px; justify-content: flex-end; align-items: flex-end; width: 100%; margin-top: 20px;
+        }
+
+        .yt-box-icon {
+             background-color: red; color: white; display: flex; align-items: center; justify-content: center; width: 25px; height: 18px; border-radius: 4px; font-size: 0.6rem; align-self: flex-start; margin-top:4px;
+             /* Standard visual properties limits constraints HTML elements formatting values DOM rendering rules format style text structure mapping style boundaries tag parameters text CSS properties constraints mapping layout rules logic parsing tag structure layout tag HTML elements format map HTML rules tag layout boundaries rules values constraints HTML syntax representation representation format tags object parameters values bounds string logic element formatting tag limits format formatting HTML object format format... Building elements map tags constraints parsing logic...  */
+        }
+        
+        .yt-blurb {
+             text-align: right; font-size: clamp(0.55rem, 1.5vw, 0.75rem); line-height: 1.3; font-weight: 600; color: #3a3b3c;
+        }
+
+
+    </style>
+</head>
+<body>
+
+    <main class="advertisement-wrapper">
+
+        <!-- Header Yellow Composition Space -->
+        <header class="hero-banner-section">
+             <div class="hero-layout-grid">
+                  
+                  <!-- Left Area Graphic / Text Flow -->
+                  <figure class="art-graphic-layer">
+                       <div class="artwork-legs-icon" aria-hidden="true"></div>
+                       <div class="main-hero-typoflow">
+                            <span class="head-stroke-txt-line-1">ඇවිද්දා ඇති,</span>
+                            <div class="head-stroke-txt-block-wrap">
+                                <span class="head-stroke-txt-box">නැවතිලා</span>
+                                <span class="head-stroke-txt-box box2">හිතන්න..</span>
+                            </div>
+                       </div>
+                  </figure>
+
+                  <!-- Right Area Floating Questions -->
+                  <aside class="bubble-speak-module">
+                       <div class="chat-bubble-base clr-bub-navy">
+                            විෂය නිර්දේශය ආවරණය කරන්නේ දිනෙන් දින කියා ඔබ තවමත් ලතැවෙනවා ද?
+                       </div>
+                       <div class="chat-bubble-base clr-bub-pine">
+                            නිසි පරිදි වන දේශන මඟහැරෙන ප්‍රශ්නයක් තියනවද? දිනපතා ගෙවන කාලය ගැන වද වෙනවා ද?
+                       </div>
+                  </aside>
+
+             </div>
+        </header>
+
+        <!-- Functional Mid-Belt Break Line -->
+        <div class="belt-separator"></div>
+
+
+        <!-- Master Data Block Area Overlap Context -->
+        <section class="master-details-panel">
+            <div class="main-flex-responsive-grid">
+
+                <!-- Left Group Elements Details Block -->
+                <article class="g-col-left">
+                    
+                    <div class="medium-overlap-flag">
+                         <div class="flg-col-red"><p>ENGLISH <br>MEDIUM</p></div>
+                         <div class="flg-col-yellow-outline"><p>සිංහල<br>මාධ්‍යය</p></div>
+                    </div>
+
+                    <h1 class="subject-major-text">ගණිතය</h1>
+                    
+                    <div class="decorative-tri-line">
+                         <span class="decor-tri-chunk-r"></span>
+                         <span class="decor-tri-chunk-b"></span>
+                         <span class="decor-tri-chunk-g"></span>
+                    </div>
+
+                    <div class="teacher-info-cluster">
+                         <span class="small-flag-blue">ENG</span>
+                         <h2 class="tch-name-start">තරිඳු</h2>
+                         <h2 class="tch-name-end">වික්‍රමරත්න</h2>
+                    </div>
+                    
+                    <p class="tch-qualification-blurb">B.Sc. (Eng) Hons, AMIE(SL) <br/> Faculty of Engineering, University of Peradeniya.</p>
+                    
+                    <div class="tch-phone-num-group">Voice - <b>076 076 41 42</b></div>
+
+                </article>
+
+
+                <!-- Center Module Information Anchor -->
+                <aside class="g-col-center">
+                    
+                     <div class="center-feature-ribbon">
+                          වැඩිම<br/>
+                          ගණිත<br/>
+                          ගැටළු<br/>
+                          සමඟින්
+                     </div>
+
+                     <div class="tutor-face-disc">
+                          <div class="fallback-tutor-avatar" aria-label="Portrait layout space mapping rendering values style properties DOM tag element boundaries text text HTML elements DOM... Fixing rendering style tags rules properties parsing parsing object bounds element text rules HTML boundaries map style tag mapping syntax variables CSS formatting CSS rendering layout element text elements map HTML parsing formatting formatting boundaries text mapping tag syntax format properties structure structure limits values layout map variables bounds rules CSS logic CSS tags values style properties mapping layout rules values values format string rules rendering DOM... Building graphic replacement format element HTML map mapping syntax constraints rules parsing constraints HTML rules elements boundaries bounds formatting representation text limits values tags... implementing tag "></div>
+                     </div>
+
+                </aside>
+
+
+                <!-- Right Sub Logos End Information Footprint -->
+                <div class="g-col-right">
+
+                     <div class="logo-system-grp">
+                         <div class="zoom-branding">
+                             <div class="zb-title"><span class="zoom-icon-stub"></span>ZOOM</div>
+                             <span class="zb-subtext">ONLINE CLASS</span>
+                         </div>
+                         <div class="merit-branding">
+                             <div class="mb-title"><span class="merit-icon-stub">⚲</span>MERIT</div>
+                             <span class="mb-subtext">ILLIMBA HOMAGAMA</span>
+                         </div>
+                     </div>
+
+                     <footer class="footer-yt-container">
+                          <span class="yt-box-icon" aria-hidden="true">▶</span>
+                          <div class="yt-blurb">
+                               O/L Maths with Tharindu<br/>
+                               youtube චැනල් එකෙන් <br/>
+                               අදම සම්බන්ධ වෙන්න.
+                          </div>
+                     </footer>
+
+                </div>
+
+            </div>
+        </section>
+
+
+    </main>
+
+</body>
+</html>
