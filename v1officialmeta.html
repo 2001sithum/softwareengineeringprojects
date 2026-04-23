@@ -1,0 +1,3618 @@
+<!DOCTYPE html>
+<html lang="si">
+
+<head>
+  <!-- Playables SDK -->
+  <script>// Playables SDK v1.0.0
+    // Game lifecycle bridge: rAF-based game-ready detection + event communication
+    (function () {
+      'use strict';
+
+      // Idempotency: skip if already initialized (e.g., server-side injection
+      // followed by client-side inject-javascript via the Bloks webview component).
+      if (window.playablesSDK) return;
+
+      var HANDLER_NAME = 'playablesGameEventHandler';
+      var ANDROID_BRIDGE_NAME = '_MetaPlayablesBridge';
+      var RAF_FRAME_THRESHOLD = 3;
+
+      var gameReadySent = false;
+      var firstInteractionSent = false;
+      var errorSent = false;
+      var frameCount = 0;
+      var originalRAF = window.requestAnimationFrame;
+
+      // --- Transport Layer ---
+
+      function hasIOSBridge() {
+        return !!(window.webkit &&
+          window.webkit.messageHandlers &&
+          window.webkit.messageHandlers[HANDLER_NAME]);
+      }
+
+      function hasAndroidBridge() {
+        return !!(window[ANDROID_BRIDGE_NAME] &&
+          typeof window[ANDROID_BRIDGE_NAME].postEvent === 'function');
+      }
+
+      function isInIframe() {
+        return !!(window.parent && window.parent !== window);
+      }
+
+      function sendEvent(eventName, payload) {
+        var message = {
+          type: eventName,
+          payload: payload || {},
+          timestamp: Date.now()
+        };
+
+        if (hasIOSBridge()) {
+          try {
+            window.webkit.messageHandlers[HANDLER_NAME].postMessage(message);
+          } catch (e) { /* ignore */ }
+          return;
+        }
+
+        if (hasAndroidBridge()) {
+          try {
+            var p = payload || {};
+            p.__secureToken = window.__fbAndroidBridgeAuthToken || '';
+            window[ANDROID_BRIDGE_NAME].postEvent(
+              eventName,
+              JSON.stringify(p)
+            );
+          } catch (e) { /* ignore */ }
+          return;
+        }
+
+        if (isInIframe()) {
+          try {
+            window.parent.postMessage(message, '*');
+          } catch (e) { /* ignore */ }
+          return;
+        }
+      }
+
+      // --- rAF Game-Ready Detection ---
+
+      function onFrame() {
+        if (gameReadySent) return;
+
+        frameCount++;
+        if (frameCount >= RAF_FRAME_THRESHOLD) {
+          gameReadySent = true;
+          sendEvent('game_ready', {
+            frame_count: frameCount,
+            detected_at: Date.now()
+          });
+          return;
+        }
+
+        originalRAF.call(window, onFrame);
+      }
+
+      if (originalRAF) {
+        window.requestAnimationFrame = function (callback) {
+          if (!gameReadySent) {
+            return originalRAF.call(window, function (timestamp) {
+              frameCount++;
+              if (frameCount >= RAF_FRAME_THRESHOLD && !gameReadySent) {
+                gameReadySent = true;
+                sendEvent('game_ready', {
+                  frame_count: frameCount,
+                  detected_at: Date.now()
+                });
+              }
+              callback(timestamp);
+            });
+          }
+          return originalRAF.call(window, callback);
+        };
+      }
+
+      // --- First User Interaction Detection ---
+
+      function setupFirstInteractionDetection() {
+        var events = ['touchstart', 'mousedown', 'keydown'];
+
+        function onFirstInteraction() {
+          if (firstInteractionSent) return;
+          firstInteractionSent = true;
+          sendEvent('user_interaction_start', null);
+
+          for (var i = 0; i < events.length; i++) {
+            document.removeEventListener(events[i], onFirstInteraction, true);
+          }
+        }
+
+        for (var i = 0; i < events.length; i++) {
+          document.addEventListener(events[i], onFirstInteraction, true);
+        }
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setupFirstInteractionDetection);
+      } else {
+        setupFirstInteractionDetection();
+      }
+
+      // --- Auto Error Capture ---
+
+      window.addEventListener('error', function (event) {
+        if (errorSent) return;
+        errorSent = true;
+        sendEvent('error', {
+          message: event.message || 'Unknown error',
+          source: event.filename || '',
+          lineno: event.lineno || 0,
+          colno: event.colno || 0,
+          auto_captured: true
+        });
+      });
+
+      window.addEventListener('unhandledrejection', function (event) {
+        if (errorSent) return;
+        errorSent = true;
+        var reason = event.reason;
+        sendEvent('error', {
+          message: (reason instanceof Error) ? reason.message : String(reason),
+          type: 'unhandled_promise_rejection',
+          auto_captured: true
+        });
+      });
+
+      // --- Public API ---
+
+      window.playablesSDK = {
+        complete: function (score) {
+          sendEvent('game_ended', {
+            score: score,
+            completed: true
+          });
+        },
+
+        error: function (message) {
+          if (errorSent) return;
+          errorSent = true;
+          sendEvent('error', {
+            message: message || 'Unknown error',
+            auto_captured: false
+          });
+        },
+
+        sendEvent: function (eventName, payload) {
+          if (!eventName || typeof eventName !== 'string') return;
+          sendEvent(eventName, payload);
+        }
+      };
+
+      // Kick off rAF detection in case no game code calls rAF immediately
+      if (originalRAF) {
+        originalRAF.call(window, onFrame);
+      }
+    })();</script>
+  <script>window.Intl = window.Intl || {}; Intl.t = function (s) { return (Intl._locale && Intl._locale[s]) || s; };</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tuition Class Flyer Maker | Pro Studio</title>
+
+  <!-- PREMIUM SINHALA FONTS FOR TUITION FLYERS -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Anek+Sinhala:wght@400;700;800;900&family=Noto+Sans+Sinhala:wght@400;700;900&family=Noto+Serif+Sinhala:wght@400;700&family=Abhaya+Libre:wght@600;800&family=Gemunu+Libre:wght@400;700;800&family=Yaldevi:wght@400;600;700&family=Maname&family=Baloo+2:wght@400;700;800&family=Poppins:wght@400;600;800&family=Montserrat:wght@400;700;900&family=Bebas+Neue&family=Inter:wght@400;600;800&display=swap"
+    rel="stylesheet">
+
+  <style>
+    /* ═════════ FIGMA-STYLE UI VARIABLES ═════════ */
+    :root {
+      --bg: #121212;
+      --panel: #1e1e1e;
+      --panel-border: #333333;
+      --accent: #ff0055;
+      --accent-hover: #ff3377;
+      --text-main: #cccccc;
+      --text-bright: #ffffff;
+      --gold: #f5d06e;
+      --layer-hover: #2a2d2e;
+      --layer-selected: #4a1525;
+      --font-ui: 'Inter', sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text-main);
+      font-family: var(--font-ui);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #555;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--panel);
+    }
+
+    /* ═════════ PREMIUM UI OVERHAUL ═════════ */
+    :root {
+      --bg: #0d0d0d;
+      --panel: rgba(22, 22, 25, 0.98);
+      --panel-border: rgba(255, 255, 255, 0.08);
+      --accent: #ff0055;
+      --accent-hover: #e6004c;
+      --text-main: #e0e0e0;
+      --text-bright: #ffffff;
+      --gold: #f5d06e;
+      --layer-hover: rgba(255, 255, 255, 0.05);
+      --layer-selected: rgba(255, 0, 85, 0.12);
+      --font-ui: 'Inter', 'Noto Sans Sinhala', sans-serif;
+      --glass: blur(25px);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
+
+    body {
+      background: var(--bg);
+      color: var(--text-main);
+      font-family: var(--font-ui);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ─── TOP BAR ─── */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      height: 64px;
+      background: #000;
+      border-bottom: 1px solid var(--panel-border);
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: linear-gradient(135deg, #fff, #888);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .logo span {
+      background: var(--accent);
+      color: #fff;
+      -webkit-text-fill-color: #fff;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      letter-spacing: 1px;
+      box-shadow: 0 0 20px rgba(255, 0, 85, 0.4);
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .canvas-size-select {
+      background: #111;
+      color: #fff;
+      border: 1px solid #333;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border-radius: 10px;
+      border: none;
+      font-family: var(--font-ui);
+      font-size: 13px;
+      cursor: pointer;
+      transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-outline {
+      background: rgba(255, 255, 255, 0.05);
+      color: #eee;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(255, 0, 85, 0.4);
+    }
+
+    /* ─── WORKSPACE (3 COLUMNS) ─── */
+    .workspace {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* 1. LEFT PANEL */
+    .left-panel {
+      width: 320px;
+      background: var(--panel);
+      backdrop-filter: var(--glass);
+      border-right: 1px solid var(--panel-border);
+      display: flex;
+      flex-direction: column;
+      z-index: 10;
+    }
+
+    .panel-header {
+      padding: 12px 16px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #999;
+      border-bottom: 1px solid var(--panel-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #181818;
+    }
+
+    .layer-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 0;
+    }
+
+    .layer-item {
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--text-main);
+      border-left: 3px solid transparent;
+      transition: 0.1s;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+    }
+
+    .layer-item:hover {
+      background: var(--layer-hover);
+    }
+
+    .layer-item.active {
+      background: var(--layer-selected);
+      border-left-color: var(--accent);
+      color: var(--text-bright);
+    }
+
+    .layer-item.dragging {
+      opacity: 0.4;
+      background: var(--layer-selected);
+    }
+    
+    .layer-item.drag-over {
+      border-top: 2px solid var(--accent);
+      background: rgba(255, 0, 85, 0.15);
+    }
+
+    .layer-name {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      font-weight: 500;
+    }
+
+    .layer-icon {
+      font-size: 14px;
+      width: 16px;
+      text-align: center;
+    }
+
+    .layer-actions {
+      display: flex;
+      gap: 4px;
+      opacity: 0;
+      transition: 0.2s;
+    }
+
+    .layer-item:hover .layer-actions,
+    .layer-item.active .layer-actions {
+      opacity: 1;
+    }
+
+    .icon-btn {
+      background: #444;
+      border: none;
+      color: #ccc;
+      cursor: pointer;
+      font-size: 10px;
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .icon-btn:hover {
+      background: #666;
+      color: #fff;
+    }
+
+    /* TUITION TEMPLATES SECTION */
+    .add-tools {
+      padding: 15px;
+      border-top: 1px solid var(--panel-border);
+      background: #1a1a1a;
+    }
+
+    .add-tools-title {
+      font-size: 11px;
+      color: #aaa;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .add-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .add-btn {
+      background: #2d2d2d;
+      color: #ddd;
+      border: 1px solid #444;
+      padding: 10px;
+      font-size: 11px;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .add-btn:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .full-btn {
+      grid-column: span 2;
+      background: #0055ff;
+      border-color: #0055ff;
+      color: white;
+    }
+
+    .full-btn:hover {
+      background: #0044cc;
+    }
+
+    /* 2. CENTER CANVAS AREA */
+    .canvas-container {
+      flex: 1;
+      background: #0a0a0a;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background-image: radial-gradient(#333 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+
+    #canvas-wrap {
+      position: relative;
+      box-shadow: 0 10px 50px rgba(0, 0, 0, 0.8);
+      outline: 1px solid #444;
+      cursor: grab;
+      transition: width 0.3s, height 0.3s;
+    }
+
+    #canvas-wrap:active {
+      cursor: grabbing;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* 3. RIGHT PANEL (PROPERTIES/INSPECTOR) */
+    .right-panel {
+      width: 320px;
+      background: var(--panel);
+      border-left: 1px solid var(--panel-border);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    .prop-section {
+      border-bottom: 1px solid var(--panel-border);
+      padding: 16px;
+    }
+
+    .prop-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #aaa;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .prop-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px;
+      align-items: flex-end;
+    }
+
+    .prop-col {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .prop-label {
+      font-size: 11px;
+      color: #999;
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Forms */
+    input[type=text],
+    textarea,
+    select {
+      width: 100%;
+      background: #121212;
+      color: #fff;
+      border: 1px solid #444;
+      padding: 8px 10px;
+      border-radius: 6px;
+      font-family: 'Noto Sans Sinhala', sans-serif;
+      font-size: 13px;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    input[type=text]:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--accent);
+      background: #1a1a1a;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 60px;
+      line-height: 1.5;
+    }
+
+    input[type=color] {
+      appearance: none;
+      -webkit-appearance: none;
+      border: none;
+      width: 100%;
+      height: 32px;
+      border-radius: 6px;
+      cursor: pointer;
+      background: transparent;
+      padding: 0;
+    }
+
+    input[type=color]::-webkit-color-swatch-wrapper {
+      padding: 0;
+    }
+
+    input[type=color]::-webkit-color-swatch {
+      border: 1px solid #555;
+      border-radius: 6px;
+    }
+
+    input[type=range] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 100%;
+      height: 4px;
+      background: #444;
+      outline: none;
+      border-radius: 2px;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      background: #fff;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid var(--accent);
+    }
+
+    /* File Upload Button */
+    .clip-upload {
+      border: 2px dashed var(--accent);
+      background: rgba(255, 0, 85, 0.05);
+      color: var(--accent);
+      padding: 16px;
+      text-align: center;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      transition: 0.2s;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .clip-upload:hover {
+      background: rgba(255, 0, 85, 0.15);
+      border-style: solid;
+    }
+
+    .clip-remove {
+      border: 1px solid #ff4444;
+      color: #ff4444;
+      padding: 10px;
+      text-align: center;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 8px;
+    }
+
+    .clip-remove:hover {
+      background: rgba(255, 68, 68, 0.1);
+    }
+
+    .empty-state {
+      padding: 40px 20px;
+      text-align: center;
+      color: #666;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    /* PRO EFFECTS PANEL */
+    .effects-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    
+    .effect-btn {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      color: #ccc;
+      padding: 10px 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 600;
+      transition: all 0.2s;
+      text-align: center;
+    }
+    
+    .effect-btn:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(255, 0, 85, 0.3);
+    }
+    
+    .effect-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    
+    .bg-image-upload {
+      border: 2px dashed #444;
+      background: rgba(255, 255, 255, 0.02);
+      padding: 20px;
+      text-align: center;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 12px;
+      transition: all 0.2s;
+    }
+    
+    .bg-image-upload:hover {
+      border-color: var(--accent);
+      background: rgba(255, 0, 85, 0.05);
+    }
+    
+    .pro-badge {
+      background: linear-gradient(135deg, #ff0055, #ffaa00);
+      color: #fff;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+    }
+
+    /* TOAST */
+    #toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: #fff;
+      color: #000;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 13px;
+      z-index: 2000;
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.3s;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    #toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ─── PREMIUM TEMPLATE GALLERY MODAL ─── */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(10, 10, 12, 0.85); /* Deep dark overlay */
+      backdrop-filter: blur(24px) saturate(150%);
+      -webkit-backdrop-filter: blur(24px) saturate(150%);
+      z-index: 5000; display: flex; flex-direction: column; overflow: hidden;
+      animation: modalFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(1.02); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 30px 50px; 
+      background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0));
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      position: relative;
+      z-index: 2;
+    }
+
+    .modal-title { 
+      font-size: 28px; font-weight: 900; color: #fff; display: flex; align-items: center; gap: 16px; 
+      letter-spacing: -0.5px;
+      font-family: 'Poppins', var(--font-ui);
+    }
+    
+    .modal-title-highlight {
+      background: linear-gradient(135deg, #ff0055, #ffaa00);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      padding-right: 4px;
+    }
+
+    .modal-title-subtitle {
+      font-size: 13px; color: #aaa; font-weight: 600; font-family: var(--font-ui);
+      letter-spacing: 0;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .modal-close {
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+      color: #fff; width: 48px; height: 48px; border-radius: 50%;
+      font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    .modal-close:hover { 
+      background: var(--accent); border-color: var(--accent); 
+      transform: rotate(90deg) scale(1.1);
+      box-shadow: 0 10px 25px rgba(255, 0, 85, 0.4);
+    }
+
+    .modal-body { flex: 1; display: flex; overflow: hidden; position: relative; }
+
+    .modal-grid-view {
+      flex: 1; overflow-y: auto; padding: 40px 50px 80px;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 40px;
+      scroll-behavior: smooth;
+    }
+    
+    .modal-grid-view::-webkit-scrollbar { width: 8px; }
+    .modal-grid-view::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 8px; }
+
+    .tpl-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06); 
+      border-radius: 24px;
+      overflow: hidden; cursor: pointer; transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+      position: relative;
+      display: flex; flex-direction: column;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+    
+    .tpl-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 100%);
+      opacity: 0; transition: opacity 0.5s; z-index: 1; pointer-events: none;
+    }
+
+    .tpl-card:hover { 
+      border-color: rgba(255, 0, 85, 0.5); 
+      transform: translateY(-12px) scale(1.02); 
+      box-shadow: 0 30px 60px rgba(0,0,0,0.5), 0 0 40px rgba(255, 0, 85, 0.15); 
+    }
+    
+    .tpl-card:hover::before { opacity: 1; }
+
+    .tpl-card-thumb { 
+      width: 100%; aspect-ratio: 4/5; 
+      background: #050505 url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=') repeat; 
+      position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; 
+      padding: 20px;
+    }
+    
+    .tpl-card-thumb::after {
+      content: ''; position: absolute; inset: 0;
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.5); pointer-events: none;
+    }
+
+    .tpl-card-thumb canvas { 
+      width: 100%; height: 100%; object-fit: contain; 
+      filter: drop-shadow(0 15px 25px rgba(0,0,0,0.6));
+      transition: transform 0.5s;
+    }
+    
+    .tpl-card:hover .tpl-card-thumb canvas {
+      transform: scale(1.05);
+    }
+
+    .tpl-card-thumb iframe { 
+      width: 1080px; height: 1080px; border: none; 
+      transform: scale(0.24); transform-origin: top left; 
+      pointer-events: none; position: absolute; top: 20px; left: 20px; 
+      opacity: 0; transition: 0.6s; 
+      box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+      border-radius: 12px;
+    }
+    .tpl-card-thumb iframe.loaded { opacity: 1; }
+    
+    /* Make iframe scale dynamically based on container */
+    @media (min-width: 1400px) {
+      .tpl-card-thumb iframe { transform: scale(0.28); }
+    }
+
+    .tpl-card-label { 
+      padding: 22px 24px; font-size: 15px; font-weight: 800; color: #fff; 
+      background: rgba(15, 15, 15, 0.95); 
+      backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(255, 255, 255, 0.05); 
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 0.2px;
+      position: relative; z-index: 2;
+    }
+    
+    .tpl-card-tag { 
+      font-size: 10px; 
+      background: linear-gradient(135deg, var(--accent), #ffaa00); 
+      color: #fff; padding: 5px 12px; border-radius: 12px; 
+      letter-spacing: 1.5px; font-weight: 900; 
+      box-shadow: 0 4px 10px rgba(255, 0, 85, 0.3);
+      text-transform: uppercase;
+    }
+
+    .modal-preview { 
+      flex: 1; display: flex; flex-direction: column; 
+      background: rgba(5, 5, 5, 0.95); 
+      backdrop-filter: blur(30px);
+    }
+    
+    .modal-preview-header { 
+      padding: 24px 40px; background: rgba(0, 0, 0, 0.5); 
+      border-bottom: 1px solid rgba(255,255,255,0.05); 
+      display: flex; justify-content: space-between; align-items: center; 
+    }
+    
+    .modal-preview-title { font-size: 18px; font-weight: 800; color: #fff; font-family: 'Poppins', sans-serif;}
+    
+    .modal-preview-body { 
+      flex: 1; padding: 50px; display: flex; justify-content: center; align-items: center; 
+      background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size: 30px 30px;
+    }
+    
+    .modal-preview-body iframe { 
+      width: 100%; max-width: 800px; height: 100%; aspect-ratio: 4/5; 
+      border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; 
+      background: #000; box-shadow: 0 50px 100px rgba(0,0,0,0.8), 0 0 0 10px rgba(255,255,255,0.02); 
+    }
+
+    .modal-preview-actions {
+      display: flex; gap: 16px;
+    }
+
+    .tpl-grid-btn { 
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); 
+      color: #fff; padding: 12px 24px; border-radius: 12px; font-size: 13px; font-weight: 700; cursor: pointer; transition: 0.3s; 
+      display: flex; align-items: center; gap: 8px;
+    }
+    .tpl-grid-btn:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
+
+    .tpl-use-btn { 
+      background: linear-gradient(135deg, var(--accent), #e60000); 
+      color: #fff; padding: 12px 32px; border-radius: 12px; 
+      font-size: 14px; font-weight: 900; border: none; cursor: pointer; transition: 0.4s; 
+      box-shadow: 0 10px 20px rgba(255, 0, 85, 0.3);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .tpl-use-btn:hover { 
+      transform: translateY(-2px) scale(1.05); 
+      box-shadow: 0 15px 30px rgba(255, 0, 85, 0.5); 
+    }
+
+    .tpl-loading { position: absolute; color: #888; font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; animation: pulse 1.5s infinite; z-index: 0; }
+    @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+  </style>
+</head>
+
+<body>
+
+  <div class="topbar">
+    <div class="logo">TuitionStudio <span>PRO</span></div>
+    <div class="top-actions">
+      <div style="display:flex; background:rgba(255,255,255,0.05); padding:4px; border-radius:10px; margin-right:10px;">
+        <button id="tool-move" class="btn btn-outline active" style="padding:6px 12px; border:none; background:var(--accent);" onclick="setTool('move')">🖱️ Move</button>
+        <button id="tool-hand" class="btn btn-outline" style="padding:6px 12px; border:none;" onclick="setTool('hand')">🖐️ Hand</button>
+      </div>
+      <select class="canvas-size-select" id="canvas-ratio" onchange="initCanvas()">
+        <option value="1:1">Square Poster (1080x1080)</option>
+        <option value="4:5">Facebook/Insta Portrait (1080x1350)</option>
+        <option value="16:9">YouTube Cover (1280x720)</option>
+        <option value="9:16">Reels / TikTok (720x1280)</option>
+      </select>
+      <button class="btn btn-outline" onclick="copyToClipboard()">📋 Copy Image</button>
+      <button class="btn btn-outline" onclick="document.getElementById('project-upload').click()">📂 Load Editable HTML</button>
+      <button class="btn btn-outline" onclick="downloadEditableTemplate()">💾 Download Editable HTML</button>
+      <button class="btn btn-primary" onclick="exportRender()">⬇ Download Poster</button>
+      <button class="btn btn-primary" style="background:#00c853" onclick="generateWebsite()">🌐 Generate Website</button>
+    </div>
+  </div>
+
+  <div class="workspace">
+
+    <!-- 1. LAYERS PANEL (LEFT) -->
+    <div class="left-panel">
+      <div class="panel-header">Layers (Drag & Drop)</div>
+      <div class="layer-list" id="layer-list">
+        <!-- Layers render here -->
+      </div>
+
+      <div class="add-tools">
+        <div class="add-tools-title">Premium Templates</div>
+        <div class="add-grid">
+          <button class="add-btn full-btn" onclick="openTemplateGallery()">
+            <span>✨</span> Browse Templates</button>
+
+          <button class="add-btn" style="background:rgba(255,255,255,0.05); border-color:#444;" onclick="loadTemplate('maths')">
+            <span>🟡</span> Maths Pro</button>
+        </div>
+
+        <div class="add-tools-title" style="margin-top:20px">Add Elements</div>
+        <div class="add-grid">
+          <button class="add-btn" onclick="addLayer('text')"><span>T</span> Add Text</button>
+          <button class="add-btn" onclick="addLayer('shape')"><span>⬛</span> Add Shape</button>
+          <button class="add-btn full-btn" onclick="document.getElementById('img-upload').click()">
+            <span>🖼️</span> Upload Professional Image</button>
+          <input type="file" id="img-upload" accept="image/*" style="display:none" onchange="addLayer('image', this)">
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. CANVAS AREA (CENTER) -->
+    <div class="canvas-container" id="canvas-container">
+      <div id="canvas-wrap">
+        <canvas id="main-canvas"></canvas>
+      </div>
+    </div>
+
+    <!-- 3. PROPERTIES INSPECTOR (RIGHT) -->
+    <div class="right-panel" id="prop-panel">
+      <!-- Dynamic Properties render here -->
+    </div>
+
+  </div>
+
+  <div id="toast"></div>
+  <input type="file" id="project-upload" accept=".html,text/html" style="display:none" onchange="importEditableTemplate(this)">
+
+  <!-- ============== TEMPLATE GALLERY MODAL ============== -->
+  <div id="tpl-modal" class="modal-overlay" style="display:none">
+    <div class="modal-header">
+      <div class="modal-title">
+        Template Gallery 
+        <span class="modal-title-subtitle">Select a template to start</span>
+      </div>
+      <button class="modal-close" onclick="closeTemplateGallery()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="tpl-grid-view" class="modal-grid-view"></div>
+    </div>
+  </div>
+
+  <!-- ========================================== SCRIPT ENGINE ========================================== -->
+  <script>
+    /* ─── STATE MANAGEMENT ─── */
+    const RATIOS = { '1:1': [1080, 1080], '4:5': [1080, 1350], '16:9': [1280, 720], '9:16': [720, 1280] };
+    let W = 1080, H = 1080;
+    const dpr = 2; // Retina resolution for crisp export
+
+    let canvas, ctx, wrap;
+    let layers = [];
+    let layerIdCount = 1;
+    let selectedId = null;
+    let currentTool = 'move';
+    let isPanning = false;
+    let isScaling = false;
+    let scaleCorner = null;
+    let originalW = 0, originalH = 0, originalSize = 0;
+    let snapLines = [];
+    let panStartX, panStartY, scrollStartX, scrollStartY;
+    let panOffsetX = 0, panOffsetY = 0;
+
+    function setTool(tool) {
+      currentTool = tool;
+      document.getElementById('tool-move').style.background = tool === 'move' ? 'var(--accent)' : 'transparent';
+      document.getElementById('tool-hand').style.background = tool === 'hand' ? 'var(--accent)' : 'transparent';
+      wrap.style.cursor = tool === 'hand' ? 'grab' : 'default';
+    }
+
+
+    const TEMPLATE_PARTICLES = {
+      "red": {
+        name: "Red A/L Template",
+        ratio: "1:1",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#ffffff', c2: '#f0f0f0', angle: 0, vignette: false },
+          { type: 'shape', name: 'Top Red BG', sType: 'rect', x: 540, y: 150, w: 1080, h: 300, color: '#e6003e', opacity: 100, rotation: 0, glass: false, clipImg: null, strokeW: 0 },
+          { type: 'shape', name: 'Bottom Banner', sType: 'rect', x: 540, y: 1020, w: 1080, h: 120, color: '#0f4a2b', opacity: 100, rotation: 0, glass: false, clipImg: null, strokeW: 0 },
+          { type: 'text', name: 'Subject Main', text: 'සිංහල', x: 300, y: 160, font: "'Abhaya Libre'", size: 160, color: '#ffffff', weight: 800, align: 'center', rotation: 0, opacity: 100, style: 'solid', strokeW: 10, strokeC: '#e6003e', spacing: 5 },
+          { type: 'text', name: 'Year/Level', text: '2025 A/L', x: 300, y: 310, font: "'Bebas Neue'", size: 150, color: '#e6003e', weight: 700, align: 'center', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000', spacing: 5 },
+          { type: 'text', name: 'Online Text', text: 'Online\nලංකාවට ම', x: 250, y: 440, font: "'Noto Sans Sinhala'", size: 60, color: '#222222', weight: 900, align: 'center', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000', spacing: 0 },
+          { type: 'shape', name: 'Date Box', sType: 'rect', x: 220, y: 620, w: 250, h: 100, color: '#111111', opacity: 100, rotation: 0, glass: false, clipImg: null, strokeW: 0, radius: 10 },
+          { type: 'text', name: 'Date Text', text: 'පෙබ. 08\nනොමිලේ', x: 220, y: 620, font: "'Anek Sinhala'", size: 45, color: '#ffffff', weight: 800, align: 'center', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000', spacing: 0 },
+          { type: 'text', name: 'Teacher Name', text: 'අකිල විමංග', x: 300, y: 880, font: "'Gemunu Libre'", size: 80, color: '#e6003e', weight: 800, align: 'center', rotation: 0, opacity: 100, style: 'solid', strokeW: 8, strokeC: '#ffffff', spacing: 2 },
+          { type: 'text', name: 'Phone', text: '📞 070 413 63 38', x: 540, y: 1020, font: "'Inter'", size: 50, color: '#ffffff', weight: 700, align: 'center', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000', spacing: 5 },
+          { type: 'shape', name: 'Teacher Image Frame', sType: 'circle', x: 800, y: 650, w: 500, h: 500, color: '#cccccc', opacity: 100, rotation: 0, glass: false, clipImg: null, strokeW: 8, strokeC: '#ffffff', radius: 0 }
+        ]
+      },
+      "purple": {
+        name: "Purple O/L Template",
+        ratio: "1:1",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#1a0b2e', c2: '#2d1445', angle: 135, vignette: true },
+          { type: 'text', name: 'Subject Main', text: 'සිංහල', x: 750, y: 200, font: "'Anek Sinhala'", size: 160, color: '#ff007a', weight: 900, align: 'center', rotation: 0, opacity: 100, style: 'solid', strokeW: 12, strokeC: '#ffffff', spacing: 5 },
+          { type: 'shape', name: 'Time Box 1', sType: 'rect', x: 750, y: 400, w: 400, h: 80, color: '#ffffff', opacity: 10, rotation: 0, glass: true, clipImg: null, strokeW: 1, strokeC: '#ffffff', radius: 10 },
+          { type: 'text', name: 'Grade 10 Time', text: 'Grade 10 | Tuesday 5.15 PM', x: 750, y: 400, font: "'Space Grotesk'", size: 25, color: '#f5d06e', weight: 700, align: 'center', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000', spacing: 1 },
+          { type: 'shape', name: 'Time Box 2', sType: 'rect', x: 750, y: 520, w: 400, h: 80, color: '#ffffff', opacity: 10, rotation: 0, glass: true, clipImg: null, strokeW: 1, strokeC: '#ffffff', radius: 10 },
+          { type: 'text', name: 'Grade 11 Time', text: 'Grade 11 | Tuesday 3.30 PM', x: 750, y: 520, font: "'Space Grotesk'", size: 25, color: '#00f0ff', weight: 700, align: 'center', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000', spacing: 1 },
+          { type: 'shape', name: 'Bottom Banner', sType: 'rect', x: 540, y: 1020, w: 1080, h: 120, color: '#000000', opacity: 80, rotation: 0, glass: false, clipImg: null, strokeW: 0 },
+          { type: 'text', name: 'Name & Phone', text: 'Mr. Sharm | 07 1199 1177', x: 540, y: 1020, font: "'Inter'", size: 40, color: '#ffffff', weight: 800, align: 'center', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000', spacing: 2 },
+          { type: 'shape', name: 'Teacher Placeholder Frame', sType: 'rect', x: 250, y: 650, w: 500, h: 800, color: '#cccccc', opacity: 100, rotation: 0, glass: false, clipImg: null, strokeW: 0, radius: 0 }
+        ]
+      },
+      "maths": {
+        name: "Maths Yellow Template",
+        ratio: "4:5",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#f6f6f8', c2: '#e4e7ed', angle: 0 },
+          { type: 'shape', name: 'Top Yellow', sType: 'rect', x: 540, y: 210, w: 1080, h: 420, color: '#f7cd1b', opacity: 100, rotation: 0, strokeW: 0 },
+          { type: 'shape', name: 'Art Line 1', sType: 'rect', x: 90, y: 140, w: 180, h: 6, color: '#000000', opacity: 15, rotation: 70, strokeW: 0 },
+          { type: 'shape', name: 'Art Line 2', sType: 'rect', x: 140, y: 130, w: 200, h: 6, color: '#000000', opacity: 15, rotation: 70, strokeW: 0 },
+          { type: 'shape', name: 'Art Line 3', sType: 'rect', x: 220, y: 140, w: 180, h: 6, color: '#000000', opacity: 15, rotation: -70, strokeW: 0 },
+          { type: 'shape', name: 'Art Line 4', sType: 'rect', x: 270, y: 130, w: 200, h: 6, color: '#000000', opacity: 15, rotation: -70, strokeW: 0 },
+          { type: 'shape', name: 'Art Circle 1', sType: 'circle', x: 130, y: 280, w: 50, h: 50, color: '#f58e13', opacity: 15, rotation: 0, strokeW: 0 },
+          { type: 'shape', name: 'Art Circle 2', sType: 'circle', x: 210, y: 280, w: 50, h: 50, color: '#f58e13', opacity: 15, rotation: 0, strokeW: 0 },
+          { type: 'shape', name: 'Red Separator', sType: 'rect', x: 540, y: 430, w: 1080, h: 30, color: '#db1821', opacity: 100, rotation: 0, strokeW: 0 },
+          { type: 'text', name: 'Tagline 1', text: 'ඇවිද්දා ඇති,', x: 180, y: 130, font: "'Noto Sans Sinhala'", size: 55, color: '#1a1a1a', weight: 900, align: 'left', rotation: -3, opacity: 100, style: 'solid', strokeW: 3, strokeC: '#ffffff', spacing: -1 },
+          { type: 'text', name: 'Tagline 2', text: 'නැවතිලා', x: 200, y: 220, font: "'Noto Sans Sinhala'", size: 140, color: '#d81619', weight: 900, align: 'left', rotation: 0, opacity: 100, style: 'solid', strokeW: 6, strokeC: '#ffffff', spacing: -3 },
+          { type: 'text', name: 'Tagline 3', text: 'හිතන්න..', x: 260, y: 340, font: "'Noto Sans Sinhala'", size: 140, color: '#1a1a1a', weight: 900, align: 'left', rotation: 0, opacity: 100, style: 'solid', strokeW: 4, strokeC: '#ffffff', spacing: -2 },
+          { type: 'shape', name: 'Navy Bubble', sType: 'rect', x: 800, y: 160, w: 360, h: 150, color: '#074780', opacity: 100, rotation: 0, strokeW: 0, radius: 40 },
+          { type: 'shape', name: 'Navy Tail', sType: 'rect', x: 610, y: 190, w: 40, h: 20, color: '#074780', opacity: 100, rotation: -20, strokeW: 0 },
+          { type: 'text', name: 'Navy Text', text: 'විෂය නිර්දේශය\nආවරණය කරන්නේ\nදිනෙන් දින කියා\nඔබ තවමත් ලතැවෙනවා\nද ?', x: 800, y: 160, font: "'Noto Sans Sinhala'", size: 24, color: '#ffffff', weight: 700, align: 'center', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000', spacing: 0 },
+          { type: 'shape', name: 'Green Bubble', sType: 'rect', x: 750, y: 330, w: 380, h: 170, color: '#0f7652', opacity: 100, rotation: 0, strokeW: 0, radius: 60 },
+          { type: 'shape', name: 'Green Tail', sType: 'rect', x: 550, y: 360, w: 50, h: 24, color: '#0f7652', opacity: 100, rotation: -15, strokeW: 0 },
+          { type: 'text', name: 'Green Text', text: 'නිසි පරිදි වන දේශන\nමඟහැරෙනු\nප්‍රශ්නයක්\nවෙනවාද?\nඒ ගැන\nහිතනවද?', x: 750, y: 330, font: "'Noto Sans Sinhala'", size: 24, color: '#ffffff', weight: 700, align: 'center', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000', spacing: 0 },
+          { type: 'shape', name: 'EN Badge', sType: 'rect', x: 150, y: 500, w: 120, h: 60, color: '#db1821', opacity: 100, rotation: 0, strokeW: 0, radius: 5 },
+          { type: 'text', name: 'EN Text', text: 'ENGLISH\nMEDIUM', x: 150, y: 500, font: "'Montserrat'", size: 20, color: '#ffffff', weight: 900, align: 'center', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000', spacing: 0 },
+          { type: 'shape', name: 'SI Badge', sType: 'rect', x: 280, y: 500, w: 120, h: 60, color: '#1a1a1a', opacity: 100, rotation: 0, strokeW: 0, radius: 5 },
+          { type: 'text', name: 'SI Text', text: 'සිංහල\nමාධ්‍යය', x: 280, y: 500, font: "'Noto Sans Sinhala'", size: 24, color: '#ffffff', weight: 900, align: 'center', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000', spacing: 0 },
+          { type: 'text', name: 'Subject', text: 'ගණිතය', x: 150, y: 640, font: "'Noto Sans Sinhala'", size: 150, color: '#151515', weight: 900, align: 'left', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000', spacing: -2 },
+          { type: 'shape', name: 'UL Red', sType: 'rect', x: 180, y: 730, w: 50, h: 8, color: '#db1821', opacity: 100, rotation: 0, strokeW: 0 },
+          { type: 'shape', name: 'UL Blue', sType: 'rect', x: 235, y: 730, w: 50, h: 8, color: '#074780', opacity: 100, rotation: 0, strokeW: 0 },
+          { type: 'shape', name: 'UL Green', sType: 'rect', x: 290, y: 730, w: 50, h: 8, color: '#0f7652', opacity: 100, rotation: 0, strokeW: 0 },
+          { type: 'text', name: 'Tutor Name', text: 'තරිඳු වික්‍රමරත්න', x: 150, y: 820, font: "'Noto Sans Sinhala'", size: 70, color: '#1a1a1a', weight: 900, align: 'left', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000', spacing: -1 },
+          { type: 'text', name: 'Qualifications', text: 'B.Sc. (Eng) Hons, AMIE(SL)\nFaculty of Engineering, University of Peradeniya.', x: 150, y: 900, font: "'Inter'", size: 24, color: '#333333', weight: 600, align: 'left', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000', spacing: 0 },
+          { type: 'text', name: 'Contact', text: 'Voice- 076 076 41 42', x: 150, y: 970, font: "'Inter'", size: 30, color: '#000000', weight: 700, align: 'left', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000', spacing: 1 },
+          { type: 'shape', name: 'Blue Plaque', sType: 'rect', x: 540, y: 720, w: 150, h: 250, color: '#074780', opacity: 100, rotation: 0, strokeW: 0, radius: 8 },
+          { type: 'text', name: 'Plaque Text', text: 'වැඩිම\nගණිත\nගැටළු\nසමඟින්', x: 540, y: 720, font: "'Noto Sans Sinhala'", size: 30, color: '#ffffff', weight: 800, align: 'center', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000', spacing: 0 },
+          { type: 'shape', name: 'Teacher Image Frame', sType: 'circle', x: 540, y: 540, w: 240, h: 240, color: '#cccccc', opacity: 100, rotation: 0, strokeW: 6, strokeC: '#ffffff' },
+          { type: 'text', name: 'ZOOM', text: 'ZOOM', x: 850, y: 650, font: "'Montserrat'", size: 60, color: '#175fad', weight: 900, align: 'left', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000', spacing: 0 },
+          { type: 'shape', name: 'Online BG', sType: 'rect', x: 910, y: 700, w: 130, h: 28, color: '#3e9eeb', opacity: 100, rotation: 0, strokeW: 0, radius: 3 },
+          { type: 'text', name: 'ONLINE CLASS', text: 'ONLINE CLASS', x: 910, y: 700, font: "'Montserrat'", size: 20, color: '#ffffff', weight: 800, align: 'center', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000', spacing: 0 },
+          { type: 'text', name: 'MERIT', text: 'MERIT', x: 850, y: 780, font: "'Montserrat'", size: 60, color: '#e51e18', weight: 900, align: 'left', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000', spacing: 0 },
+          { type: 'text', name: 'Location', text: 'ILLIMBA HORANA', x: 910, y: 830, font: "'Montserrat'", size: 22, color: '#e51e18', weight: 800, align: 'center', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000', spacing: 0 }
+        ]
+      },
+      "proSinhala": {
+        name: "Pro Sinhala Gradient",
+        ratio: "4:5",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#12001f', c2: '#34195f', c3: '#ff8a00', angle: 32, bgMode: 'linear' },
+          { type: 'shape', name: 'Glow Circle', sType: 'circle', x: 840, y: 180, w: 420, h: 420, color: '#ff5f6d', color2: '#ffc371', color3: '#5a35ff', gType: 'radial', gAngle: 0, opacity: 75, strokeW: 0 },
+          { type: 'shape', name: 'Glass Panel', sType: 'rect', x: 540, y: 750, w: 940, h: 980, color: 'rgba(255,255,255,0.08)', color2: '#ffffff', color3: '#ffffff', gType: 'glass', opacity: 100, rotation: 0, strokeW: 1, strokeC: 'rgba(255,255,255,0.25)', radius: 42, bevel: true },
+          { type: 'text', name: 'Subject', text: 'සිංහල', x: 540, y: 250, font: "'Anek Sinhala'", size: 150, color: '#ffffff', color2: '#ffcc70', color3: '#ff4d6d', gAngle: 90, weight: 900, align: 'center', rotation: 0, opacity: 100, style: 'gradient', strokeW: 8, strokeC: '#2c0048', spacing: 1, bend: 0, effectPower: 78, effectDepth: 16 },
+          { type: 'text', name: 'Edition', text: 'MASTER CLASS 2026', x: 540, y: 380, font: "'Montserrat'", size: 42, color: '#f8f1ff', color2: '#77e4ff', color3: '#ff77c8', gAngle: 0, weight: 800, align: 'center', rotation: 0, opacity: 100, style: 'neon', strokeW: 0, strokeC: '#000000', spacing: 6, bend: 0, effectPower: 60, effectDepth: 10 },
+          { type: 'text', name: 'Curved Hook', text: 'අලුත් විදිහට ඉගෙන ගන්න', x: 540, y: 560, font: "'Noto Sans Sinhala'", size: 50, color: '#fff7d6', color2: '#ffc371', color3: '#ff5f6d', gAngle: 0, weight: 800, align: 'center', rotation: 0, opacity: 100, style: 'gradient', strokeW: 0, strokeC: '#000000', spacing: 0, bend: 78, effectPower: 68, effectDepth: 8 },
+          { type: 'shape', name: 'Photo Frame', sType: 'rect', x: 540, y: 860, w: 500, h: 560, color: '#1f1736', color2: '#44318d', color3: '#ff8a00', gType: 'linear', gAngle: 135, opacity: 100, rotation: 0, strokeW: 6, strokeC: '#ffffff', radius: 36 },
+          { type: 'shape', name: 'Info Strip', sType: 'rect', x: 540, y: 1160, w: 780, h: 110, color: '#ff4d6d', color2: '#ff8a00', color3: '#ffd166', gType: 'linear', gAngle: 0, opacity: 100, rotation: 0, strokeW: 0, radius: 26 },
+          { type: 'text', name: 'Teacher', text: 'ප්‍රවීණ දේශක නම', x: 540, y: 1015, font: "'Gemunu Libre'", size: 82, color: '#ffffff', color2: '#ffe29f', color3: '#ff8a00', gAngle: 90, weight: 800, align: 'center', rotation: 0, opacity: 100, style: '3dcolor', strokeW: 4, strokeC: '#3a0d3d', spacing: 1, bend: 0, effectPower: 82, effectDepth: 18 },
+          { type: 'text', name: 'Info', text: 'අදම ලියාපදිංචි වන්න  |  077 123 4567', x: 540, y: 1160, font: "'Poppins'", size: 28, color: '#221133', color2: '#ffffff', color3: '#ffe29f', gAngle: 0, weight: 800, align: 'center', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000000', spacing: 1, bend: 0, effectPower: 50, effectDepth: 8 }
+        ]
+      },
+      "template psalsss postshtml 200001.html": {
+        name: "History Professional",
+        ratio: "1:1",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#3b090a', c2: '#200506', angle: 45 },
+          { type: 'shape', name: 'Main Frame', sType: 'rect', x: 540, y: 540, w: 900, h: 1000, color: '#ffffff', radius: 10 },
+          { type: 'shape', name: 'Header Maroon', sType: 'rect', x: 540, y: 300, w: 900, h: 500, color: '#751416', radius: 0 },
+          { type: 'text', name: 'Year', text: '2024', x: 540, y: 120, font: "'Poppins'", size: 60, color: '#ffffff', weight: 900 },
+          { type: 'shape', name: 'Class Start Pill', sType: 'rect', x: 540, y: 190, w: 400, h: 60, color: '#ffffff', radius: 30 },
+          { type: 'text', name: 'Class Start Text', text: 'නව පන්ති ආරම්භය', x: 540, y: 190, font: "'Noto Sans Sinhala'", size: 35, color: '#751416', weight: 900 },
+          { type: 'text', name: 'Subject', text: 'ඉතිහාසය', x: 540, y: 350, font: "'Noto Sans Sinhala'", size: 120, color: '#fccc00', weight: 900, strokeW: 15, strokeC: '#250505' },
+          { type: 'shape', name: 'Venue Bar', sType: 'rect', x: 540, y: 780, w: 500, h: 80, color: '#ffffff', radius: 5, strokeW: 2, strokeC: '#751416' },
+          { type: 'shape', name: 'Venue Red Part', sType: 'rect', x: 700, y: 780, w: 180, h: 80, color: '#d31e15', radius: 0 },
+          { type: 'text', name: 'Teacher Name', text: 'චන්දන සමරසිංහ', x: 540, y: 920, font: "'Noto Sans Sinhala'", size: 70, color: '#751416', weight: 900 }
+        ]
+      },
+      "template psalsss postshtml 200003.html": {
+        name: "Maths Professional",
+        ratio: "4:5",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#f2f3f7', c2: '#e1e5ee', angle: 0 },
+          { type: 'shape', name: 'Top Yellow Banner', sType: 'rect', x: 540, y: 250, w: 1080, h: 500, color: '#fdcd1e' },
+          { type: 'text', name: 'Tagline 1', text: 'ඇවිද්දා ඇති,', x: 250, y: 150, font: "'Noto Sans Sinhala'", size: 50, color: '#181919', weight: 900, rotation: -3 },
+          { type: 'text', name: 'Tagline 2', text: 'නැවතිලා හිතන්න..', x: 350, y: 280, font: "'Noto Sans Sinhala'", size: 100, color: '#db1920', weight: 900 },
+          { type: 'shape', name: 'Navy Bubble', sType: 'rect', x: 800, y: 180, w: 400, h: 180, color: '#064580', radius: 50 },
+          { type: 'text', name: 'Bubble Text 1', text: 'විෂය නිර්දේශය ආවරණය\nකරන්නේ දිනෙන් දින කියා\nඔබ තවමත් ලතැවෙනවා ද?', x: 800, y: 180, font: "'Noto Sans Sinhala'", size: 24, color: '#ffffff', weight: 700 },
+          { type: 'shape', name: 'Red Belt', sType: 'rect', x: 540, y: 500, w: 1080, h: 30, color: '#db1920' },
+          { type: 'text', name: 'Subject', text: 'ගණිතය', x: 300, y: 650, font: "'Noto Sans Sinhala'", size: 150, color: '#181919', weight: 900 },
+          { type: 'shape', name: 'Teacher Frame', sType: 'circle', x: 540, y: 500, w: 250, h: 250, color: '#ffffff', strokeW: 8, strokeC: '#cbcfd8' },
+          { type: 'text', name: 'Tutor Name', text: 'තරිඳු වික්‍රමරත්න', x: 300, y: 820, font: "'Noto Sans Sinhala'", size: 60, color: '#db1920', weight: 900 }
+        ]
+      },
+      "template psalsss postshtml 200002.html": {
+        name: "Paper Class Professional",
+        ratio: "1:1",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#48317F', c2: '#2d1a5e', angle: 45 },
+          { type: 'text', name: 'Subject', text: 'ගණිතය', x: 350, y: 150, font: "'Noto Sans Sinhala'", size: 180, color: '#FFED00', weight: 900, strokeW: 10, strokeC: '#111111' },
+          { type: 'shape', name: 'Orange Banner', sType: 'rect', x: 300, y: 350, w: 450, h: 80, color: '#ED8B1E', radius: 10 },
+          { type: 'text', name: 'Banner Text', text: 'ප්‍රශ්න පත්‍ර පන්තිය', x: 300, y: 350, font: "'Noto Sans Sinhala'", size: 50, color: '#ffffff', weight: 800 },
+          { type: 'text', name: 'Title Main', text: 'CLASS', x: 350, y: 500, font: "'Oswald'", size: 200, color: '#ffffff', weight: 900, strokeW: 12, strokeC: '#394A9C' },
+          { type: 'shape', name: 'Badge Red', sType: 'rect', x: 650, y: 550, w: 150, h: 80, color: '#ED1A29', radius: 10 },
+          { type: 'text', name: 'Exam Year', text: '2024', x: 650, y: 550, font: "'Oswald'", size: 60, color: '#ffffff', weight: 700 },
+          { type: 'shape', name: 'Teacher Photo Frame', sType: 'rect', x: 800, y: 300, w: 400, h: 500, color: '#ffffff', radius: 40, strokeW: 5, strokeC: '#ffffff' },
+          { type: 'shape', name: 'Footer Bar', sType: 'rect', x: 540, y: 1000, w: 1000, h: 100, color: '#058869', radius: 5 }
+        ]
+      },
+      "template psalsss postshtml 200004.html": {
+        name: "Modern Yellow Professional",
+        ratio: "4:5",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#f6f6f8', c2: '#e4e7ed', angle: 0 },
+          { type: 'shape', name: 'Top Banner', sType: 'rect', x: 540, y: 250, w: 1080, h: 500, color: '#f7cd1b' },
+          { type: 'text', name: 'Tagline', text: 'ඇවිද්දා ඇති,', x: 220, y: 150, font: "'Noto Sans Sinhala'", size: 50, color: '#1a1a1a', weight: 900, rotation: -3 },
+          { type: 'text', name: 'Main 1', text: 'නැවතිලා', x: 250, y: 250, font: "'Noto Sans Sinhala'", size: 120, color: '#d81619', weight: 900 },
+          { type: 'text', name: 'Main 2', text: 'හිතන්න..', x: 300, y: 380, font: "'Noto Sans Sinhala'", size: 120, color: '#1a1a1a', weight: 900 },
+          { type: 'shape', name: 'Navy Bubble', sType: 'rect', x: 800, y: 180, w: 350, h: 150, color: '#074780', radius: 40 },
+          { type: 'text', name: 'Bubble Text', text: 'විෂය නිර්දේශය ආවරණය කරන්නේ\nදිනෙන් දින කියා ඔබ තවමත් ලතැවෙනවා ද?', x: 800, y: 180, font: "'Noto Sans Sinhala'", size: 22, color: '#ffffff', weight: 700 },
+          { type: 'shape', name: 'Separator', sType: 'rect', x: 540, y: 500, w: 1080, h: 30, color: '#db1821' },
+          { type: 'text', name: 'Subject', text: 'ගණිතය', x: 300, y: 650, font: "'Noto Sans Sinhala'", size: 150, color: '#151515', weight: 900 },
+          { type: 'text', name: 'Tutor', text: 'තරිඳු වික්‍රමරත්න', x: 300, y: 820, font: "'Noto Sans Sinhala'", size: 65, color: '#db1821', weight: 900 }
+        ]
+      },
+      "template psalsss postshtml 200005.html": {
+        name: "Abstract Blue Professional",
+        ratio: "1:1",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#ffffff', c2: '#f0f0f0', angle: 0 },
+          { type: 'shape', name: 'Blue Side', sType: 'rect', x: 150, y: 540, w: 300, h: 1080, color: '#175fad' },
+          { type: 'text', name: 'Subject', text: 'SCIENCE', x: 540, y: 200, font: "'Montserrat'", size: 150, color: '#175fad', weight: 900, strokeW: 5, strokeC: '#ffffff' },
+          { type: 'shape', name: 'Badge', sType: 'rect', x: 540, y: 350, w: 300, h: 80, color: '#e51e18', radius: 10 },
+          { type: 'text', name: 'Badge Text', text: '2025 A/L', x: 540, y: 350, font: "'Montserrat'", size: 45, color: '#ffffff', weight: 800 },
+          { type: 'shape', name: 'Teacher Frame', sType: 'circle', x: 800, y: 600, w: 400, h: 400, color: '#ffffff', strokeW: 10, strokeC: '#175fad' },
+          { type: 'text', name: 'Tutor', text: 'Dr. Wickramasinghe', x: 400, y: 800, font: "'Poppins'", size: 60, color: '#175fad', weight: 900 }
+        ]
+      },
+      "template psalsss postshtml 200006.html": {
+        name: "Engineering Tech Professional",
+        ratio: "4:5",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#111314', c2: '#000000', angle: 0 },
+          { type: 'shape', name: 'Hero Placeholder', sType: 'rect', x: 540, y: 175, w: 1080, h: 350, color: '#333333' },
+          { type: 'text', name: 'Script Text', text: 'ජයග්‍රහණයේ', x: 250, y: 320, font: "'Noto Sans Sinhala'", size: 45, color: '#ffe772', weight: 400, rotation: -3 },
+          { type: 'text', name: 'Main Title', text: 'අවසන් පියවර', x: 300, y: 380, font: "'Noto Sans Sinhala'", size: 60, color: '#ffffff', weight: 900 },
+          { type: 'text', name: 'Year Revision', text: '2017 Revision', x: 300, y: 550, font: "'Montserrat'", size: 80, color: '#ffffff', weight: 900 },
+          { type: 'text', name: 'Subject 1', text: 'ඉංජිනේරු', x: 350, y: 680, font: "'Noto Sans Sinhala'", size: 140, color: '#f8db08', weight: 900 },
+          { type: 'text', name: 'Subject 2', text: 'තාක්ෂණවේදය', x: 400, y: 820, font: "'Noto Sans Sinhala'", size: 100, color: '#f8db08', weight: 900 },
+          { type: 'shape', name: 'Footer Zone', sType: 'rect', x: 540, y: 1050, w: 1080, h: 250, color: '#ed1c24' },
+          { type: 'shape', name: 'Badge Stamp', sType: 'circle', x: 150, y: 1000, w: 150, h: 150, color: '#c1001a', strokeW: 4, strokeC: '#ffffff' },
+          { type: 'text', name: 'Badge Text', text: 'නවක\nසිසුන්', x: 150, y: 1000, font: "'Noto Sans Sinhala'", size: 30, color: '#ffffff', weight: 900, rotation: -10 }
+        ]
+      },
+      "template psalsss postshtml 200007.html": {
+        name: "Science Masterclass",
+        ratio: "1:1",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#00204a', c2: '#005792', angle: 45 },
+          { type: 'shape', name: 'Light Glow', sType: 'circle', x: 540, y: 540, w: 800, h: 800, color: '#00bbff', opacity: 10 },
+          { type: 'text', name: 'Main Title', text: 'SCIENCE', x: 540, y: 200, font: "'Montserrat'", size: 180, color: '#ffffff', weight: 900, style: 'neon' },
+          { type: 'text', name: 'Sub Title', text: 'Masterclass 2024', x: 540, y: 350, font: "'Poppins'", size: 50, color: '#fdb44b', weight: 700 },
+          { type: 'shape', name: 'Teacher Frame', sType: 'rect', x: 540, y: 700, w: 450, h: 550, color: '#ffffff', radius: 30, strokeW: 10, strokeC: '#00bbff' },
+          { type: 'shape', name: 'Bottom Bar', sType: 'rect', x: 540, y: 1000, w: 1080, h: 100, color: '#fdb44b' },
+          { type: 'text', name: 'Footer Text', text: 'Register Now: 071 234 5678', x: 540, y: 1000, font: "'Inter'", size: 40, color: '#00204a', weight: 800 }
+        ]
+      },
+      "template psalsss postshtml 200008.html": {
+        name: "Elegant Emerald",
+        ratio: "1:1",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#0a2e1e', c2: '#051a10', angle: 135 },
+          { type: 'shape', name: 'Gold Trim', sType: 'rect', x: 540, y: 540, w: 1000, h: 1000, color: 'transparent', strokeW: 2, strokeC: '#c5a059' },
+          { type: 'text', name: 'Title', text: 'COMMERCE', x: 540, y: 250, font: "'Gemunu Libre'", size: 140, color: '#c5a059', weight: 900 },
+          { type: 'shape', name: 'Teacher Image', sType: 'circle', x: 540, y: 600, w: 400, h: 400, color: '#ffffff', strokeW: 5, strokeC: '#c5a059' },
+          { type: 'text', name: 'Name', text: 'Saman Kumara', x: 540, y: 850, font: "'Noto Sans Sinhala'", size: 60, color: '#ffffff', weight: 800 }
+        ]
+      },
+      "template psalsss postshtml 200009.html": {
+        name: "Tech Orange",
+        ratio: "4:5",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#1a1a1a', c2: '#000000', angle: 0 },
+          { type: 'shape', name: 'Orange Accent', sType: 'rect', x: 0, y: 540, w: 20, h: 1080, color: '#ff6600' },
+          { type: 'text', name: 'Header', text: 'ICT 2024', x: 540, y: 150, font: "'Montserrat'", size: 120, color: '#ff6600', weight: 900 },
+          { type: 'shape', name: 'Code Frame', sType: 'rect', x: 540, y: 600, w: 800, h: 600, color: '#333333', radius: 20 },
+          { type: 'text', name: 'Contact', text: 'Join our Telegram Group', x: 540, y: 1000, font: "'Poppins'", size: 40, color: '#ffffff', weight: 600 }
+        ]
+      },
+      "template psalsss postshtml 200010.html": {
+        name: "Minimalist Red",
+        ratio: "1:1",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#ffffff', c2: '#f5f5f5', angle: 0 },
+          { type: 'shape', name: 'Red Circle', sType: 'circle', x: 1080, y: 0, w: 600, h: 600, color: '#ff0000' },
+          { type: 'text', name: 'Subject', text: 'PHYSICS', x: 150, y: 150, font: "'Bebas Neue'", size: 120, color: '#1a1a1a', weight: 900, align: 'left' },
+          { type: 'shape', name: 'Photo Frame', sType: 'rect', x: 540, y: 600, w: 900, h: 500, color: '#eeeeee', radius: 10 },
+          { type: 'text', name: 'Tutor', text: 'Eng. Kamal Perera', x: 150, y: 950, font: "'Inter'", size: 60, color: '#ff0000', weight: 800, align: 'left' }
+        ]
+      },
+      "template psalsss postshtml 200011.html": {
+        name: "Bold Yellow",
+        ratio: "1:1",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#f7cd1b', c2: '#e5ab10', angle: 0 },
+          { type: 'text', name: 'Subject', text: 'ACCOUNTING', x: 540, y: 200, font: "'Montserrat'", size: 140, color: '#1a1a1a', weight: 900 },
+          { type: 'shape', name: 'Center Circle', sType: 'circle', x: 540, y: 600, w: 500, h: 500, color: '#ffffff', strokeW: 10, strokeC: '#1a1a1a' },
+          { type: 'text', name: 'Name', text: 'Bandara Sir', x: 540, y: 900, font: "'Noto Sans Sinhala'", size: 80, color: '#1a1a1a', weight: 800 }
+        ]
+      },
+      "template psalsss postshtml 2.00001.html": {
+        name: "Modern Physics",
+        ratio: "4:5",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#0f0c29', c2: '#302b63', angle: 90 },
+          { type: 'text', name: 'Header', text: 'PHYSICS 2025', x: 540, y: 150, font: "'Bebas Neue'", size: 130, color: '#00d2ff', weight: 900, style: 'neon' },
+          { type: 'shape', name: 'Glass Panel', sType: 'rect', x: 540, y: 600, w: 900, h: 700, color: 'rgba(255,255,255,0.1)', radius: 40, strokeW: 1, strokeC: 'rgba(255,255,255,0.3)' },
+          { type: 'text', name: 'Tutor', text: 'Amila Perera', x: 540, y: 1050, font: "'Poppins'", size: 70, color: '#ffffff', weight: 800 }
+        ]
+      },
+      "template psalsss postshtml 2.00003.html": {
+        name: "Chemistry Pro",
+        ratio: "1:1",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#61045f', c2: '#aa076b', angle: 45 },
+          { type: 'text', name: 'Title', text: 'CHEMISTRY', x: 540, y: 250, font: "'Montserrat'", size: 150, color: '#ffffff', weight: 900, style: '3dgold' },
+          { type: 'shape', name: 'Hexagon Frame', sType: 'circle', x: 540, y: 650, w: 450, h: 450, color: '#ffffff', strokeW: 15, strokeC: '#ff0080' },
+          { type: 'text', name: 'Details', text: 'New Batch Starts Monday', x: 540, y: 950, font: "'Inter'", size: 40, color: '#ffffff', weight: 600 }
+        ]
+      },
+      "template psalsss postshtml 2.00004.html": {
+        name: "Combined Maths Pro",
+        ratio: "16:9",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#072625', c2: '#0d6e5a', angle: 0 },
+          { type: 'text', name: 'Faint Text', text: 'සංයුක්ත', x: 100, y: 400, font: "'Noto Sans Sinhala'", size: 150, color: '#ffffff', weight: 900, opacity: 15, rotation: -90 },
+          { type: 'text', name: 'Main Title', text: 'සංයුක්ත\nගණිතය', x: 800, y: 350, font: "'Noto Sans Sinhala'", size: 80, color: '#ffffff', weight: 900, align: 'right', strokeW: 20, strokeC: '#114227' },
+          { type: 'shape', name: 'Teacher Frame', sType: 'rect', x: 250, y: 400, w: 400, h: 600, color: 'rgba(0,0,0,0.2)', radius: 10, strokeW: 4, strokeC: 'rgba(255,255,255,0.3)' },
+          { type: 'shape', name: 'Name Plate', sType: 'rect', x: 250, y: 650, w: 300, h: 100, color: '#ffcead', radius: 5 },
+          { type: 'text', name: 'Name', text: 'නලින් අබේරත්න', x: 250, y: 650, font: "'Noto Sans Sinhala'", size: 30, color: '#630501', weight: 900 }
+        ]
+      },
+      "template psalsss postshtml 2.00005.html": {
+        name: "Benz ICT Master",
+        ratio: "4:5",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#0f1011', c2: '#050505', angle: 45 },
+          { type: 'text', name: 'Benz', text: 'BENZ', x: 540, y: 100, font: "'Poppins'", size: 60, color: '#a3e913', weight: 900 },
+          { type: 'text', name: 'ICT', text: 'ICT', x: 540, y: 180, font: "'Poppins'", size: 40, color: '#a3e913', weight: 700, strokeW: 2, strokeC: '#a3e913' },
+          { type: 'text', name: 'Year', text: '2026 A/L', x: 540, y: 300, font: "'Poppins'", size: 100, color: '#ffffff', weight: 900 },
+          { type: 'shape', name: 'Theory Badge', sType: 'rect', x: 540, y: 420, w: 400, h: 80, color: '#fff200', radius: 10 },
+          { type: 'text', name: 'Theory Text', text: 'REVISION + THEORY', x: 540, y: 420, font: "'Poppins'", size: 30, color: '#000000', weight: 900 },
+          { type: 'shape', name: 'Photo Frame', sType: 'rect', x: 800, y: 800, w: 400, h: 600, color: 'rgba(30,30,30,0.7)', radius: 40 }
+        ]
+      },
+      "template psalsss postshtml 2.00006.html": {
+        name: "Accounting District 1",
+        ratio: "4:5",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#defb24', c2: '#ffde00', angle: 115 },
+          { type: 'text', name: 'Main Title', text: 'Accounting', x: 540, y: 450, font: "'Anton'", size: 120, color: '#ed2126', weight: 400, strokeW: 10, strokeC: '#ffffff' },
+          { type: 'text', name: 'Name Lead', text: 'රුසිරු', x: 540, y: 650, font: "'Noto Sans Sinhala'", size: 140, color: '#ffde00', weight: 900, strokeW: 30, strokeC: '#251213' },
+          { type: 'text', name: 'Name Sub', text: 'සම්පත්', x: 540, y: 800, font: "'Noto Sans Sinhala'", size: 100, color: '#ffde00', weight: 900, strokeW: 25, strokeC: '#1d1615' },
+          { type: 'shape', name: 'Footer Arch', sType: 'circle', x: 540, y: 1300, w: 1200, h: 600, color: '#ef202c' }
+        ]
+      },
+      "template psalsss postshtml 2.00012.html": {
+        name: "Sinhala O/L Master",
+        ratio: "1:1",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#120038', c2: '#000000', angle: 0 },
+          { type: 'shape', name: 'Left Panel', sType: 'rect', x: 216, y: 540, w: 432, h: 1080, color: '#f3ece1' },
+          { type: 'text', name: 'Subject', text: 'සිංහල', x: 800, y: 250, font: "'Noto Sans Sinhala'", size: 150, color: '#ffffff', weight: 900, strokeW: 10, strokeC: '#ffffff', style: 'gradient' },
+          { type: 'shape', name: 'Grade Box 1', sType: 'rect', x: 650, y: 500, w: 120, h: 120, color: '#ffbc00', radius: 15 },
+          { type: 'text', name: 'Grade 10', text: 'Grade\n10', x: 650, y: 500, font: "'Poppins'", size: 30, color: '#000000', weight: 800 },
+          { type: 'text', name: 'Tutor', text: 'Mr. Sinhala', x: 800, y: 900, font: "'Noto Sans Sinhala'", size: 60, color: '#ffffff', weight: 800 }
+        ]
+      },
+      "royalBlue": {
+        name: "Royal Blue Academy",
+        ratio: "1:1",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#0a1628', c2: '#1a3a5c', angle: 135 },
+          { type: 'shape', name: 'Top Banner', sType: 'rect', x: 540, y: 80, w: 1080, h: 160, color: '#ffd700' },
+          { type: 'text', name: 'Academy Name', text: 'ROYAL ACADEMY', x: 540, y: 80, font: "'Montserrat'", size: 70, color: '#0a1628', weight: 900, align: 'center' },
+          { type: 'shape', name: 'Decorative Line', sType: 'rect', x: 540, y: 180, w: 800, h: 4, color: '#ffd700' },
+          { type: 'text', name: 'Subject Title', text: 'ENGLISH', x: 540, y: 320, font: "'Bebas Neue'", size: 200, color: '#ffffff', weight: 900, align: 'center', style: 'neon' },
+          { type: 'text', name: 'Subtitle', text: 'Literature & Language', x: 540, y: 440, font: "'Poppins'", size: 45, color: '#ffd700', weight: 600, align: 'center' },
+          { type: 'shape', name: 'Photo Circle', sType: 'circle', x: 540, y: 650, w: 350, h: 350, color: '#1a3a5c', strokeW: 6, strokeC: '#ffd700' },
+          { type: 'text', name: 'Teacher Name', text: 'Mrs. Sarah Fernando', x: 540, y: 870, font: "'Inter'", size: 55, color: '#ffffff', weight: 800, align: 'center' },
+          { type: 'shape', name: 'Info Box', sType: 'rect', x: 540, y: 970, w: 600, h: 80, color: '#ffd700', radius: 40 },
+          { type: 'text', name: 'Contact', text: '077 123 4567', x: 540, y: 970, font: "'Inter'", size: 35, color: '#0a1628', weight: 800, align: 'center' }
+        ]
+      },
+      "sunsetVibes": {
+        name: "Sunset Vibes",
+        ratio: "4:5",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#ff6b35', c2: '#f7c948', angle: 180 },
+          { type: 'shape', name: 'Dark Overlay', sType: 'rect', x: 540, y: 900, w: 1080, h: 700, color: '#1a1a2e' },
+          { type: 'shape', name: 'Accent Circle', sType: 'circle', x: 900, y: 200, w: 300, h: 300, color: '#ffffff', opacity: 15 },
+          { type: 'text', name: 'Subject', text: 'BIOLOGY', x: 540, y: 200, font: "'Montserrat'", size: 160, color: '#1a1a2e', weight: 900, align: 'center', strokeW: 4, strokeC: '#ffffff' },
+          { type: 'text', name: 'Year', text: '2025/2026 A/L', x: 540, y: 340, font: "'Poppins'", size: 50, color: '#1a1a2e', weight: 700, align: 'center' },
+          { type: 'shape', name: 'Teacher Frame', sType: 'rect', x: 540, y: 600, w: 400, h: 450, color: '#ffffff', radius: 20 },
+          { type: 'text', name: 'Teacher Name', text: 'Dr. Kumari Silva', x: 540, y: 900, font: "'Poppins'", size: 60, color: '#ffffff', weight: 800, align: 'center' },
+          { type: 'text', name: 'Qualification', text: 'PhD in Biology | 15 Years Exp', x: 540, y: 970, font: "'Inter'", size: 28, color: '#f7c948', weight: 600, align: 'center' },
+          { type: 'shape', name: 'CTA Button', sType: 'rect', x: 540, y: 1100, w: 500, h: 80, color: '#ff6b35', radius: 40 },
+          { type: 'text', name: 'CTA Text', text: 'ENROLL NOW', x: 540, y: 1100, font: "'Montserrat'", size: 30, color: '#ffffff', weight: 900, align: 'center' },
+          { type: 'text', name: 'Phone', text: '071 987 6543', x: 540, y: 1220, font: "'Inter'", size: 35, color: '#cccccc', weight: 600, align: 'center' }
+        ]
+      },
+      "darkPremium": {
+        name: "Dark Premium",
+        ratio: "1:1",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#0d0d0d', c2: '#1a1a1a', angle: 0 },
+          { type: 'shape', name: 'Gold Border', sType: 'rect', x: 540, y: 540, w: 1020, h: 1020, color: '#0d0d0d', strokeW: 3, strokeC: '#c5a44e' },
+          { type: 'shape', name: 'Inner Border', sType: 'rect', x: 540, y: 540, w: 980, h: 980, color: '#0d0d0d', strokeW: 1, strokeC: '#c5a44e' },
+          { type: 'text', name: 'Main Subject', text: 'ECONOMICS', x: 540, y: 200, font: "'Bebas Neue'", size: 160, color: '#c5a44e', weight: 900, align: 'center' },
+          { type: 'shape', name: 'Divider', sType: 'rect', x: 540, y: 290, w: 200, h: 3, color: '#c5a44e' },
+          { type: 'text', name: 'Level', text: 'Advanced Level 2025', x: 540, y: 350, font: "'Poppins'", size: 35, color: '#888888', weight: 600, align: 'center' },
+          { type: 'shape', name: 'Photo Frame', sType: 'rect', x: 540, y: 580, w: 380, h: 380, color: '#222222', radius: 10, strokeW: 2, strokeC: '#c5a44e' },
+          { type: 'text', name: 'Teacher', text: 'Amal Jayasinghe', x: 540, y: 820, font: "'Montserrat'", size: 50, color: '#ffffff', weight: 800, align: 'center' },
+          { type: 'text', name: 'Credentials', text: 'M.Sc Economics | Uni. of Colombo', x: 540, y: 880, font: "'Inter'", size: 22, color: '#c5a44e', weight: 500, align: 'center' },
+          { type: 'shape', name: 'Bottom Bar', sType: 'rect', x: 540, y: 1000, w: 700, h: 60, color: '#c5a44e', radius: 30 },
+          { type: 'text', name: 'Phone', text: '076 555 1234', x: 540, y: 1000, font: "'Inter'", size: 28, color: '#0d0d0d', weight: 800, align: 'center' }
+        ]
+      },
+      "neonCyber": {
+        name: "Neon Cyber",
+        ratio: "1:1",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#0a0a2e', c2: '#16003b', angle: 180 },
+          { type: 'shape', name: 'Glow Circle 1', sType: 'circle', x: 200, y: 200, w: 400, h: 400, color: '#ff00ff', opacity: 8 },
+          { type: 'shape', name: 'Glow Circle 2', sType: 'circle', x: 900, y: 800, w: 500, h: 500, color: '#00ffff', opacity: 8 },
+          { type: 'shape', name: 'Glass Panel', sType: 'rect', x: 540, y: 540, w: 900, h: 900, color: '#151540', radius: 30, strokeW: 1, strokeC: '#333366' },
+          { type: 'text', name: 'Subject', text: 'ICT', x: 540, y: 200, font: "'Montserrat'", size: 250, color: '#00ffff', weight: 900, align: 'center', style: 'neon' },
+          { type: 'text', name: 'Year', text: '2025 / 2026', x: 540, y: 380, font: "'Poppins'", size: 50, color: '#ff00ff', weight: 700, align: 'center' },
+          { type: 'shape', name: 'Divider Line', sType: 'rect', x: 540, y: 430, w: 400, h: 2, color: '#00ffff' },
+          { type: 'text', name: 'Teacher', text: 'Kasun Perera', x: 540, y: 550, font: "'Poppins'", size: 70, color: '#ffffff', weight: 800, align: 'center' },
+          { type: 'text', name: 'Desc', text: 'Full Theory + Practicals', x: 540, y: 640, font: "'Inter'", size: 30, color: '#aaaaaa', weight: 500, align: 'center' },
+          { type: 'shape', name: 'CTA Button', sType: 'rect', x: 540, y: 780, w: 450, h: 70, color: '#ff00ff', radius: 35 },
+          { type: 'text', name: 'CTA', text: 'JOIN NOW', x: 540, y: 780, font: "'Montserrat'", size: 28, color: '#ffffff', weight: 900, align: 'center' },
+          { type: 'text', name: 'Contact', text: '070 999 8888  |  WhatsApp', x: 540, y: 920, font: "'Inter'", size: 25, color: '#666666', weight: 500, align: 'center' }
+        ]
+      },
+      "freshGreen": {
+        name: "Fresh Green Nature",
+        ratio: "4:5",
+        particles: [
+          { type: 'bg', name: 'Background', c1: '#e8f5e9', c2: '#c8e6c9', angle: 0 },
+          { type: 'shape', name: 'Top Green Bar', sType: 'rect', x: 540, y: 100, w: 1080, h: 200, color: '#2e7d32' },
+          { type: 'text', name: 'School Name', text: 'GREEN VALLEY', x: 540, y: 70, font: "'Montserrat'", size: 60, color: '#ffffff', weight: 900, align: 'center' },
+          { type: 'text', name: 'Tagline', text: 'Institute of Excellence', x: 540, y: 130, font: "'Poppins'", size: 30, color: '#a5d6a7', weight: 500, align: 'center' },
+          { type: 'shape', name: 'White Card', sType: 'rect', x: 540, y: 650, w: 950, h: 900, color: '#ffffff', radius: 30 },
+          { type: 'text', name: 'Subject', text: 'CHEMISTRY', x: 540, y: 320, font: "'Bebas Neue'", size: 130, color: '#1b5e20', weight: 900, align: 'center' },
+          { type: 'shape', name: 'Photo Area', sType: 'circle', x: 540, y: 600, w: 350, h: 350, color: '#e8f5e9', strokeW: 4, strokeC: '#2e7d32' },
+          { type: 'text', name: 'Teacher', text: 'Mr. Nuwan Bandara', x: 540, y: 830, font: "'Poppins'", size: 50, color: '#2e7d32', weight: 800, align: 'center' },
+          { type: 'text', name: 'Details', text: 'B.Sc Chemistry (Hons)', x: 540, y: 900, font: "'Inter'", size: 24, color: '#666666', weight: 500, align: 'center' },
+          { type: 'shape', name: 'Contact Box', sType: 'rect', x: 540, y: 1060, w: 500, h: 70, color: '#2e7d32', radius: 35 },
+          { type: 'text', name: 'Phone', text: '071 222 3333', x: 540, y: 1060, font: "'Inter'", size: 28, color: '#ffffff', weight: 700, align: 'center' },
+          { type: 'shape', name: 'Leaf Accent', sType: 'circle', x: 100, y: 1200, w: 200, h: 200, color: '#81c784', opacity: 30 }
+        ]
+      }
+    };
+
+    // Mouse Drag State
+    let isDragging = false;
+    let dragOffsetX = 0, dragOffsetY = 0;
+    const EDITABLE_TEMPLATE_SCRIPT_ID = 'tuitionstudio-project-data';
+
+    window.onload = async () => {
+      canvas = document.getElementById('main-canvas');
+      ctx = canvas.getContext('2d');
+      wrap = document.getElementById('canvas-wrap');
+
+      setupMouseEvents();
+      populateTemplateGallery();
+
+      const embeddedProject = getEmbeddedProjectData(document);
+      if (embeddedProject) {
+        const restored = await restoreProjectFromData(embeddedProject, { toastMessage: false });
+        if (restored) {
+          toast('✅ Editable template restored.');
+          return;
+        }
+      }
+
+      loadTemplate('red');
+    };
+
+    function getEmbeddedProjectData(rootDoc = document) {
+      const node = rootDoc.getElementById(EDITABLE_TEMPLATE_SCRIPT_ID);
+      if (!node) return null;
+      try {
+        return JSON.parse(node.textContent || '{}');
+      } catch (err) {
+        console.error('Failed to parse editable template data', err);
+        return null;
+      }
+    }
+
+    function detectRatio(width, height) {
+      const found = Object.entries(RATIOS).find(([, dims]) => dims[0] === width && dims[1] === height);
+      return found ? found[0] : '1:1';
+    }
+
+    function createLayerRecord(p = {}) {
+      return {
+        id: p.id || layerIdCount++,
+        ...p,
+        rotation: p.rotation || 0,
+        opacity: p.opacity ?? 100,
+        align: p.align || 'center',
+        spacing: p.spacing ?? 0,
+        strokeW: p.strokeW ?? 0,
+        strokeC: p.strokeC || '#000000',
+        style: p.style || 'solid',
+        w: p.w ?? 0,
+        h: p.h ?? 0,
+        brightness: p.brightness ?? 100,
+        contrast: p.contrast ?? 100,
+        saturation: p.saturation ?? 100,
+        grayscale: p.grayscale ?? 0,
+        blur: p.blur ?? 0,
+        bend: p.bend ?? 0,
+        sharpen: p.sharpen ?? 0,
+        chromaKey: p.chromaKey || false,
+        chromaColor: p.chromaColor || '#00ff00',
+        chromaTolerance: p.chromaTolerance ?? 30,
+        bevel: p.bevel || false,
+        effectPower: p.effectPower ?? 50,
+        effectDepth: p.effectDepth ?? 12,
+        flipH: p.flipH || false,
+        flipV: p.flipV || false,
+        clipImg: p.clipImg || null,
+        clipX: p.clipX ?? 0,
+        clipY: p.clipY ?? 0,
+        clipScale: p.clipScale ?? 100,
+        clipRotation: p.clipRotation ?? 0,
+        color2: p.color2 || p.color || '#000000',
+        color3: p.color3 || p.color2 || p.color || '#000000',
+        gAngle: p.gAngle ?? 0,
+        gType: p.gType || 'none',
+        bgMode: p.bgMode || 'linear',
+        c3: p.c3 || p.c2 || p.c1 || '#000000',
+        blendMode: p.blendMode || 'source-over',
+        hidden: p.hidden || false,
+        locked: p.locked || false,
+        dsColor: p.dsColor || '#000000',
+        dsOpacity: p.dsOpacity ?? 0,
+        dsX: p.dsX ?? 0,
+        dsY: p.dsY ?? 0,
+        dsBlur: p.dsBlur ?? 0,
+        // NEW: Professional effects
+        glowColor: p.glowColor || '#ff0055',
+        glowSize: p.glowSize ?? 0,
+        glowOpacity: p.glowOpacity ?? 50,
+        vignetteIntensity: p.vignetteIntensity ?? 0,
+        vignetteColor: p.vignetteColor || '#000000',
+        noiseIntensity: p.noiseIntensity ?? 0,
+        sepiaIntensity: p.sepiaIntensity ?? 0,
+        hueRotate: p.hueRotate ?? 0,
+        invert: p.invert || false,
+        posterize: p.posterize ?? 0,
+        solarize: p.solarize || false,
+        pixelate: p.pixelate ?? 0,
+        tiltShift: p.tiltShift || false,
+        tiltShiftBlur: p.tiltShiftBlur ?? 10,
+        duotone: p.duotone || false,
+        duotoneColor1: p.duotoneColor1 || '#ff0055',
+        duotoneColor2: p.duotoneColor2 || '#0000ff',
+        emboss: p.emboss || false,
+        edgeDetect: p.edgeDetect || false,
+        bgImage: p.bgImage || null,
+        bgImageOpacity: p.bgImageOpacity ?? 100,
+        bgImageBlend: p.bgImageBlend || 'normal',
+        maintainAspect: p.maintainAspect ?? true
+      };
+    }
+
+    function serializeLayer(layer) {
+      const plain = {};
+      Object.keys(layer).forEach(key => {
+        if (key === 'img' || key === 'clipImg') return;
+        plain[key] = layer[key];
+      });
+      if (layer.img && layer.img.src) plain.imgSrc = layer.img.src;
+      if (layer.clipImg && layer.clipImg.src) plain.clipImgSrc = layer.clipImg.src;
+      return plain;
+    }
+
+    function exportProjectState() {
+      return {
+        version: 2,
+        savedAt: new Date().toISOString(),
+        ratio: detectRatio(W, H),
+        width: W,
+        height: H,
+        selectedId,
+        layers: layers.map(serializeLayer)
+      };
+    }
+
+    function loadImageFromSource(src) {
+      return new Promise(resolve => {
+        if (!src) {
+          resolve(null);
+          return;
+        }
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = () => resolve(null);
+        img.src = src;
+      });
+    }
+
+    async function restoreProjectFromData(project, options = {}) {
+      if (!project || !Array.isArray(project.layers) || project.layers.length === 0) {
+        if (options.toastMessage !== false) toast('⚠️ Editable template data not found.');
+        return false;
+      }
+
+      const ratio = project.ratio && RATIOS[project.ratio] ? project.ratio : detectRatio(project.width, project.height);
+      const ratioParts = RATIOS[ratio] || [project.width || 1080, project.height || 1080];
+      document.getElementById('canvas-ratio').value = ratio;
+      W = ratioParts[0];
+      H = ratioParts[1];
+      canvas.width = W * dpr;
+      canvas.height = H * dpr;
+
+      const hydratedLayers = [];
+      for (const raw of project.layers) {
+        const layer = createLayerRecord({ ...raw });
+        if (layer.imgSrc) layer.img = await loadImageFromSource(layer.imgSrc);
+        if (layer.clipImgSrc) layer.clipImg = await loadImageFromSource(layer.clipImgSrc);
+        delete layer.imgSrc;
+        delete layer.clipImgSrc;
+        hydratedLayers.push(layer);
+      }
+
+      layers = hydratedLayers;
+      layerIdCount = Math.max(1, ...layers.map(layer => layer.id || 0)) + 1;
+      selectedId = layers.find(layer => layer.id === project.selectedId)?.id || (layers[1]?.id || layers[0]?.id || null);
+
+      const scale = Math.min((window.innerWidth - 650) / W, (window.innerHeight - 100) / H);
+      wrap.style.width = `${W * scale}px`;
+      wrap.style.height = `${H * scale}px`;
+      panOffsetX = 0; panOffsetY = 0;
+      wrap.style.transform = `translate(0px, 0px)`;
+      updateUI();
+
+      if (options.toastMessage) toast(options.toastMessage);
+      return true;
+    }
+
+    function populateTemplateGallery() {
+      const grid = document.getElementById('tpl-grid-view');
+      grid.innerHTML = '';
+      
+      // Show all built-in TEMPLATE_PARTICLES
+      Object.keys(TEMPLATE_PARTICLES).forEach(id => {
+        const tplData = TEMPLATE_PARTICLES[id];
+        const card = document.createElement('div');
+        card.className = 'tpl-card pro';
+        card.onclick = () => {
+          loadTemplate(id);
+          closeTemplateGallery();
+        };
+        
+        card.innerHTML = `
+          <div class="tpl-card-thumb">
+            <canvas id="thumb-${id}"></canvas>
+          </div>
+          <div class="tpl-card-label">
+            ${tplData.name}
+            <span class="tpl-card-tag">INSTANT</span>
+          </div>
+        `;
+        grid.appendChild(card);
+        
+        // Render a mini preview on the canvas
+        setTimeout(() => renderMiniPreview(id, `thumb-${id}`), 50);
+      });
+    }
+
+    function renderMiniPreview(tplId, canvasId) {
+      const tCanvas = document.getElementById(canvasId);
+      if (!tCanvas) return;
+      const tCtx = tCanvas.getContext('2d');
+      const data = TEMPLATE_PARTICLES[tplId];
+      if (!data) return;
+
+      const ratio = RATIOS[data.ratio || '1:1'];
+      const tw = ratio[0], th = ratio[1];
+      tCanvas.width = tw; tCanvas.height = th;
+
+      // Draw background
+      const bg = data.particles.find(p => p.type === 'bg');
+      if (bg) {
+        const grad = tCtx.createLinearGradient(0, 0, tw, th);
+        grad.addColorStop(0, bg.c1);
+        grad.addColorStop(1, bg.c2);
+        tCtx.fillStyle = grad;
+        tCtx.fillRect(0, 0, tw, th);
+      }
+
+      // Draw simplified versions of other particles
+      data.particles.forEach(p => {
+        if (p.type === 'bg') return;
+        tCtx.globalAlpha = (p.opacity || 100) / 100;
+        
+        if (p.type === 'shape') {
+          tCtx.fillStyle = p.color;
+          if (p.sType === 'circle') {
+            tCtx.beginPath(); tCtx.arc(p.x, p.y, p.w/2, 0, Math.PI*2); tCtx.fill();
+          } else if (p.sType === 'triangle') {
+            tCtx.beginPath(); tCtx.moveTo(p.x, p.y - p.h/2); tCtx.lineTo(p.x - p.w/2, p.y + p.h/2); tCtx.lineTo(p.x + p.w/2, p.y + p.h/2); tCtx.closePath(); tCtx.fill();
+          } else {
+            tCtx.fillRect(p.x - p.w/2, p.y - (p.h||p.w)/2, p.w, (p.h||p.w));
+          }
+        } else if (p.type === 'text') {
+          tCtx.fillStyle = p.color;
+          tCtx.font = `bold ${p.size * 0.8}px Arial`;
+          tCtx.textAlign = 'center';
+          tCtx.fillText(p.text.split('\n')[0].substring(0, 10), p.x, p.y);
+        } else if (p.type === 'image') {
+          tCtx.fillStyle = '#333';
+          tCtx.fillRect(p.x - p.w/2, p.y - p.h/2, p.w, p.h);
+          tCtx.strokeStyle = '#555'; tCtx.strokeRect(p.x - p.w/2, p.y - p.h/2, p.w, p.h);
+        }
+      });
+      tCtx.globalAlpha = 1.0;
+    }
+
+    function openTemplateGallery() {
+      document.getElementById('tpl-modal').style.display = 'flex';
+    }
+
+    function closeTemplateGallery() {
+      document.getElementById('tpl-modal').style.display = 'none';
+    }
+
+    async function importEditableTemplate(input) {
+      const file = input.files && input.files[0];
+      if (!file) return;
+
+      try {
+        const html = await file.text();
+        const parsed = new DOMParser().parseFromString(html, 'text/html');
+        const embeddedProject = getEmbeddedProjectData(parsed);
+        if (!embeddedProject) {
+          toast('⚠️ No editable project data found in this HTML.');
+          input.value = '';
+          return;
+        }
+
+        const restored = await restoreProjectFromData(embeddedProject, { toastMessage: '✅ Editable HTML loaded into editor.' });
+        if (!restored) toast('⚠️ Could not load editable project.');
+      } catch (err) {
+        console.error('Failed to import editable HTML', err);
+        toast('⚠️ Failed to import editable HTML.');
+      }
+
+      input.value = '';
+    }
+
+    function downloadEditableTemplate() {
+      const project = exportProjectState();
+      const source = document.documentElement.outerHTML;
+      const payload = JSON.stringify(project);
+      const scriptTag = `<script id="${EDITABLE_TEMPLATE_SCRIPT_ID}" type="application/json">${payload}<\/script>`;
+      const cleaned = source.replace(new RegExp(`<script id="${EDITABLE_TEMPLATE_SCRIPT_ID}" type="application/json">[\\s\\S]*?<\\/script>`), '');
+      const html = cleaned.replace('</body>', `  ${scriptTag}\n</body>`);
+      const blob = new Blob([html], { type: 'text/html' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `TuitionStudio_Editable_${Date.now()}.html`;
+      a.click();
+      toast('💾 Editable HTML template downloaded.');
+    }
+
+    function toast(msg) {
+      const t = document.getElementById('toast');
+      t.innerText = msg; t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2500);
+    }
+
+    function initCanvas() {
+      const ratio = document.getElementById('canvas-ratio').value;
+      W = RATIOS[ratio][0]; H = RATIOS[ratio][1];
+
+      canvas.width = W * dpr; canvas.height = H * dpr;
+
+      // Fit canvas visually in the center area
+      const scale = Math.min((window.innerWidth - 650) / W, (window.innerHeight - 100) / H);
+      wrap.style.width = `${W * scale}px`;
+      wrap.style.height = `${H * scale}px`;
+      panOffsetX = 0; panOffsetY = 0;
+      wrap.style.transform = `translate(0px, 0px)`;
+
+      updateUI();
+    }
+
+    window.onresize = () => {
+      const scale = Math.min((window.innerWidth - 650) / W, (window.innerHeight - 100) / H);
+      wrap.style.width = `${W * scale}px`;
+      wrap.style.height = `${H * scale}px`;
+    };
+
+    /* ─── PRE-BUILT TUITION TEMPLATES ─── */
+    function loadTemplate(style) {
+      if (!TEMPLATE_PARTICLES[style]) {
+        toast(`⚠️ Template "${style}" breakdown not found.`);
+        return;
+      }
+      
+      const data = TEMPLATE_PARTICLES[style];
+      toast(`✨ Loading ${data.name}...`);
+      
+      // Reset state
+      layers = [];
+      layerIdCount = 1;
+
+      // Change ratio if specified
+      const targetRatio = data.ratio || '1:1';
+      document.getElementById('canvas-ratio').value = targetRatio;
+      const ratioParts = RATIOS[targetRatio] || [1080, 1080];
+      W = ratioParts[0]; H = ratioParts[1];
+      canvas.width = W * dpr; canvas.height = H * dpr;
+
+      // Add particles as editable layers
+      data.particles.forEach(p => {
+        layers.push(createLayerRecord(p));
+      });
+
+      // Set the visual scale
+      const scale = Math.min((window.innerWidth - 650) / W, (window.innerHeight - 100) / H);
+      wrap.style.width = `${W * scale}px`;
+      wrap.style.height = `${H * scale}px`;
+      panOffsetX = 0; panOffsetY = 0;
+      wrap.style.transform = `translate(0px, 0px)`;
+
+      // Select a relevant frame if exists
+      const tFrame = layers.find(l => l.name && (l.name.includes('Teacher') || l.name.includes('Frame') || l.name.includes('Photo')));
+      selectedId = tFrame ? tFrame.id : (layers.length > 1 ? layers[1].id : layers[0].id);
+
+      updateUI();
+    }
+
+    /* ─── LAYER CREATION (MANUAL) ─── */
+    function addLayer(type, fileInput = null) {
+      const cx = W / 2; const cy = H / 2;
+
+      if (type === 'text') {
+        layers.push(createLayerRecord({ type: 'text', name: 'Text Layer', text: 'නව පෙළ', x: cx, y: cy, font: "'Noto Sans Sinhala'", size: 80, color: '#ffffff', color2: '#ffaa00', color3: '#ff0055', weight: 800, align: 'center', rotation: 0, opacity: 100, style: 'solid', strokeW: 0, strokeC: '#000000', spacing: 0, bend: 0, effectPower: 50, effectDepth: 12, gAngle: 90 }));
+      }
+      else if (type === 'shape') {
+        layers.push(createLayerRecord({ type: 'shape', name: 'Shape / Frame', sType: 'rect', x: cx, y: cy, w: 300, h: 300, color: '#444444', color2: '#222222', color3: '#000000', gType: 'none', gAngle: 0, opacity: 100, rotation: 0, brightness: 100, contrast: 100, saturation: 100, grayscale: 0, blur: 0, sharpen: 0, chromaKey: false, chromaColor: '#00ff00', chromaTolerance: 30, bevel: false, flipH: false, flipV: false, clipImg: null, clipX: 0, clipY: 0, clipScale: 100, clipRotation: 0, strokeW: 0, strokeC: '#ffffff', radius: 20 }));
+      }
+      else if (type === 'image' && fileInput && fileInput.files[0]) {
+        const r = new FileReader();
+        r.onload = e => {
+          const img = new Image();
+          img.onload = () => {
+            let sc = 1; if (img.width > W * 0.8) sc = (W * 0.8) / img.width;
+            layers.push(createLayerRecord({ type: 'image', name: 'Image', img: img, x: cx, y: cy, w: img.width * sc, h: img.height * sc, rotation: 0, opacity: 100, brightness: 100, contrast: 100, saturation: 100, grayscale: 0, blur: 0, sharpen: 0, chromaKey: false, chromaColor: '#00ff00', chromaTolerance: 30, flipH: false, flipV: false, maintainAspect: true }));
+            selectedId = layerIdCount - 1; updateUI();
+          };
+          img.src = e.target.result;
+        };
+        r.readAsDataURL(fileInput.files[0]);
+        fileInput.value = ''; return;
+      }
+
+      selectedId = layerIdCount - 1;
+      updateUI();
+    }
+
+    /* ─── LAYER OPERATIONS ─── */
+    function deleteLayer(id) {
+      if (layers.find(x => x.id === id).type === 'bg') return;
+      layers = layers.filter(x => x.id !== id);
+      if (selectedId === id) selectedId = layers[0].id;
+      updateUI();
+    }
+
+    function moveLayer(id, dir) {
+      const idx = layers.findIndex(x => x.id === id);
+      if (idx <= 0) return; // Cant move BG
+      if (dir === 'up' && idx < layers.length - 1) {
+        [layers[idx], layers[idx + 1]] = [layers[idx + 1], layers[idx]];
+      } else if (dir === 'down' && idx > 1) {
+        [layers[idx], layers[idx - 1]] = [layers[idx - 1], layers[idx]];
+      }
+      updateUI();
+    }
+
+    function duplicateLayer(id) {
+      const l = layers.find(x => x.id === id);
+      if (!l || l.type === 'bg') return;
+      const clone = JSON.parse(JSON.stringify(l));
+      clone.id = layerIdCount++; clone.name += ' Copy'; clone.x += 40; clone.y += 40;
+      if (l.type === 'image') clone.img = l.img;
+      if (l.type === 'shape') clone.clipImg = l.clipImg;
+
+      const idx = layers.findIndex(x => x.id === id);
+      layers.splice(idx + 1, 0, clone);
+      selectedId = clone.id; updateUI();
+    }
+
+    /* ─── PROPERTIES UPDATES ─── */
+    function updateProp(id, prop, val, isNum = true, event = null) {
+      const l = layers.find(x => x.id === id);
+      if (l) { 
+        l[prop] = isNum ? Number(val) : val; 
+        
+        if (prop === 'sType') {
+          if ((val === 'rect' || val === 'triangle' || val === 'ribbon') && (!l.h || l.h === 0)) {
+             l.h = l.w; 
+          }
+          l.name = val.charAt(0).toUpperCase() + val.slice(1);
+          renderLayerPanel();
+          renderProps();
+        }
+
+        renderCanvas(); 
+        
+        const target = event?.target || window.event?.target;
+        if (target && target.previousElementSibling && target.previousElementSibling.querySelector('.val-display')) {
+          const display = target.previousElementSibling.querySelector('.val-display');
+          if (prop === 'rotation' || prop === 'angle' || prop === 'gAngle' || prop === 'clipRotation') display.innerText = val + '°';
+          else if (prop === 'opacity' || prop === 'brightness' || prop === 'contrast' || prop === 'saturation' || prop === 'grayscale' || prop === 'clipScale') display.innerText = val + '%';
+          else if (prop === 'blur') display.innerText = val + 'px';
+          else if (prop === 'bend') display.innerText = val + '°';
+          else if (prop === 'sharpen') display.innerText = val + '%';
+          else if (prop === 'chromaTolerance') display.innerText = val;
+          else display.innerText = val;
+        }
+      }
+    }
+    function updateToggle(id, prop) {
+      const l = layers.find(x => x.id === id);
+      if (l) { l[prop] = !l[prop]; renderCanvas(); renderProps(); }
+    }
+    function updateTextContent(id, text) {
+      const l = layers.find(x => x.id === id);
+      if (l) { l.text = text; renderCanvas(); renderLayerPanel(); }
+    }
+
+    /* ─── CLIPPING MASK (TEACHER PHOTO ENGINE) ─── */
+    function loadClipImage(id, input) {
+      if (!input.files[0]) return;
+      const l = layers.find(x => x.id === id);
+      if (!l || l.type !== 'shape') return;
+
+      const r = new FileReader();
+      r.onload = e => {
+        const img = new Image();
+        img.onload = () => {
+          l.clipImg = img;
+          l.color = '#ffffff'; // White BG behind image
+          updateUI();
+          toast('✅ Teacher Photo Clipped Successfully!');
+        };
+        img.src = e.target.result;
+      };
+      r.readAsDataURL(input.files[0]);
+      input.value = '';
+    }
+    function removeClip(id) {
+      const l = layers.find(x => x.id === id);
+      if (l) { l.clipImg = null; updateUI(); }
+    }
+
+    /* ─── UI RENDERING ─── */
+    function updateUI() {
+      renderLayerPanel();
+      renderProps();
+      renderCanvas();
+    }
+
+    function renderLayerPanel() {
+      const list = document.getElementById('layer-list');
+      list.innerHTML = '';
+      // Reverse loop so top Z-index appears at the top of the panel (Photoshop style)
+      [...layers].reverse().forEach(l => {
+        let icon = l.type === 'bg' ? '🎨' : l.type === 'text' ? 'T' : l.type === 'shape' ? '⬛' : '🖼️';
+        let isBg = l.type === 'bg';
+        let dragAttrs = !isBg ? `draggable="true" ondragstart="layerDragStart(event, ${l.id})" ondragover="layerDragOver(event)" ondragleave="layerDragLeave(event)" ondrop="layerDrop(event, ${l.id})" ondragend="layerDragEnd(event)"` : '';
+        let html = `
+    <div class="layer-item ${selectedId === l.id ? 'active' : ''} ${isBg ? 'bg-layer' : ''}" onclick="selectedId=${l.id}; updateUI();" ${dragAttrs}>
+      <div class="layer-name">
+        <span class="layer-icon" style="opacity: ${l.hidden ? 0.3 : 1}" onclick="event.stopPropagation(); toggleVisibility(${l.id})">${l.hidden ? '👁️‍🗨️' : '👁️'}</span>
+        <span class="layer-icon">${icon}</span> 
+        <span style="${l.locked ? 'text-decoration: line-through' : ''}">${l.name}</span>
+      </div>
+      <div class="layer-actions">`;
+        if (l.type !== 'bg') {
+          html += `
+        <button class="icon-btn" onclick="event.stopPropagation(); toggleLock(${l.id})" title="${l.locked ? 'Unlock' : 'Lock'}">${l.locked ? '🔒' : '🔓'}</button>
+        <button class="icon-btn" onclick="event.stopPropagation(); moveLayer(${l.id}, 'up')" title="Move Forward">▲</button>
+        <button class="icon-btn" onclick="event.stopPropagation(); moveLayer(${l.id}, 'down')" title="Move Backward">▼</button>
+        <button class="icon-btn" onclick="event.stopPropagation(); duplicateLayer(${l.id})" title="Duplicate">⧉</button>
+        <button class="icon-btn" style="color:var(--accent)" onclick="event.stopPropagation(); deleteLayer(${l.id})" title="Delete">✕</button>`;
+        }
+        html += `</div></div>`;
+        list.insertAdjacentHTML('beforeend', html);
+      });
+    }
+
+    /* --- LAYER DRAG AND DROP --- */
+    let draggedLayerId = null;
+
+    function layerDragStart(e, id) {
+      draggedLayerId = id;
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', id);
+      setTimeout(() => e.target.classList.add('dragging'), 0);
+    }
+
+    function layerDragOver(e) {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      const item = e.target.closest('.layer-item');
+      if (item && !item.classList.contains('bg-layer')) {
+        item.classList.add('drag-over');
+      }
+    }
+    
+    function layerDragLeave(e) {
+      const item = e.target.closest('.layer-item');
+      if (item) item.classList.remove('drag-over');
+    }
+
+    function layerDrop(e, targetId) {
+      e.preventDefault();
+      const item = e.target.closest('.layer-item');
+      if (item) item.classList.remove('drag-over');
+      
+      document.querySelectorAll('.layer-item').forEach(el => el.classList.remove('dragging'));
+
+      if (!draggedLayerId || draggedLayerId === targetId) return;
+
+      const fromIndex = layers.findIndex(l => l.id === draggedLayerId);
+      const toIndex = layers.findIndex(l => l.id === targetId);
+
+      if (fromIndex < 0 || toIndex < 0) return;
+      if (layers[fromIndex].type === 'bg' || layers[toIndex].type === 'bg') return; // Protect background layer
+
+      const [draggedLayer] = layers.splice(fromIndex, 1);
+      
+      const finalToIndex = layers.findIndex(l => l.id === targetId);
+      layers.splice(finalToIndex, 0, draggedLayer);
+
+      updateUI();
+    }
+    
+    function layerDragEnd(e) {
+      e.target.classList.remove('dragging');
+      document.querySelectorAll('.layer-item').forEach(el => {
+        el.classList.remove('drag-over');
+        el.classList.remove('dragging');
+      });
+      draggedLayerId = null;
+    }
+
+
+    function toggleVisibility(id) {
+      const l = layers.find(x => x.id === id);
+      if (l) { l.hidden = !l.hidden; renderCanvas(); renderLayerPanel(); }
+    }
+
+    function toggleLock(id) {
+      const l = layers.find(x => x.id === id);
+      if (l) { l.locked = !l.locked; renderLayerPanel(); }
+    }
+
+    function renderProps() {
+      const panel = document.getElementById('prop-panel');
+      if (layers.length === 0) return; // Safeguard
+
+      const l = layers.find(x => x.id === selectedId);
+      if (!l) { panel.innerHTML = '<div class="empty-state"><i>🖱️</i><br>Select a layer on the canvas to edit its properties.</div>'; return; }
+
+      let html = `<div class="prop-section" style="background:#1a1a1a; border-bottom: 2px solid var(--accent)">
+    <div class="prop-title" style="color:#fff; margin:0">⚙️ Editing: ${l.name}</div>
+  </div>`;
+
+      if (l.type !== 'bg') {
+        html += `
+    <div class="prop-section">
+      <div class="prop-title">Position & Transform</div>
+      <div class="prop-row" style="margin-bottom:10px">
+        <div class="prop-col">
+          <label class="prop-label">Quick Align Canvas</label>
+          <div style="display:flex; gap:10px;">
+            <button class="btn btn-outline" style="flex:1; padding:6px; font-size:11px" onclick="centerLayer(${l.id}, 'h')">Center Horiz</button>
+            <button class="btn btn-outline" style="flex:1; padding:6px; font-size:11px" onclick="centerLayer(${l.id}, 'v')">Center Vert</button>
+          </div>
+        </div>
+      </div>
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">Pos X <span class="val-display">${Math.round(l.x)}</span></label><input type="range" min="-500" max="${W + 500}" value="${l.x}" oninput="updateProp(${l.id}, 'x', this.value, true, event)"></div>
+        <div class="prop-col"><label class="prop-label">Pos Y <span class="val-display">${Math.round(l.y)}</span></label><input type="range" min="-500" max="${H + 500}" value="${l.y}" oninput="updateProp(${l.id}, 'y', this.value, true, event)"></div>
+      </div>
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">Rotation <span class="val-display">${l.rotation}°</span></label><input type="range" min="-180" max="180" value="${l.rotation}" oninput="updateProp(${l.id}, 'rotation', this.value, true, event)"></div>
+        <div class="prop-col"><label class="prop-label">Opacity <span class="val-display">${l.opacity}%</span></label><input type="range" min="0" max="100" value="${l.opacity}" oninput="updateProp(${l.id}, 'opacity', this.value, true, event)"></div>
+      </div>
+      <div class="prop-row">
+        <div class="prop-col">
+          <label class="prop-label">Flip Image</label>
+          <div style="display:flex; gap:10px;">
+            <button class="btn btn-outline" style="flex:1; padding:4px;" onclick="updateToggle(${l.id}, 'flipH')">${l.flipH ? '✅' : ''} Flip H</button>
+            <button class="btn btn-outline" style="flex:1; padding:4px;" onclick="updateToggle(${l.id}, 'flipV')">${l.flipV ? '✅' : ''} Flip V</button>
+          </div>
+        </div>
+      </div>
+      <div class="prop-row">
+        <div class="prop-col">
+          <label class="prop-label">Blend Mode</label>
+          <select onchange="updateProp(${l.id}, 'blendMode', this.value, false, event)">
+            <option value="source-over" ${l.blendMode === 'source-over' || !l.blendMode ? 'selected' : ''}>Normal</option>
+            <option value="multiply" ${l.blendMode === 'multiply' ? 'selected' : ''}>Multiply</option>
+            <option value="screen" ${l.blendMode === 'screen' ? 'selected' : ''}>Screen</option>
+            <option value="overlay" ${l.blendMode === 'overlay' ? 'selected' : ''}>Overlay</option>
+            <option value="darken" ${l.blendMode === 'darken' ? 'selected' : ''}>Darken</option>
+            <option value="lighten" ${l.blendMode === 'lighten' ? 'selected' : ''}>Lighten</option>
+            <option value="color-dodge" ${l.blendMode === 'color-dodge' ? 'selected' : ''}>Color Dodge</option>
+            <option value="color-burn" ${l.blendMode === 'color-burn' ? 'selected' : ''}>Color Burn</option>
+            <option value="hard-light" ${l.blendMode === 'hard-light' ? 'selected' : ''}>Hard Light</option>
+            <option value="soft-light" ${l.blendMode === 'soft-light' ? 'selected' : ''}>Soft Light</option>
+            <option value="difference" ${l.blendMode === 'difference' ? 'selected' : ''}>Difference</option>
+            <option value="exclusion" ${l.blendMode === 'exclusion' ? 'selected' : ''}>Exclusion</option>
+            <option value="hue" ${l.blendMode === 'hue' ? 'selected' : ''}>Hue</option>
+            <option value="saturation" ${l.blendMode === 'saturation' ? 'selected' : ''}>Saturation</option>
+            <option value="color" ${l.blendMode === 'color' ? 'selected' : ''}>Color</option>
+            <option value="luminosity" ${l.blendMode === 'luminosity' ? 'selected' : ''}>Luminosity</option>
+          </select>
+        </div>
+      </div>
+    </div>`;
+      }
+
+      // --- BACKGROUND ---
+      if (l.type === 'bg') {
+        html += `
+    <div class="prop-section">
+      <div class="prop-title">Canvas Gradient</div>
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">Color 1</label><input type="color" value="${l.c1}" onchange="updateProp(${l.id}, 'c1', this.value, false, event)"></div>
+        <div class="prop-col"><label class="prop-label">Color 2</label><input type="color" value="${l.c2}" onchange="updateProp(${l.id}, 'c2', this.value, false, event)"></div>
+      </div>
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">Color 3</label><input type="color" value="${l.c3 || l.c2}" onchange="updateProp(${l.id}, 'c3', this.value, false, event)"></div>
+        <div class="prop-col"><label class="prop-label">Gradient Mode</label>
+          <select onchange="updateProp(${l.id}, 'bgMode', this.value, false, event)">
+            <option value="linear" ${l.bgMode !== 'radial' ? 'selected' : ''}>Linear</option>
+            <option value="radial" ${l.bgMode === 'radial' ? 'selected' : ''}>Radial</option>
+          </select>
+        </div>
+      </div>
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">Gradient Angle <span class="val-display">${l.angle || 0}°</span></label><input type="range" min="0" max="360" value="${l.angle || 0}" oninput="updateProp(${l.id}, 'angle', this.value, true, event)"></div>
+      </div>
+    </div>`;
+      }
+
+      // --- TEXT ---
+      else if (l.type === 'text') {
+        html += `
+    <div class="prop-section">
+      <div class="prop-title">Text Content</div>
+      <textarea oninput="updateTextContent(${l.id}, this.value)">${l.text}</textarea>
+      
+      <div class="prop-row" style="margin-top:12px">
+        <div class="prop-col">
+          <label class="prop-label">Typography (Sinhala/Eng)</label>
+          <select onchange="updateProp(${l.id}, 'font', this.value, false, event)">
+            <optgroup label="Modern Sinhala">
+              <option value="'Noto Sans Sinhala'" ${l.font.includes('Noto Sans Sinhala') ? 'selected' : ''}>Noto Sans Sinhala</option>
+              <option value="'Anek Sinhala'" ${l.font.includes('Anek') ? 'selected' : ''}>Anek Sinhala</option>
+              <option value="'Yaldevi'" ${l.font.includes('Yaldevi') ? 'selected' : ''}>Yaldevi (New)</option>
+              <option value="'Maname'" ${l.font.includes('Maname') ? 'selected' : ''}>Maname (New)</option>
+              <option value="'Baloo 2'" ${l.font.includes('Baloo') ? 'selected' : ''}>Baloo 2 (Rounded)</option>
+            </optgroup>
+            <optgroup label="Display / Headers">
+              <option value="'Gemunu Libre'" ${l.font.includes('Gemunu') ? 'selected' : ''}>Gemunu Libre</option>
+              <option value="'Abhaya Libre'" ${l.font.includes('Abhaya') ? 'selected' : ''}>Abhaya Libre</option>
+              <option value="'Noto Serif Sinhala'" ${l.font.includes('Serif') ? 'selected' : ''}>Noto Serif Sinhala</option>
+            </optgroup>
+            <optgroup label="English / Stylish">
+              <option value="'Poppins'" ${l.font.includes('Poppins') ? 'selected' : ''}>Poppins (New)</option>
+              <option value="'Montserrat'" ${l.font.includes('Montserrat') ? 'selected' : ''}>Montserrat (New)</option>
+              <option value="'Bebas Neue'" ${l.font.includes('Bebas') ? 'selected' : ''}>Bebas Neue</option>
+              <option value="'Inter'" ${l.font.includes('Inter') ? 'selected' : ''}>Inter</option>
+            </optgroup>
+          </select>
+        </div>
+      </div>
+      
+      <div class="prop-row">
+        <div class="prop-col">
+          <label class="prop-label">Text Style Effect</label>
+          <select onchange="updateProp(${l.id}, 'style', this.value, false, event)">
+            <optgroup label="Essential & Basic">
+              <option value="solid" ${l.style === 'solid' ? 'selected' : ''}>Solid Color</option>
+              <option value="outline" ${l.style === 'outline' ? 'selected' : ''}>Bold Outline</option>
+              <option value="shadow" ${l.style === 'shadow' ? 'selected' : ''}>Deep Drop Shadow</option>
+              <option value="gradient" ${l.style === 'gradient' ? 'selected' : ''}>Sunset Gradient</option>
+              <option value="rainbow" ${l.style === 'rainbow' ? 'selected' : ''}>Rainbow Spectrum</option>
+            </optgroup>
+            <optgroup label="Premium & Metallic">
+              <option value="3dgold" ${l.style === '3dgold' ? 'selected' : ''}>Premium 3D Gold</option>
+              <option value="royal" ${l.style === 'royal' ? 'selected' : ''}>Royal Purple & Gold</option>
+              <option value="metal" ${l.style === 'metal' ? 'selected' : ''}>Brushed Metal</option>
+              <option value="chrome" ${l.style === 'chrome' ? 'selected' : ''}>Polished Chrome</option>
+            </optgroup>
+            <optgroup label="Cyber & Neon">
+              <option value="neon" ${l.style === 'neon' ? 'selected' : ''}>Cyber Neon Glow</option>
+              <option value="cyber" ${l.style === 'cyber' ? 'selected' : ''}>Cyberpunk Pink</option>
+              <option value="matrix" ${l.style === 'matrix' ? 'selected' : ''}>Matrix Digital</option>
+              <option value="retro" ${l.style === 'retro' ? 'selected' : ''}>80s Retro Synth</option>
+              <option value="hologram" ${l.style === 'hologram' ? 'selected' : ''}>Holographic</option>
+              <option value="electric" ${l.style === 'electric' ? 'selected' : ''}>Electric Lightning</option>
+            </optgroup>
+            <optgroup label="Nature & Elements">
+              <option value="fire" ${l.style === 'fire' ? 'selected' : ''}>Burning Fire</option>
+              <option value="ice" ${l.style === 'ice' ? 'selected' : ''}>Ice Crystal</option>
+              <option value="lava" ${l.style === 'lava' ? 'selected' : ''}>Hot Lava</option>
+              <option value="water" ${l.style === 'water' ? 'selected' : ''}>Deep Water</option>
+              <option value="ocean" ${l.style === 'ocean' ? 'selected' : ''}>Ocean Breeze</option>
+              <option value="forest" ${l.style === 'forest' ? 'selected' : ''}>Deep Forest</option>
+              <option value="sunset" ${l.style === 'sunset' ? 'selected' : ''}>Golden Sunset</option>
+            </optgroup>
+            <optgroup label="Artistic & Textures">
+              <option value="glass" ${l.style === 'glass' ? 'selected' : ''}>Frosted Glass</option>
+              <option value="bubble" ${l.style === 'bubble' ? 'selected' : ''}>Shiny Bubble</option>
+              <option value="comic" ${l.style === 'comic' ? 'selected' : ''}>Comic Book Pop</option>
+              <option value="paper" ${l.style === 'paper' ? 'selected' : ''}>Paper Cutout</option>
+              <option value="wood" ${l.style === 'wood' ? 'selected' : ''}>Polished Wood</option>
+              <option value="stone" ${l.style === 'stone' ? 'selected' : ''}>Ancient Stone</option>
+              <option value="plastic" ${l.style === 'plastic' ? 'selected' : ''}>Plastic Emboss</option>
+              <option value="stamp" ${l.style === 'stamp' ? 'selected' : ''}>Rough Stamp</option>
+              <option value="sketch" ${l.style === 'sketch' ? 'selected' : ''}>Pencil Sketch</option>
+              <option value="chalk" ${l.style === 'chalk' ? 'selected' : ''}>Blackboard Chalk</option>
+            </optgroup>
+            <optgroup label="3D & Special">
+              <option value="3dcolor" ${l.style === '3dcolor' ? 'selected' : ''}>3D Custom Color</option>
+              <option value="longshadow" ${l.style === 'longshadow' ? 'selected' : ''}>3D Long Shadow</option>
+            </optgroup>
+          </select>
+        </div>
+      </div>
+
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">Fill Color</label><input type="color" value="${l.color}" onchange="updateProp(${l.id}, 'color', this.value, false, event)"></div>
+        <div class="prop-col"><label class="prop-label">Font Size <span class="val-display">${l.size}</span></label><input type="range" min="10" max="600" value="${l.size}" oninput="updateProp(${l.id}, 'size', this.value, true, event)"></div>
+      </div>
+
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">Shade 2</label><input type="color" value="${l.color2 || l.color}" onchange="updateProp(${l.id}, 'color2', this.value, false, event)"></div>
+        <div class="prop-col"><label class="prop-label">Shade 3</label><input type="color" value="${l.color3 || l.color2 || l.color}" onchange="updateProp(${l.id}, 'color3', this.value, false, event)"></div>
+      </div>
+
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">Align</label>
+          <select onchange="updateProp(${l.id}, 'align', this.value, false, event)">
+            <option value="left" ${l.align === 'left' ? 'selected' : ''}>Left</option>
+            <option value="center" ${l.align === 'center' ? 'selected' : ''}>Center</option>
+            <option value="right" ${l.align === 'right' ? 'selected' : ''}>Right</option>
+          </select>
+        </div>
+        <div class="prop-col"><label class="prop-label">Letter Spacing <span class="val-display">${l.spacing}</span></label><input type="range" min="-20" max="100" value="${l.spacing}" oninput="updateProp(${l.id}, 'spacing', this.value, true, event)"></div>
+      </div>
+      
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">Font Weight <span class="val-display">${l.weight}</span></label><input type="range" min="100" max="900" step="100" value="${l.weight}" oninput="updateProp(${l.id}, 'weight', this.value, true, event)"></div>
+        <div class="prop-col"><label class="prop-label">Gradient Angle <span class="val-display">${l.gAngle || 0}°</span></label><input type="range" min="0" max="360" value="${l.gAngle || 0}" oninput="updateProp(${l.id}, 'gAngle', this.value, true, event)"></div>
+      </div>
+
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">Text Bend <span class="val-display">${l.bend || 0}°</span></label><input type="range" min="-180" max="180" value="${l.bend || 0}" oninput="updateProp(${l.id}, 'bend', this.value, true, event)"></div>
+        <div class="prop-col"><label class="prop-label">Effect Power <span class="val-display">${l.effectPower || 50}%</span></label><input type="range" min="0" max="100" value="${l.effectPower || 50}" oninput="updateProp(${l.id}, 'effectPower', this.value, true, event)"></div>
+      </div>
+
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">3D Depth <span class="val-display">${l.effectDepth || 12}</span></label><input type="range" min="0" max="40" value="${l.effectDepth || 12}" oninput="updateProp(${l.id}, 'effectDepth', this.value, true, event)"></div>
+      </div>
+      
+      <div class="prop-title" style="margin-top:15px; border-top:1px solid #333; padding-top:15px;">Outer Stroke / Outline</div>
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">Stroke Color</label><input type="color" value="${l.strokeC || '#ffffff'}" onchange="updateProp(${l.id}, 'strokeC', this.value, false, event)"></div>
+        <div class="prop-col"><label class="prop-label">Thickness <span class="val-display">${l.strokeW || 0}</span></label><input type="range" min="0" max="50" value="${l.strokeW || 0}" oninput="updateProp(${l.id}, 'strokeW', this.value, true, event)"></div>
+      </div>
+      
+      <div class="prop-title" style="margin-top:15px; border-top:1px solid #333; padding-top:15px;">Advanced Drop Shadow</div>
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">Shadow Color</label><input type="color" value="${l.dsColor || '#000000'}" onchange="updateProp(${l.id}, 'dsColor', this.value, false, event)"></div>
+        <div class="prop-col"><label class="prop-label">Opacity <span class="val-display">${l.dsOpacity || 0}%</span></label><input type="range" min="0" max="100" value="${l.dsOpacity || 0}" oninput="updateProp(${l.id}, 'dsOpacity', this.value, true, event)"></div>
+      </div>
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">Offset X <span class="val-display">${l.dsX || 0}px</span></label><input type="range" min="-100" max="100" value="${l.dsX || 0}" oninput="updateProp(${l.id}, 'dsX', this.value, true, event)"></div>
+        <div class="prop-col"><label class="prop-label">Offset Y <span class="val-display">${l.dsY || 0}px</span></label><input type="range" min="-100" max="100" value="${l.dsY || 0}" oninput="updateProp(${l.id}, 'dsY', this.value, true, event)"></div>
+      </div>
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">Blur Radius <span class="val-display">${l.dsBlur || 0}px</span></label><input type="range" min="0" max="100" value="${l.dsBlur || 0}" oninput="updateProp(${l.id}, 'dsBlur', this.value, true, event)"></div>
+      </div>
+    </div>`;
+      }
+
+      // --- SHAPE / CLIPPING MASK ---
+      else if (l.type === 'shape') {
+        html += `
+    <div class="prop-section">
+      <div class="prop-title">Shape Properties</div>
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">Shape Geometry</label>
+          <select onchange="updateProp(${l.id}, 'sType', this.value, false, event)">
+            <option value="rect" ${l.sType === 'rect' ? 'selected' : ''}>Rectangle / Square</option>
+            <option value="circle" ${l.sType === 'circle' ? 'selected' : ''}>Perfect Circle</option>
+            <option value="triangle" ${l.sType === 'triangle' ? 'selected' : ''}>Triangle</option>
+            <option value="star" ${l.sType === 'star' ? 'selected' : ''}>Five-Point Star</option>
+            <option value="polygon" ${l.sType === 'polygon' ? 'selected' : ''}>Hexagon Polygon</option>
+            <option value="badge" ${l.sType === 'badge' ? 'selected' : ''}>Seal Badge</option>
+            <option value="ribbon" ${l.sType === 'ribbon' ? 'selected' : ''}>Ribbon Banner</option>
+            <option value="line" ${l.sType === 'line' ? 'selected' : ''}>Line</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">Width <span class="val-display">${l.w}</span></label><input type="range" min="10" max="2000" value="${l.w}" oninput="updateProp(${l.id}, 'w', this.value, true, event)"></div>
+        ${(l.sType === 'rect' || l.sType === 'triangle' || l.sType === 'ribbon') ? `<div class="prop-col"><label class="prop-label">Height <span class="val-display">${l.h}</span></label><input type="range" min="10" max="2000" value="${l.h}" oninput="updateProp(${l.id}, 'h', this.value, true, event)"></div>` : ''}
+      </div>
+      ${l.sType === 'rect' ? `<div class="prop-row"><div class="prop-col"><label class="prop-label">Corner Radius <span class="val-display">${l.radius || 0}</span></label><input type="range" min="0" max="500" value="${l.radius || 0}" oninput="updateProp(${l.id}, 'radius', this.value, true, event)"></div></div>` : ''}
+
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">Fill Color</label><input type="color" value="${l.color}" onchange="updateProp(${l.id}, 'color', this.value, false, event)"></div>
+        <div class="prop-col"><label class="prop-label">Gradient Fill</label>
+          <select onchange="updateProp(${l.id}, 'gType', this.value, false, event)">
+            <option value="none" ${l.gType === 'none' ? 'selected' : ''}>None (Solid)</option>
+            <option value="linear" ${l.gType === 'linear' ? 'selected' : ''}>Linear Gradient</option>
+            <option value="radial" ${l.gType === 'radial' ? 'selected' : ''}>Radial Glow</option>
+            <option value="gold" ${l.gType === 'gold' ? 'selected' : ''}>Premium Gold</option>
+            <option value="silver" ${l.gType === 'silver' ? 'selected' : ''}>Polished Silver</option>
+            <option value="glass" ${l.gType === 'glass' ? 'selected' : ''}>Frosted Glass</option>
+          </select>
+        </div>
+      </div>
+      
+      ${l.gType && l.gType !== 'none' && l.gType !== 'gold' && l.gType !== 'silver' && l.gType !== 'glass' ? `
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">Color 2</label><input type="color" value="${l.color2 || '#000000'}" onchange="updateProp(${l.id}, 'color2', this.value, false, event)"></div>
+        <div class="prop-col"><label class="prop-label">Color 3</label><input type="color" value="${l.color3 || '#000000'}" onchange="updateProp(${l.id}, 'color3', this.value, false, event)"></div>
+      </div>
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">Grad Angle <span class="val-display">${l.gAngle || 0}°</span></label><input type="range" min="0" max="360" value="${l.gAngle || 0}" oninput="updateProp(${l.id}, 'gAngle', this.value, true, event)"></div>
+      </div>` : ''}
+      
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">Border Color</label><input type="color" value="${l.strokeC || '#ffffff'}" onchange="updateProp(${l.id}, 'strokeC', this.value, false, event)"></div>
+        <div class="prop-col"><label class="prop-label">Border Thick <span class="val-display">${l.strokeW || 0}</span></label><input type="range" min="0" max="50" value="${l.strokeW || 0}" oninput="updateProp(${l.id}, 'strokeW', this.value, true, event)"></div>
+      </div>
+
+      <div class="prop-title" style="margin-top:15px; border-top:1px solid #333; padding-top:15px;">Advanced Drop Shadow</div>
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">Shadow Color</label><input type="color" value="${l.dsColor || '#000000'}" onchange="updateProp(${l.id}, 'dsColor', this.value, false, event)"></div>
+        <div class="prop-col"><label class="prop-label">Opacity <span class="val-display">${l.dsOpacity || 0}%</span></label><input type="range" min="0" max="100" value="${l.dsOpacity || 0}" oninput="updateProp(${l.id}, 'dsOpacity', this.value, true, event)"></div>
+      </div>
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">Offset X <span class="val-display">${l.dsX || 0}px</span></label><input type="range" min="-100" max="100" value="${l.dsX || 0}" oninput="updateProp(${l.id}, 'dsX', this.value, true, event)"></div>
+        <div class="prop-col"><label class="prop-label">Offset Y <span class="val-display">${l.dsY || 0}px</span></label><input type="range" min="-100" max="100" value="${l.dsY || 0}" oninput="updateProp(${l.id}, 'dsY', this.value, true, event)"></div>
+      </div>
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">Blur Radius <span class="val-display">${l.dsBlur || 0}px</span></label><input type="range" min="0" max="100" value="${l.dsBlur || 0}" oninput="updateProp(${l.id}, 'dsBlur', this.value, true, event)"></div>
+      </div>
+
+      <!-- RETOUCHING / FILTERS -->
+      <div style="margin-top:15px; border-top:1px solid #333; padding-top:15px;">
+        <div class="prop-title">Image Retouching</div>
+        <div class="prop-row">
+          <div class="prop-col"><label class="prop-label">Brightness <span class="val-display">${l.brightness || 100}%</span></label><input type="range" min="0" max="200" value="${l.brightness || 100}" oninput="updateProp(${l.id}, 'brightness', this.value, true, event)"></div>
+          <div class="prop-col"><label class="prop-label">Contrast <span class="val-display">${l.contrast || 100}%</span></label><input type="range" min="0" max="200" value="${l.contrast || 100}" oninput="updateProp(${l.id}, 'contrast', this.value, true, event)"></div>
+        </div>
+        <div class="prop-row">
+          <div class="prop-col"><label class="prop-label">Saturation <span class="val-display">${l.saturation || 100}%</span></label><input type="range" min="0" max="200" value="${l.saturation || 100}" oninput="updateProp(${l.id}, 'saturation', this.value, true, event)"></div>
+          <div class="prop-col"><label class="prop-label">Grayscale <span class="val-display">${l.grayscale || 0}%</span></label><input type="range" min="0" max="100" value="${l.grayscale || 0}" oninput="updateProp(${l.id}, 'grayscale', this.value, true, event)"></div>
+        </div>
+        <div class="prop-row">
+          <div class="prop-col"><label class="prop-label">Blur <span class="val-display">${l.blur || 0}px</span></label><input type="range" min="0" max="20" value="${l.blur || 0}" oninput="updateProp(${l.id}, 'blur', this.value, true, event)"></div>
+          <div class="prop-col"><label class="prop-label">Sharpen <span class="val-display">${l.sharpen || 0}%</span></label><input type="range" min="0" max="100" value="${l.sharpen || 0}" oninput="updateProp(${l.id}, 'sharpen', this.value, true, event)"></div>
+        </div>
+        <div class="prop-row" style="margin-top:10px">
+          <div class="prop-col">
+            <label class="prop-label" style="color:var(--accent); font-weight:bold;">
+              Bevel & Emboss
+              <input type="checkbox" ${l.bevel ? 'checked' : ''} onchange="updateToggle(${l.id}, 'bevel')">
+            </label>
+          </div>
+        </div>
+        
+        <div class="prop-title" style="margin-top:15px; border-top:1px solid #333; padding-top:15px;">Chroma Key (Green Screen)</div>
+        <div class="prop-row">
+          <div class="prop-col">
+            <label class="prop-label">Enable Chroma Key
+              <input type="checkbox" ${l.chromaKey ? 'checked' : ''} onchange="updateToggle(${l.id}, 'chromaKey')">
+            </label>
+          </div>
+        </div>
+        ${l.chromaKey ? `
+        <div class="prop-row">
+          <div class="prop-col"><label class="prop-label">Key Color</label><input type="color" value="${l.chromaColor || '#00ff00'}" onchange="updateProp(${l.id}, 'chromaColor', this.value, false, event)"></div>
+          <div class="prop-col"><label class="prop-label">Tolerance <span class="val-display">${l.chromaTolerance || 30}</span></label><input type="range" min="1" max="100" value="${l.chromaTolerance || 30}" oninput="updateProp(${l.id}, 'chromaTolerance', this.value, true, event)"></div>
+        </div>` : ''}
+      </div>
+
+      <!-- CRITICAL TUITION FEATURE: PHOTO CLIPPING MASK -->
+      <div style="margin-top:20px; padding-top:20px; border-top:1px solid #444">
+        <div class="prop-title" style="color:var(--accent)">📸 Teacher Photo Frame</div>
+        <div style="font-size:11px; color:#888; margin-bottom:10px; line-height:1.4">Upload a teacher's photo here. It will be perfectly cropped inside this shape.</div>
+        ${l.clipImg ?
+            `<div class="clip-remove" onclick="removeClip(${l.id})">🗑️ Remove Photo</div>
+             <div style="margin-top:15px; background:rgba(255,255,255,0.03); padding:10px; border-radius:6px;">
+               <div class="prop-title" style="font-size:10px; margin-bottom:10px">Photo Adjustment</div>
+               <div class="prop-row">
+                 <div class="prop-col"><label class="prop-label">Scale <span class="val-display">${l.clipScale || 100}%</span></label><input type="range" min="10" max="300" value="${l.clipScale || 100}" oninput="updateProp(${l.id}, 'clipScale', this.value, true, event)"></div>
+                 <div class="prop-col"><label class="prop-label">Rotation <span class="val-display">${l.clipRotation || 0}°</span></label><input type="range" min="-180" max="180" value="${l.clipRotation || 0}" oninput="updateProp(${l.id}, 'clipRotation', this.value, true, event)"></div>
+               </div>
+               <div class="prop-row">
+                 <div class="prop-col"><label class="prop-label">Offset X <span class="val-display">${l.clipX || 0}</span></label><input type="range" min="-500" max="500" value="${l.clipX || 0}" oninput="updateProp(${l.id}, 'clipX', this.value, true, event)"></div>
+                 <div class="prop-col"><label class="prop-label">Offset Y <span class="val-display">${l.clipY || 0}</span></label><input type="range" min="-500" max="500" value="${l.clipY || 0}" oninput="updateProp(${l.id}, 'clipY', this.value, true, event)"></div>
+               </div>
+             </div>` :
+            `<input type="file" id="clip-file" accept="image/*" style="display:none" onchange="loadClipImage(${l.id}, this)">
+           <div class="clip-upload" onclick="document.getElementById('clip-file').click()">
+             <i style="font-size:24px; margin-bottom:4px">🖼️</i>
+             Click to Upload Photo
+           </div>`
+          }
+      </div>
+    </div>`;
+      }
+
+      // --- IMAGE PROPS ---
+      else if (l.type === 'image') {
+        html += `
+    <div class="prop-section">
+      <div class="prop-title">Image Sizing</div>
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">Scale Width <span class="val-display">${Math.round(l.w)}</span></label><input type="range" min="10" max="3000" value="${l.w}" oninput="updateProp(${l.id}, 'w', this.value, true, event); l.h = l.img.height * (this.value/l.img.width); renderCanvas();"></div>
+      </div>
+      
+      <!-- RETOUCHING / FILTERS -->
+      <div style="margin-top:15px; border-top:1px solid #333; padding-top:15px;">
+        <div class="prop-title">Image Retouching</div>
+        <div class="prop-row">
+          <div class="prop-col"><label class="prop-label">Brightness <span class="val-display">${l.brightness || 100}%</span></label><input type="range" min="0" max="200" value="${l.brightness || 100}" oninput="updateProp(${l.id}, 'brightness', this.value, true, event)"></div>
+          <div class="prop-col"><label class="prop-label">Contrast <span class="val-display">${l.contrast || 100}%</span></label><input type="range" min="0" max="200" value="${l.contrast || 100}" oninput="updateProp(${l.id}, 'contrast', this.value, true, event)"></div>
+        </div>
+        <div class="prop-row">
+          <div class="prop-col"><label class="prop-label">Saturation <span class="val-display">${l.saturation || 100}%</span></label><input type="range" min="0" max="200" value="${l.saturation || 100}" oninput="updateProp(${l.id}, 'saturation', this.value, true, event)"></div>
+          <div class="prop-col"><label class="prop-label">Grayscale <span class="val-display">${l.grayscale || 0}%</span></label><input type="range" min="0" max="100" value="${l.grayscale || 0}" oninput="updateProp(${l.id}, 'grayscale', this.value, true, event)"></div>
+        </div>
+        <div class="prop-row">
+          <div class="prop-col"><label class="prop-label">Blur <span class="val-display">${l.blur || 0}px</span></label><input type="range" min="0" max="20" value="${l.blur || 0}" oninput="updateProp(${l.id}, 'blur', this.value, true, event)"></div>
+          <div class="prop-col"><label class="prop-label">Sharpen <span class="val-display">${l.sharpen || 0}%</span></label><input type="range" min="0" max="100" value="${l.sharpen || 0}" oninput="updateProp(${l.id}, 'sharpen', this.value, true, event)"></div>
+        </div>
+        
+        <div class="prop-title" style="margin-top:15px; border-top:1px solid #333; padding-top:15px;">Chroma Key (Green Screen)</div>
+        <div class="prop-row">
+          <div class="prop-col">
+            <label class="prop-label">Enable Chroma Key
+              <input type="checkbox" ${l.chromaKey ? 'checked' : ''} onchange="updateToggle(${l.id}, 'chromaKey')">
+            </label>
+          </div>
+        </div>
+        ${l.chromaKey ? `
+        <div class="prop-row">
+          <div class="prop-col"><label class="prop-label">Key Color</label><input type="color" value="${l.chromaColor || '#00ff00'}" onchange="updateProp(${l.id}, 'chromaColor', this.value, false, event)"></div>
+          <div class="prop-col"><label class="prop-label">Tolerance <span class="val-display">${l.chromaTolerance || 30}</span></label><input type="range" min="1" max="100" value="${l.chromaTolerance || 30}" oninput="updateProp(${l.id}, 'chromaTolerance', this.value, true, event)"></div>
+        </div>` : ''}
+      </div>
+    </div>`;
+      }
+
+      // --- HTML OVERLAY PROPS ---
+      else if (l.type === 'html') {
+        html += `
+    <div class="prop-section">
+      <div class="prop-title">Template Overlay Sizing</div>
+      <div class="prop-row">
+        <div class="prop-col"><label class="prop-label">Width <span class="val-display">${l.w}</span></label><input type="range" min="10" max="2000" value="${l.w}" oninput="updateProp(${l.id}, 'w', this.value, true, event)"></div>
+        <div class="prop-col"><label class="prop-label">Height <span class="val-display">${l.h}</span></label><input type="range" min="10" max="2000" value="${l.h}" oninput="updateProp(${l.id}, 'h', this.value, true, event)"></div>
+      </div>
+    </div>`;
+      }
+
+      panel.innerHTML = html;
+    }
+
+    /* ─── INTERACTIVE MOUSE ENGINE (HIT TEST & DRAG) ─── */
+    function setupMouseEvents() {
+      wrap.addEventListener('mousedown', (e) => {
+        if (currentTool === 'hand') {
+          isPanning = true;
+          panStartX = e.clientX;
+          panStartY = e.clientY;
+          wrap.style.cursor = 'grabbing';
+          return;
+        }
+
+        if (layers.length === 0) return;
+
+        const rect = wrap.getBoundingClientRect();
+        const scaleX = W / rect.width;
+        const scaleY = H / rect.height;
+        const mx = (e.clientX - rect.left) * scaleX;
+        const my = (e.clientY - rect.top) * scaleY;
+
+        // Hit test reverse (top layer first)
+        let clickedId = null;
+
+        function isHit(l, mx, my) {
+          if (l.hidden) return false;
+          const rad = -(l.rotation * Math.PI / 180);
+          const dx = mx - l.x; const dy = my - l.y;
+          const lx = dx * Math.cos(rad) - dy * Math.sin(rad);
+          const ly = dx * Math.sin(rad) + dy * Math.cos(rad);
+
+          let bw = l.w || 0; let bh = l.h || 0;
+          let left = -bw / 2; let top = -bh / 2;
+
+          if (l.type === 'text') {
+            ctx.font = `${l.weight} ${l.size}px ${l.font}`;
+            const lines = l.text.split('\n');
+            let maxW = 0;
+            lines.forEach(line => {
+              const m = measureTextRun(line, l.spacing);
+              if (m > maxW) maxW = m;
+            });
+            bw = maxW;
+            bh = lines.length * (l.size * 1.15);
+            const align = l.align || 'center';
+            left = -bw / 2;
+            if (align === 'left') left = 0;
+            if (align === 'right') left = -bw;
+            top = -bh / 2;
+            if (l.bend && l.bend !== 0) { bh += Math.abs(l.bend) * 2; top = -bh / 2; }
+          } else if (l.type === 'shape' && l.sType === 'line') {
+            bh = 20; top = -10;
+          } else {
+            if (l.type === 'shape' && l.sType !== 'rect' && l.sType !== 'triangle' && l.sType !== 'ribbon') bh = l.w;
+            top = -bh / 2;
+          }
+          return (lx >= left && lx <= left + bw && ly >= top && ly <= top + bh);
+        }
+
+        // Priority 1: Check if click is inside the CURRENTLY SELECTED layer's bounding box
+        if (selectedId && selectedId !== layers[0].id) {
+          const selLayer = layers.find(x => x.id === selectedId);
+          if (selLayer && !selLayer.hidden && !selLayer.locked) {
+            const rad = -(selLayer.rotation * Math.PI / 180);
+            const dx = mx - selLayer.x; const dy = my - selLayer.y;
+            const lx = dx * Math.cos(rad) - dy * Math.sin(rad);
+            const ly = dx * Math.sin(rad) + dy * Math.cos(rad);
+
+            let bw = selLayer.w; let bh = selLayer.h;
+            if (selLayer.type === 'text') {
+              ctx.font = `${selLayer.weight} ${selLayer.size}px ${selLayer.font}`;
+              const lines = selLayer.text.split('\n');
+              let maxW = 0; lines.forEach(line => { const m = measureTextRun(line, selLayer.spacing); if (m > maxW) maxW = m; });
+              bw = maxW; bh = lines.length * (selLayer.size * 1.15);
+              if (selLayer.bend && selLayer.bend !== 0) bh += Math.abs(selLayer.bend) * 2;
+            } else if (selLayer.type === 'shape' && selLayer.sType === 'line') {
+              bh = 20;
+            } else {
+              if (selLayer.type === 'shape' && selLayer.sType !== 'rect' && selLayer.sType !== 'triangle' && selLayer.sType !== 'ribbon') bh = selLayer.w;
+            }
+
+            const hSize = 12; // handle hit radius
+            const handles = [
+              { id: 0, x: -bw/2, y: -bh/2 },
+              { id: 1, x: bw/2, y: -bh/2 },
+              { id: 2, x: bw/2, y: bh/2 },
+              { id: 3, x: -bw/2, y: bh/2 }
+            ];
+
+            let handleHit = null;
+            for (let h of handles) {
+               if (Math.abs(lx - h.x) <= hSize && Math.abs(ly - h.y) <= hSize) {
+                  handleHit = h.id; break;
+               }
+            }
+
+            if (handleHit !== null) {
+               isScaling = true;
+               scaleCorner = handleHit;
+               originalW = bw;
+               originalH = bh;
+               originalSize = selLayer.size || 0;
+               return; // Scale instead of drag
+            }
+
+            if (isHit(selLayer, mx, my)) clickedId = selLayer.id;
+          }
+        }
+
+        // Priority 2: If no hit on selected layer, check all layers top-to-bottom
+        if (!clickedId) {
+          for (let i = layers.length - 1; i >= 1; i--) {
+            if (isHit(layers[i], mx, my)) {
+              clickedId = layers[i].id;
+              break;
+            }
+          }
+        }
+
+        if (clickedId) {
+          const l = layers.find(x => x.id === clickedId);
+          selectedId = clickedId;
+          if (l.locked) {
+             toast('🔒 Layer is Locked');
+             isDragging = false;
+          } else {
+             if (e.altKey) { // Alt-Drag to duplicate
+                const newId = layerIdCount++;
+                const newLayer = JSON.parse(JSON.stringify(l));
+                newLayer.id = newId;
+                newLayer.name = newLayer.name + ' Copy';
+                const idx = layers.findIndex(x => x.id === l.id);
+                layers.splice(idx + 1, 0, newLayer);
+                
+                selectedId = newId;
+                dragOffsetX = mx - newLayer.x;
+                dragOffsetY = my - newLayer.y;
+                isDragging = true;
+                toast('Layer Duplicated');
+             } else {
+                dragOffsetX = mx - l.x;
+                dragOffsetY = my - l.y;
+                isDragging = true;
+             }
+          }
+          updateUI();
+        } else {
+          selectedId = layers[0].id; // BG
+          isDragging = false;
+          updateUI();
+        }
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (isPanning) {
+          const dx = e.clientX - panStartX;
+          const dy = e.clientY - panStartY;
+          panOffsetX += dx;
+          panOffsetY += dy;
+          wrap.style.transform = `translate(${panOffsetX}px, ${panOffsetY}px)`;
+          panStartX = e.clientX;
+          panStartY = e.clientY;
+          return;
+        }
+        
+        if (!isDragging && !isScaling) return;
+        if (selectedId === layers[0].id) return;
+        const l = layers.find(x => x.id === selectedId);
+        if (!l || l.locked) return;
+        
+        const rect = wrap.getBoundingClientRect();
+        const scaleX = W / rect.width;
+        const scaleY = H / rect.height;
+        const mx = (e.clientX - rect.left) * scaleX;
+        const my = (e.clientY - rect.top) * scaleY;
+
+        if (isDragging) {
+           let newX = mx - dragOffsetX;
+           let newY = my - dragOffsetY;
+           
+           snapLines = [];
+           if (Math.abs(newX - W/2) < 15) { newX = W/2; snapLines.push({x: W/2}); }
+           if (Math.abs(newY - H/2) < 15) { newY = H/2; snapLines.push({y: H/2}); }
+           
+           l.x = newX;
+           l.y = newY;
+        } else if (isScaling) {
+           const rad = -(l.rotation * Math.PI / 180);
+           const dx = mx - l.x; const dy = my - l.y;
+           const lx = dx * Math.cos(rad) - dy * Math.sin(rad);
+           const ly = dx * Math.sin(rad) + dy * Math.cos(rad);
+           
+           const scale = Math.max(Math.abs(lx) / (originalW/2 || 1), Math.abs(ly) / (originalH/2 || 1));
+           if (l.type === 'text') {
+              l.size = Math.max(10, Math.round(originalSize * scale));
+           } else {
+              l.w = Math.max(10, Math.round(originalW * scale));
+              if (l.h) l.h = Math.max(10, Math.round(originalH * scale));
+           }
+        }
+        renderCanvas();
+      });
+
+      window.addEventListener('mouseup', () => {
+        if (isPanning) {
+          isPanning = false;
+          wrap.style.cursor = currentTool === 'hand' ? 'grab' : 'default';
+        }
+        if (isDragging) {
+          isDragging = false;
+          snapLines = [];
+          renderProps(); // Sync sliders
+          renderCanvas(); // Remove snap lines visually
+        }
+        if (isScaling) {
+          isScaling = false;
+          renderProps();
+        }
+      });
+
+      window.addEventListener('keydown', (e) => {
+         if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+         if (!selectedId || selectedId === layers[0].id) return;
+         
+         const l = layers.find(x => x.id === selectedId);
+         if (!l || l.locked) return;
+         
+         const step = e.shiftKey ? 10 : 1;
+         
+         if (e.key === 'ArrowUp') { l.y -= step; e.preventDefault(); updateUI(); }
+         if (e.key === 'ArrowDown') { l.y += step; e.preventDefault(); updateUI(); }
+         if (e.key === 'ArrowLeft') { l.x -= step; e.preventDefault(); updateUI(); }
+         if (e.key === 'ArrowRight') { l.x += step; e.preventDefault(); updateUI(); }
+         
+         if (e.key === 'Backspace' || e.key === 'Delete') {
+            const idx = layers.findIndex(x => x.id === selectedId);
+            if (idx > 0) {
+               layers.splice(idx, 1);
+               selectedId = layers[0].id;
+               updateUI();
+               toast('Layer Deleted');
+            }
+         }
+      });
+    }
+
+    function centerLayer(id, axis) {
+      const l = layers.find(x => x.id === id);
+      if (!l || l.locked) return;
+      if (axis === 'h') l.x = W / 2;
+      if (axis === 'v') l.y = H / 2;
+      updateUI();
+    }
+
+    /* ─── CORE RENDERING ENGINE ─── */
+    function hexToRgba(hex, alpha) {
+      if (!hex) return 'rgba(0,0,0,0)';
+      let r = 0, g = 0, b = 0;
+      if (hex.length === 4) { r = parseInt(hex[1] + hex[1], 16); g = parseInt(hex[2] + hex[2], 16); b = parseInt(hex[3] + hex[3], 16); }
+      else if (hex.length === 7) { r = parseInt(hex.substr(1, 2), 16); g = parseInt(hex.substr(3, 2), 16); b = parseInt(hex.substr(5, 2), 16); }
+      return `rgba(${r},${g},${b},${alpha / 100})`;
+    }
+
+    function renderCanvas() {
+      if (layers.length === 0) return; // Safeguard
+
+      ctx.save();
+      ctx.scale(dpr, dpr);
+      ctx.clearRect(0, 0, W, H);
+
+      // Background
+      const bg = layers[0];
+      ctx.fillStyle = createThreeStopGradient(W, H, bg.c1, bg.c2, bg.c3 || bg.c2, bg.angle || 0, bg.bgMode || 'linear');
+      ctx.fillRect(0, 0, W, H);
+
+      // Helper for pixel-level processing
+      function applyPixelFX(img, l, w, h) {
+        const tempCanvas = document.createElement('canvas');
+        tempCanvas.width = w; tempCanvas.height = h;
+        const tctx = tempCanvas.getContext('2d');
+        tctx.clearRect(0, 0, w, h);
+        tctx.drawImage(img, 0, 0, w, h);
+        
+        let imageData = tctx.getImageData(0, 0, w, h);
+        let pixels = imageData.data;
+
+        // 1. Improved Chroma Key
+        if (l.chromaKey) {
+          const target = hexToRgb(l.chromaColor || '#00ff00');
+          const tol = (l.chromaTolerance || 30) * 1.5;
+          for (let i = 0; i < pixels.length; i += 4) {
+            const r = pixels[i], g = pixels[i+1], b = pixels[i+2];
+            
+            // Calculate color distance
+            const dR = r - target.r;
+            const dG = g - target.g;
+            const dB = b - target.b;
+            const dist = Math.sqrt(dR*dR + dG*dG + dB*dB);
+            
+            if (dist < tol) {
+              pixels[i+3] = 0; // Transparent
+            } else if (dist < tol * 1.5) {
+              // Soft edge / smoothing
+              pixels[i+3] = pixels[i+3] * ((dist - tol) / (tol * 0.5));
+            }
+          }
+        }
+
+        // 2. Sharpening (Convolution)
+        if (l.sharpen > 0) {
+          const strength = l.sharpen / 100;
+          const original = new Uint8ClampedArray(pixels);
+          const weights = [0, -strength, 0, -strength, 1 + 4*strength, -strength, 0, -strength, 0];
+          for (let y = 1; y < h - 1; y++) {
+            for (let x = 1; x < w - 1; x++) {
+              for (let c = 0; c < 3; c++) {
+                let sum = 0;
+                for (let ky = -1; ky <= 1; ky++) {
+                  for (let kx = -1; kx <= 1; kx++) {
+                    sum += original[((y+ky)*w + (x+kx))*4 + c] * weights[(ky+1)*3 + (kx+1)];
+                  }
+                }
+                pixels[(y*w + x)*4 + c] = Math.min(255, Math.max(0, sum));
+              }
+            }
+          }
+        }
+        
+        tctx.putImageData(imageData, 0, 0);
+        return tempCanvas;
+      }
+
+      function hexToRgb(hex) {
+        let r = 0, g = 0, b = 0;
+        if (hex.length === 4) { r = parseInt(hex[1]+hex[1], 16); g = parseInt(hex[2]+hex[2], 16); b = parseInt(hex[3]+hex[3], 16); }
+        else { r = parseInt(hex.substr(1,2), 16); g = parseInt(hex.substr(3,2), 16); b = parseInt(hex.substr(5,2), 16); }
+        return {r, g, b};
+      }
+
+      function splitIntoClusters(text) {
+        if (window.Intl && typeof Intl.Segmenter === 'function') {
+          return [...new Intl.Segmenter('si', { granularity: 'grapheme' }).segment(text)].map(part => part.segment);
+        }
+        return text.match(/\P{Mark}\p{Mark}*|./gu) || [];
+      }
+
+      function measureTextRun(text, spacing = 0) {
+        const clusters = splitIntoClusters(text);
+        return clusters.reduce((total, cluster, index) => {
+          const extraSpacing = index < clusters.length - 1 ? spacing : 0;
+          return total + ctx.measureText(cluster).width + extraSpacing;
+        }, 0);
+      }
+
+      function createThreeStopGradient(width, height, color1, color2, color3, angleDeg, mode = 'linear', relativeX = 0, relativeY = 0) {
+        const angleRad = (angleDeg || 0) * Math.PI / 180;
+        if (mode === 'radial') {
+          const radius = Math.max(width, height) * 0.8;
+          const g = ctx.createRadialGradient(relativeX, relativeY, 0, relativeX, relativeY, radius);
+          g.addColorStop(0, color1);
+          g.addColorStop(0.55, color2);
+          g.addColorStop(1, color3 || color2);
+          return g;
+        }
+
+        const halfW = width / 2;
+        const halfH = height / 2;
+        const x1 = relativeX - Math.cos(angleRad) * halfW;
+        const y1 = relativeY - Math.sin(angleRad) * halfH;
+        const x2 = relativeX + Math.cos(angleRad) * halfW;
+        const y2 = relativeY + Math.sin(angleRad) * halfH;
+        
+        const g = ctx.createLinearGradient(x1, y1, x2, y2);
+        g.addColorStop(0, color1);
+        g.addColorStop(0.5, color2);
+        g.addColorStop(1, color3 || color2);
+        return g;
+      }
+
+      function getTextGradient(text, x, y, l) {
+        const width = Math.max(10, measureTextRun(text, l.spacing));
+        let relX = x;
+        const align = l.align || 'center';
+        if (align === 'center') relX = x;
+        else if (align === 'left') relX = x + width / 2;
+        else if (align === 'right') relX = x - width / 2;
+        
+        return createThreeStopGradient(width, l.size, l.color, l.color2 || l.color, l.color3 || l.color2 || l.color, l.gAngle || 0, 'linear', relX, y);
+      }
+
+      // Render Layers Loop (Bottom to Top)
+      for (let i = 1; i < layers.length; i++) {
+        const l = layers[i];
+        if (l.hidden) continue;
+        ctx.save();
+
+        ctx.translate(l.x, l.y);
+        ctx.rotate(l.rotation * Math.PI / 180);
+        
+        // --- FLIP LOGIC ---
+        let scaleX = 1, scaleY = 1;
+        if (l.flipH) scaleX = -1;
+        if (l.flipV) scaleY = -1;
+        if (scaleX !== 1 || scaleY !== 1) ctx.scale(scaleX, scaleY);
+
+        ctx.globalAlpha = l.opacity / 100;
+        if (l.blendMode) ctx.globalCompositeOperation = l.blendMode;
+        else ctx.globalCompositeOperation = 'source-over';
+        
+        if (l.dsOpacity && l.dsOpacity > 0) {
+           ctx.shadowColor = hexToRgba(l.dsColor || '#000000', l.dsOpacity);
+           ctx.shadowOffsetX = l.dsX || 0;
+           ctx.shadowOffsetY = l.dsY || 0;
+           ctx.shadowBlur = l.dsBlur || 0;
+        }
+
+        /* --- HTML TEMPLATE LAYER (OVERLAY) --- */
+        if (l.type === 'html') {
+          ctx.fillStyle = 'rgba(0, 200, 255, 0.2)';
+          ctx.fillRect(-l.w / 2, -l.h / 2, l.w, l.h);
+          ctx.strokeStyle = '#00c8ff';
+          ctx.lineWidth = 2;
+          ctx.strokeRect(-l.w / 2, -l.h / 2, l.w, l.h);
+          ctx.fillStyle = '#fff';
+          ctx.font = 'bold 20px Inter';
+          ctx.textAlign = 'center';
+          ctx.fillText(`HTML TEMPLATE: ${l.src}`, 0, 0);
+          ctx.font = '12px Inter';
+          ctx.fillText('This template will render fully in Website Export', 0, 30);
+        }
+
+        /* --- IMAGE LAYER --- */
+        if (l.type === 'image') {
+          // Apply Retouching Filters
+          const filters = [];
+          if (l.brightness !== undefined && l.brightness !== 100) filters.push(`brightness(${l.brightness}%)`);
+          if (l.contrast !== undefined && l.contrast !== 100) filters.push(`contrast(${l.contrast}%)`);
+          if (l.saturation !== undefined && l.saturation !== 100) filters.push(`saturate(${l.saturation}%)`);
+          if (l.grayscale !== undefined && l.grayscale > 0) filters.push(`grayscale(${l.grayscale}%)`);
+          if (l.blur !== undefined && l.blur > 0) filters.push(`blur(${l.blur}px)`);
+          
+          if (filters.length > 0) ctx.filter = filters.join(' ');
+          else ctx.filter = 'none';
+
+          if (l.chromaKey || l.sharpen > 0) {
+            const fxCanvas = applyPixelFX(l.img, l, l.img.width, l.img.height);
+            ctx.drawImage(fxCanvas, -l.w / 2, -l.h / 2, l.w, l.h);
+          } else {
+            ctx.drawImage(l.img, -l.w / 2, -l.h / 2, l.w, l.h);
+          }
+          ctx.filter = 'none'; // Reset after drawing
+        }
+
+        /* --- SHAPE / TEACHER PHOTO FRAME --- */
+        else if (l.type === 'shape') {
+          ctx.beginPath();
+          if (l.sType === 'rect') {
+            const r = l.radius || 0;
+            const sx = -l.w / 2; const sy = -l.h / 2;
+            ctx.moveTo(sx + r, sy); ctx.lineTo(sx + l.w - r, sy);
+            ctx.quadraticCurveTo(sx + l.w, sy, sx + l.w, sy + r); ctx.lineTo(sx + l.w, sy + l.h - r);
+            ctx.quadraticCurveTo(sx + l.w, sy + l.h, sx + l.w - r, sy + l.h); ctx.lineTo(sx + r, sy + l.h);
+            ctx.quadraticCurveTo(sx, sy + l.h, sx, sy + l.h - r); ctx.lineTo(sx, sy + r);
+            ctx.quadraticCurveTo(sx, sy, sx + r, sy);
+          } else if (l.sType === 'circle') {
+            ctx.arc(0, 0, l.w / 2, 0, Math.PI * 2);
+          } else if (l.sType === 'triangle') {
+            ctx.moveTo(0, -l.h / 2);
+            ctx.lineTo(l.w / 2, l.h / 2);
+            ctx.lineTo(-l.w / 2, l.h / 2);
+          } else if (l.sType === 'star') {
+            const spikes = 5; const outerRadius = l.w / 2; const innerRadius = l.w / 4;
+            let rot = Math.PI / 2 * 3; let x = 0; let y = 0; const step = Math.PI / spikes;
+            ctx.moveTo(0, -outerRadius);
+            for (let j = 0; j < spikes; j++) {
+              x = Math.cos(rot) * outerRadius; y = Math.sin(rot) * outerRadius; ctx.lineTo(x, y); rot += step;
+              x = Math.cos(rot) * innerRadius; y = Math.sin(rot) * innerRadius; ctx.lineTo(x, y); rot += step;
+            }
+          } else if (l.sType === 'polygon') {
+            const sides = 6; const r = l.w / 2;
+            ctx.moveTo(r * Math.cos(-Math.PI / 2), r * Math.sin(-Math.PI / 2));
+            for (let j = 1; j < sides; j++) {
+              const ang = (j * 2 * Math.PI / sides) - Math.PI / 2;
+              ctx.lineTo(r * Math.cos(ang), r * Math.sin(ang));
+            }
+          } else if (l.sType === 'badge') {
+            const spikes = 16; const outer = l.w / 2; const inner = l.w / 2.2;
+            ctx.moveTo(outer, 0);
+            for (let j = 1; j < spikes * 2; j++) {
+              const r = j % 2 === 0 ? outer : inner;
+              const ang = j * Math.PI / spikes;
+              ctx.lineTo(r * Math.cos(ang), r * Math.sin(ang));
+            }
+          } else if (l.sType === 'ribbon') {
+            const hw = l.w / 2; const hh = l.h / 2;
+            const bend = l.w * 0.1;
+            ctx.moveTo(-hw, -hh); 
+            ctx.lineTo(hw, -hh); 
+            ctx.lineTo(hw - bend, 0); 
+            ctx.lineTo(hw, hh); 
+            ctx.lineTo(-hw, hh); 
+            ctx.lineTo(-hw + bend, 0);
+          } else if (l.sType === 'line') {
+            ctx.moveTo(-l.w / 2, 0);
+            ctx.lineTo(l.w / 2, 0);
+          }
+          ctx.closePath();
+
+          if (l.clipImg) {
+            // Clipping Mask Logic (Photo inside Shape)
+            ctx.save();
+            ctx.clip();
+            
+            // Apply Retouching Filters to Clipped Image
+            const filters = [];
+            if (l.brightness !== undefined && l.brightness !== 100) filters.push(`brightness(${l.brightness}%)`);
+            if (l.contrast !== undefined && l.contrast !== 100) filters.push(`contrast(${l.contrast}%)`);
+            if (l.saturation !== undefined && l.saturation !== 100) filters.push(`saturate(${l.saturation}%)`);
+            if (l.grayscale !== undefined && l.grayscale > 0) filters.push(`grayscale(${l.grayscale}%)`);
+            if (l.blur !== undefined && l.blur > 0) filters.push(`blur(${l.blur}px)`);
+            
+            if (filters.length > 0) ctx.filter = filters.join(' ');
+            else ctx.filter = 'none';
+
+            const imgRatio = l.clipImg.width / l.clipImg.height;
+            const boxRatio = l.sType === 'rect' ? (l.w / l.h) : 1;
+            let cw = l.w, ch = l.h;
+            if (imgRatio > boxRatio) { cw = ch * imgRatio; } else { ch = cw / imgRatio; }
+            
+            // Apply Manual Manipulation (Offset, Scale, Rotation)
+            const finalScale = (l.clipScale || 100) / 100;
+            ctx.translate(l.clipX || 0, l.clipY || 0);
+            ctx.rotate((l.clipRotation || 0) * Math.PI / 180);
+            
+            if (l.chromaKey || l.sharpen > 0) {
+              const fxCanvas = applyPixelFX(l.clipImg, l, l.clipImg.width, l.clipImg.height);
+              ctx.drawImage(fxCanvas, (-cw / 2) * finalScale, (-ch / 2) * finalScale, cw * finalScale, ch * finalScale);
+            } else {
+              ctx.drawImage(l.clipImg, (-cw / 2) * finalScale, (-ch / 2) * finalScale, cw * finalScale, ch * finalScale);
+            }
+            
+            ctx.filter = 'none'; // Reset filter
+            ctx.restore();
+          }
+          else {
+            // Shape Fill Logic
+            const sh = (l.sType === 'rect' || l.sType === 'triangle' || l.sType === 'ribbon') ? l.h : l.w;
+            if (l.gType === 'linear') {
+              ctx.fillStyle = createThreeStopGradient(l.w, sh, l.color, l.color2 || l.color, l.color3 || l.color2 || l.color, l.gAngle || 0, 'linear', 0, 0);
+            } else if (l.gType === 'radial') {
+              ctx.fillStyle = createThreeStopGradient(l.w, sh, l.color, l.color2 || l.color, l.color3 || l.color2 || l.color, l.gAngle || 0, 'radial', 0, 0);
+            } else if (l.gType === 'gold') {
+              const g = ctx.createLinearGradient(-l.w / 2, -sh / 2, l.w / 2, sh / 2);
+              g.addColorStop(0, '#bf953f'); g.addColorStop(0.2, '#fcf6ba'); g.addColorStop(0.5, '#b38728'); g.addColorStop(0.8, '#fcf6ba'); g.addColorStop(1, '#aa8029');
+              ctx.fillStyle = g;
+            } else if (l.gType === 'silver') {
+              const g = ctx.createLinearGradient(-l.w / 2, -sh / 2, l.w / 2, sh / 2);
+              g.addColorStop(0, '#777'); g.addColorStop(0.5, '#eee'); g.addColorStop(1, '#777');
+              ctx.fillStyle = g;
+            } else if (l.gType === 'glass') {
+              ctx.fillStyle = 'rgba(255,255,255,0.1)';
+              ctx.shadowColor = 'rgba(255,255,255,0.2)'; ctx.shadowBlur = 10;
+            } else {
+              ctx.fillStyle = l.color;
+            }
+            ctx.fill();
+            ctx.shadowBlur = 0; // Reset shadow
+
+            // Bevel & Emboss Effect
+            if (l.bevel) {
+              ctx.save();
+              ctx.clip();
+              // Highlight
+              ctx.strokeStyle = 'rgba(255,255,255,0.5)'; ctx.lineWidth = 10;
+              ctx.shadowColor = 'rgba(255,255,255,0.8)'; ctx.shadowBlur = 15;
+              ctx.strokeRect(-l.w / 2 - 5, -sh / 2 - 5, l.w + 10, sh + 10);
+              // Shadow
+              ctx.strokeStyle = 'rgba(0,0,0,0.5)'; ctx.lineWidth = 10;
+              ctx.shadowColor = 'rgba(0,0,0,0.8)'; ctx.shadowBlur = 15;
+              ctx.strokeRect(-l.w / 2 + 5, -sh / 2 + 5, l.w + 10, sh + 10);
+              ctx.restore();
+            }
+          }
+
+          // Border / Stroke
+          if (l.strokeW > 0) {
+            ctx.lineWidth = l.strokeW;
+            ctx.strokeStyle = l.strokeC || '#ffffff';
+            ctx.stroke();
+          }
+        }
+
+        /* --- TEXT LAYER --- */
+        else if (l.type === 'text') {
+          const lines = l.text.split('\n');
+          const lh = l.size * 1.15;
+          const totalH = (lines.length - 1) * lh;
+
+          const align = l.align || 'center';
+          ctx.textAlign = align; ctx.textBaseline = 'middle';
+          ctx.font = `${l.weight} ${l.size}px ${l.font}, sans-serif`;
+          if (ctx.letterSpacing !== undefined) ctx.letterSpacing = l.spacing + "px";
+
+          lines.forEach((line, li) => {
+            const ly = -(totalH / 2) + (li * lh);
+
+            if (l.bend && l.bend !== 0) {
+              const clusters = splitIntoClusters(line);
+              const clusterWidths = clusters.map((cluster, index) => ctx.measureText(cluster).width + (index < clusters.length - 1 ? l.spacing : 0));
+              const totalWidth = clusterWidths.reduce((sum, width) => sum + width, 0);
+              const bendStrength = Math.max(0.08, Math.abs(l.bend) / 180);
+              const radius = Math.max(totalWidth / (Math.PI * bendStrength), l.size * 1.4);
+              const totalAngle = totalWidth / radius;
+              const curveDirection = l.bend >= 0 ? 1 : -1;
+
+              let currentAngle = -totalAngle / 2;
+              if (align === 'left') currentAngle = 0;
+              if (align === 'right') currentAngle = -totalAngle;
+
+              clusters.forEach((cluster, index) => {
+                const clusterAngle = clusterWidths[index] / radius;
+                const centerAngle = currentAngle + clusterAngle / 2;
+                ctx.save();
+                const tx = Math.sin(centerAngle) * radius;
+                const ty = curveDirection * (radius - Math.cos(centerAngle) * radius);
+                ctx.translate(tx, ly + ty);
+                ctx.rotate(curveDirection > 0 ? centerAngle : -centerAngle);
+                drawTextChar(cluster, 0, 0, l);
+                ctx.restore();
+
+                currentAngle += clusterAngle;
+              });
+            } else {
+              // --- NORMAL STRAIGHT TEXT ---
+              drawTextChar(line, 0, ly, l);
+            }
+          });
+        }
+
+        ctx.restore();
+
+        // Selection Bounding Box Overlay
+        if (selectedId === l.id) {
+          ctx.save();
+          ctx.translate(l.x, l.y);
+          ctx.rotate(l.rotation * Math.PI / 180);
+          ctx.strokeStyle = '#0d99ff'; ctx.lineWidth = 2;
+
+          let bw = 0, bh = 0;
+          const sh = (l.sType === 'rect' || l.sType === 'triangle' || l.sType === 'ribbon' || l.sType === 'line') ? (l.h || l.w) : l.w;
+          if (l.type === 'shape' || l.type === 'image' || l.type === 'html') { 
+            bw = l.w; 
+            bh = (l.type === 'shape' && l.sType === 'line') ? 20 : sh; 
+          }
+          else if (l.type === 'text') {
+            ctx.font = `${l.weight} ${l.size}px ${l.font}`;
+            const lines = l.text.split('\n');
+            bw = Math.max(...lines.map(x => measureTextRun(x, l.spacing)));
+            bh = lines.length * (l.size * 1.15);
+            if (l.bend && l.bend !== 0) bh += Math.abs(l.bend) * 2; // Extra height for bent text
+          }
+
+          let bx = -bw / 2;
+          if (l.type === 'text') {
+            const align = l.align || 'center';
+            if (align === 'left') bx = 0;
+            if (align === 'right') bx = -bw;
+          }
+
+          ctx.strokeRect(bx - 5, -bh / 2 - 5, bw + 10, bh + 10);
+          // Nodes
+          ctx.fillStyle = '#fff'; 
+          const nodes = [
+            [bx - 5, -bh / 2 - 5],
+            [bx + bw + 5, -bh / 2 - 5],
+            [bx - 5, bh / 2 + 5],
+            [bx + bw + 5, bh / 2 + 5]
+          ];
+          nodes.forEach(n => {
+            ctx.beginPath(); ctx.arc(n[0], n[1], 4, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+          });
+          ctx.restore();
+        }
+      }
+
+      // Draw Smart Guides (Snapping)
+      if ((isDragging || isScaling) && snapLines.length > 0) {
+         ctx.save();
+         ctx.strokeStyle = '#ff00ff'; // Magenta
+         ctx.lineWidth = 1;
+         ctx.setLineDash([5, 5]);
+         snapLines.forEach(line => {
+            ctx.beginPath();
+            if (line.x !== undefined) {
+               ctx.moveTo(line.x, 0); ctx.lineTo(line.x, H);
+            } else if (line.y !== undefined) {
+               ctx.moveTo(0, line.y); ctx.lineTo(W, line.y);
+            }
+            ctx.stroke();
+         });
+         ctx.restore();
+      }
+
+      ctx.restore();
+    }
+
+    function drawTextChar(line, x, ly, l) {
+      const effectPower = (l.effectPower ?? 50) / 100;
+      const effectDepth = l.effectDepth ?? 12;
+
+      // Outline Stroke (Drawn behind)
+      if (l.strokeW > 0) {
+        ctx.lineJoin = 'round'; ctx.lineWidth = l.strokeW; ctx.strokeStyle = l.strokeC;
+        ctx.strokeText(line, x, ly);
+      }
+
+      // Fill Colors
+      if (l.style === '3dgold') {
+        const depth = Math.max(1, Math.round(Math.min(24, effectDepth)));
+        for (let j = depth; j >= 1; j--) {
+          ctx.fillStyle = '#664200';
+          ctx.fillText(line, x, ly + j * (0.6 + effectPower));
+        }
+        const grad = createThreeStopGradient(l.size, l.size, '#fff6cc', '#f5d06e', '#8b5e1a', 90, 'linear', x, ly);
+        ctx.fillStyle = grad; ctx.fillText(line, x, ly);
+      } else if (l.style === '3dcolor') {
+        const grad = getTextGradient(line, x, ly, l);
+        const depth = Math.max(1, Math.round(Math.min(30, effectDepth)));
+        for (let j = depth; j >= 1; j--) {
+          ctx.fillStyle = hexToRgba(l.strokeC || '#000000', 18 + effectPower * 35);
+          ctx.fillText(line, x + j * 0.4, ly + j * (0.5 + effectPower));
+        }
+        ctx.fillStyle = grad;
+        ctx.fillText(line, x, ly);
+      } else if (l.style === 'cyber') {
+        ctx.shadowColor = '#ff00ff'; ctx.shadowBlur = 8 + effectPower * 24;
+        ctx.strokeStyle = '#00ffff'; ctx.lineWidth = 2; ctx.strokeText(line, x + 2, ly + 2);
+        ctx.fillStyle = '#ffffff'; ctx.fillText(line, x, ly);
+      } else if (l.style === 'royal') {
+        const grad = createThreeStopGradient(l.size, l.size, '#6a1b9a', '#ffd700', '#4a148c', 90, 'linear', x, ly);
+        ctx.fillStyle = grad; ctx.fillText(line, x, ly);
+        ctx.shadowColor = 'rgba(0,0,0,0.5)'; ctx.shadowBlur = 5;
+      } else if (l.style === 'forest') {
+        const grad = createThreeStopGradient(l.size, l.size, '#2e7d32', '#a5d6a7', '#1b5e20', 90, 'linear', x, ly);
+        ctx.fillStyle = grad; ctx.fillText(line, x, ly);
+      } else if (l.style === 'sunset') {
+        const grad = createThreeStopGradient(l.size, l.size, '#ff512f', '#dd2476', '#dd2476', 90, 'linear', x, ly);
+        ctx.fillStyle = grad; ctx.fillText(line, x, ly);
+      } else if (l.style === 'ocean') {
+        const grad = createThreeStopGradient(l.size, l.size, '#2193b0', '#6dd5ed', '#6dd5ed', 90, 'linear', x, ly);
+        ctx.fillStyle = grad; ctx.fillText(line, x, ly);
+      } else if (l.style === 'metal') {
+        const grad = createThreeStopGradient(l.size, l.size, '#777', '#eee', '#777', 90, 'linear', x, ly);
+        ctx.fillStyle = grad; ctx.fillText(line, x, ly);
+        ctx.strokeStyle = 'rgba(255,255,255,0.5)'; ctx.lineWidth = 1; ctx.strokeText(line, x, ly);
+      } else if (l.style === 'matrix') {
+        ctx.shadowColor = '#0f0'; ctx.shadowBlur = 10;
+        ctx.fillStyle = '#000'; ctx.fillText(line, x, ly);
+        ctx.fillStyle = '#0f0'; ctx.font = `bold ${l.size}px monospace`; ctx.fillText(line, x, ly);
+        ctx.font = `${l.weight} ${l.size}px ${l.font}`;
+      } else if (l.style === 'stamp') {
+        ctx.fillStyle = l.color; ctx.globalAlpha = 0.8;
+        ctx.fillText(line, x, ly);
+        ctx.strokeStyle = l.color; ctx.lineWidth = 2; ctx.strokeText(line, x + 1, ly + 1);
+        ctx.globalAlpha = 1.0;
+      } else if (l.style === 'paper') {
+        ctx.shadowColor = 'rgba(0,0,0,0.3)'; ctx.shadowBlur = 5; ctx.shadowOffsetX = 3; ctx.shadowOffsetY = 3;
+        ctx.fillStyle = '#fff'; ctx.fillText(line, x, ly);
+        ctx.shadowBlur = 0; ctx.shadowOffsetX = 0; ctx.shadowOffsetY = 0;
+      } else if (l.style === 'longshadow') {
+        const depth = Math.max(4, Math.round(effectDepth + effectPower * 20));
+        for (let j = 1; j < depth; j++) {
+          ctx.fillStyle = hexToRgba(l.color, Math.min(70, 10 + effectPower * 40));
+          ctx.fillText(line, x + j, ly + j);
+        }
+        ctx.fillStyle = l.color; ctx.fillText(line, x, ly);
+      } else if (l.style === 'bubble') {
+        const grad = ctx.createRadialGradient(x, ly, 0, x, ly, l.size);
+        grad.addColorStop(0, '#fff'); grad.addColorStop(0.5, l.color); grad.addColorStop(1, l.color);
+        ctx.fillStyle = grad; ctx.fillText(line, x, ly);
+      } else if (l.style === 'sketch') {
+        ctx.strokeStyle = l.color; ctx.lineWidth = 1;
+        ctx.strokeText(line, x + 1, ly + 1); ctx.strokeText(line, x - 1, ly - 1);
+        ctx.fillStyle = 'transparent'; ctx.fillText(line, x, ly);
+      } else if (l.style === 'chalk') {
+        ctx.fillStyle = '#fff'; ctx.globalAlpha = 0.7;
+        ctx.font = `italic ${l.size}px 'Comic Sans MS'`;
+        ctx.fillText(line, x, ly);
+        ctx.font = `${l.weight} ${l.size}px ${l.font}`;
+        ctx.globalAlpha = 1.0;
+      } else if (l.style === 'lava') {
+        const grad = createThreeStopGradient(l.size, l.size, '#ff0', '#f60', '#300', 90, 'linear', x, ly);
+        ctx.fillStyle = grad; ctx.fillText(line, x, ly);
+        ctx.shadowColor = '#f30'; ctx.shadowBlur = 20;
+      } else if (l.style === 'chrome') {
+        const grad = createThreeStopGradient(l.size, l.size, '#444', '#fff', '#aaa', 90, 'linear', x, ly);
+        ctx.fillStyle = grad; ctx.fillText(line, x, ly);
+      } else if (l.style === 'retro') {
+        ctx.fillStyle = '#ff00ff'; ctx.fillText(line, x + 4, ly + 4);
+        ctx.fillStyle = '#00ffff'; ctx.fillText(line, x - 2, ly - 2);
+        ctx.fillStyle = l.color; ctx.fillText(line, x, ly);
+      } else if (l.style === 'hologram') {
+        const width = measureTextRun(line, l.spacing);
+        const grad = createThreeStopGradient(width, l.size, '#00ffff', '#ff00ff', '#00ffff', 0, 'linear', x, ly);
+        ctx.globalAlpha = 0.6; ctx.fillStyle = grad; ctx.fillText(line, x + 2, ly);
+        ctx.globalAlpha = 1.0; ctx.fillStyle = '#fff'; ctx.fillText(line, x, ly);
+      } else if (l.style === 'comic') {
+        ctx.strokeStyle = '#000'; ctx.lineWidth = 8; ctx.strokeText(line, x, ly);
+        ctx.fillStyle = l.color; ctx.fillText(line, x, ly);
+        ctx.fillStyle = '#fff'; ctx.globalAlpha = 0.3; ctx.fillText(line, x - 2, ly - 2); ctx.globalAlpha = 1.0;
+      } else if (l.style === 'glass') {
+        ctx.shadowColor = 'rgba(255,255,255,0.5)'; ctx.shadowBlur = 10;
+        ctx.fillStyle = 'rgba(255,255,255,0.2)'; ctx.fillText(line, x, ly);
+        ctx.strokeStyle = 'rgba(255,255,255,0.5)'; ctx.lineWidth = 1; ctx.strokeText(line, x, ly);
+      } else if (l.style === 'electric') {
+        ctx.shadowColor = '#0088ff'; ctx.shadowBlur = 12 + effectPower * 24;
+        ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.strokeText(line, x + Math.random() * 4, ly + Math.random() * 4);
+        ctx.fillStyle = '#fff'; ctx.fillText(line, x, ly);
+      } else if (l.style === 'wood') {
+        const grad = createThreeStopGradient(l.size, l.size, '#8B4513', '#A0522D', '#8B4513', 90, 'linear', x, ly);
+        ctx.fillStyle = grad; ctx.fillText(line, x, ly);
+        ctx.strokeStyle = 'rgba(0,0,0,0.3)'; ctx.lineWidth = 1; ctx.strokeText(line, x, ly);
+      } else if (l.style === 'stone') {
+        ctx.fillStyle = '#666'; ctx.fillText(line, x + 2, ly + 2);
+        ctx.fillStyle = '#aaa'; ctx.fillText(line, x, ly);
+        ctx.strokeStyle = '#444'; ctx.lineWidth = 1; ctx.strokeText(line, x, ly);
+      } else if (l.style === 'water') {
+        ctx.shadowColor = '#00bbff'; ctx.shadowBlur = 15;
+        const grad = createThreeStopGradient(l.size, l.size, 'rgba(255,255,255,0.8)', '#0099ff', '#004466', 90, 'linear', x, ly);
+        ctx.fillStyle = grad; ctx.fillText(line, x, ly);
+      } else if (l.style === 'neon') {
+        ctx.shadowColor = l.color2 || l.color; ctx.shadowBlur = 16 + effectPower * 30; ctx.shadowOffsetX = 0; ctx.shadowOffsetY = 0;
+        ctx.fillStyle = '#ffffff'; ctx.fillText(line, x, ly);
+        ctx.shadowBlur = 8 + effectPower * 18; ctx.fillStyle = getTextGradient(line, x, ly, l); ctx.fillText(line, x, ly);
+        ctx.shadowBlur = 0;
+      } else if (l.style === 'plastic') {
+        ctx.fillStyle = '#000000'; ctx.globalAlpha = 0.3; ctx.fillText(line, x + 2, ly + 2); ctx.globalAlpha = l.opacity / 100;
+        const grad = createThreeStopGradient(l.size, l.size, '#ffffff', l.color, '#000000', 90, 'linear', x, ly);
+        ctx.fillStyle = grad; ctx.fillText(line, x, ly);
+      } else if (l.style === 'shadow') {
+        ctx.shadowColor = 'rgba(0,0,0,0.5)'; ctx.shadowBlur = 10; ctx.shadowOffsetX = 4; ctx.shadowOffsetY = 4;
+        ctx.fillStyle = l.color; ctx.fillText(line, x, ly);
+        ctx.shadowBlur = 0; ctx.shadowOffsetX = 0; ctx.shadowOffsetY = 0;
+      } else if (l.style === 'outline') {
+        ctx.lineWidth = Math.max(4, l.size * 0.08); ctx.strokeStyle = '#000000'; ctx.lineJoin = 'round'; ctx.strokeText(line, x, ly);
+        ctx.fillStyle = l.color; ctx.fillText(line, x, ly);
+      } else if (l.style === 'gradient') {
+        ctx.fillStyle = getTextGradient(line, x, ly, l); ctx.fillText(line, x, ly);
+      } else if (l.style === 'fire') {
+        ctx.shadowColor = '#ff4400'; ctx.shadowBlur = 20; ctx.fillStyle = '#ff6600'; ctx.fillText(line, x, ly);
+        ctx.shadowBlur = 10; ctx.fillStyle = '#ffcc00'; ctx.fillText(line, x, ly);
+        ctx.shadowBlur = 0; ctx.fillStyle = '#ffffff'; ctx.fillText(line, x, ly - 1);
+      } else if (l.style === 'ice') {
+        ctx.shadowColor = '#00ccff'; ctx.shadowBlur = 20; ctx.fillStyle = '#e0f7ff'; ctx.fillText(line, x, ly);
+        ctx.shadowBlur = 0; ctx.strokeStyle = '#00aaff'; ctx.lineWidth = 2; ctx.strokeText(line, x, ly);
+      } else if (l.style === 'rainbow') {
+        const width = measureTextRun(line, l.spacing);
+        const grad = createThreeStopGradient(width, l.size, l.color || '#ff0000', l.color2 || '#ffff00', l.color3 || '#0088ff', 0, 'linear', x, ly);
+        ctx.fillStyle = grad; ctx.fillText(line, x, ly);
+      } else {
+        ctx.fillStyle = l.color;
+        ctx.fillText(line, x, ly);
+      }
+    }
+
+    /* ─── EXPORT & CLIPBOARD ─── */
+    function copyToClipboard() {
+      const prevId = selectedId; selectedId = null; renderCanvas(); // Hide box
+      canvas.toBlob(async blob => {
+        try {
+          await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+          toast('📋 Image Copied to Clipboard!');
+        } catch (e) { toast('⚠️ Clipboard copy failed.'); }
+        selectedId = prevId; renderCanvas();
+      }, 'image/png');
+    }
+
+    function exportRender() {
+      const prevId = selectedId; selectedId = null; renderCanvas(); // Hide box
+      canvas.toBlob(blob => {
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `Tuition_Poster_${W}x${H}.png`;
+        a.click();
+        toast('✅ HD Poster Downloaded!');
+        selectedId = prevId; renderCanvas();
+      }, 'image/png', 1.0);
+    }
+
+    function generateWebsite() {
+      toast('🚀 Generating Production Website...');
+      
+      const bg = layers[0];
+      let layersHtml = '';
+      const bgCss = (bg.bgMode === 'radial')
+        ? `radial-gradient(circle at center, ${bg.c1}, ${bg.c2}, ${bg.c3 || bg.c2})`
+        : `linear-gradient(${bg.angle || 0}deg, ${bg.c1}, ${bg.c2}, ${bg.c3 || bg.c2})`;
+      
+      // Process layers from bottom to top
+      layers.forEach((l, i) => {
+        if (l.type === 'bg') return;
+        
+        let transforms = [`translate(-50%, -50%)`, `rotate(${l.rotation}deg)`];
+        if (l.flipH || l.flipV) transforms.push(`scale(${l.flipH ? -1 : 1}, ${l.flipV ? -1 : 1})`);
+        let style = `position: absolute; left: ${l.x}px; top: ${l.y}px; transform: ${transforms.join(' ')}; opacity: ${l.opacity / 100}; mix-blend-mode: ${l.blendMode || 'normal'}; z-index: ${i};`;
+        
+        // Add Retouching Filters to Style
+        let filters = [];
+        if (l.brightness !== undefined && l.brightness !== 100) filters.push(`brightness(${l.brightness}%)`);
+        if (l.contrast !== undefined && l.contrast !== 100) filters.push(`contrast(${l.contrast}%)`);
+        if (l.saturation !== undefined && l.saturation !== 100) filters.push(`saturate(${l.saturation}%)`);
+        if (l.grayscale !== undefined && l.grayscale > 0) filters.push(`grayscale(${l.grayscale}%)`);
+        if (l.blur !== undefined && l.blur > 0) filters.push(`blur(${l.blur}px)`);
+        if (filters.length > 0) style += `filter: ${filters.join(' ')};`;
+
+        if (l.type === 'text') {
+          const textGradient = `linear-gradient(${l.gAngle || 0}deg, ${l.color}, ${l.color2 || l.color}, ${l.color3 || l.color2 || l.color})`;
+          style += `font-family: ${l.font}; font-size: ${l.size}px; color: ${l.color}; font-weight: ${l.weight}; text-align: ${l.align}; letter-spacing: ${l.spacing}px; line-height: 1.15; white-space: pre-wrap; width: auto; transform-origin: center center;`;
+          if (l.strokeW > 0) {
+             style += `-webkit-text-stroke: ${l.strokeW}px ${l.strokeC};`;
+          }
+          if (l.style === 'gradient' || l.style === '3dcolor' || l.style === 'neon') {
+            style += `background: ${textGradient}; -webkit-background-clip: text; background-clip: text; color: transparent;`;
+          }
+          if (l.style === 'neon') style += `text-shadow: 0 0 10px ${l.color2 || l.color}, 0 0 22px ${l.color3 || l.color};`;
+          if (l.style === 'shadow') style += `text-shadow: 4px 4px 4px rgba(0,0,0,0.5);`;
+          if (l.style === '3dcolor') style += `text-shadow: ${Math.max(1, l.effectDepth || 12)}px ${Math.max(1, l.effectDepth || 12)}px 0 ${l.strokeC || '#000000'};`;
+          if (l.style === 'longshadow') style += `text-shadow: ${Math.max(2, l.effectDepth || 12)}px ${Math.max(2, l.effectDepth || 12)}px 0 ${l.color2 || l.strokeC || '#000000'};`;
+          if (l.bend) style += `display:inline-block; transform: ${transforms.join(' ')} skewY(${Math.max(-12, Math.min(12, l.bend / 12))}deg);`;
+
+          layersHtml += `<div style="${style}">${l.text.replace(/\n/g, '<br>')}</div>\n`;
+        }
+        else if (l.type === 'shape') {
+          let borderRadius = l.sType === 'circle' ? '50%' : (l.radius || 0) + 'px';
+          let clipPath = '';
+          const sh = (l.sType === 'rect' || l.sType === 'triangle' || l.sType === 'ribbon') ? l.h : l.w;
+
+          if (l.sType === 'triangle') {
+            clipPath = 'polygon(50% 0%, 0% 100%, 100% 100%)';
+          } else if (l.sType === 'star') {
+            clipPath = 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)';
+          } else if (l.sType === 'polygon') {
+            clipPath = 'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)';
+          } else if (l.sType === 'badge') {
+            clipPath = 'polygon(50% 0%, 60% 6%, 72% 3%, 79% 12%, 91% 12%, 93% 24%, 100% 33%, 97% 45%, 100% 57%, 93% 66%, 95% 79%, 84% 84%, 80% 97%, 68% 95%, 58% 100%, 46% 94%, 34% 98%, 24% 89%, 12% 91%, 9% 79%, 0% 72%, 4% 60%, 0% 47%, 7% 37%, 4% 24%, 14% 17%, 17% 4%, 29% 7%, 39% 0%)';
+          } else if (l.sType === 'ribbon') {
+             const b = (sh > 0) ? (l.w * 0.1 / l.w * 100) : 10;
+             clipPath = `polygon(0% 0%, 100% 0%, ${100-b}% 50%, 100% 100%, 0% 100%, ${b}% 50%)`;
+          }
+          
+          style += `width: ${l.w}px; height: ${sh}px; background-color: ${l.color}; border: ${l.sType === 'line' ? 'none' : `${l.strokeW}px solid ${l.strokeC}`}; border-radius: ${borderRadius}; overflow: hidden; ${clipPath ? `clip-path: ${clipPath};` : ''}`;
+          
+          if (l.bevel) {
+            style += `box-shadow: inset 5px 5px 15px rgba(255,255,255,0.5), inset -5px -5px 15px rgba(0,0,0,0.5);`;
+          }
+
+          if (l.sType === 'line') {
+            style += `height: ${l.strokeW || 2}px; border-top: ${l.strokeW || 2}px solid ${l.color};`;
+          }
+
+          // Shape Gradients for Website
+          if (l.gType === 'linear') {
+            style += `background: linear-gradient(${l.gAngle || 0}deg, ${l.color}, ${l.color2 || l.color}, ${l.color3 || l.color2 || l.color});`;
+          } else if (l.gType === 'radial') {
+            style += `background: radial-gradient(circle, ${l.color}, ${l.color2 || l.color}, ${l.color3 || l.color2 || l.color});`;
+          } else if (l.gType === 'gold') {
+            style += `background: linear-gradient(45deg, #bf953f, #fcf6ba, #b38728, #fcf6ba, #aa8029);`;
+          } else if (l.gType === 'silver') {
+            style += `background: linear-gradient(45deg, #777, #eee, #777);`;
+          }
+
+          let content = '';
+          if (l.clipImg) {
+            let imgStyle = `width: 100%; height: 100%; object-fit: cover;`;
+            if (l.clipX || l.clipY || (l.clipScale && l.clipScale !== 100) || l.clipRotation) {
+              imgStyle = `position: absolute; left: 50%; top: 50%; width: 100%; height: 100%; object-fit: cover; transform: translate(calc(-50% + ${l.clipX || 0}px), calc(-50% + ${l.clipY || 0}px)) scale(${(l.clipScale || 100) / 100}) rotate(${l.clipRotation || 0}deg);`;
+            }
+            content = `<img src="${l.clipImg.src}" style="${imgStyle}">`;
+          }
+          layersHtml += `<div style="${style}">${content}</div>\n`;
+        }
+        else if (l.type === 'image') {
+          style += `width: ${l.w}px; height: ${l.h}px;`;
+          layersHtml += `<img src="${l.img.src}" style="${style}">\n`;
+        }
+        else if (l.type === 'html') {
+          style += `width: ${l.w}px; height: ${l.h}px; border: none;`;
+          layersHtml += `<iframe src="${l.src}" style="${style}" scrolling="no"></iframe>\n`;
+        }
+      });
+
+      const fullHtml = `
+<!DOCTYPE html>
+<html lang="si">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generated Poster Website</title>
+  <link href="https://fonts.googleapis.com/css2?family=Anek+Sinhala:wght@400;700;800;900&family=Noto+Sans+Sinhala:wght@400;700;900&family=Noto+Serif+Sinhala:wght@400;700&family=Abhaya+Libre:wght@600;800&family=Gemunu+Libre:wght@400;700;800&family=Yaldevi:wght@400;600;700&family=Maname&family=Baloo+2:wght@400;700;800&family=Poppins:wght@400;600;800&family=Montserrat:wght@400;700;900&family=Bebas+Neue&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    #site-container {
+      width: ${W}px;
+      height: ${H}px;
+      position: relative;
+      background: ${bgCss};
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    @media (max-width: ${W}px) {
+      #site-container {
+        transform: scale(calc(100vw / ${W}));
+        transform-origin: center center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="site-container">
+    ${layersHtml}
+  </div>
+</body>
+</html>`;
+
+      const blob = new Blob([fullHtml], { type: 'text/html' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'tuition_website.html';
+      a.click();
+      
+      toast('✨ Website Generated & Downloaded!');
+    }
+  </script>
+</body>
+
+</html>
