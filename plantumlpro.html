@@ -1,0 +1,2724 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PlantUML Studio Pro</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@400;600;800&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/plantuml-encoder/dist/plantuml-encoder.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+    <style>
+        :root {
+            --bg: #0d0f14;
+            --surface: #13161e;
+            --surface2: #1a1e28;
+            --surface3: #222736;
+            --border: #2a2f3f;
+            --border2: #3a4052;
+            --text: #e8ecf4;
+            --text2: #8b92a8;
+            --text3: #555d75;
+            --accent: #4f9cf9;
+            --accent2: #7b5cf0;
+            --green: #3dd68c;
+            --red: #f95f5f;
+            --yellow: #f9c74f;
+            --orange: #f97b4f;
+            --pink: #f95fa0;
+            --radius: 8px;
+            --mono: 'JetBrains Mono', monospace;
+            --sans: 'Syne', system-ui, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--sans);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER */
+        header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 16px;
+            height: 52px;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 15px;
+            font-weight: 800;
+            letter-spacing: -.3px;
+            color: var(--text);
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .logo-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            display: inline-block;
+        }
+
+        .logo-badge {
+            font-size: 9px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: var(--accent2);
+            color: #fff;
+            letter-spacing: .5px;
+        }
+
+        .header-sep {
+            width: 1px;
+            height: 24px;
+            background: var(--border);
+            flex-shrink: 0;
+        }
+
+        .header-tabs {
+            display: flex;
+            gap: 2px;
+        }
+
+        .tab-btn {
+            padding: 5px 12px;
+            font-family: var(--sans);
+            font-size: 12px;
+            font-weight: 600;
+            border: none;
+            background: none;
+            color: var(--text3);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all .15s;
+            letter-spacing: .3px;
+        }
+
+        .tab-btn:hover {
+            background: var(--surface2);
+            color: var(--text2);
+        }
+
+        .tab-btn.active {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .spacer {
+            flex: 1;
+        }
+
+        /* TOOLBAR */
+        .toolbar-strip {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            font-family: var(--sans);
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: .3px;
+            border: 1px solid var(--border2);
+            border-radius: 5px;
+            background: var(--surface2);
+            color: var(--text2);
+            cursor: pointer;
+            transition: all .15s;
+            white-space: nowrap;
+        }
+
+        .btn:hover {
+            background: var(--surface3);
+            color: var(--text);
+            border-color: var(--accent);
+        }
+
+        .btn:disabled {
+            opacity: .4;
+            cursor: not-allowed;
+        }
+
+        .btn.primary {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+
+        .btn.primary:hover {
+            opacity: .88;
+        }
+
+        .btn.danger {
+            background: var(--red);
+            color: #fff;
+            border-color: var(--red);
+        }
+
+        .btn.success {
+            background: var(--green);
+            color: #0d0f14;
+            border-color: var(--green);
+        }
+
+        select {
+            font-family: var(--sans);
+            font-size: 11px;
+            font-weight: 600;
+            padding: 5px 8px;
+            border: 1px solid var(--border2);
+            border-radius: 5px;
+            background: var(--surface2);
+            color: var(--text2);
+            cursor: pointer;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        label.check-label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text2);
+            cursor: pointer;
+        }
+
+        input[type="checkbox"] {
+            accent-color: var(--accent);
+            width: 13px;
+            height: 13px;
+            cursor: pointer;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .strip-sep {
+            width: 1px;
+            height: 20px;
+            background: var(--border);
+            flex-shrink: 0;
+            margin: 0 2px;
+        }
+
+        /* MAIN */
+        .main {
+            flex: 1;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tab-panel {
+            display: none;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .tab-panel.active {
+            display: flex;
+        }
+
+        /* SPLIT PANE */
+        .split-pane {
+            display: grid;
+            grid-template-columns: 1fr 4px 1fr;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .pane {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border-right: 1px solid var(--border);
+        }
+
+        .pane:last-child {
+            border-right: none;
+        }
+
+        .pane-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 7px 12px;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text3);
+            letter-spacing: .8px;
+            text-transform: uppercase;
+            flex-shrink: 0;
+        }
+
+        .pane-header .pane-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        /* EDITOR */
+        .code-editor-wrap {
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+        }
+
+        .line-numbers {
+            padding: 12px 8px;
+            background: var(--surface2);
+            border-right: 1px solid var(--border);
+            font-family: var(--mono);
+            font-size: 12.5px;
+            line-height: 1.65;
+            color: var(--text3);
+            text-align: right;
+            user-select: none;
+            min-width: 38px;
+            overflow: hidden;
+        }
+
+        .main-editor {
+            flex: 1;
+            padding: 12px;
+            font-family: var(--mono);
+            font-size: 12.5px;
+            line-height: 1.65;
+            background: var(--surface2);
+            color: var(--text);
+            border: none;
+            outline: none;
+            resize: none;
+            tab-size: 2;
+            caret-color: var(--accent);
+        }
+
+        .main-editor::placeholder {
+            color: var(--text3);
+        }
+
+        .main-editor::selection {
+            background: rgba(79, 156, 249, .25);
+        }
+
+        /* PREVIEW */
+        .preview-area {
+            flex: 1;
+            overflow: auto;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        .preview-area img,
+        .preview-area svg {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+
+        .preview-area svg {
+            background: white;
+            padding: 8px;
+            border-radius: 6px;
+        }
+
+        .preview-loading {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(13, 15, 20, .7);
+            color: var(--text2);
+            font-size: 12px;
+            font-weight: 600;
+            gap: 8px;
+        }
+
+        .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin .6s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .zoom-controls {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            background: var(--surface);
+            border: 1px solid var(--border2);
+            border-radius: 6px;
+            padding: 4px 6px;
+        }
+
+        .zoom-controls span {
+            font-size: 10px;
+            font-family: var(--mono);
+            color: var(--text2);
+            min-width: 32px;
+            text-align: center;
+        }
+
+        /* STATUS */
+        .status-bar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 4px 12px;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            font-size: 11px;
+            color: var(--text3);
+            flex-shrink: 0;
+            font-family: var(--mono);
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        .status-dot.ok {
+            background: var(--green);
+        }
+
+        .status-dot.err {
+            background: var(--red);
+        }
+
+        .status-dot.loading {
+            background: var(--yellow);
+            animation: pulse .8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: .3
+            }
+        }
+
+        /* TYPE CHIPS */
+        .type-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .type-chip {
+            padding: 3px 9px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .3px;
+            border: 1px solid var(--border2);
+            background: var(--surface2);
+            color: var(--text3);
+            cursor: pointer;
+            transition: all .12s;
+        }
+
+        .type-chip:hover,
+        .type-chip.active {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(79, 156, 249, .1);
+        }
+
+        /* FIND/REPLACE */
+        .find-replace-bar {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            padding: 6px 12px;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .find-replace-bar input {
+            background: var(--surface2);
+            border: 1px solid var(--border2);
+            border-radius: 5px;
+            padding: 5px 9px;
+            color: var(--text);
+            font-family: var(--mono);
+            font-size: 12px;
+            outline: none;
+            width: 160px;
+        }
+
+        .find-replace-bar input:focus {
+            border-color: var(--accent);
+        }
+
+        .find-count {
+            font-size: 11px;
+            color: var(--text3);
+            font-family: var(--mono);
+            min-width: 60px;
+        }
+
+        /* SUGGESTIONS */
+        .suggestions-dropdown {
+            position: absolute;
+            background: var(--surface);
+            border: 1px solid var(--border2);
+            border-radius: 6px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, .5);
+            z-index: 200;
+            min-width: 200px;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .suggestion-item {
+            padding: 7px 12px;
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--text);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .suggestion-item:hover,
+        .suggestion-item.selected {
+            background: rgba(79, 156, 249, .15);
+        }
+
+        .suggestion-badge {
+            font-size: 9px;
+            padding: 1px 5px;
+            border-radius: 3px;
+            background: var(--surface3);
+            color: var(--text3);
+            margin-left: auto;
+        }
+
+        /* RESIZE */
+        .resize-handle {
+            width: 4px;
+            background: var(--border);
+            cursor: col-resize;
+            flex-shrink: 0;
+            transition: background .15s;
+        }
+
+        .resize-handle:hover,
+        .resize-handle.dragging {
+            background: var(--accent);
+        }
+
+        /* NODE COUNT */
+        .node-count {
+            background: rgba(79, 156, 249, .15);
+            color: var(--accent);
+            font-size: 10px;
+            font-family: var(--mono);
+            padding: 2px 7px;
+            border-radius: 4px;
+        }
+
+        /* ── BATCH PRO ── */
+        .batch-layout {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .batch-sidebar {
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid var(--border);
+            overflow: hidden;
+            background: var(--surface);
+        }
+
+        .batch-sidebar-header {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .8px;
+            color: var(--text3);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+        }
+
+        .batch-search {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            padding: 4px 8px;
+            color: var(--text);
+            font-family: var(--mono);
+            font-size: 11px;
+            outline: none;
+            width: 100%;
+            margin: 6px 12px 8px;
+            width: calc(100% - 24px);
+        }
+
+        .batch-search:focus {
+            border-color: var(--accent);
+        }
+
+        .batch-list-scroll {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .batch-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 12px;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: all .12s;
+            position: relative;
+        }
+
+        .batch-item:hover {
+            background: var(--surface2);
+        }
+
+        .batch-item.active {
+            background: rgba(79, 156, 249, .1);
+            border-left: 2px solid var(--accent);
+            padding-left: 10px;
+        }
+
+        .batch-item.deleted-undo {
+            background: rgba(249, 95, 95, .07);
+            border-left: 2px solid var(--red);
+            opacity: .7;
+        }
+
+        .batch-item-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .batch-item-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .batch-item-meta {
+            font-size: 10px;
+            color: var(--text3);
+            font-family: var(--mono);
+            margin-top: 2px;
+        }
+
+        .batch-item-layers {
+            display: flex;
+            gap: 3px;
+            margin-top: 4px;
+            flex-wrap: wrap;
+        }
+
+        .layer-chip {
+            font-size: 9px;
+            padding: 1px 5px;
+            border-radius: 3px;
+            font-weight: 700;
+            letter-spacing: .3px;
+        }
+
+        .layer-chip.svg {
+            background: rgba(79, 156, 249, .2);
+            color: var(--accent);
+        }
+
+        .layer-chip.png {
+            background: rgba(61, 214, 140, .2);
+            color: var(--green);
+        }
+
+        .layer-chip.pdf {
+            background: rgba(249, 199, 79, .2);
+            color: var(--yellow);
+        }
+
+        .layer-chip.puml {
+            background: rgba(123, 92, 240, .2);
+            color: var(--accent2);
+        }
+
+        .batch-item-actions {
+            display: flex;
+            gap: 3px;
+            opacity: 0;
+            transition: opacity .12s;
+        }
+
+        .batch-item:hover .batch-item-actions {
+            opacity: 1;
+        }
+
+        .icon-btn {
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            background: none;
+            color: var(--text2);
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 12px;
+            transition: all .12s;
+        }
+
+        .icon-btn:hover {
+            background: var(--surface3);
+            color: var(--text);
+        }
+
+        .icon-btn.del:hover {
+            background: rgba(249, 95, 95, .15);
+            color: var(--red);
+        }
+
+        .batch-footer {
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            border-top: 1px solid var(--border);
+            background: var(--surface);
+        }
+
+        /* BATCH CONTENT AREA */
+        .batch-content {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .batch-edit-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .batch-edit-title {
+            flex: 1;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: .5px;
+            text-transform: uppercase;
+        }
+
+        .batch-edit-body {
+            display: grid;
+            grid-template-rows: 1fr auto;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* LAYER PANEL */
+        .layer-panel {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: 10px 14px;
+            flex-shrink: 0;
+        }
+
+        .layer-panel-title {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .8px;
+            text-transform: uppercase;
+            color: var(--text3);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .layer-grid {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .layer-toggle {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: 1px solid var(--border2);
+            background: var(--surface2);
+            cursor: pointer;
+            transition: all .12s;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text2);
+        }
+
+        .layer-toggle.active-svg {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(79, 156, 249, .1);
+        }
+
+        .layer-toggle.active-png {
+            border-color: var(--green);
+            color: var(--green);
+            background: rgba(61, 214, 140, .1);
+        }
+
+        .layer-toggle.active-pdf {
+            border-color: var(--yellow);
+            color: var(--yellow);
+            background: rgba(249, 199, 79, .1);
+        }
+
+        .layer-toggle.active-puml {
+            border-color: var(--accent2);
+            color: var(--accent2);
+            background: rgba(123, 92, 240, .1);
+        }
+
+        .layer-toggle input {
+            display: none;
+        }
+
+        .layer-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+        }
+
+        .dot-svg {
+            background: var(--accent);
+        }
+
+        .dot-png {
+            background: var(--green);
+        }
+
+        .dot-pdf {
+            background: var(--yellow);
+        }
+
+        .dot-puml {
+            background: var(--accent2);
+        }
+
+        /* RENDER QUEUE */
+        .render-queue {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: 10px 14px;
+            flex-shrink: 0;
+            max-height: 180px;
+            overflow-y: auto;
+        }
+
+        .rq-title {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: .8px;
+            text-transform: uppercase;
+            color: var(--text3);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .rq-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 11px;
+        }
+
+        .rq-item:last-child {
+            border-bottom: none;
+        }
+
+        .rq-name {
+            flex: 1;
+            color: var(--text);
+            font-family: var(--mono);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .rq-format {
+            font-size: 9px;
+            font-weight: 700;
+            padding: 1px 5px;
+            border-radius: 3px;
+        }
+
+        .rq-status {
+            font-size: 10px;
+            color: var(--text3);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .rq-progress-wrap {
+            flex: 1;
+            height: 3px;
+            background: var(--border);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .rq-progress {
+            height: 100%;
+            background: var(--accent);
+            border-radius: 2px;
+            transition: width .3s;
+        }
+
+        .rq-status.done {
+            color: var(--green);
+        }
+
+        .rq-status.err {
+            color: var(--red);
+        }
+
+        .rq-status.running .spinner {
+            width: 10px;
+            height: 10px;
+            border-width: 1.5px;
+        }
+
+        /* HISTORY */
+        .history-list {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .history-item {
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: background .12s;
+        }
+
+        .history-item:hover {
+            background: var(--surface2);
+        }
+
+        .history-item-time {
+            font-size: 10px;
+            color: var(--text3);
+            font-family: var(--mono);
+        }
+
+        .history-item-preview {
+            font-size: 11px;
+            color: var(--text2);
+            margin-top: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* DOCUMENT */
+        .doc-pane {
+            flex: 1;
+            overflow: auto;
+            padding: 24px;
+            background: var(--bg);
+        }
+
+        .doc-editor-content {
+            max-width: 800px;
+            margin: 0 auto;
+            min-height: 400px;
+            background: var(--surface);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            padding: 32px;
+            outline: none;
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--text);
+        }
+
+        .doc-editor-content:focus {
+            border-color: var(--accent);
+        }
+
+        .doc-toolbar {
+            display: flex;
+            gap: 6px;
+            padding: 8px 12px;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+        }
+
+        /* MODAL (Professional Delete) */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .7);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .2s;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal {
+            background: var(--surface);
+            border: 1px solid var(--border2);
+            border-radius: 12px;
+            padding: 28px;
+            width: 420px;
+            max-width: 90vw;
+            transform: translateY(10px);
+            transition: transform .2s;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, .6);
+        }
+
+        .modal-overlay.open .modal {
+            transform: translateY(0);
+        }
+
+        .modal-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(249, 95, 95, .15);
+            border: 1px solid rgba(249, 95, 95, .3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 16px;
+        }
+
+        .modal h3 {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .modal p {
+            font-size: 13px;
+            color: var(--text2);
+            line-height: 1.5;
+            margin-bottom: 6px;
+        }
+
+        .modal-names {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 10px 12px;
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--text2);
+            max-height: 100px;
+            overflow-y: auto;
+            margin: 12px 0;
+        }
+
+        .modal-names div {
+            padding: 2px 0;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 20px;
+            justify-content: flex-end;
+        }
+
+        .modal-cancel {
+            padding: 8px 18px;
+            border-radius: 6px;
+            border: 1px solid var(--border2);
+            background: var(--surface2);
+            color: var(--text2);
+            font-family: var(--sans);
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .15s;
+        }
+
+        .modal-cancel:hover {
+            background: var(--surface3);
+            color: var(--text);
+        }
+
+        .modal-confirm {
+            padding: 8px 18px;
+            border-radius: 6px;
+            border: none;
+            background: var(--red);
+            color: #fff;
+            font-family: var(--sans);
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all .15s;
+        }
+
+        .modal-confirm:hover {
+            opacity: .85;
+        }
+
+        /* UNDO TOAST (special) */
+        .undo-banner {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--surface3);
+            border: 1px solid var(--border2);
+            border-radius: 8px;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text);
+            opacity: 0;
+            pointer-events: none;
+            transition: all .25s;
+            z-index: 9998;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, .4);
+        }
+
+        .undo-banner.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+            pointer-events: all;
+        }
+
+        .undo-timer {
+            width: 24px;
+            height: 24px;
+            position: relative;
+        }
+
+        .undo-timer svg {
+            transform: rotate(-90deg);
+        }
+
+        .undo-timer circle {
+            fill: none;
+            stroke: var(--accent);
+            stroke-width: 2.5;
+            stroke-dasharray: 69.1;
+            stroke-dashoffset: 69.1;
+            transition: stroke-dashoffset linear;
+        }
+
+        .undo-btn {
+            padding: 4px 10px;
+            border-radius: 5px;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            font-family: var(--sans);
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* BUFFER STATUS */
+        .buf-indicator {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 10px;
+            color: var(--text3);
+            font-family: var(--mono);
+        }
+
+        .buf-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--green);
+        }
+
+        .buf-dot.warn {
+            background: var(--yellow);
+        }
+
+        /* SCROLLBARS */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border2);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text3);
+        }
+
+        /* TOAST */
+        #toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--surface3);
+            border: 1px solid var(--border2);
+            color: var(--text);
+            padding: 9px 18px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            opacity: 0;
+            transition: all .25s;
+            pointer-events: none;
+            z-index: 9999;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, .4);
+        }
+
+        #toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        #toast.ok {
+            border-color: var(--green);
+            color: var(--green);
+        }
+
+        #toast.err {
+            border-color: var(--red);
+            color: var(--red);
+        }
+
+        /* PROGRESS BAR (global render) */
+        .global-progress {
+            height: 2px;
+            background: var(--border);
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .global-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            width: 0%;
+            transition: width .3s;
+        }
+
+        .global-progress.active .global-progress-fill {
+            animation: none;
+        }
+
+        /* BATCH STATS */
+        .batch-stats {
+            display: flex;
+            gap: 10px;
+            padding: 6px 12px;
+            border-bottom: 1px solid var(--border);
+            background: var(--surface2);
+            flex-shrink: 0;
+        }
+
+        .stat-chip {
+            font-size: 10px;
+            font-family: var(--mono);
+            color: var(--text3);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .stat-chip strong {
+            color: var(--text2);
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo"><span class="logo-dot"></span>PlantUML Studio <span class="logo-badge">PRO</span></div>
+        <div class="header-sep"></div>
+        <div class="header-tabs">
+            <button class="tab-btn active" data-tab="editor">Editor</button>
+            <button class="tab-btn" data-tab="batch">Batch</button>
+            <button class="tab-btn" data-tab="document">Document</button>
+            <button class="tab-btn" data-tab="history">History</button>
+        </div>
+        <div class="spacer"></div>
+        <select id="renderer">
+            <option value="plantuml">PlantUML Server</option>
+            <option value="kroki">Kroki</option>
+        </select>
+        <label class="check-label"><input type="checkbox" id="opt-quality"> HiDPI</label>
+        <label class="check-label"><input type="checkbox" id="opt-autopreview" checked> Auto Preview</label>
+        <div class="header-sep"></div>
+        <input id="file-input" type="file" multiple accept=".puml,.pu,.txt,.zip">
+        <button class="btn" onclick="document.getElementById('file-input').click()">↑ Import</button>
+        <button class="btn primary" id="btn-preview">▶ Render</button>
+    </header>
+
+    <!-- GLOBAL PROGRESS -->
+    <div class="global-progress" id="global-progress">
+        <div class="global-progress-fill" id="global-progress-fill"></div>
+    </div>
+
+    <!-- EDITOR TOOLBAR -->
+    <div class="toolbar-strip" id="editor-toolbar">
+        <button class="btn primary" id="btn-download-svg">↓ SVG</button>
+        <button class="btn" id="btn-download-png">↓ PNG</button>
+        <button class="btn" id="btn-copy-url">⎘ URL</button>
+        <div class="strip-sep"></div>
+        <button class="btn" id="btn-add-to-batch">+ Batch</button>
+        <button class="btn" id="btn-save-puml">↓ .puml</button>
+        <div class="strip-sep"></div>
+        <button class="btn" id="btn-find">⌕ Find</button>
+        <button class="btn" id="btn-format">⎁ Format</button>
+        <button class="btn" id="btn-undo-editor">↩ Undo</button>
+        <div class="strip-sep"></div>
+        <button class="btn" id="btn-share">⬡ Share</button>
+        <div class="strip-sep"></div>
+        <div class="buf-indicator" id="buf-indicator" title="Active object URL buffers">
+            <span class="buf-dot" id="buf-dot"></span>
+            <span id="buf-count">0 bufs</span>
+        </div>
+    </div>
+
+    <div class="main">
+
+        <!-- EDITOR TAB -->
+        <div class="tab-panel active" id="tab-editor">
+            <div style="display:flex;flex-direction:column;flex:1;overflow:hidden;">
+                <div class="type-chips" id="type-chips"></div>
+                <div id="find-replace-bar" class="find-replace-bar" style="display:none;">
+                    <input id="find-input" placeholder="Find...">
+                    <input id="replace-input" placeholder="Replace...">
+                    <span class="find-count" id="find-count"></span>
+                    <button class="btn" id="btn-find-prev">↑</button>
+                    <button class="btn" id="btn-find-next">↓</button>
+                    <button class="btn" id="btn-do-replace">Replace</button>
+                    <button class="btn" id="btn-replace-all">All</button>
+                    <button class="icon-btn" id="btn-close-find">✕</button>
+                </div>
+                <div class="split-pane" id="split-pane">
+                    <div class="pane" id="editor-pane">
+                        <div class="pane-header">
+                            <span>SOURCE</span>
+                            <div class="pane-actions">
+                                <span class="node-count" id="node-count">0 nodes</span>
+                            </div>
+                        </div>
+                        <div class="code-editor-wrap">
+                            <div class="line-numbers" id="line-numbers"></div>
+                            <textarea id="editor" class="main-editor" spellcheck="false">@startuml
+Alice -> Bob : Hello
+Bob --> Alice : Hi there!
+note right
+  This is a note
+end note
+@enduml</textarea>
+                            <div class="suggestions-dropdown" id="suggestions"></div>
+                        </div>
+                    </div>
+                    <div class="resize-handle" id="resize-handle"></div>
+                    <div class="pane" id="preview-pane">
+                        <div class="pane-header">
+                            <span>PREVIEW</span>
+                            <div class="pane-actions">
+                                <button class="icon-btn" id="btn-zoom-fit" title="Reset zoom">⊡</button>
+                                <button class="icon-btn" id="btn-preview-new" title="Open in tab">⊕</button>
+                            </div>
+                        </div>
+                        <div class="preview-area" id="preview-area">
+                            <div id="preview-content" style="transform-origin:center;transition:transform .2s;"></div>
+                            <div class="preview-loading" id="preview-loading" style="display:none;">
+                                <div class="spinner"></div> Rendering…
+                            </div>
+                            <div class="zoom-controls">
+                                <button class="icon-btn" id="btn-zoom-out">−</button>
+                                <span id="zoom-label">100%</span>
+                                <button class="icon-btn" id="btn-zoom-in">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BATCH TAB -->
+        <div class="tab-panel" id="tab-batch">
+            <div class="batch-layout">
+                <!-- SIDEBAR -->
+                <div class="batch-sidebar">
+                    <div class="batch-sidebar-header">
+                        <span>DIAGRAMS</span>
+                        <div style="display:flex;gap:4px;">
+                            <button class="icon-btn" id="btn-select-all" title="Select all">☐</button>
+                            <button class="icon-btn" id="btn-add-batch-new" title="New diagram">＋</button>
+                        </div>
+                    </div>
+                    <input type="text" class="batch-search" id="batch-search" placeholder="Search diagrams...">
+                    <div class="batch-stats" id="batch-stats">
+                        <span class="stat-chip"><strong id="stat-count">0</strong> diagrams</span>
+                        <span class="stat-chip"><strong id="stat-sel">0</strong> selected</span>
+                        <span class="stat-chip"><strong id="stat-layers">—</strong> formats</span>
+                    </div>
+                    <div class="batch-list-scroll" id="batch-list"></div>
+                    <div class="batch-footer">
+                        <button class="btn primary" id="btn-render-all" style="width:100%;">⚙ Render Selected →
+                            ZIP</button>
+                        <div style="display:flex;gap:5px;">
+                            <button class="btn" id="btn-download-sources" style="flex:1;">↓ Sources ZIP</button>
+                            <button class="btn danger" id="btn-delete-selected" style="flex:1;">🗑 Delete
+                                Selected</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONTENT AREA -->
+                <div class="batch-content">
+                    <div class="batch-edit-header">
+                        <span class="batch-edit-title" id="batch-edit-name">SELECT A DIAGRAM</span>
+                        <button class="btn" id="btn-batch-load">→ Editor</button>
+                        <button class="btn success" id="btn-batch-update">💾 Save</button>
+                        <button class="btn danger" id="btn-batch-remove">🗑 Delete</button>
+                    </div>
+
+                    <!-- LAYER PANEL -->
+                    <div class="layer-panel" id="layer-panel">
+                        <div class="layer-panel-title">
+                            <span>EXPORT LAYERS</span>
+                            <span style="font-size:10px;color:var(--text3);font-family:var(--mono);"
+                                id="layer-hint">per-diagram format control</span>
+                        </div>
+                        <div class="layer-grid" id="layer-grid">
+                            <label class="layer-toggle" id="lt-svg">
+                                <input type="checkbox" value="svg" checked onchange="updateLayerUI()">
+                                <span class="layer-dot dot-svg"></span> SVG
+                            </label>
+                            <label class="layer-toggle" id="lt-png">
+                                <input type="checkbox" value="png" onchange="updateLayerUI()">
+                                <span class="layer-dot dot-png"></span> PNG
+                            </label>
+                            <label class="layer-toggle" id="lt-pdf">
+                                <input type="checkbox" value="pdf" onchange="updateLayerUI()">
+                                <span class="layer-dot dot-pdf"></span> PDF
+                            </label>
+                            <label class="layer-toggle" id="lt-puml">
+                                <input type="checkbox" value="puml" checked onchange="updateLayerUI()">
+                                <span class="layer-dot dot-puml"></span> .puml source
+                            </label>
+                        </div>
+                    </div>
+
+                    <textarea id="batch-editor" class="main-editor" style="flex:1;min-height:0;" spellcheck="false"
+                        placeholder="Select a diagram from the list to edit..."></textarea>
+
+                    <!-- RENDER QUEUE -->
+                    <div class="render-queue" id="render-queue" style="display:none;">
+                        <div class="rq-title">
+                            <span>RENDER QUEUE</span>
+                            <div style="display:flex;align-items:center;gap:8px;">
+                                <span id="rq-progress-text"
+                                    style="font-size:10px;color:var(--text3);font-family:var(--mono);"></span>
+                                <button class="btn" id="btn-clear-queue"
+                                    style="padding:2px 8px;font-size:10px;">Clear</button>
+                            </div>
+                        </div>
+                        <div id="rq-list"></div>
+                    </div>
+
+                    <div class="status-bar">
+                        <span class="status-item">
+                            <span class="status-dot ok" id="batch-status-dot"></span>
+                            <span id="batch-status">Ready</span>
+                        </span>
+                        <div class="spacer"></div>
+                        <div class="buf-indicator" title="Active URL buffers (auto-cleaned)">
+                            <span class="buf-dot" id="batch-buf-dot"></span>
+                            <span id="batch-buf-count">0 bufs</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DOCUMENT TAB -->
+        <div class="tab-panel" id="tab-document">
+            <div style="display:flex;flex-direction:column;flex:1;overflow:hidden;">
+                <div class="doc-toolbar">
+                    <button class="btn" onclick="execCmd('bold')"><b>B</b></button>
+                    <button class="btn" onclick="execCmd('italic')"><i>I</i></button>
+                    <button class="btn" onclick="execCmd('underline')"><u>U</u></button>
+                    <div class="strip-sep"></div>
+                    <button class="btn" onclick="execCmd('insertUnorderedList')">• List</button>
+                    <button class="btn" onclick="execCmd('insertOrderedList')">1. List</button>
+                    <div class="strip-sep"></div>
+                    <button class="btn" id="btn-doc-insert-current">+ Current Diagram</button>
+                    <button class="btn" id="btn-doc-insert-selected">+ Selected Diagram</button>
+                    <div class="strip-sep"></div>
+                    <button class="btn primary" id="btn-export-html">↓ HTML</button>
+                    <button class="btn" id="btn-export-md">↓ Markdown</button>
+                </div>
+                <div class="doc-pane">
+                    <div id="doc-editor" class="doc-editor-content" contenteditable="true">
+                        <h2>My Diagram Document</h2>
+                        <p>Click "Insert Current Diagram" to embed a diagram here.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- HISTORY TAB -->
+        <div class="tab-panel" id="tab-history">
+            <div style="display:flex;flex-direction:column;flex:1;overflow:hidden;">
+                <div class="pane-header" style="flex-shrink:0;">
+                    <span>EDIT HISTORY</span>
+                    <div class="pane-actions">
+                        <button class="btn" id="btn-clear-history">Clear All</button>
+                    </div>
+                </div>
+                <div class="history-list" id="history-list"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- STATUS BAR -->
+    <div class="status-bar">
+        <span class="status-item">
+            <span class="status-dot ok" id="status-dot"></span>
+            <span id="status-text">Ready</span>
+        </span>
+        <span id="cursor-pos" style="font-size:10px;color:var(--text3);">Ln 1, Col 1</span>
+        <div class="spacer"></div>
+        <span id="char-count" style="font-size:10px;color:var(--text3);">0 chars</span>
+        <span style="font-size:10px;color:var(--text3);">PlantUML Studio Pro</span>
+    </div>
+
+    <!-- DELETE MODAL -->
+    <div class="modal-overlay" id="delete-modal">
+        <div class="modal">
+            <div class="modal-icon">🗑</div>
+            <h3 id="modal-title">Delete Diagrams</h3>
+            <p id="modal-desc">This will permanently remove the following diagrams from your batch:</p>
+            <div class="modal-names" id="modal-names"></div>
+            <p style="font-size:11px;color:var(--text3);">You'll have 5 seconds to undo after deletion.</p>
+            <div class="modal-actions">
+                <button class="modal-cancel" id="modal-cancel">Cancel</button>
+                <button class="modal-confirm" id="modal-confirm">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- UNDO BANNER -->
+    <div class="undo-banner" id="undo-banner">
+        <div class="undo-timer">
+            <svg width="24" height="24" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="11" id="undo-timer-circle" />
+            </svg>
+        </div>
+        <span id="undo-banner-text">Deleted 1 diagram</span>
+        <button class="undo-btn" id="undo-delete-btn">Undo</button>
+    </div>
+
+    <div id="toast"></div>
+
+    <script>
+        // ═══════════════════════════════════════════════════════════════════════════
+        // BUFFER MANAGER — tracks all object URLs, revokes on cleanup
+        // ═══════════════════════════════════════════════════════════════════════════
+        const BufferManager = (() => {
+            const active = new Set();
+
+            function create(blob) {
+                const url = URL.createObjectURL(blob);
+                active.add(url);
+                updateBufUI();
+                return url;
+            }
+
+            function release(url) {
+                if (!url || !active.has(url)) return;
+                URL.revokeObjectURL(url);
+                active.delete(url);
+                updateBufUI();
+            }
+
+            function releaseAll() {
+                active.forEach(url => URL.revokeObjectURL(url));
+                active.clear();
+                updateBufUI();
+            }
+
+            function releaseAfter(url, ms = 30000) {
+                setTimeout(() => release(url), ms);
+            }
+
+            function count() { return active.size; }
+
+            function updateBufUI() {
+                const n = active.size;
+                const warn = n > 10;
+                ['buf-dot', 'batch-buf-dot'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.className = 'buf-dot' + (warn ? ' warn' : '');
+                });
+                ['buf-count', 'batch-buf-count'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.textContent = `${n} buf${n !== 1 ? 's' : ''}`;
+                });
+            }
+
+            // Periodic GC: force-release anything > 60s old (safety net)
+            setInterval(() => {
+                if (active.size > 20) {
+                    const arr = [...active];
+                    arr.slice(0, arr.length - 5).forEach(url => release(url));
+                }
+            }, 60000);
+
+            // Cleanup on page unload
+            window.addEventListener('beforeunload', releaseAll);
+
+            return { create, release, releaseAfter, releaseAll, count };
+        })();
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // STATE
+        // ═══════════════════════════════════════════════════════════════════════════
+        const editor = document.getElementById('editor');
+        const previewContent = document.getElementById('preview-content');
+        const previewLoading = document.getElementById('preview-loading');
+        const lineNumbers = document.getElementById('line-numbers');
+        const suggestions = document.getElementById('suggestions');
+        const batchListEl = document.getElementById('batch-list');
+        const batchEditor = document.getElementById('batch-editor');
+        const historyListEl = document.getElementById('history-list');
+
+        let batchItems = [];       // { name, text, layers: {svg,png,pdf,puml}, id }
+        let selectedIndices = new Set();
+        let activeIndex = -1;
+        let historyRecords = [];
+        let previewZoom = 1;
+        let findMatches = [], findCurrent = 0;
+        let previewDebounce = null;
+        let editorHistoryStack = [], editorHistoryCurrent = -1;
+        let undoDeleteBuffer = null;   // { items, indices } for undo-delete
+        let undoDeleteTimer = null;
+        let rqItems = [];              // render queue entries
+
+        let batchSearchQuery = '';
+        let itemIdCounter = 0;
+        let batchSelectAll = false;
+
+        function makeId() { return ++itemIdCounter; }
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // DIAGRAM TYPES
+        // ═══════════════════════════════════════════════════════════════════════════
+        const DIAGRAM_TYPES = [
+            { id: 'sequence', label: 'Sequence', code: '@startuml\nAlice -> Bob : Hello\nBob --> Alice : Hi!\n@enduml' },
+            { id: 'class', label: 'Class', code: '@startuml\nclass Animal {\n  +name: String\n  +eat()\n}\nclass Dog extends Animal {\n  +bark()\n}\n@enduml' },
+            { id: 'usecase', label: 'Use Case', code: '@startuml\n:User: --> (Login)\n:User: --> (Browse)\n(Login) --> (Home)\n@enduml' },
+            { id: 'component', label: 'Component', code: '@startuml\n[Frontend] --> [API]\n[API] --> [Database]\n[API] --> [Cache]\n@enduml' },
+            { id: 'state', label: 'State', code: '@startuml\n[*] --> Idle\nIdle --> Running : start\nRunning --> Idle : stop\nRunning --> [*] : done\n@enduml' },
+            { id: 'activity', label: 'Activity', code: '@startuml\nstart\n:Request;\nif (Valid?) then (yes)\n  :Process;\nelse (no)\n  :Reject;\nendif\nstop\n@enduml' },
+            { id: 'er', label: 'ER', code: '@startuml\nentity User {\n  * id : int\n  --\n  name : string\n}\nentity Order {\n  * id : int\n  --\n  date : date\n}\nUser ||--o{ Order\n@enduml' },
+            { id: 'mindmap', label: 'Mind Map', code: '@startmindmap\n* Root\n** Topic 1\n*** Item A\n** Topic 2\n*** Item B\n@endmindmap' },
+            { id: 'gantt', label: 'Gantt', code: "@startgantt\nProject starts 2024-01-01\n[Task 1] lasts 10 days\n[Task 2] lasts 7 days\n[Task 2] starts at [Task 1]'s end\n@endgantt" },
+            { id: 'network', label: 'Network', code: '@startuml\nnwdiag {\n  network internet { web }\n  network intranet { web; app; db }\n}\n@enduml' },
+        ];
+
+        const AUTOCOMPLETE = [
+            '@startuml', '@enduml', '@startmindmap', '@endmindmap', '@startgantt', '@endgantt',
+            'participant', 'actor', 'boundary', 'control', 'entity', 'database',
+            'class', 'interface', 'abstract', 'enum', 'package',
+            'note left', 'note right', 'note over', 'end note',
+            'skinparam', 'autonumber', 'activate', 'deactivate',
+            'if', 'else', 'endif', 'loop', 'end loop', 'group', 'end group',
+            'start', 'stop', ':', '-->', '->', '->>', '<--', '<-', '<->',
+            'title', 'legend', 'footer', 'header', 'hide', 'show',
+            'left to right direction', 'top to bottom direction',
+        ];
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // TYPE CHIPS
+        // ═══════════════════════════════════════════════════════════════════════════
+        const typeChips = document.getElementById('type-chips');
+        DIAGRAM_TYPES.forEach(t => {
+            const chip = document.createElement('button');
+            chip.className = 'type-chip';
+            chip.textContent = t.label;
+            chip.onclick = () => {
+                editor.value = t.code;
+                updateLineNumbers(); updateNodeCount(); triggerPreview();
+                toast(`Loaded ${t.label} template`);
+            };
+            typeChips.appendChild(chip);
+        });
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // TABS
+        // ═══════════════════════════════════════════════════════════════════════════
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.onclick = () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+                document.getElementById('editor-toolbar').style.display = btn.dataset.tab === 'editor' ? 'flex' : 'none';
+            };
+        });
+
+        function switchTab(name) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === 'tab-' + name));
+            document.getElementById('editor-toolbar').style.display = name === 'editor' ? 'flex' : 'none';
+        }
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // EDITOR HELPERS
+        // ═══════════════════════════════════════════════════════════════════════════
+        function updateLineNumbers() {
+            const lines = editor.value.split('\n');
+            lineNumbers.innerHTML = lines.map((_, i) => i + 1).join('\n');
+        }
+        editor.addEventListener('scroll', () => { lineNumbers.scrollTop = editor.scrollTop; });
+
+        function updateNodeCount() {
+            const t = editor.value;
+            const arrows = (t.match(/->/g) || []).length + (t.match(/-->/g) || []).length;
+            const classes = (t.match(/\bclass\b/g) || []).length + (t.match(/\bparticipant\b/g) || []).length;
+            document.getElementById('node-count').textContent = `${arrows + classes} nodes`;
+        }
+
+        function updateCursorPos() {
+            const pos = editor.selectionStart;
+            const lines = editor.value.substring(0, pos).split('\n');
+            document.getElementById('cursor-pos').textContent = `Ln ${lines.length}, Col ${lines[lines.length - 1].length + 1}`;
+            document.getElementById('char-count').textContent = `${editor.value.length} chars`;
+        }
+        editor.addEventListener('keyup', updateCursorPos);
+        editor.addEventListener('click', updateCursorPos);
+
+        // ── UNDO ──
+        function saveEditorHistory() {
+            const val = editor.value;
+            if (editorHistoryStack[editorHistoryCurrent] === val) return;
+            editorHistoryStack = editorHistoryStack.slice(0, editorHistoryCurrent + 1);
+            editorHistoryStack.push(val);
+            if (editorHistoryStack.length > 100) editorHistoryStack.shift();
+            editorHistoryCurrent = editorHistoryStack.length - 1;
+        }
+        function undoEditor() {
+            if (editorHistoryCurrent > 0) {
+                editorHistoryCurrent--;
+                editor.value = editorHistoryStack[editorHistoryCurrent];
+                updateLineNumbers(); updateNodeCount(); triggerPreview();
+            }
+        }
+        document.getElementById('btn-undo-editor').onclick = undoEditor;
+
+        // ── AUTOCOMPLETE ──
+        let suggestionIndex = -1;
+        editor.addEventListener('input', () => {
+            updateLineNumbers(); updateNodeCount(); updateCursorPos();
+            saveEditorHistory(); pushHistory();
+            if (document.getElementById('opt-autopreview').checked) {
+                clearTimeout(previewDebounce);
+                previewDebounce = setTimeout(updatePreview, 800);
+            }
+            const pos = editor.selectionStart;
+            const before = editor.value.substring(0, pos);
+            const word = (before.match(/[\w@]+$/) || [''])[0];
+            if (word.length >= 2) {
+                const matches = AUTOCOMPLETE.filter(a => a.toLowerCase().startsWith(word.toLowerCase()) && a !== word);
+                if (matches.length) { showSuggestions(matches.slice(0, 8)); return; }
+            }
+            hideSuggestions();
+        });
+
+        function showSuggestions(matches) {
+            suggestions.innerHTML = '';
+            matches.forEach(m => {
+                const item = document.createElement('div');
+                item.className = 'suggestion-item';
+                item.innerHTML = `${m}<span class="suggestion-badge">${m.startsWith('@') ? 'directive' : 'keyword'}</span>`;
+                item.onmousedown = () => insertSuggestion(m);
+                suggestions.appendChild(item);
+            });
+            suggestionIndex = -1;
+            suggestions.style.cssText = 'display:block;position:absolute;left:40px;top:40px;';
+        }
+        function hideSuggestions() { suggestions.style.display = 'none'; }
+        function insertSuggestion(text) {
+            const pos = editor.selectionStart;
+            const before = editor.value.substring(0, pos);
+            const after = editor.value.substring(pos);
+            const word = (before.match(/[\w@]+$/) || [''])[0];
+            editor.value = before.substring(0, before.length - word.length) + text + after;
+            editor.selectionStart = editor.selectionEnd = pos - word.length + text.length;
+            editor.focus(); hideSuggestions(); updateLineNumbers(); triggerPreview();
+        }
+
+        editor.addEventListener('keydown', e => {
+            if (suggestions.style.display !== 'none') {
+                const items = suggestions.querySelectorAll('.suggestion-item');
+                if (e.key === 'ArrowDown') { e.preventDefault(); suggestionIndex = Math.min(suggestionIndex + 1, items.length - 1); items.forEach((el, i) => el.classList.toggle('selected', i === suggestionIndex)); return; }
+                if (e.key === 'ArrowUp') { e.preventDefault(); suggestionIndex = Math.max(suggestionIndex - 1, 0); items.forEach((el, i) => el.classList.toggle('selected', i === suggestionIndex)); return; }
+                if ((e.key === 'Enter' || e.key === 'Tab') && suggestionIndex >= 0) { e.preventDefault(); insertSuggestion(items[suggestionIndex].textContent.replace(/\s+\S+$/, '')); return; }
+                if (e.key === 'Escape') { hideSuggestions(); return; }
+            }
+            if (e.key === 'Tab' && suggestions.style.display === 'none') {
+                e.preventDefault();
+                const s = editor.selectionStart, en = editor.selectionEnd;
+                editor.value = editor.value.substring(0, s) + '  ' + editor.value.substring(en);
+                editor.selectionStart = editor.selectionEnd = s + 2;
+                updateLineNumbers();
+            }
+            if ((e.ctrlKey || e.metaKey) && e.key === 'z') { e.preventDefault(); undoEditor(); }
+            if ((e.ctrlKey || e.metaKey) && e.key === '/') { e.preventDefault(); toggleComment(); }
+            if ((e.ctrlKey || e.metaKey) && e.key === 'f') { e.preventDefault(); toggleFind(true); }
+        });
+
+        document.addEventListener('click', e => { if (!suggestions.contains(e.target) && e.target !== editor) hideSuggestions(); });
+
+        function toggleComment() {
+            const start = editor.selectionStart, end = editor.selectionEnd;
+            const lines = editor.value.split('\n');
+            let pos = 0, startLine = 0, endLine = 0;
+            for (let i = 0; i < lines.length; i++) {
+                if (pos + lines[i].length >= start && startLine === 0) startLine = i;
+                if (pos + lines[i].length >= end) { endLine = i; break; }
+                pos += lines[i].length + 1;
+            }
+            const allCommented = lines.slice(startLine, endLine + 1).every(l => l.trim().startsWith("'"));
+            for (let i = startLine; i <= endLine; i++)
+                lines[i] = allCommented ? lines[i].replace(/^(\s*)'/, '$1') : "'" + lines[i];
+            editor.value = lines.join('\n'); updateLineNumbers();
+        }
+
+        // ── FORMAT ──
+        document.getElementById('btn-format').onclick = () => {
+            const lines = editor.value.split('\n');
+            let indent = 0;
+            editor.value = lines.map(line => {
+                const t = line.trim();
+                if (!t) return '';
+                const dec = ['@enduml', '@endmindmap', '@endgantt', 'endif', 'end loop', 'end group', 'end note', 'else'].some(k => t.startsWith(k));
+                if (dec && indent > 0) indent--;
+                const out = '  '.repeat(indent) + t;
+                const inc = ['if ', 'loop ', 'group ', 'note over', 'note right', 'note left', 'activate', '@startuml', '@startmindmap', '@startgantt'].some(k => t.startsWith(k));
+                if (inc) indent++;
+                return out;
+            }).join('\n');
+            updateLineNumbers(); toast('Formatted');
+        };
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // FIND / REPLACE
+        // ═══════════════════════════════════════════════════════════════════════════
+        function toggleFind(show) {
+            document.getElementById('find-replace-bar').style.display = show ? 'flex' : 'none';
+            if (show) document.getElementById('find-input').focus();
+        }
+        document.getElementById('btn-find').onclick = () => toggleFind(true);
+        document.getElementById('btn-close-find').onclick = () => toggleFind(false);
+        function doFind() {
+            const q = document.getElementById('find-input').value;
+            if (!q) { document.getElementById('find-count').textContent = ''; return; }
+            const text = editor.value;
+            findMatches = []; let idx = 0;
+            while ((idx = text.indexOf(q, idx)) !== -1) { findMatches.push(idx); idx += q.length; }
+            document.getElementById('find-count').textContent = `${findMatches.length} found`;
+            if (findMatches.length) { findCurrent = 0; editor.focus(); editor.setSelectionRange(findMatches[0], findMatches[0] + q.length); }
+        }
+        document.getElementById('find-input').addEventListener('input', doFind);
+        document.getElementById('btn-find-next').onclick = () => {
+            const q = document.getElementById('find-input').value;
+            if (!findMatches.length) return;
+            findCurrent = (findCurrent + 1) % findMatches.length;
+            editor.setSelectionRange(findMatches[findCurrent], findMatches[findCurrent] + q.length);
+        };
+        document.getElementById('btn-find-prev').onclick = () => {
+            const q = document.getElementById('find-input').value;
+            if (!findMatches.length) return;
+            findCurrent = (findCurrent - 1 + findMatches.length) % findMatches.length;
+            editor.setSelectionRange(findMatches[findCurrent], findMatches[findCurrent] + q.length);
+        };
+        document.getElementById('btn-do-replace').onclick = () => {
+            const q = document.getElementById('find-input').value, r = document.getElementById('replace-input').value;
+            if (!q || !findMatches.length) return;
+            const pos = findMatches[findCurrent];
+            editor.value = editor.value.substring(0, pos) + r + editor.value.substring(pos + q.length);
+            updateLineNumbers(); doFind(); triggerPreview();
+        };
+        document.getElementById('btn-replace-all').onclick = () => {
+            const q = document.getElementById('find-input').value, r = document.getElementById('replace-input').value;
+            if (!q) return;
+            const count = (editor.value.match(new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g')) || []).length;
+            editor.value = editor.value.split(q).join(r);
+            updateLineNumbers(); doFind(); triggerPreview();
+            toast(`Replaced ${count} occurrence${count !== 1 ? 's' : ''}`);
+        };
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // RESIZE HANDLE
+        // ═══════════════════════════════════════════════════════════════════════════
+        const resizeHandle = document.getElementById('resize-handle');
+        let isResizing = false;
+        resizeHandle.addEventListener('mousedown', () => { isResizing = true; resizeHandle.classList.add('dragging'); document.body.style.userSelect = 'none'; });
+        document.addEventListener('mousemove', e => {
+            if (!isResizing) return;
+            const rect = document.getElementById('split-pane').getBoundingClientRect();
+            const pct = Math.min(80, Math.max(20, ((e.clientX - rect.left) / rect.width) * 100));
+            document.getElementById('split-pane').style.gridTemplateColumns = `${pct}fr 4px ${100 - pct}fr`;
+        });
+        document.addEventListener('mouseup', () => { isResizing = false; resizeHandle.classList.remove('dragging'); document.body.style.userSelect = ''; });
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // ZOOM
+        // ═══════════════════════════════════════════════════════════════════════════
+        function setZoom(z) {
+            previewZoom = Math.max(0.25, Math.min(4, z));
+            previewContent.style.transform = `scale(${previewZoom})`;
+            document.getElementById('zoom-label').textContent = Math.round(previewZoom * 100) + '%';
+        }
+        document.getElementById('btn-zoom-in').onclick = () => setZoom(previewZoom + 0.25);
+        document.getElementById('btn-zoom-out').onclick = () => setZoom(previewZoom - 0.25);
+        document.getElementById('btn-zoom-fit').onclick = () => setZoom(1);
+        document.getElementById('btn-preview-new').onclick = () => window.open(plantumlUrl('svg', editor.value), '_blank');
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // PLANTUML / KROKI
+        // ═══════════════════════════════════════════════════════════════════════════
+        function plantumlUrl(format, text) {
+            return `https://www.plantuml.com/plantuml/${format}/${plantumlEncoder.encode(text)}`;
+        }
+        async function krokiFetch(format, text) {
+            const url = `https://kroki.io/plantuml/${format}`;
+            const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: text });
+            if (!res.ok) throw new Error('Renderer error');
+            return format === 'svg' ? { type: 'text', data: await res.text() } : { type: 'blob', data: await res.blob() };
+        }
+
+        function setStatus(text, state = 'ok') {
+            document.getElementById('status-text').textContent = text;
+            document.getElementById('status-dot').className = `status-dot ${state}`;
+        }
+
+        async function updatePreview() {
+            const text = editor.value.trim();
+            if (!text) return;
+            previewLoading.style.display = 'flex';
+            setStatus('Rendering…', 'loading');
+            setGlobalProgress(30);
+            try {
+                const renderer = document.getElementById('renderer').value;
+                if (renderer === 'plantuml') {
+                    const img = document.createElement('img');
+                    img.src = plantumlUrl('svg', text);
+                    await new Promise((res, rej) => { img.onload = res; img.onerror = rej; });
+                    previewContent.innerHTML = '';
+                    previewContent.appendChild(img);
+                } else {
+                    const result = await krokiFetch('svg', text);
+                    previewContent.innerHTML = result.data;
+                }
+                setStatus('Ready', 'ok');
+                setGlobalProgress(100);
+            } catch (e) {
+                setStatus('Render failed', 'err');
+                setGlobalProgress(100, true);
+                previewContent.innerHTML = '<p style="color:var(--red);font-size:12px;padding:20px;">Failed to render. Check syntax.</p>';
+            }
+            previewLoading.style.display = 'none';
+        }
+
+        function triggerPreview() {
+            if (document.getElementById('opt-autopreview').checked) {
+                clearTimeout(previewDebounce);
+                previewDebounce = setTimeout(updatePreview, 600);
+            }
+        }
+
+        document.getElementById('btn-preview').onclick = updatePreview;
+        document.getElementById('renderer').onchange = updatePreview;
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // GLOBAL PROGRESS BAR
+        // ═══════════════════════════════════════════════════════════════════════════
+        let progressTimer = null;
+        function setGlobalProgress(pct, isErr = false) {
+            const fill = document.getElementById('global-progress-fill');
+            fill.style.width = pct + '%';
+            fill.style.background = isErr ? 'var(--red)' : 'linear-gradient(90deg, var(--accent), var(--accent2))';
+            clearTimeout(progressTimer);
+            if (pct >= 100) progressTimer = setTimeout(() => { fill.style.width = '0%'; }, 800);
+        }
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // DOWNLOAD — with proper buffer management
+        // ═══════════════════════════════════════════════════════════════════════════
+        async function downloadSingle(format) {
+            const text = editor.value;
+            const renderer = document.getElementById('renderer').value;
+            const src = (document.getElementById('opt-quality').checked && format === 'png') ? `skinparam dpi 300\n${text}` : text;
+            setStatus(`Downloading ${format.toUpperCase()}…`, 'loading');
+            setGlobalProgress(40);
+            try {
+                if (renderer === 'plantuml') {
+                    // Direct URL — no blob needed, no buffer to manage
+                    triggerDownloadURL(plantumlUrl(format, src), `diagram.${format}`);
+                } else {
+                    const res = await krokiFetch(format, src);
+                    const blob = res.type === 'text' ? new Blob([res.data], { type: 'image/svg+xml' }) : res.data;
+                    const url = BufferManager.create(blob);
+                    triggerDownloadURL(url, `diagram.${format}`);
+                    BufferManager.releaseAfter(url, 5000); // release after download delay
+                }
+                setStatus('Downloaded', 'ok');
+                setGlobalProgress(100);
+                toast(`Saved ${format.toUpperCase()}`);
+            } catch (e) {
+                setStatus('Download failed', 'err');
+                setGlobalProgress(100, true);
+            }
+        }
+
+        function triggerDownloadURL(url, name) {
+            const a = Object.assign(document.createElement('a'), { href: url, download: name });
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        }
+
+        document.getElementById('btn-download-svg').onclick = () => downloadSingle('svg');
+        document.getElementById('btn-download-png').onclick = () => downloadSingle('png');
+
+        document.getElementById('btn-copy-url').onclick = () => {
+            navigator.clipboard.writeText(plantumlUrl('svg', editor.value)).then(() => toast('URL copied!'));
+        };
+
+        document.getElementById('btn-share').onclick = () => {
+            const url = location.href.split('?')[0] + '?d=' + btoa(editor.value);
+            navigator.clipboard.writeText(url).then(() => toast('Share link copied!'));
+        };
+
+        document.getElementById('btn-save-puml').onclick = () => {
+            const name = prompt('File name', 'diagram');
+            if (!name) return;
+            const blob = new Blob([editor.value], { type: 'text/plain' });
+            const url = BufferManager.create(blob);
+            triggerDownloadURL(url, `${name}.puml`);
+            BufferManager.releaseAfter(url, 5000);
+            toast('Saved!');
+        };
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // HISTORY
+        // ═══════════════════════════════════════════════════════════════════════════
+        function pushHistory() {
+            const text = editor.value;
+            if (historyRecords.length && historyRecords[0].text === text) return;
+            historyRecords.unshift({ text, time: new Date() });
+            if (historyRecords.length > 50) historyRecords.pop();
+            renderHistoryList();
+        }
+
+        function renderHistoryList() {
+            historyListEl.innerHTML = '';
+            historyRecords.forEach(r => {
+                const el = document.createElement('div');
+                el.className = 'history-item';
+                el.innerHTML = `<div class="history-item-time">${r.time.toLocaleTimeString()}</div><div class="history-item-preview">${r.text.substring(0, 80).replace(/</g, '&lt;')}</div>`;
+                el.onclick = () => { editor.value = r.text; updateLineNumbers(); updateNodeCount(); triggerPreview(); toast('Restored from history'); };
+                historyListEl.appendChild(el);
+            });
+        }
+        document.getElementById('btn-clear-history').onclick = () => { historyRecords = []; renderHistoryList(); };
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // LAYER UI
+        // ═══════════════════════════════════════════════════════════════════════════
+        function updateLayerUI() {
+            document.querySelectorAll('#layer-grid .layer-toggle').forEach(label => {
+                const cb = label.querySelector('input');
+                const fmt = cb.value;
+                label.className = 'layer-toggle' + (cb.checked ? ` active-${fmt}` : '');
+            });
+            if (activeIndex >= 0) {
+                batchItems[activeIndex].layers = getActiveLayers();
+                refreshBatchList();
+            }
+            updateBatchStats();
+        }
+
+        function getActiveLayers() {
+            const layers = {};
+            document.querySelectorAll('#layer-grid .layer-toggle input').forEach(cb => {
+                layers[cb.value] = cb.checked;
+            });
+            return layers;
+        }
+
+        function setLayerUI(layers) {
+            document.querySelectorAll('#layer-grid .layer-toggle input').forEach(cb => {
+                cb.checked = layers ? (layers[cb.value] !== false) : (cb.value === 'svg' || cb.value === 'puml');
+            });
+            updateLayerUI();
+        }
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // BATCH — core state
+        // ═══════════════════════════════════════════════════════════════════════════
+        function getFilteredItems() {
+            if (!batchSearchQuery) return batchItems.map((item, i) => ({ item, i }));
+            const q = batchSearchQuery.toLowerCase();
+            return batchItems.map((item, i) => ({ item, i })).filter(({ item }) => item.name.toLowerCase().includes(q));
+        }
+
+        function refreshBatchList() {
+            batchListEl.innerHTML = '';
+            const filtered = getFilteredItems();
+
+            filtered.forEach(({ item, i }) => {
+                const el = document.createElement('div');
+                el.className = 'batch-item' + (i === activeIndex ? ' active' : '') + (selectedIndices.has(i) ? ' active' : '');
+                if (selectedIndices.has(i)) el.style.background = 'rgba(79,156,249,.08)';
+
+                const layers = item.layers || { svg: true, puml: true };
+                const layerChips = Object.entries(layers).filter(([, v]) => v).map(([k]) =>
+                    `<span class="layer-chip ${k}">${k.toUpperCase()}</span>`
+                ).join('');
+
+                const lines = item.text.split('\n').length;
+                el.innerHTML = `
+      <input type="checkbox" style="accent-color:var(--accent);width:13px;height:13px;flex-shrink:0;" ${selectedIndices.has(i) ? 'checked' : ''}>
+      <div class="batch-item-info">
+        <div class="batch-item-name">${item.name}</div>
+        <div class="batch-item-meta">${lines} lines</div>
+        <div class="batch-item-layers">${layerChips}</div>
+      </div>
+      <div class="batch-item-actions">
+        <button class="icon-btn" title="Preview">👁</button>
+        <button class="icon-btn" title="Duplicate">⎘</button>
+        <button class="icon-btn del" title="Delete">🗑</button>
+      </div>
+    `;
+
+                const cb = el.querySelector('input[type="checkbox"]');
+                cb.onchange = e => {
+                    e.stopPropagation();
+                    if (cb.checked) selectedIndices.add(i); else selectedIndices.delete(i);
+                    refreshBatchList();
+                    updateBatchStats();
+                };
+                el.querySelector('[title="Preview"]').onclick = e => {
+                    e.stopPropagation(); editor.value = item.text; updatePreview(); switchTab('editor');
+                };
+                el.querySelector('[title="Duplicate"]').onclick = e => {
+                    e.stopPropagation();
+                    const dup = { ...item, name: item.name + ' copy', id: makeId(), layers: { ...(item.layers || {}) } };
+                    batchItems.splice(i + 1, 0, dup);
+                    refreshBatchList(); updateBatchStats(); saveBatch();
+                };
+                el.querySelector('[title="Delete"]').onclick = e => {
+                    e.stopPropagation();
+                    showDeleteModal([i]);
+                };
+                el.onclick = () => {
+                    activeIndex = i;
+                    batchEditor.value = item.text;
+                    document.getElementById('batch-edit-name').textContent = item.name.toUpperCase();
+                    setLayerUI(item.layers);
+                    refreshBatchList();
+                };
+                batchListEl.appendChild(el);
+            });
+
+            saveBatch();
+        }
+
+        function updateBatchStats() {
+            document.getElementById('stat-count').textContent = batchItems.length;
+            document.getElementById('stat-sel').textContent = selectedIndices.size;
+            // Unique active formats across selected
+            const fmts = new Set();
+            selectedIndices.forEach(i => {
+                const layers = batchItems[i] && batchItems[i].layers;
+                if (layers) Object.entries(layers).filter(([, v]) => v).forEach(([k]) => fmts.add(k));
+            });
+            document.getElementById('stat-layers').textContent = fmts.size ? [...fmts].join(',') : '—';
+        }
+
+        // ── SELECT ALL ──
+        document.getElementById('btn-select-all').onclick = () => {
+            batchSelectAll = !batchSelectAll;
+            selectedIndices = batchSelectAll ? new Set(batchItems.map((_, i) => i)) : new Set();
+            document.getElementById('btn-select-all').textContent = batchSelectAll ? '☑' : '☐';
+            refreshBatchList(); updateBatchStats();
+        };
+
+        // ── SEARCH ──
+        document.getElementById('batch-search').addEventListener('input', e => {
+            batchSearchQuery = e.target.value;
+            refreshBatchList();
+        });
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // PROFESSIONAL DELETE — modal + undo
+        // ═══════════════════════════════════════════════════════════════════════════
+        function showDeleteModal(indices) {
+            const toDelete = indices.filter(i => i >= 0 && i < batchItems.length);
+            if (!toDelete.length) return;
+
+            const modal = document.getElementById('delete-modal');
+            document.getElementById('modal-title').textContent = `Delete ${toDelete.length} Diagram${toDelete.length > 1 ? 's' : ''}`;
+            document.getElementById('modal-desc').textContent = `This will remove the following diagram${toDelete.length > 1 ? 's' : ''} from your batch:`;
+
+            const namesEl = document.getElementById('modal-names');
+            namesEl.innerHTML = '';
+            toDelete.forEach(i => {
+                const d = document.createElement('div');
+                d.textContent = `• ${batchItems[i].name}`;
+                namesEl.appendChild(d);
+            });
+
+            modal.classList.add('open');
+
+            document.getElementById('modal-confirm').onclick = () => {
+                modal.classList.remove('open');
+                executeDelete(toDelete);
+            };
+        }
+
+        document.getElementById('modal-cancel').onclick = () => document.getElementById('delete-modal').classList.remove('open');
+        document.getElementById('delete-modal').onclick = e => { if (e.target === document.getElementById('delete-modal')) document.getElementById('delete-modal').classList.remove('open'); };
+
+        function executeDelete(indices) {
+            // Sort descending so splice indices stay valid
+            const sorted = [...new Set(indices)].sort((a, b) => b - a);
+            const deleted = sorted.map(i => ({ index: i, item: batchItems[i] }));
+
+            // Buffer the deleted items for undo
+            undoDeleteBuffer = { deleted, previousActive: activeIndex };
+            clearTimeout(undoDeleteTimer);
+
+            // Perform deletion
+            sorted.forEach(i => batchItems.splice(i, 1));
+            selectedIndices.clear();
+
+            // Fix active index
+            if (activeIndex >= batchItems.length) activeIndex = batchItems.length - 1;
+            if (activeIndex >= 0) {
+                batchEditor.value = batchItems[activeIndex].text;
+                document.getElementById('batch-edit-name').textContent = batchItems[activeIndex].name.toUpperCase();
+                setLayerUI(batchItems[activeIndex].layers);
+            } else {
+                batchEditor.value = '';
+                document.getElementById('batch-edit-name').textContent = 'SELECT A DIAGRAM';
+                setLayerUI(null);
+            }
+
+            refreshBatchList(); updateBatchStats();
+            showUndoBanner(deleted.length);
+            saveBatch();
+        }
+
+        // ── UNDO BANNER ──
+        function showUndoBanner(count) {
+            const banner = document.getElementById('undo-banner');
+            const circle = document.getElementById('undo-timer-circle');
+            document.getElementById('undo-banner-text').textContent = `Deleted ${count} diagram${count > 1 ? 's' : ''}`;
+
+            banner.classList.add('show');
+            const DURATION = 5000;
+            const circumference = 69.1;
+            circle.style.transition = `stroke-dashoffset ${DURATION}ms linear`;
+            circle.style.strokeDashoffset = '0';
+
+            clearTimeout(undoDeleteTimer);
+            undoDeleteTimer = setTimeout(() => {
+                banner.classList.remove('show');
+                circle.style.transition = 'none';
+                circle.style.strokeDashoffset = circumference.toString();
+                undoDeleteBuffer = null;
+            }, DURATION);
+        }
+
+        document.getElementById('undo-delete-btn').onclick = () => {
+            if (!undoDeleteBuffer) return;
+            clearTimeout(undoDeleteTimer);
+            document.getElementById('undo-banner').classList.remove('show');
+
+            // Restore in original order (ascending)
+            const toRestore = [...undoDeleteBuffer.deleted].sort((a, b) => a.index - b.index);
+            toRestore.forEach(({ index, item }) => {
+                batchItems.splice(index, 0, item);
+            });
+            activeIndex = undoDeleteBuffer.previousActive;
+            undoDeleteBuffer = null;
+
+            if (activeIndex >= 0 && batchItems[activeIndex]) {
+                batchEditor.value = batchItems[activeIndex].text;
+                document.getElementById('batch-edit-name').textContent = batchItems[activeIndex].name.toUpperCase();
+                setLayerUI(batchItems[activeIndex].layers);
+            }
+
+            refreshBatchList(); updateBatchStats(); saveBatch();
+            toast('Delete undone ✓');
+        };
+
+        // ── DELETE SELECTED ──
+        document.getElementById('btn-delete-selected').onclick = () => {
+            if (!selectedIndices.size) { toast('No diagrams selected', 'err'); return; }
+            showDeleteModal([...selectedIndices]);
+        };
+
+        // ── SINGLE DELETE (batch toolbar) ──
+        document.getElementById('btn-batch-remove').onclick = () => {
+            if (activeIndex < 0) return;
+            showDeleteModal([activeIndex]);
+        };
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // BATCH CRUD
+        // ═══════════════════════════════════════════════════════════════════════════
+        document.getElementById('btn-add-to-batch').onclick = () => {
+            const name = prompt('Name for this diagram', 'Diagram ' + (batchItems.length + 1));
+            if (!name) return;
+            batchItems.push({ id: makeId(), name, text: editor.value, layers: { svg: true, puml: true } });
+            activeIndex = batchItems.length - 1;
+            refreshBatchList(); updateBatchStats();
+            toast('Added to batch');
+        };
+
+        document.getElementById('btn-add-batch-new').onclick = () => {
+            const name = prompt('New diagram name', 'Diagram ' + (batchItems.length + 1));
+            if (!name) return;
+            const item = { id: makeId(), name, text: '@startuml\n\n@enduml', layers: { svg: true, puml: true } };
+            batchItems.push(item);
+            activeIndex = batchItems.length - 1;
+            batchEditor.value = item.text;
+            document.getElementById('batch-edit-name').textContent = name.toUpperCase();
+            setLayerUI(item.layers);
+            refreshBatchList(); updateBatchStats();
+        };
+
+        document.getElementById('btn-batch-update').onclick = () => {
+            if (activeIndex < 0) return;
+            batchItems[activeIndex].text = batchEditor.value;
+            batchItems[activeIndex].layers = getActiveLayers();
+            refreshBatchList();
+            toast('Saved');
+        };
+
+        document.getElementById('btn-batch-load').onclick = () => {
+            if (activeIndex < 0) return;
+            editor.value = batchItems[activeIndex].text;
+            updateLineNumbers(); updateNodeCount(); triggerPreview();
+            switchTab('editor');
+            toast('Loaded to editor');
+        };
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // RENDER QUEUE — multi-layer rendering
+        // ═══════════════════════════════════════════════════════════════════════════
+        function getRenderTargets() {
+            // Use selected items; if none, use all
+            const targets = selectedIndices.size > 0
+                ? [...selectedIndices].map(i => batchItems[i])
+                : batchItems;
+            return targets;
+        }
+
+        function buildRenderQueue(targets) {
+            rqItems = [];
+            targets.forEach(item => {
+                const layers = item.layers || { svg: true, puml: true };
+                Object.entries(layers).filter(([, v]) => v).forEach(([fmt]) => {
+                    rqItems.push({ id: makeId(), name: item.name, fmt, text: item.text, status: 'pending', data: null });
+                });
+            });
+        }
+
+        function renderRenderQueue() {
+            const qEl = document.getElementById('render-queue');
+            const list = document.getElementById('rq-list');
+            if (!rqItems.length) { qEl.style.display = 'none'; return; }
+            qEl.style.display = 'block';
+            list.innerHTML = '';
+
+            const done = rqItems.filter(r => r.status === 'done').length;
+            const total = rqItems.length;
+            document.getElementById('rq-progress-text').textContent = `${done}/${total}`;
+            setGlobalProgress(total ? (done / total * 100) : 0);
+
+            rqItems.forEach(item => {
+                const el = document.createElement('div');
+                el.className = 'rq-item';
+                el.id = `rq-${item.id}`;
+
+                const statusIcon = item.status === 'done' ? '✓' : item.status === 'err' ? '✗' : item.status === 'running' ? '<div class="spinner"></div>' : '—';
+                const statusClass = item.status === 'done' ? 'done' : item.status === 'err' ? 'err' : item.status === 'running' ? 'running' : '';
+
+                el.innerHTML = `
+      <span class="rq-name">${item.name}</span>
+      <span class="rq-format layer-chip ${item.fmt}">${item.fmt.toUpperCase()}</span>
+      <span class="rq-status ${statusClass}">${statusIcon}</span>
+    `;
+                list.appendChild(el);
+            });
+        }
+
+        function updateRQItem(id, status) {
+            const item = rqItems.find(r => r.id === id);
+            if (!item) return;
+            item.status = status;
+            const el = document.getElementById(`rq-${id}`);
+            if (!el) return;
+            const statusEl = el.querySelector('.rq-status');
+            if (status === 'done') { statusEl.textContent = '✓'; statusEl.className = 'rq-status done'; }
+            else if (status === 'err') { statusEl.textContent = '✗'; statusEl.className = 'rq-status err'; }
+            else if (status === 'running') { statusEl.innerHTML = '<div class="spinner" style="width:10px;height:10px;border-width:1.5px;"></div>'; statusEl.className = 'rq-status running'; }
+
+            const done = rqItems.filter(r => r.status === 'done' || r.status === 'err').length;
+            document.getElementById('rq-progress-text').textContent = `${done}/${rqItems.length}`;
+            setGlobalProgress(rqItems.length ? (done / rqItems.length * 100) : 0);
+        }
+
+        document.getElementById('btn-clear-queue').onclick = () => {
+            rqItems = [];
+            document.getElementById('render-queue').style.display = 'none';
+        };
+
+        document.getElementById('btn-render-all').onclick = async () => {
+            const targets = getRenderTargets();
+            if (!targets.length) { toast('No diagrams to render', 'err'); return; }
+
+            buildRenderQueue(targets);
+            renderRenderQueue();
+
+            const zip = new JSZip();
+            const renderer = document.getElementById('renderer').value;
+            setBatchStatus('Rendering…', 'loading');
+
+            // Render concurrently (max 3 at a time)
+            const CONCURRENCY = 3;
+            let i = 0;
+
+            async function runNext() {
+                while (i < rqItems.length) {
+                    const item = rqItems[i++];
+                    updateRQItem(item.id, 'running');
+                    try {
+                        if (item.fmt === 'puml') {
+                            zip.file(`${item.name}.puml`, item.text);
+                            updateRQItem(item.id, 'done');
+                        } else if (renderer === 'plantuml') {
+                            const resp = await fetch(plantumlUrl(item.fmt, item.text));
+                            if (!resp.ok) throw new Error('fetch failed');
+                            const data = item.fmt === 'svg' ? await resp.text() : await resp.blob();
+                            zip.file(`${item.name}.${item.fmt}`, data);
+                            updateRQItem(item.id, 'done');
+                        } else {
+                            const res = await krokiFetch(item.fmt, item.text);
+                            zip.file(`${item.name}.${item.fmt}`, res.type === 'text' ? res.data : res.data);
+                            updateRQItem(item.id, 'done');
+                        }
+                    } catch (e) {
+                        updateRQItem(item.id, 'err');
+                    }
+                }
+            }
+
+            const workers = Array.from({ length: CONCURRENCY }, () => runNext());
+            await Promise.all(workers);
+
+            const blob = await zip.generateAsync({ type: 'blob' });
+            const url = BufferManager.create(blob);
+            triggerDownloadURL(url, 'renders.zip');
+            BufferManager.releaseAfter(url, 8000);
+
+            setBatchStatus('Done', 'ok');
+            setGlobalProgress(100);
+            const errors = rqItems.filter(r => r.status === 'err').length;
+            toast(`Rendered ${targets.length} diagram${targets.length > 1 ? 's' : ''} (${errors} errors)`);
+        };
+
+        document.getElementById('btn-download-sources').onclick = async () => {
+            if (!batchItems.length) { toast('No diagrams in batch', 'err'); return; }
+            const zip = new JSZip();
+            batchItems.forEach(item => zip.file(`${item.name}.puml`, item.text));
+            const blob = await zip.generateAsync({ type: 'blob' });
+            const url = BufferManager.create(blob);
+            triggerDownloadURL(url, 'sources.zip');
+            BufferManager.releaseAfter(url, 8000);
+            toast('Sources ZIP saved');
+        };
+
+        function setBatchStatus(text, state = 'ok') {
+            document.getElementById('batch-status').textContent = text;
+            document.getElementById('batch-status-dot').className = `status-dot ${state}`;
+        }
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // FILE IMPORT
+        // ═══════════════════════════════════════════════════════════════════════════
+        document.getElementById('file-input').onchange = async ev => {
+            const files = Array.from(ev.target.files || []);
+            let added = 0;
+            for (const f of files) {
+                if (f.name.toLowerCase().endsWith('.zip')) {
+                    const buf = await f.arrayBuffer();
+                    const zip = await JSZip.loadAsync(buf);
+                    for (const [name, file] of Object.entries(zip.files)) {
+                        if (name.match(/\.(puml|pu|txt)$/i)) {
+                            const text = await file.async('string');
+                            batchItems.push({ id: makeId(), name: name.split('/').pop().replace(/\.[^.]+$/, ''), text, layers: { svg: true, puml: true } });
+                            added++;
+                        }
+                    }
+                } else {
+                    const text = await f.text();
+                    const name = f.name.replace(/\.[^.]+$/, '');
+                    batchItems.push({ id: makeId(), name, text, layers: { svg: true, puml: true } });
+                    if (!editor.value.trim() || editor.value === '@startuml\n\n@enduml') {
+                        editor.value = text; updateLineNumbers(); updateNodeCount(); triggerPreview();
+                    }
+                    added++;
+                }
+            }
+            if (batchItems.length && activeIndex < 0) activeIndex = 0;
+            refreshBatchList(); updateBatchStats();
+            toast(`Imported ${added} file${added !== 1 ? 's' : ''}`);
+            ev.target.value = '';
+        };
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // DOCUMENT EDITOR
+        // ═══════════════════════════════════════════════════════════════════════════
+        function execCmd(cmd) { document.execCommand(cmd, false, null); }
+
+        document.getElementById('btn-doc-insert-current').onclick = async () => insertDiagramToDoc(editor.value);
+        document.getElementById('btn-doc-insert-selected').onclick = async () => {
+            insertDiagramToDoc(activeIndex >= 0 ? batchItems[activeIndex].text : editor.value);
+        };
+
+        async function insertDiagramToDoc(text) {
+            try {
+                const resp = await fetch(plantumlUrl('svg', text));
+                const svg = await resp.text();
+                const div = document.createElement('div');
+                div.style.margin = '16px 0';
+                div.innerHTML = svg;
+                document.getElementById('doc-editor').appendChild(div);
+                toast('Diagram inserted');
+            } catch (e) { toast('Failed to insert', 'err'); }
+        }
+
+        document.getElementById('btn-export-html').onclick = () => {
+            const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Document</title></head><body style="font-family:sans-serif;max-width:900px;margin:40px auto;padding:0 20px;">${document.getElementById('doc-editor').innerHTML}</body></html>`;
+            const blob = new Blob([html], { type: 'text/html' });
+            const url = BufferManager.create(blob);
+            triggerDownloadURL(url, 'document.html');
+            BufferManager.releaseAfter(url, 5000);
+            toast('HTML exported');
+        };
+
+        document.getElementById('btn-export-md').onclick = () => {
+            const text = document.getElementById('doc-editor').innerText;
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = BufferManager.create(blob);
+            triggerDownloadURL(url, 'document.md');
+            BufferManager.releaseAfter(url, 5000);
+            toast('Markdown exported');
+        };
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // LOCALSTORAGE
+        // ═══════════════════════════════════════════════════════════════════════════
+        function saveBatch() {
+            try { localStorage.setItem('puml_batch_pro', JSON.stringify(batchItems)); } catch (e) { }
+            try { localStorage.setItem('puml_editor_pro', editor.value); } catch (e) { }
+        }
+
+        function loadBatch() {
+            try {
+                const b = localStorage.getItem('puml_batch_pro');
+                const e = localStorage.getItem('puml_editor_pro');
+                if (b) {
+                    batchItems = JSON.parse(b);
+                    // Migrate old items (no layers)
+                    batchItems.forEach(item => { if (!item.layers) item.layers = { svg: true, puml: true }; if (!item.id) item.id = makeId(); });
+                    activeIndex = batchItems.length ? 0 : -1;
+                    if (activeIndex >= 0) {
+                        batchEditor.value = batchItems[0].text;
+                        document.getElementById('batch-edit-name').textContent = batchItems[0].name.toUpperCase();
+                        setLayerUI(batchItems[0].layers);
+                    }
+                    refreshBatchList(); updateBatchStats();
+                }
+                if (e && !new URLSearchParams(location.search).get('d')) {
+                    editor.value = e; updateLineNumbers();
+                }
+            } catch (e) { }
+        }
+
+        editor.addEventListener('input', () => saveBatch());
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // TOAST
+        // ═══════════════════════════════════════════════════════════════════════════
+        function toast(msg, type = 'ok') {
+            const el = document.getElementById('toast');
+            el.textContent = msg;
+            el.className = 'show ' + type;
+            clearTimeout(toast._t);
+            toast._t = setTimeout(() => { el.className = ''; }, 2500);
+        }
+
+        // ═══════════════════════════════════════════════════════════════════════════
+        // INIT
+        // ═══════════════════════════════════════════════════════════════════════════
+        window.addEventListener('load', () => {
+            const params = new URLSearchParams(location.search);
+            if (params.get('d')) { try { editor.value = atob(params.get('d')); } catch (e) { } }
+            loadBatch();
+            updateLineNumbers(); updateNodeCount(); updateCursorPos();
+            saveEditorHistory();
+            setLayerUI(null);
+            updatePreview();
+        });
+
+        // Init line numbers
+        updateLineNumbers();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Extension Folder Organizer</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+<style>
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background:#0f172a;
+    color:white;
+    text-align:center;
+    padding:40px;
+}
+
+.container{
+    max-width:800px;
+    margin:auto;
+    background:#1e293b;
+    padding:40px;
+    border-radius:12px;
+}
+
+h1{
+    margin-bottom:10px;
+}
+
+input{
+    margin-top:20px;
+}
+
+button{
+    margin-top:20px;
+    padding:12px 25px;
+    border:none;
+    background:#22c55e;
+    color:white;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+button:hover{
+    background:#16a34a;
+}
+
+#structure{
+    margin-top:30px;
+    text-align:left;
+    background:#020617;
+    padding:20px;
+    border-radius:8px;
+    font-size:14px;
+    max-height:300px;
+    overflow:auto;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Automatic File Folderizer</h1>
+
+<p>Select a folder and files will be grouped by extension.</p>
+
+<input type="file" id="folderInput" webkitdirectory multiple>
+
+<br>
+
+<button onclick="organizeFiles()">Organize & Download</button>
+
+<div id="structure"></div>
+
+</div>
+
+<script>
+
+async function organizeFiles(){
+
+    const files = document.getElementById("folderInput").files;
+
+    if(files.length === 0){
+        alert("Please select a folder first.");
+        return;
+    }
+
+    const zip = new JSZip();
+    const map = {};
+
+    for(let file of files){
+
+        let ext = "other";
+
+        if(file.name.includes(".")){
+            ext = file.name.split(".").pop().toLowerCase();
+        }
+
+        if(!map[ext]){
+            map[ext] = [];
+        }
+
+        map[ext].push(file);
+
+        zip.folder(ext).file(file.name,file);
+    }
+
+    displayStructure(map);
+
+    const content = await zip.generateAsync({type:"blob"});
+
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(content);
+    link.download = "organized_files.zip";
+    link.click();
+}
+
+function displayStructure(map){
+
+    let html = "<b>Generated Folder Structure</b><br><br>";
+
+    for(let ext in map){
+
+        html += ext + "/<br>";
+
+        map[ext].forEach(file=>{
+            html += "&nbsp;&nbsp;└ " + file.name + "<br>";
+        });
+
+        html += "<br>";
+    }
+
+    document.getElementById("structure").innerHTML = html;
+}
+
+</script>
+
+</body>
+</html>

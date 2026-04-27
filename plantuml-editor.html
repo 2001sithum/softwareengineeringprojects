@@ -1,0 +1,1509 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PlantUML Studio</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/plantuml-encoder/dist/plantuml-encoder.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <style>
+    :root {
+      --bg: #0d0f14;
+      --surface: #13161e;
+      --surface2: #1a1e28;
+      --surface3: #222736;
+      --border: #2a2f3f;
+      --border2: #3a4052;
+      --text: #e8ecf4;
+      --text2: #8b92a8;
+      --text3: #555d75;
+      --accent: #4f9cf9;
+      --accent2: #7b5cf0;
+      --green: #3dd68c;
+      --red: #f95f5f;
+      --yellow: #f9c74f;
+      --orange: #f97b4f;
+      --pink: #f95fa0;
+      --radius: 8px;
+      --mono: 'JetBrains Mono', 'Fira Code', monospace;
+      --sans: 'Syne', system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── HEADER ── */
+    header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 16px;
+      height: 52px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+      z-index: 100;
+    }
+    .logo {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: -.3px;
+      color: var(--text);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .logo-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); display: inline-block; }
+    .header-sep { width: 1px; height: 24px; background: var(--border); flex-shrink: 0; }
+    .header-tabs { display: flex; gap: 2px; }
+    .tab-btn {
+      padding: 5px 12px;
+      font-family: var(--sans);
+      font-size: 12px;
+      font-weight: 600;
+      border: none;
+      background: none;
+      color: var(--text3);
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all .15s;
+      letter-spacing: .3px;
+    }
+    .tab-btn:hover { background: var(--surface2); color: var(--text2); }
+    .tab-btn.active { background: var(--accent); color: #fff; }
+    .spacer { flex: 1; }
+
+    /* ── TOOLBAR STRIP ── */
+    .toolbar-strip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 10px;
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .3px;
+      border: 1px solid var(--border2);
+      border-radius: 5px;
+      background: var(--surface2);
+      color: var(--text2);
+      cursor: pointer;
+      transition: all .15s;
+      white-space: nowrap;
+    }
+    .btn:hover { background: var(--surface3); color: var(--text); border-color: var(--accent); }
+    .btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .btn.primary:hover { opacity: .88; }
+    .btn.danger { background: var(--red); color: #fff; border-color: var(--red); }
+    .btn.success { background: var(--green); color: #0d0f14; border-color: var(--green); }
+    .btn svg { width: 13px; height: 13px; }
+
+    select {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 8px;
+      border: 1px solid var(--border2);
+      border-radius: 5px;
+      background: var(--surface2);
+      color: var(--text2);
+      cursor: pointer;
+    }
+    select:focus { outline: none; border-color: var(--accent); }
+
+    label.check-label {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text2);
+      cursor: pointer;
+    }
+    input[type="checkbox"] { accent-color: var(--accent); width: 13px; height: 13px; cursor: pointer; }
+    input[type="file"] { display: none; }
+
+    .strip-sep { width: 1px; height: 20px; background: var(--border); flex-shrink: 0; margin: 0 2px; }
+
+    /* ── MAIN AREA ── */
+    .main {
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .tab-panel { display: none; flex: 1; overflow: hidden; }
+    .tab-panel.active { display: flex; }
+
+    /* ── EDITOR/PREVIEW SPLIT ── */
+    .split-pane {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      flex: 1;
+      overflow: hidden;
+    }
+    .pane {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border-right: 1px solid var(--border);
+    }
+    .pane:last-child { border-right: none; }
+    .pane-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 7px 12px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text3);
+      letter-spacing: .8px;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+    .pane-header .pane-actions { display: flex; gap: 5px; }
+
+    /* ── CODE EDITOR ── */
+    .code-editor-wrap { flex: 1; overflow: hidden; position: relative; display: flex; }
+    .line-numbers {
+      padding: 12px 8px;
+      background: var(--surface2);
+      border-right: 1px solid var(--border);
+      font-family: var(--mono);
+      font-size: 12.5px;
+      line-height: 1.65;
+      color: var(--text3);
+      text-align: right;
+      user-select: none;
+      min-width: 38px;
+      overflow: hidden;
+    }
+    .main-editor {
+      flex: 1;
+      padding: 12px;
+      font-family: var(--mono);
+      font-size: 12.5px;
+      line-height: 1.65;
+      background: var(--surface2);
+      color: var(--text);
+      border: none;
+      outline: none;
+      resize: none;
+      tab-size: 2;
+      caret-color: var(--accent);
+    }
+    .main-editor::placeholder { color: var(--text3); }
+    .main-editor::selection { background: rgba(79,156,249,.25); }
+
+    /* ── PREVIEW ── */
+    .preview-area {
+      flex: 1;
+      overflow: auto;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      position: relative;
+    }
+    .preview-area img, .preview-area svg { max-width: 100%; height: auto; border-radius: 4px; }
+    .preview-area svg { background: white; padding: 8px; border-radius: 6px; }
+    .preview-loading {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(13,15,20,.7);
+      color: var(--text2);
+      font-size: 12px;
+      font-weight: 600;
+      gap: 8px;
+    }
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin .6s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .preview-controls {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      display: flex;
+      gap: 6px;
+    }
+
+    /* ── STATUS BAR ── */
+    .status-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 4px 12px;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      font-size: 11px;
+      color: var(--text3);
+      flex-shrink: 0;
+      font-family: var(--mono);
+    }
+    .status-item { display: flex; align-items: center; gap: 5px; }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; }
+    .status-dot.ok { background: var(--green); }
+    .status-dot.err { background: var(--red); }
+    .status-dot.loading { background: var(--yellow); animation: pulse .8s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    /* ── SNIPPETS PANEL ── */
+    .snippets-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 8px;
+      padding: 12px;
+      overflow-y: auto;
+    }
+    .snippet-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      cursor: pointer;
+      transition: all .15s;
+    }
+    .snippet-card:hover { border-color: var(--accent); transform: translateY(-1px); }
+    .snippet-card h4 { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+    .snippet-card p { font-size: 10px; color: var(--text3); font-family: var(--mono); }
+
+    /* ── BATCH PANEL ── */
+    .batch-layout {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      flex: 1;
+      overflow: hidden;
+    }
+    .batch-sidebar {
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid var(--border);
+      overflow: hidden;
+      background: var(--surface);
+    }
+    .batch-sidebar-header {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      color: var(--text3);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .batch-list-scroll { flex: 1; overflow-y: auto; }
+    .batch-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: all .12s;
+    }
+    .batch-item:hover { background: var(--surface2); }
+    .batch-item.active { background: rgba(79,156,249,.12); border-left: 2px solid var(--accent); }
+    .batch-item-name { flex: 1; font-size: 12px; font-weight: 600; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .batch-item-actions { display: flex; gap: 4px; opacity: 0; transition: opacity .12s; }
+    .batch-item:hover .batch-item-actions { opacity: 1; }
+    .icon-btn {
+      width: 22px; height: 22px;
+      display: flex; align-items: center; justify-content: center;
+      border: none; background: none; color: var(--text2); cursor: pointer; border-radius: 4px;
+      font-size: 13px;
+      transition: all .12s;
+    }
+    .icon-btn:hover { background: var(--surface3); color: var(--text); }
+    .batch-content { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
+
+    /* ── DIFF ── */
+    .diff-area { flex: 1; overflow: auto; padding: 12px; font-family: var(--mono); font-size: 12px; line-height: 1.6; }
+    .diff-add { background: rgba(61,214,140,.15); color: #3dd68c; }
+    .diff-del { background: rgba(249,95,95,.15); color: #f95f5f; text-decoration: line-through; }
+
+    /* ── FIND/REPLACE PANEL ── */
+    .find-replace-bar {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      padding: 6px 12px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .find-replace-bar input {
+      background: var(--surface2);
+      border: 1px solid var(--border2);
+      border-radius: 5px;
+      padding: 5px 9px;
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 12px;
+      outline: none;
+      width: 160px;
+    }
+    .find-replace-bar input:focus { border-color: var(--accent); }
+    .find-count { font-size: 11px; color: var(--text3); font-family: var(--mono); min-width: 60px; }
+
+    /* ── MINIMAP ── */
+    .editor-sidebar {
+      width: 80px;
+      background: var(--bg);
+      border-left: 1px solid var(--border);
+      overflow: hidden;
+      position: relative;
+    }
+    .minimap-canvas { width: 100%; }
+
+    /* ── DIAGRAM TYPE SELECTOR ── */
+    .type-chips { display: flex; flex-wrap: wrap; gap: 5px; padding: 8px 12px; border-bottom: 1px solid var(--border); }
+    .type-chip {
+      padding: 3px 9px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .3px;
+      border: 1px solid var(--border2);
+      background: var(--surface2);
+      color: var(--text3);
+      cursor: pointer;
+      transition: all .12s;
+    }
+    .type-chip:hover, .type-chip.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(79,156,249,.1);
+    }
+
+    /* ── SMART SUGGESTIONS ── */
+    .suggestions-dropdown {
+      position: absolute;
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 6px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.5);
+      z-index: 200;
+      min-width: 200px;
+      max-height: 200px;
+      overflow-y: auto;
+      display: none;
+    }
+    .suggestion-item {
+      padding: 7px 12px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .suggestion-item:hover, .suggestion-item.selected { background: rgba(79,156,249,.15); }
+    .suggestion-badge {
+      font-size: 9px;
+      padding: 1px 5px;
+      border-radius: 3px;
+      background: var(--surface3);
+      color: var(--text3);
+      margin-left: auto;
+    }
+
+    /* ── HISTORY PANEL ── */
+    .history-list { flex: 1; overflow-y: auto; }
+    .history-item {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background .12s;
+    }
+    .history-item:hover { background: var(--surface2); }
+    .history-item-time { font-size: 10px; color: var(--text3); font-family: var(--mono); }
+    .history-item-preview { font-size: 11px; color: var(--text2); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    /* ── DOCUMENT EDITOR ── */
+    .doc-pane { flex: 1; overflow: auto; padding: 24px; background: var(--bg); }
+    .doc-editor-content {
+      max-width: 800px;
+      margin: 0 auto;
+      min-height: 400px;
+      background: var(--surface);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      padding: 32px;
+      outline: none;
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--text);
+    }
+    .doc-editor-content:focus { border-color: var(--accent); }
+    .doc-editor-content h1,h2,h3 { font-family: var(--sans); margin: 16px 0 8px; }
+    .doc-editor-content p { margin-bottom: 12px; }
+    .doc-toolbar {
+      display: flex;
+      gap: 6px;
+      padding: 8px 12px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    /* ── SCROLLBARS ── */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--text3); }
+
+    /* ── TOAST ── */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--surface3);
+      border: 1px solid var(--border2);
+      color: var(--text);
+      padding: 9px 18px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      opacity: 0;
+      transition: all .25s;
+      pointer-events: none;
+      z-index: 9999;
+      box-shadow: 0 4px 20px rgba(0,0,0,.4);
+    }
+    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    #toast.ok { border-color: var(--green); color: var(--green); }
+    #toast.err { border-color: var(--red); color: var(--red); }
+
+    /* ── RESIZABLE ── */
+    .resize-handle {
+      width: 4px;
+      background: var(--border);
+      cursor: col-resize;
+      flex-shrink: 0;
+      transition: background .15s;
+    }
+    .resize-handle:hover, .resize-handle.dragging { background: var(--accent); }
+
+    /* ── PREVIEW ZOOM ── */
+    .zoom-controls {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 6px;
+      padding: 4px 6px;
+    }
+    .zoom-controls span { font-size: 10px; font-family: var(--mono); color: var(--text2); min-width: 32px; text-align: center; }
+
+    .node-count { 
+      background: rgba(79,156,249,.15); 
+      color: var(--accent); 
+      font-size: 10px; 
+      font-family: var(--mono);
+      padding: 2px 7px; 
+      border-radius: 4px; 
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><span class="logo-dot"></span>PlantUML Studio</div>
+  <div class="header-sep"></div>
+  <div class="header-tabs">
+    <button class="tab-btn active" data-tab="editor">Editor</button>
+    <button class="tab-btn" data-tab="batch">Batch</button>
+    <button class="tab-btn" data-tab="document">Document</button>
+    <button class="tab-btn" data-tab="history">History</button>
+  </div>
+  <div class="spacer"></div>
+  <select id="renderer">
+    <option value="plantuml">PlantUML Server</option>
+    <option value="kroki">Kroki</option>
+  </select>
+  <label class="check-label"><input type="checkbox" id="opt-quality"> HiDPI</label>
+  <label class="check-label"><input type="checkbox" id="opt-autopreview" checked> Auto Preview</label>
+  <div class="header-sep"></div>
+  <input id="file-input" type="file" multiple accept=".puml,.pu,.txt,.zip">
+  <button class="btn" onclick="document.getElementById('file-input').click()">
+    <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zM7 4h2v4H7V4zm0 5h2v2H7V9z"/></svg>
+    Import
+  </button>
+  <button class="btn primary" id="btn-preview">
+    <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 2C4.13 2 1 5.13 1 8s3.13 6 7 6 7-3.13 7-6-3.13-6-7-6zM7 5l4 3-4 3V5z"/></svg>
+    Render
+  </button>
+</header>
+
+<!-- EDITOR TAB TOOLBAR -->
+<div class="toolbar-strip" id="editor-toolbar">
+  <button class="btn primary" id="btn-download-svg">↓ SVG</button>
+  <button class="btn" id="btn-download-png">↓ PNG</button>
+  <button class="btn" id="btn-copy-url">⎘ URL</button>
+  <div class="strip-sep"></div>
+  <button class="btn" id="btn-add-to-batch">+ Batch</button>
+  <button class="btn" id="btn-save-puml">↓ .puml</button>
+  <div class="strip-sep"></div>
+  <button class="btn" id="btn-find">⌕ Find</button>
+  <button class="btn" id="btn-format">⎁ Format</button>
+  <button class="btn" id="btn-undo-editor">↩ Undo</button>
+  <div class="strip-sep"></div>
+  <label class="check-label"><input type="checkbox" class="fmt" value="svg" checked> SVG</label>
+  <label class="check-label"><input type="checkbox" class="fmt" value="png" checked> PNG</label>
+  <label class="check-label"><input type="checkbox" class="fmt" value="pdf"> PDF</label>
+  <div class="strip-sep"></div>
+  <button class="btn" id="btn-share">⬡ Share Link</button>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+  <!-- EDITOR TAB -->
+  <div class="tab-panel active" id="tab-editor">
+    <div style="display:flex;flex-direction:column;flex:1;overflow:hidden;">
+      <div class="type-chips" id="type-chips"></div>
+      <div id="find-replace-bar" class="find-replace-bar" style="display:none;">
+        <svg width="13" height="13" viewBox="0 0 16 16" fill="var(--text3)"><path d="M10.5 10.5l3.5 3.5-1 1-3.5-3.5A6 6 0 112 8a6 6 0 018.5 2.5zM8 12A4 4 0 104 8a4 4 0 004 4z"/></svg>
+        <input id="find-input" placeholder="Find...">
+        <input id="replace-input" placeholder="Replace...">
+        <span class="find-count" id="find-count"></span>
+        <button class="btn" id="btn-find-prev">↑</button>
+        <button class="btn" id="btn-find-next">↓</button>
+        <button class="btn" id="btn-do-replace">Replace</button>
+        <button class="btn" id="btn-replace-all">All</button>
+        <button class="icon-btn" id="btn-close-find" style="margin-left:4px;">✕</button>
+      </div>
+      <div class="split-pane" id="split-pane">
+        <div class="pane" id="editor-pane" style="display:flex;flex-direction:column;">
+          <div class="pane-header">
+            <span>SOURCE</span>
+            <div class="pane-actions">
+              <span class="node-count" id="node-count">0 nodes</span>
+            </div>
+          </div>
+          <div class="code-editor-wrap">
+            <div class="line-numbers" id="line-numbers"></div>
+            <textarea id="editor" class="main-editor" spellcheck="false">@startuml
+Alice -> Bob : Hello
+Bob --> Alice : Hi there!
+note right
+  This is a note
+end note
+@enduml</textarea>
+            <div class="suggestions-dropdown" id="suggestions"></div>
+          </div>
+        </div>
+        <div class="resize-handle" id="resize-handle"></div>
+        <div class="pane" id="preview-pane">
+          <div class="pane-header">
+            <span>PREVIEW</span>
+            <div class="pane-actions">
+              <button class="icon-btn" id="btn-zoom-fit" title="Fit to screen">⊡</button>
+              <button class="icon-btn" id="btn-preview-new" title="Open in new tab">⊕</button>
+            </div>
+          </div>
+          <div class="preview-area" id="preview-area">
+            <div id="preview-content" style="transform-origin:center;transition:transform .2s;"></div>
+            <div class="preview-loading" id="preview-loading" style="display:none;">
+              <div class="spinner"></div> Rendering…
+            </div>
+            <div class="zoom-controls">
+              <button class="icon-btn" id="btn-zoom-out">−</button>
+              <span id="zoom-label">100%</span>
+              <button class="icon-btn" id="btn-zoom-in">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BATCH TAB -->
+  <div class="tab-panel" id="tab-batch">
+    <div class="batch-layout">
+      <div class="batch-sidebar">
+        <div class="batch-sidebar-header">
+          <span>DIAGRAMS</span>
+          <button class="icon-btn" id="btn-add-batch-new" title="New">＋</button>
+        </div>
+        <div class="batch-list-scroll" id="batch-list"></div>
+        <div style="padding:8px;display:flex;flex-direction:column;gap:5px;border-top:1px solid var(--border);">
+          <button class="btn" id="btn-render-all" style="width:100%;">⚙ Render All → ZIP</button>
+          <button class="btn" id="btn-download-sources" style="width:100%;">↓ Sources ZIP</button>
+        </div>
+      </div>
+      <div class="batch-content">
+        <div class="pane-header" style="flex-shrink:0;">
+          <span id="batch-edit-name">SELECT A DIAGRAM</span>
+          <div class="pane-actions">
+            <button class="btn" id="btn-batch-load">Load to Editor</button>
+            <button class="btn" id="btn-batch-update">Save</button>
+            <button class="btn danger" id="btn-batch-remove">Delete</button>
+          </div>
+        </div>
+        <textarea id="batch-editor" class="main-editor" style="flex:1;" spellcheck="false" placeholder="Select a diagram from the list to edit..."></textarea>
+        <div class="status-bar">
+          <span class="status-item"><span class="status-dot ok" id="batch-status-dot"></span><span id="batch-status">Ready</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOCUMENT TAB -->
+  <div class="tab-panel" id="tab-document">
+    <div style="display:flex;flex-direction:column;flex:1;overflow:hidden;">
+      <div class="doc-toolbar">
+        <button class="btn" onclick="execCmd('bold')"><b>B</b></button>
+        <button class="btn" onclick="execCmd('italic')"><i>I</i></button>
+        <button class="btn" onclick="execCmd('underline')"><u>U</u></button>
+        <div class="strip-sep"></div>
+        <button class="btn" onclick="execCmd('insertUnorderedList')">• List</button>
+        <button class="btn" onclick="execCmd('insertOrderedList')">1. List</button>
+        <div class="strip-sep"></div>
+        <button class="btn" id="btn-doc-insert-current">+ Current Diagram</button>
+        <button class="btn" id="btn-doc-insert-selected">+ Selected Diagram</button>
+        <div class="strip-sep"></div>
+        <button class="btn primary" id="btn-export-html">↓ HTML</button>
+        <button class="btn" id="btn-export-md">↓ Markdown</button>
+      </div>
+      <div class="doc-pane">
+        <div id="doc-editor" class="doc-editor-content" contenteditable="true">
+          <h2>My Diagram Document</h2>
+          <p>Click "Insert Current Diagram" to embed a diagram here. You can also type freely and format text.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HISTORY TAB -->
+  <div class="tab-panel" id="tab-history">
+    <div style="display:flex;flex-direction:column;flex:1;overflow:hidden;">
+      <div class="pane-header" style="flex-shrink:0;">
+        <span>EDIT HISTORY</span>
+        <div class="pane-actions">
+          <button class="btn" id="btn-clear-history">Clear All</button>
+        </div>
+      </div>
+      <div class="history-list" id="history-list"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- STATUS BAR (global) -->
+<div class="status-bar">
+  <span class="status-item">
+    <span class="status-dot ok" id="status-dot"></span>
+    <span id="status-text">Ready</span>
+  </span>
+  <span id="cursor-pos" style="font-family:var(--mono);font-size:10px;color:var(--text3);">Ln 1, Col 1</span>
+  <div class="spacer"></div>
+  <span id="char-count" style="font-size:10px;color:var(--text3);">0 chars</span>
+  <span style="font-size:10px;color:var(--text3);">PlantUML Studio</span>
+</div>
+
+<div id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/plantuml-encoder/dist/plantuml-encoder.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script>
+// ── STATE ──────────────────────────────────────────────────────────────
+const editor = document.getElementById('editor');
+const previewContent = document.getElementById('preview-content');
+const previewLoading = document.getElementById('preview-loading');
+const lineNumbers = document.getElementById('line-numbers');
+const suggestions = document.getElementById('suggestions');
+const batchListEl = document.getElementById('batch-list');
+const batchEditor = document.getElementById('batch-editor');
+const historyList = document.getElementById('history-list');
+
+let batchItems = [];
+let activeIndex = -1;
+let editorHistory = [];
+let historyRecords = [];
+let previewZoom = 1;
+let findMatches = [];
+let findCurrent = 0;
+let previewDebounce = null;
+let splitPercent = 50;
+
+// ── SNIPPETS ───────────────────────────────────────────────────────────
+const DIAGRAM_TYPES = [
+  { id: 'sequence', label: 'Sequence', code: '@startuml\nAlice -> Bob : Hello\nBob --> Alice : Hi!\n@enduml' },
+  { id: 'class', label: 'Class', code: '@startuml\nclass Animal {\n  +name: String\n  +eat()\n}\nclass Dog extends Animal {\n  +bark()\n}\n@enduml' },
+  { id: 'usecase', label: 'Use Case', code: '@startuml\n:User: --> (Login)\n:User: --> (Browse)\n(Login) --> (Home)\n@enduml' },
+  { id: 'component', label: 'Component', code: '@startuml\n[Frontend] --> [API]\n[API] --> [Database]\n[API] --> [Cache]\n@enduml' },
+  { id: 'state', label: 'State', code: '@startuml\n[*] --> Idle\nIdle --> Running : start\nRunning --> Idle : stop\nRunning --> [*] : done\n@enduml' },
+  { id: 'activity', label: 'Activity', code: '@startuml\nstart\n:Request;\nif (Valid?) then (yes)\n  :Process;\nelse (no)\n  :Reject;\nendif\nstop\n@enduml' },
+  { id: 'er', label: 'ER', code: '@startuml\nentity User {\n  * id : int\n  --\n  name : string\n  email : string\n}\nentity Order {\n  * id : int\n  --\n  date : date\n}\nUser ||--o{ Order\n@enduml' },
+  { id: 'mindmap', label: 'Mind Map', code: '@startmindmap\n* Root\n** Topic 1\n*** Item A\n*** Item B\n** Topic 2\n*** Item C\n@endmindmap' },
+  { id: 'gantt', label: 'Gantt', code: "@startgantt\nProject starts 2024-01-01\n[Task 1] lasts 10 days\n[Task 2] lasts 7 days\n[Task 2] starts at [Task 1]'s end\n[Task 3] lasts 5 days\n[Task 3] starts at [Task 1]'s end\n@endgantt" },
+  { id: 'network', label: 'Network', code: '@startuml\nnwdiag {\n  network internet {\n    web [address = "1.2.3.4"]\n  }\n  network intranet {\n    web\n    app\n    db\n  }\n}\n@enduml' },
+];
+
+const AUTOCOMPLETE = [
+  '@startuml','@enduml','@startmindmap','@endmindmap','@startgantt','@endgantt',
+  'participant','actor','boundary','control','entity','database',
+  'class','interface','abstract','enum','package',
+  'note left','note right','note over','end note',
+  'skinparam','autonumber','activate','deactivate',
+  'if','else','endif','loop','end loop','group','end group',
+  'start','stop',':','-->','->','->>','<--','<-','<->',
+  'title','legend','footer','header',
+  'hide','show','skinparam backgroundColor',
+  'left to right direction','top to bottom direction',
+];
+
+// ── TYPE CHIPS ────────────────────────────────────────────────────────
+const typeChips = document.getElementById('type-chips');
+DIAGRAM_TYPES.forEach(t => {
+  const chip = document.createElement('button');
+  chip.className = 'type-chip';
+  chip.textContent = t.label;
+  chip.onclick = () => {
+    editor.value = t.code;
+    updateLineNumbers();
+    updateNodeCount();
+    triggerPreview();
+    toast(`Loaded ${t.label} template`);
+  };
+  typeChips.appendChild(chip);
+});
+
+// ── TABS ──────────────────────────────────────────────────────────────
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    document.getElementById('editor-toolbar').style.display = btn.dataset.tab === 'editor' ? 'flex' : 'none';
+  };
+});
+
+// ── LINE NUMBERS ──────────────────────────────────────────────────────
+function updateLineNumbers() {
+  const lines = editor.value.split('\n');
+  lineNumbers.innerHTML = lines.map((_, i) => i + 1).join('\n');
+}
+
+editor.addEventListener('scroll', () => {
+  lineNumbers.scrollTop = editor.scrollTop;
+});
+
+// ── NODE COUNT ────────────────────────────────────────────────────────
+function updateNodeCount() {
+  const text = editor.value;
+  const arrows = (text.match(/->/g) || []).length + (text.match(/-->/g) || []).length;
+  const classes = (text.match(/\bclass\b/g) || []).length + (text.match(/\bparticipant\b/g) || []).length;
+  const total = arrows + classes;
+  document.getElementById('node-count').textContent = `${total} nodes`;
+}
+
+// ── CURSOR POSITION ───────────────────────────────────────────────────
+editor.addEventListener('keyup', updateCursorPos);
+editor.addEventListener('click', updateCursorPos);
+function updateCursorPos() {
+  const pos = editor.selectionStart;
+  const lines = editor.value.substring(0, pos).split('\n');
+  const ln = lines.length;
+  const col = lines[lines.length - 1].length + 1;
+  document.getElementById('cursor-pos').textContent = `Ln ${ln}, Col ${col}`;
+  document.getElementById('char-count').textContent = `${editor.value.length} chars`;
+}
+
+// ── AUTOCOMPLETE ──────────────────────────────────────────────────────
+let suggestionIndex = -1;
+editor.addEventListener('input', e => {
+  updateLineNumbers();
+  updateNodeCount();
+  updateCursorPos();
+  saveEditorHistory();
+  pushHistory();
+  if (document.getElementById('opt-autopreview').checked) {
+    clearTimeout(previewDebounce);
+    previewDebounce = setTimeout(updatePreview, 800);
+  }
+  // Autocomplete
+  const pos = editor.selectionStart;
+  const before = editor.value.substring(0, pos);
+  const word = before.match(/[\w@]+$/) ? before.match(/[\w@]+$/)[0] : '';
+  if (word.length >= 2) {
+    const matches = AUTOCOMPLETE.filter(a => a.toLowerCase().startsWith(word.toLowerCase()) && a !== word);
+    if (matches.length) {
+      showSuggestions(matches.slice(0, 8));
+      return;
+    }
+  }
+  hideSuggestions();
+});
+
+function showSuggestions(matches) {
+  suggestions.innerHTML = '';
+  matches.forEach((m, i) => {
+    const item = document.createElement('div');
+    item.className = 'suggestion-item';
+    item.textContent = m;
+    const badge = document.createElement('span');
+    badge.className = 'suggestion-badge';
+    badge.textContent = m.startsWith('@') ? 'directive' : 'keyword';
+    item.appendChild(badge);
+    item.onmousedown = () => insertSuggestion(m);
+    suggestions.appendChild(item);
+  });
+  suggestionIndex = -1;
+  // Position near cursor
+  const rect = editor.getBoundingClientRect();
+  suggestions.style.display = 'block';
+  suggestions.style.left = '40px';
+  suggestions.style.top = '40px';
+  suggestions.style.position = 'absolute';
+}
+
+function hideSuggestions() {
+  suggestions.style.display = 'none';
+}
+
+function insertSuggestion(text) {
+  const pos = editor.selectionStart;
+  const before = editor.value.substring(0, pos);
+  const after = editor.value.substring(pos);
+  const word = before.match(/[\w@]+$/) ? before.match(/[\w@]+$/)[0] : '';
+  editor.value = before.substring(0, before.length - word.length) + text + after;
+  editor.selectionStart = editor.selectionEnd = pos - word.length + text.length;
+  editor.focus();
+  hideSuggestions();
+  updateLineNumbers();
+  triggerPreview();
+}
+
+editor.addEventListener('keydown', e => {
+  if (suggestions.style.display !== 'none') {
+    const items = suggestions.querySelectorAll('.suggestion-item');
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      suggestionIndex = Math.min(suggestionIndex + 1, items.length - 1);
+      items.forEach((el, i) => el.classList.toggle('selected', i === suggestionIndex));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      suggestionIndex = Math.max(suggestionIndex - 1, 0);
+      items.forEach((el, i) => el.classList.toggle('selected', i === suggestionIndex));
+    } else if (e.key === 'Enter' || e.key === 'Tab') {
+      if (suggestionIndex >= 0) {
+        e.preventDefault();
+        insertSuggestion(items[suggestionIndex].textContent.replace(/\s+\S+$/, ''));
+        return;
+      }
+      hideSuggestions();
+    } else if (e.key === 'Escape') {
+      hideSuggestions();
+    }
+  }
+  // Tab inserts spaces
+  if (e.key === 'Tab' && suggestions.style.display === 'none') {
+    e.preventDefault();
+    const start = editor.selectionStart;
+    const end = editor.selectionEnd;
+    editor.value = editor.value.substring(0, start) + '  ' + editor.value.substring(end);
+    editor.selectionStart = editor.selectionEnd = start + 2;
+    updateLineNumbers();
+  }
+  // Ctrl+Z undo
+  if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
+    e.preventDefault();
+    undoEditor();
+  }
+  // Ctrl+/ comment toggle
+  if ((e.ctrlKey || e.metaKey) && e.key === '/') {
+    e.preventDefault();
+    toggleComment();
+  }
+  // Ctrl+F find
+  if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+    e.preventDefault();
+    toggleFind(true);
+  }
+});
+
+document.addEventListener('click', e => {
+  if (!suggestions.contains(e.target) && e.target !== editor) hideSuggestions();
+});
+
+// ── COMMENT TOGGLE ────────────────────────────────────────────────────
+function toggleComment() {
+  const start = editor.selectionStart;
+  const end = editor.selectionEnd;
+  const lines = editor.value.split('\n');
+  let pos = 0;
+  let startLine = 0, endLine = 0;
+  for (let i = 0; i < lines.length; i++) {
+    if (pos + lines[i].length >= start && startLine === 0) startLine = i;
+    if (pos + lines[i].length >= end) { endLine = i; break; }
+    pos += lines[i].length + 1;
+  }
+  const allCommented = lines.slice(startLine, endLine + 1).every(l => l.trim().startsWith("'"));
+  for (let i = startLine; i <= endLine; i++) {
+    lines[i] = allCommented ? lines[i].replace(/^(\s*)'/, '$1') : "'" + lines[i];
+  }
+  editor.value = lines.join('\n');
+  updateLineNumbers();
+}
+
+// ── UNDO ──────────────────────────────────────────────────────────────
+let editorHistoryStack = [];
+let editorHistoryCurrent = -1;
+
+function saveEditorHistory() {
+  const val = editor.value;
+  if (editorHistoryStack[editorHistoryCurrent] === val) return;
+  editorHistoryStack = editorHistoryStack.slice(0, editorHistoryCurrent + 1);
+  editorHistoryStack.push(val);
+  if (editorHistoryStack.length > 100) editorHistoryStack.shift();
+  editorHistoryCurrent = editorHistoryStack.length - 1;
+}
+
+function undoEditor() {
+  if (editorHistoryCurrent > 0) {
+    editorHistoryCurrent--;
+    editor.value = editorHistoryStack[editorHistoryCurrent];
+    updateLineNumbers();
+    updateNodeCount();
+    triggerPreview();
+  }
+}
+
+document.getElementById('btn-undo-editor').onclick = undoEditor;
+
+// ── HISTORY ───────────────────────────────────────────────────────────
+function pushHistory() {
+  const text = editor.value;
+  if (historyRecords.length && historyRecords[0].text === text) return;
+  historyRecords.unshift({ text, time: new Date() });
+  if (historyRecords.length > 50) historyRecords.pop();
+  renderHistoryList();
+}
+
+function renderHistoryList() {
+  historyList.innerHTML = '';
+  historyRecords.forEach((r, i) => {
+    const el = document.createElement('div');
+    el.className = 'history-item';
+    el.innerHTML = `
+      <div class="history-item-time">${r.time.toLocaleTimeString()}</div>
+      <div class="history-item-preview">${r.text.substring(0, 80).replace(/</g,'&lt;')}</div>
+    `;
+    el.onclick = () => {
+      editor.value = r.text;
+      updateLineNumbers();
+      updateNodeCount();
+      triggerPreview();
+      toast('Restored from history');
+    };
+    historyList.appendChild(el);
+  });
+}
+
+document.getElementById('btn-clear-history').onclick = () => {
+  historyRecords = [];
+  renderHistoryList();
+};
+
+// ── FIND / REPLACE ────────────────────────────────────────────────────
+function toggleFind(show) {
+  const bar = document.getElementById('find-replace-bar');
+  bar.style.display = show ? 'flex' : 'none';
+  if (show) document.getElementById('find-input').focus();
+}
+
+document.getElementById('btn-find').onclick = () => toggleFind(true);
+document.getElementById('btn-close-find').onclick = () => toggleFind(false);
+
+function doFind() {
+  const q = document.getElementById('find-input').value;
+  if (!q) { document.getElementById('find-count').textContent = ''; return; }
+  const text = editor.value;
+  findMatches = [];
+  let idx = 0;
+  while ((idx = text.indexOf(q, idx)) !== -1) { findMatches.push(idx); idx += q.length; }
+  document.getElementById('find-count').textContent = `${findMatches.length} found`;
+  if (findMatches.length) { findCurrent = 0; editor.focus(); editor.setSelectionRange(findMatches[0], findMatches[0] + q.length); }
+}
+
+document.getElementById('find-input').addEventListener('input', doFind);
+document.getElementById('btn-find-next').onclick = () => {
+  const q = document.getElementById('find-input').value;
+  if (!findMatches.length) return;
+  findCurrent = (findCurrent + 1) % findMatches.length;
+  editor.setSelectionRange(findMatches[findCurrent], findMatches[findCurrent] + q.length);
+};
+document.getElementById('btn-find-prev').onclick = () => {
+  const q = document.getElementById('find-input').value;
+  if (!findMatches.length) return;
+  findCurrent = (findCurrent - 1 + findMatches.length) % findMatches.length;
+  editor.setSelectionRange(findMatches[findCurrent], findMatches[findCurrent] + q.length);
+};
+document.getElementById('btn-do-replace').onclick = () => {
+  const q = document.getElementById('find-input').value;
+  const r = document.getElementById('replace-input').value;
+  if (!q || !findMatches.length) return;
+  const pos = findMatches[findCurrent];
+  editor.value = editor.value.substring(0, pos) + r + editor.value.substring(pos + q.length);
+  updateLineNumbers(); doFind(); triggerPreview();
+};
+document.getElementById('btn-replace-all').onclick = () => {
+  const q = document.getElementById('find-input').value;
+  const r = document.getElementById('replace-input').value;
+  if (!q) return;
+  const count = (editor.value.match(new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'g'))||[]).length;
+  editor.value = editor.value.split(q).join(r);
+  updateLineNumbers(); doFind(); triggerPreview();
+  toast(`Replaced ${count} occurrences`);
+};
+
+// ── FORMAT ────────────────────────────────────────────────────────────
+document.getElementById('btn-format').onclick = () => {
+  let text = editor.value;
+  const lines = text.split('\n');
+  let indent = 0;
+  const result = lines.map(line => {
+    const t = line.trim();
+    if (!t) return '';
+    const dec = ['@enduml','@endmindmap','@endgantt','endif','end loop','end group','end note','else'].some(k => t.startsWith(k));
+    if (dec && indent > 0) indent--;
+    const out = '  '.repeat(indent) + t;
+    const inc = ['if ','loop ','group ','note over','note right','note left','activate','@startuml','@startmindmap','@startgantt'].some(k => t.startsWith(k));
+    if (inc) indent++;
+    return out;
+  });
+  editor.value = result.join('\n');
+  updateLineNumbers();
+  toast('Formatted');
+};
+
+// ── RESIZE HANDLE ─────────────────────────────────────────────────────
+const resizeHandle = document.getElementById('resize-handle');
+let isResizing = false;
+resizeHandle.addEventListener('mousedown', e => {
+  isResizing = true;
+  resizeHandle.classList.add('dragging');
+  document.body.style.userSelect = 'none';
+});
+document.addEventListener('mousemove', e => {
+  if (!isResizing) return;
+  const splitPane = document.getElementById('split-pane');
+  const rect = splitPane.getBoundingClientRect();
+  const pct = Math.min(80, Math.max(20, ((e.clientX - rect.left) / rect.width) * 100));
+  splitPane.style.gridTemplateColumns = `${pct}fr 4px ${100-pct}fr`;
+});
+document.addEventListener('mouseup', () => {
+  isResizing = false;
+  resizeHandle.classList.remove('dragging');
+  document.body.style.userSelect = '';
+});
+
+// ── ZOOM ─────────────────────────────────────────────────────────────
+function setZoom(z) {
+  previewZoom = Math.max(0.25, Math.min(4, z));
+  previewContent.style.transform = `scale(${previewZoom})`;
+  document.getElementById('zoom-label').textContent = Math.round(previewZoom * 100) + '%';
+}
+document.getElementById('btn-zoom-in').onclick = () => setZoom(previewZoom + 0.25);
+document.getElementById('btn-zoom-out').onclick = () => setZoom(previewZoom - 0.25);
+document.getElementById('btn-zoom-fit').onclick = () => setZoom(1);
+document.getElementById('btn-preview-new').onclick = () => {
+  const url = plantumlUrl('svg', editor.value);
+  window.open(url, '_blank');
+};
+
+// ── PLANTUML ──────────────────────────────────────────────────────────
+function plantumlUrl(format, text) {
+  return `https://www.plantuml.com/plantuml/${format}/${plantumlEncoder.encode(text)}`;
+}
+
+async function krokiFetch(format, text) {
+  const url = `https://kroki.io/plantuml/${format}`;
+  const res = await fetch(url, { method:'POST', headers:{'Content-Type':'text/plain'}, body:text });
+  if (!res.ok) throw new Error('Renderer error');
+  if (format === 'svg') return { type:'text', data: await res.text() };
+  return { type:'blob', data: await res.blob() };
+}
+
+function setStatus(text, state = 'ok') {
+  document.getElementById('status-text').textContent = text;
+  document.getElementById('status-dot').className = `status-dot ${state}`;
+}
+
+async function updatePreview() {
+  const text = editor.value.trim();
+  if (!text) return;
+  previewLoading.style.display = 'flex';
+  setStatus('Rendering…', 'loading');
+  try {
+    const renderer = document.getElementById('renderer').value;
+    if (renderer === 'plantuml') {
+      const img = document.createElement('img');
+      img.src = plantumlUrl('svg', text);
+      await new Promise((res, rej) => { img.onload = res; img.onerror = rej; });
+      previewContent.innerHTML = '';
+      previewContent.appendChild(img);
+    } else {
+      const result = await krokiFetch('svg', text);
+      previewContent.innerHTML = result.data;
+    }
+    setStatus('Ready', 'ok');
+  } catch (e) {
+    setStatus('Render failed', 'err');
+    previewContent.innerHTML = '<p style="color:var(--red);font-size:12px;padding:20px;">Failed to render. Check your PlantUML syntax.</p>';
+  }
+  previewLoading.style.display = 'none';
+}
+
+function triggerPreview() {
+  if (document.getElementById('opt-autopreview').checked) {
+    clearTimeout(previewDebounce);
+    previewDebounce = setTimeout(updatePreview, 600);
+  }
+}
+
+document.getElementById('btn-preview').onclick = updatePreview;
+document.getElementById('renderer').onchange = updatePreview;
+
+// ── DOWNLOAD ─────────────────────────────────────────────────────────
+async function downloadSingle(format) {
+  const text = editor.value;
+  const renderer = document.getElementById('renderer').value;
+  const quality = document.getElementById('opt-quality').checked;
+  const src = quality && format === 'png' ? `skinparam dpi 300\n${text}` : text;
+  setStatus(`Downloading ${format.toUpperCase()}…`, 'loading');
+  try {
+    if (renderer === 'plantuml') {
+      triggerDownload(plantumlUrl(format, src), `diagram.${format}`);
+    } else {
+      const res = await krokiFetch(format, src);
+      const blob = res.type === 'text' ? new Blob([res.data], {type:'image/svg+xml'}) : res.data;
+      const url = URL.createObjectURL(blob);
+      triggerDownload(url, `diagram.${format}`);
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
+    setStatus('Downloaded', 'ok');
+    toast(`Saved as ${format.toUpperCase()}`);
+  } catch (e) {
+    setStatus('Download failed', 'err');
+  }
+}
+
+function triggerDownload(url, name) {
+  const a = Object.assign(document.createElement('a'), {href:url, download:name});
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
+
+document.getElementById('btn-download-svg').onclick = () => downloadSingle('svg');
+document.getElementById('btn-download-png').onclick = () => downloadSingle('png');
+
+document.getElementById('btn-copy-url').onclick = () => {
+  const url = plantumlUrl('svg', editor.value);
+  navigator.clipboard.writeText(url).then(() => toast('URL copied!', 'ok'));
+};
+
+document.getElementById('btn-share').onclick = () => {
+  const encoded = btoa(editor.value);
+  const url = location.href.split('?')[0] + '?d=' + encoded;
+  navigator.clipboard.writeText(url).then(() => toast('Share link copied!', 'ok'));
+};
+
+document.getElementById('btn-save-puml').onclick = () => {
+  const name = prompt('File name', 'diagram');
+  if (!name) return;
+  const blob = new Blob([editor.value], {type:'text/plain'});
+  const url = URL.createObjectURL(blob);
+  triggerDownload(url, `${name}.puml`);
+  URL.revokeObjectURL(url);
+  toast('Saved!', 'ok');
+};
+
+// ── BATCH ────────────────────────────────────────────────────────────
+function refreshBatchList() {
+  batchListEl.innerHTML = '';
+  batchItems.forEach((item, idx) => {
+    const el = document.createElement('div');
+    el.className = 'batch-item' + (idx === activeIndex ? ' active' : '');
+    el.innerHTML = `
+      <span class="batch-item-name">${item.name}</span>
+      <div class="batch-item-actions">
+        <button class="icon-btn" title="Preview">👁</button>
+        <button class="icon-btn" title="Duplicate">⎘</button>
+        <button class="icon-btn" title="Delete">✕</button>
+      </div>
+    `;
+    el.querySelector('[title="Preview"]').onclick = e => { e.stopPropagation(); editor.value = item.text; updatePreview(); switchTab('editor'); };
+    el.querySelector('[title="Duplicate"]').onclick = e => { e.stopPropagation(); batchItems.push({name:item.name+' copy', text:item.text}); refreshBatchList(); };
+    el.querySelector('[title="Delete"]').onclick = e => { e.stopPropagation(); batchItems.splice(idx,1); if(activeIndex>=batchItems.length) activeIndex=batchItems.length-1; refreshBatchList(); };
+    el.onclick = () => {
+      activeIndex = idx;
+      batchEditor.value = item.text;
+      document.getElementById('batch-edit-name').textContent = item.name.toUpperCase();
+      refreshBatchList();
+    };
+    batchListEl.appendChild(el);
+  });
+  saveBatch();
+}
+
+document.getElementById('btn-add-to-batch').onclick = () => {
+  const name = prompt('Name for this diagram', 'Diagram ' + (batchItems.length + 1));
+  if (!name) return;
+  batchItems.push({ name, text: editor.value });
+  activeIndex = batchItems.length - 1;
+  refreshBatchList();
+  toast('Added to batch', 'ok');
+};
+
+document.getElementById('btn-add-batch-new').onclick = () => {
+  const name = prompt('New diagram name', 'Diagram ' + (batchItems.length + 1));
+  if (!name) return;
+  batchItems.push({ name, text: '@startuml\n\n@enduml' });
+  activeIndex = batchItems.length - 1;
+  batchEditor.value = batchItems[activeIndex].text;
+  document.getElementById('batch-edit-name').textContent = name.toUpperCase();
+  refreshBatchList();
+};
+
+document.getElementById('btn-batch-update').onclick = () => {
+  if (activeIndex < 0) return;
+  batchItems[activeIndex].text = batchEditor.value;
+  refreshBatchList();
+  toast('Saved', 'ok');
+};
+
+document.getElementById('btn-batch-remove').onclick = () => {
+  if (activeIndex < 0) return;
+  if (!confirm('Delete "' + batchItems[activeIndex].name + '"?')) return;
+  batchItems.splice(activeIndex, 1);
+  activeIndex = batchItems.length ? 0 : -1;
+  batchEditor.value = activeIndex >= 0 ? batchItems[activeIndex].text : '';
+  document.getElementById('batch-edit-name').textContent = activeIndex >= 0 ? batchItems[activeIndex].name.toUpperCase() : 'SELECT A DIAGRAM';
+  refreshBatchList();
+};
+
+document.getElementById('btn-batch-load').onclick = () => {
+  if (activeIndex < 0) return;
+  editor.value = batchItems[activeIndex].text;
+  updateLineNumbers(); updateNodeCount(); triggerPreview();
+  switchTab('editor');
+  toast('Loaded to editor', 'ok');
+};
+
+// ── RENDER ALL ───────────────────────────────────────────────────────
+document.getElementById('btn-render-all').onclick = async () => {
+  if (!batchItems.length) { toast('No diagrams in batch', 'err'); return; }
+  const zip = new JSZip();
+  const formats = Array.from(document.querySelectorAll('.fmt')).filter(b=>b.checked).map(b=>b.value);
+  const renderer = document.getElementById('renderer').value;
+  setStatus('Rendering batch…', 'loading');
+  for (const item of batchItems) {
+    for (const fmt of formats) {
+      try {
+        if (renderer === 'plantuml') {
+          const resp = await fetch(plantumlUrl(fmt, item.text));
+          if (resp.ok) {
+            const data = fmt === 'svg' ? await resp.text() : await resp.blob();
+            zip.file(`${item.name}.${fmt}`, data);
+          }
+        } else {
+          const res = await krokiFetch(fmt, item.text);
+          zip.file(`${item.name}.${fmt}`, res.type === 'text' ? res.data : res.data);
+        }
+      } catch(e) {}
+    }
+  }
+  const blob = await zip.generateAsync({type:'blob'});
+  const url = URL.createObjectURL(blob);
+  triggerDownload(url, 'renders.zip');
+  URL.revokeObjectURL(url);
+  setStatus('Done', 'ok');
+  toast(`Rendered ${batchItems.length} diagrams`);
+};
+
+document.getElementById('btn-download-sources').onclick = async () => {
+  if (!batchItems.length) { toast('No diagrams in batch', 'err'); return; }
+  const zip = new JSZip();
+  batchItems.forEach(item => zip.file(`${item.name}.puml`, item.text));
+  const blob = await zip.generateAsync({type:'blob'});
+  const url = URL.createObjectURL(blob);
+  triggerDownload(url, 'sources.zip');
+  URL.revokeObjectURL(url);
+  toast('Sources ZIP saved');
+};
+
+// ── FILE IMPORT ──────────────────────────────────────────────────────
+document.getElementById('file-input').onchange = async (ev) => {
+  const files = Array.from(ev.target.files || []);
+  let added = 0;
+  for (const f of files) {
+    if (f.name.toLowerCase().endsWith('.zip')) {
+      const buf = await f.arrayBuffer();
+      const zip = await JSZip.loadAsync(buf);
+      for (const [name, file] of Object.entries(zip.files)) {
+        if (name.match(/\.(puml|pu|txt)$/i)) {
+          const text = await file.async('string');
+          batchItems.push({ name: name.split('/').pop().replace(/\.[^.]+$/,''), text });
+          added++;
+        }
+      }
+    } else {
+      const text = await f.text();
+      const name = f.name.replace(/\.[^.]+$/,'');
+      batchItems.push({ name, text });
+      if (!editor.value.trim() || editor.value === '@startuml\n\n@enduml') {
+        editor.value = text;
+        updateLineNumbers(); updateNodeCount(); triggerPreview();
+      }
+      added++;
+    }
+  }
+  if (batchItems.length && activeIndex < 0) activeIndex = 0;
+  refreshBatchList();
+  toast(`Imported ${added} file(s)`);
+  ev.target.value = '';
+};
+
+// ── DOCUMENT EDITOR ──────────────────────────────────────────────────
+function execCmd(cmd, val) { document.execCommand(cmd, false, val); }
+
+document.getElementById('btn-doc-insert-current').onclick = async () => {
+  await insertDiagramToDoc(editor.value);
+};
+document.getElementById('btn-doc-insert-selected').onclick = async () => {
+  const text = activeIndex >= 0 ? batchItems[activeIndex].text : editor.value;
+  await insertDiagramToDoc(text);
+};
+
+async function insertDiagramToDoc(text) {
+  const url = plantumlUrl('svg', text);
+  try {
+    const resp = await fetch(url);
+    const svg = await resp.text();
+    const div = document.createElement('div');
+    div.style.margin = '16px 0';
+    div.innerHTML = svg;
+    document.getElementById('doc-editor').appendChild(div);
+    toast('Diagram inserted', 'ok');
+  } catch(e) {
+    toast('Failed to insert', 'err');
+  }
+}
+
+document.getElementById('btn-export-html').onclick = () => {
+  const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Document</title></head><body style="font-family:sans-serif;max-width:900px;margin:40px auto;padding:0 20px;">${document.getElementById('doc-editor').innerHTML}</body></html>`;
+  const blob = new Blob([html], {type:'text/html'});
+  const url = URL.createObjectURL(blob);
+  triggerDownload(url, 'document.html');
+  URL.revokeObjectURL(url);
+  toast('HTML exported');
+};
+
+document.getElementById('btn-export-md').onclick = () => {
+  const text = document.getElementById('doc-editor').innerText;
+  const blob = new Blob([text], {type:'text/plain'});
+  const url = URL.createObjectURL(blob);
+  triggerDownload(url, 'document.md');
+  URL.revokeObjectURL(url);
+  toast('Markdown exported');
+};
+
+// ── SHARE (URL encoded) ──────────────────────────────────────────────
+window.addEventListener('load', () => {
+  const params = new URLSearchParams(location.search);
+  if (params.get('d')) {
+    try { editor.value = atob(params.get('d')); } catch(e) {}
+  }
+  loadBatch();
+  updateLineNumbers();
+  updateNodeCount();
+  updateCursorPos();
+  saveEditorHistory();
+  updatePreview();
+});
+
+// ── LOCALSTORAGE ─────────────────────────────────────────────────────
+function saveBatch() {
+  try { localStorage.setItem('puml_batch', JSON.stringify(batchItems)); } catch(e) {}
+  try { localStorage.setItem('puml_editor', editor.value); } catch(e) {}
+}
+
+function loadBatch() {
+  try {
+    const b = localStorage.getItem('puml_batch');
+    const e = localStorage.getItem('puml_editor');
+    if (b) { batchItems = JSON.parse(b); activeIndex = batchItems.length ? 0 : -1; refreshBatchList(); }
+    if (e && !new URLSearchParams(location.search).get('d')) { editor.value = e; updateLineNumbers(); }
+  } catch(e) {}
+}
+
+editor.addEventListener('input', saveBatch);
+
+// ── TOAST ─────────────────────────────────────────────────────────────
+function toast(msg, type = 'ok') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'show ' + type;
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => { el.className = ''; }, 2500);
+}
+
+// ── UTIL ─────────────────────────────────────────────────────────────
+function switchTab(name) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === 'tab-' + name));
+  document.getElementById('editor-toolbar').style.display = name === 'editor' ? 'flex' : 'none';
+}
+
+// Initial line numbers
+updateLineNumbers();
+</script>
+</body>
+</html>
