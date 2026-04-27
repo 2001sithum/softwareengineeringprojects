@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Examination Schedule 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,300&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d1117;
+  --surface:#161b22;
+  --surface-2:#21262d;
+  --surface-3:#30363d;
+  --text:#e6edf3;
+  --text-muted:#8b949e;
+  --text-dim:#484f58;
+  --border:#30363d;
+  --border-subtle:#21262d;
+  --accent-blue:#388bfd;
+  --accent-green:#3fb950;
+  --accent-orange:#d29922;
+  --accent-purple:#a371f7;
+  --accent-red:#f85149;
+  --radius-xl:20px;
+  --radius-lg:14px;
+  --radius-md:10px;
+  --radius-sm:6px;
+  --font-display:'Fraunces',Georgia,serif;
+  --font-body:'DM Sans',sans-serif;
+  --font-mono:'DM Mono',monospace;
+}
+
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font-body);
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  padding:0 0 80px;
+}
+
+/* ── Noise overlay ── */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;opacity:.5;
+}
+
+.container{max-width:900px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+
+/* ── Hero header ── */
+.header{
+  padding:72px 0 48px;
+  border-bottom:1px solid var(--border);
+}
+.header-eyebrow{
+  font-family:var(--font-mono);
+  font-size:11px;letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--text-muted);
+  margin-bottom:16px;
+  display:flex;align-items:center;gap:10px;
+}
+.live-chip{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(63,185,80,.1);
+  border:1px solid rgba(63,185,80,.3);
+  border-radius:20px;
+  padding:2px 10px;
+  color:#3fb950;
+  font-size:10px;
+}
+.live-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:#3fb950;
+  animation:pulse-green 2s infinite;
+}
+@keyframes pulse-green{
+  0%,100%{box-shadow:0 0 0 0 rgba(63,185,80,.4)}
+  50%{box-shadow:0 0 0 5px rgba(63,185,80,0)}
+}
+.header h1{
+  font-family:var(--font-display);
+  font-size:clamp(42px,8vw,72px);
+  font-weight:700;
+  line-height:1;
+  letter-spacing:-2px;
+  color:var(--text);
+  margin-bottom:8px;
+}
+.header h1 em{
+  font-style:italic;
+  font-weight:300;
+  color:var(--text-muted);
+}
+.header-sub{
+  font-family:var(--font-mono);
+  font-size:13px;
+  color:var(--text-muted);
+  margin-top:16px;
+}
+#live-clock{
+  font-family:var(--font-mono);
+  color:var(--accent-blue);
+}
+
+/* ── Stats row ── */
+.stats-row{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:1px;
+  background:var(--border);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  overflow:hidden;
+  margin:32px 0;
+}
+.stat-cell{
+  background:var(--surface);
+  padding:20px 18px;
+  transition:background .2s;
+}
+.stat-cell:hover{background:var(--surface-2)}
+.stat-label{
+  font-size:11px;
+  font-family:var(--font-mono);
+  text-transform:uppercase;
+  letter-spacing:1px;
+  color:var(--text-muted);
+  margin-bottom:8px;
+}
+.stat-value{
+  font-family:var(--font-display);
+  font-size:32px;
+  font-weight:500;
+  line-height:1;
+  color:var(--text);
+}
+.stat-sub{
+  font-size:12px;
+  color:var(--text-muted);
+  margin-top:4px;
+  font-family:var(--font-mono);
+}
+
+/* ── Progress ── */
+.progress-section{margin:0 0 32px}
+.progress-meta{
+  display:flex;
+  justify-content:space-between;
+  font-family:var(--font-mono);
+  font-size:11px;
+  color:var(--text-muted);
+  margin-bottom:8px;
+}
+.progress-track{
+  height:3px;
+  background:var(--surface-3);
+  border-radius:2px;
+  overflow:hidden;
+}
+.progress-fill{
+  height:100%;
+  background:linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+  border-radius:2px;
+  transition:width .8s cubic-bezier(.4,0,.2,1);
+  width:0%;
+}
+
+/* ── Next exam banner ── */
+.next-banner{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:20px 24px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:24px;
+  margin-bottom:32px;
+  position:relative;
+  overflow:hidden;
+}
+.next-banner::before{
+  content:'';
+  position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg, transparent, var(--accent-blue), transparent);
+}
+.next-tag{
+  font-family:var(--font-mono);
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:1.5px;
+  color:var(--accent-blue);
+  margin-bottom:6px;
+}
+.next-course{
+  font-family:var(--font-display);
+  font-size:20px;
+  font-weight:500;
+  line-height:1.2;
+}
+.next-meta{
+  font-size:13px;
+  color:var(--text-muted);
+  font-family:var(--font-mono);
+  margin-top:4px;
+}
+.countdown{
+  display:flex;
+  gap:12px;
+  flex-shrink:0;
+}
+.cd-unit{
+  text-align:center;
+  min-width:44px;
+  background:var(--surface-2);
+  border:1px solid var(--border);
+  border-radius:var(--radius-md);
+  padding:8px 4px;
+}
+.cd-num{
+  display:block;
+  font-family:var(--font-mono);
+  font-size:20px;
+  font-weight:500;
+  color:var(--text);
+  line-height:1;
+}
+.cd-lbl{
+  font-family:var(--font-mono);
+  font-size:9px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  color:var(--text-dim);
+  display:block;
+  margin-top:3px;
+}
+
+/* ── Analysis card ── */
+.analysis-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:24px;
+  margin-bottom:32px;
+}
+.analysis-title{
+  font-family:var(--font-mono);
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:1.5px;
+  color:var(--text-muted);
+  margin-bottom:16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.analysis-span{
+  font-family:var(--font-mono);
+  font-size:11px;
+  color:var(--text-dim);
+}
+.analysis-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+}
+.analysis-item{
+  background:var(--surface-2);
+  border:1px solid var(--border);
+  border-radius:var(--radius-md);
+  padding:16px;
+}
+.a-label{
+  font-family:var(--font-mono);
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  color:var(--text-dim);
+  margin-bottom:6px;
+}
+.a-value{
+  font-family:var(--font-display);
+  font-size:28px;
+  font-weight:500;
+  line-height:1;
+  color:var(--text);
+}
+.a-unit{
+  font-size:13px;
+  color:var(--text-muted);
+  margin-left:2px;
+}
+
+/* ── Filters ── */
+.filters{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:24px;
+  flex-wrap:wrap;
+}
+.filter-label{
+  font-family:var(--font-mono);
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  color:var(--text-dim);
+  margin-right:4px;
+}
+.filter-btn{
+  font-family:var(--font-mono);
+  font-size:12px;
+  padding:6px 14px;
+  border-radius:20px;
+  border:1px solid var(--border);
+  background:transparent;
+  color:var(--text-muted);
+  cursor:pointer;
+  transition:all .15s;
+}
+.filter-btn:hover{border-color:var(--accent-blue);color:var(--accent-blue)}
+.filter-btn.active{
+  background:var(--accent-blue);
+  border-color:var(--accent-blue);
+  color:#0d1117;
+  font-weight:500;
+}
+.search-wrap{
+  margin-left:auto;
+  position:relative;
+}
+.search-wrap input{
+  font-family:var(--font-mono);
+  font-size:12px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius-md);
+  padding:7px 14px 7px 32px;
+  color:var(--text);
+  width:220px;
+  outline:none;
+  transition:border-color .15s;
+}
+.search-wrap input:focus{border-color:var(--accent-blue)}
+.search-wrap input::placeholder{color:var(--text-dim)}
+.search-icon{
+  position:absolute;left:10px;top:50%;transform:translateY(-50%);
+  color:var(--text-dim);font-size:14px;pointer-events:none;
+}
+
+/* ── Day blocks ── */
+.day-block{
+  margin-bottom:16px;
+  opacity:0;transform:translateY(8px);
+  transition:opacity .35s,transform .35s;
+}
+.day-block.visible{opacity:1;transform:translateY(0)}
+
+.day-header{
+  display:flex;align-items:baseline;gap:12px;
+  padding:0 0 10px;
+  border-bottom:1px solid var(--border-subtle);
+  margin-bottom:10px;
+}
+.day-date{
+  font-family:var(--font-display);
+  font-size:16px;
+  font-weight:500;
+  color:var(--text);
+}
+.day-weekday{
+  font-family:var(--font-mono);
+  font-size:12px;
+  color:var(--text-muted);
+}
+.days-away{
+  font-family:var(--font-mono);
+  font-size:11px;
+  padding:2px 8px;
+  border-radius:10px;
+  margin-left:auto;
+}
+.days-away.past{background:rgba(139,148,158,.1);color:var(--text-dim)}
+.days-away.today{background:rgba(63,185,80,.15);color:var(--accent-green);border:1px solid rgba(63,185,80,.3)}
+.days-away.urgent{background:rgba(248,81,73,.1);color:var(--accent-red)}
+.days-away.soon{background:rgba(210,153,34,.1);color:var(--accent-orange)}
+.days-away.future{background:rgba(56,139,253,.08);color:var(--accent-blue)}
+.day-count{
+  font-family:var(--font-mono);
+  font-size:11px;
+  color:var(--text-dim);
+}
+
+/* ── Gap indicator ── */
+.gap-row{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 0;
+  margin-bottom:2px;
+}
+.gap-line{
+  flex:1;height:1px;
+  background:repeating-linear-gradient(90deg,var(--border) 0,var(--border) 4px,transparent 4px,transparent 8px);
+}
+.gap-badge{
+  font-family:var(--font-mono);
+  font-size:10px;
+  color:var(--text-dim);
+  padding:2px 8px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  white-space:nowrap;
+}
+
+/* ── Exam rows ── */
+.exam-row{
+  display:flex;align-items:flex-start;gap:16px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius-md);
+  padding:14px 16px;
+  margin-bottom:6px;
+  border-left-width:3px;
+  transition:background .15s,transform .15s;
+}
+.exam-row:hover{background:var(--surface-2);transform:translateX(2px)}
+.exam-row.past-exam{opacity:.45}
+.exam-row.hidden{display:none}
+
+.time-col{
+  flex-shrink:0;
+  min-width:90px;
+}
+.time-str{
+  font-family:var(--font-mono);
+  font-size:12px;
+  color:var(--text-muted);
+  line-height:1;
+}
+.dur-str{
+  font-family:var(--font-mono);
+  font-size:10px;
+  color:var(--text-dim);
+  margin-top:3px;
+}
+
+.course-col{flex:1;min-width:0}
+.course-top{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.dept-tag{
+  font-family:var(--font-mono);
+  font-size:10px;
+  font-weight:500;
+  padding:2px 7px;
+  border-radius:4px;
+  flex-shrink:0;
+}
+.course-code{
+  font-family:var(--font-mono);
+  font-size:12px;
+  color:var(--text-muted);
+}
+.course-name{
+  font-size:15px;
+  font-weight:500;
+  color:var(--text);
+  line-height:1.3;
+}
+
+.venue-col{
+  flex-shrink:0;
+  text-align:right;
+}
+.venue-str{
+  font-family:var(--font-mono);
+  font-size:12px;
+  color:var(--text-muted);
+}
+.venue-icon-span{
+  font-size:10px;
+  color:var(--text-dim);
+  display:block;
+  margin-bottom:2px;
+}
+
+/* ── Dept colors ── */
+.dept-COM{background:rgba(63,185,80,.12);color:#3fb950;border:1px solid rgba(63,185,80,.25)}
+.dept-MAT{background:rgba(210,153,34,.12);color:#d29922;border:1px solid rgba(210,153,34,.25)}
+.dept-IDC{background:rgba(163,113,247,.12);color:#a371f7;border:1px solid rgba(163,113,247,.25)}
+
+/* Row left-border by dept */
+.exam-row[data-dept="COM"]{border-left-color:#3fb950}
+.exam-row[data-dept="MAT"]{border-left-color:#d29922}
+.exam-row[data-dept="IDC"]{border-left-color:#a371f7}
+
+/* ── No results ── */
+.no-results{
+  display:none;
+  text-align:center;
+  padding:48px;
+  font-family:var(--font-mono);
+  font-size:13px;
+  color:var(--text-dim);
+  border:1px dashed var(--border);
+  border-radius:var(--radius-lg);
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--surface-3);border-radius:3px}
+
+@media(max-width:700px){
+  .stats-row{grid-template-columns:repeat(2,1fr)}
+  .analysis-grid{grid-template-columns:repeat(2,1fr)}
+  .next-banner{flex-direction:column;gap:16px}
+  .countdown{width:100%;justify-content:center}
+  .exam-row{flex-wrap:wrap}
+  .venue-col{width:100%;text-align:left;margin-top:4px}
+  .search-wrap{margin-left:0;width:100%}
+  .search-wrap input{width:100%}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-eyebrow">
+      <span>Academic Year 2025 / 2026</span>
+      <span class="live-chip"><span class="live-dot"></span><span id="live-clock">--:--:--</span></span>
+    </div>
+    <h1>Examination <em>Schedule</em></h1>
+    <div class="header-sub">May — June 2026 &nbsp;·&nbsp; All faculties &nbsp;·&nbsp; 8 examinations</div>
+  </header>
+
+  <!-- Stats -->
+  <div class="stats-row">
+    <div class="stat-cell">
+      <div class="stat-label">Days to first</div>
+      <div class="stat-value" id="s-first">—</div>
+      <div class="stat-sub" id="s-first-sub">—</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-label">Total exams</div>
+      <div class="stat-value">8</div>
+      <div class="stat-sub">across 7 days</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-label">Remaining</div>
+      <div class="stat-value" id="s-remaining">—</div>
+      <div class="stat-sub" id="s-rem-sub">—</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-label">Progress</div>
+      <div class="stat-value" id="s-progress">—</div>
+      <div class="stat-sub" id="s-prog-sub">—</div>
+    </div>
+  </div>
+
+  <!-- Progress bar -->
+  <div class="progress-section">
+    <div class="progress-meta">
+      <span>05 May 2026</span>
+      <span id="pb-pct" style="color:var(--accent-blue)">0% complete</span>
+      <span>08 Jun 2026</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="pb-fill"></div>
+    </div>
+  </div>
+
+  <!-- Next exam banner -->
+  <div class="next-banner" id="next-banner">
+    <div>
+      <div class="next-tag">Next exam</div>
+      <div class="next-course" id="next-name">—</div>
+      <div class="next-meta" id="next-meta">—</div>
+    </div>
+    <div class="countdown">
+      <div class="cd-unit"><span class="cd-num" id="cd-d">00</span><span class="cd-lbl">days</span></div>
+      <div class="cd-unit"><span class="cd-num" id="cd-h">00</span><span class="cd-lbl">hrs</span></div>
+      <div class="cd-unit"><span class="cd-num" id="cd-m">00</span><span class="cd-lbl">min</span></div>
+      <div class="cd-unit"><span class="cd-num" id="cd-s">00</span><span class="cd-lbl">sec</span></div>
+    </div>
+  </div>
+
+  <!-- Time analysis -->
+  <div class="analysis-card">
+    <div class="analysis-title">
+      <span>Time Analysis</span>
+      <span class="analysis-span" id="analysis-span"></span>
+    </div>
+    <div class="analysis-grid" id="analysis-grid"></div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters">
+    <span class="filter-label">Filter</span>
+    <button class="filter-btn active" onclick="filterDept('all',this)">All</button>
+    <button class="filter-btn" onclick="filterDept('COM',this)">Computing</button>
+    <button class="filter-btn" onclick="filterDept('MAT',this)">Mathematics</button>
+    <button class="filter-btn" onclick="filterDept('IDC',this)">IDC</button>
+    <div class="search-wrap">
+      <span class="search-icon">⌕</span>
+      <input type="text" placeholder="Search code or subject…" oninput="searchExams(this.value)" aria-label="Search exams">
+    </div>
+  </div>
+
+  <!-- Schedule -->
+  <div id="schedule"></div>
+  <div class="no-results" id="no-results">No exams match your filter. Try clearing your search or selecting a different department.</div>
+
+</div>
+
+<script>
+const EXAMS = [
+  {date:'2026-05-05',day:'Tuesday',  time:'1:00–3:00', dept:'IDC',code:'IDC 3211',name:'Entrepreneurship and Innovative Management',venue:'Auditorium'},
+  {date:'2026-05-14',day:'Thursday', time:'9:00–12:00',dept:'COM',code:'COM 3303',name:'Artificial Intelligence',venue:'Convocation Hall'},
+  {date:'2026-05-14',day:'Thursday', time:'1:00–3:00', dept:'MAT',code:'MAT 3221',name:'Graph Theory',venue:'L11'},
+  {date:'2026-05-16',day:'Saturday', time:'1:00–4:00', dept:'COM',code:'COM 2304',name:'Computer Graphics and Image Processing',venue:'Convocation Hall'},
+  {date:'2026-05-25',day:'Monday',   time:'9:00–11:00',dept:'MAT',code:'MAT 3226',name:'Operational Research II',venue:'Auditorium'},
+  {date:'2026-06-02',day:'Tuesday',  time:'1:00–3:00', dept:'COM',code:'COM 3204',name:'Information Security',venue:'L8'},
+  {date:'2026-06-03',day:'Wednesday',time:'9:00–12:00',dept:'MAT',code:'MAT 2305',name:'Real Analysis II',venue:'L11'},
+  {date:'2026-06-08',day:'Monday',   time:'9:00–12:00',dept:'MAT',code:'MAT 3323',name:'Mathematical Statistics',venue:'L7'},
+];
+
+function parseDate(s){return new Date(s+'T00:00:00')}
+function getToday(){const n=new Date();return new Date(n.getFullYear(),n.getMonth(),n.getDate())}
+function daysFromToday(s){return Math.round((parseDate(s)-getToday())/86400000)}
+
+function parseDuration(timeStr){
+  const parts = timeStr.split('–');
+  if(parts.length<2) return null;
+  const parseH = s=>{
+    const [h,m]=(s.trim()).split(':');
+    let hh=parseInt(h,10),mm=parseInt(m||0,10);
+    if(hh>=1&&hh<=7)hh+=12;
+    return hh*60+mm;
+  };
+  return parseH(parts[1])-parseH(parts[0]);
+}
+
+function parseStartTime(timeStr,dateStr){
+  const start=timeStr.split('–')[0].trim();
+  const [h,m]=start.split(':').map(v=>parseInt(v,10));
+  let hour=h; if(hour>=1&&hour<=7)hour+=12;
+  return new Date(`${dateStr}T${String(hour).padStart(2,'0')}:${String(m||0).padStart(2,'0')}:00`);
+}
+
+// ── Render schedule ──
+function renderSchedule(){
+  const grouped={};
+  EXAMS.forEach(e=>{
+    if(!grouped[e.date]) grouped[e.date]={day:e.day,exams:[]};
+    grouped[e.date].exams.push(e);
+  });
+  const dates=Object.keys(grouped).sort();
+  let html='';
+  let prevDate=null;
+
+  dates.forEach(date=>{
+    const g=grouped[date];
+    const diff=daysFromToday(date);
+    const lbl=diff<0?{txt:'Completed',cls:'past'}
+      :diff===0?{txt:'Today',cls:'today'}
+      :diff===1?{txt:'Tomorrow',cls:'urgent'}
+      :diff<=5?{txt:`In ${diff} days`,cls:'urgent'}
+      :diff<=14?{txt:`In ${diff} days`,cls:'soon'}
+      :{txt:`In ${diff} days`,cls:'future'};
+
+    // Gap from previous exam day
+    let gapHtml='';
+    if(prevDate){
+      const gap=Math.round((parseDate(date)-parseDate(prevDate))/86400000)-1;
+      if(gap>0){
+        gapHtml=`<div class="gap-row">
+          <div class="gap-line"></div>
+          <div class="gap-badge">${gap} day${gap>1?'s':''} gap</div>
+          <div class="gap-line"></div>
+        </div>`;
+      }
+    }
+
+    const d=parseDate(date);
+    const dStr=d.toLocaleDateString('en-GB',{day:'2-digit',month:'long',year:'numeric'});
+
+    const rows=g.exams.map(e=>{
+      const dur=parseDuration(e.time);
+      const durStr=dur?`${dur} min`:'';
+      return `<div class="exam-row${diff<0?' past-exam':''}" data-dept="${e.dept}" data-text="${(e.code+' '+e.name).toLowerCase()}">
+        <div class="time-col">
+          <div class="time-str">${e.time}</div>
+          ${durStr?`<div class="dur-str">${durStr}</div>`:''}
+        </div>
+        <div class="course-col">
+          <div class="course-top">
+            <span class="dept-tag dept-${e.dept}">${e.dept}</span>
+            <span class="course-code">${e.code}</span>
+          </div>
+          <div class="course-name">${e.name}</div>
+        </div>
+        <div class="venue-col">
+          <span class="venue-icon-span">◈ venue</span>
+          <div class="venue-str">${e.venue}</div>
+        </div>
+      </div>`;
+    }).join('');
+
+    html+=`<div class="day-block" data-date="${date}">
+      ${gapHtml}
+      <div class="day-header">
+        <span class="day-date">${dStr}</span>
+        <span class="day-weekday">${g.day}</span>
+        <span class="days-away ${lbl.cls}">${lbl.txt}</span>
+        <span class="day-count">${g.exams.length} exam${g.exams.length>1?'s':''}</span>
+      </div>
+      ${rows}
+    </div>`;
+    prevDate=date;
+  });
+
+  document.getElementById('schedule').innerHTML=html;
+  requestAnimationFrame(()=>{
+    document.querySelectorAll('.day-block').forEach((el,i)=>
+      setTimeout(()=>el.classList.add('visible'),i*60));
+  });
+}
+
+// ── Time analysis ──
+function renderAnalysis(){
+  const dates=[...new Set(EXAMS.map(e=>e.date))].sort();
+  const first=parseDate(dates[0]),last=parseDate(dates[dates.length-1]);
+  const span=Math.round((last-first)/86400000)+1;
+  let gaps=[],maxGap=0;
+  for(let i=1;i<dates.length;i++){
+    const g=Math.round((parseDate(dates[i])-parseDate(dates[i-1]))/86400000)-1;
+    if(g>0){gaps.push(g);if(g>maxGap)maxGap=g;}
+  }
+  const avg=gaps.length?(gaps.reduce((a,b)=>a+b,0)/gaps.length).toFixed(1):0;
+  document.getElementById('analysis-span').textContent=`${dates[0]} → ${dates[dates.length-1]} · ${span} day span`;
+  document.getElementById('analysis-grid').innerHTML=`
+    <div class="analysis-item"><div class="a-label">Exam days</div><div class="a-value">${dates.length}</div></div>
+    <div class="analysis-item"><div class="a-label">Rest gaps</div><div class="a-value">${gaps.length}</div></div>
+    <div class="analysis-item"><div class="a-label">Avg gap</div><div class="a-value">${avg}<span class="a-unit">d</span></div></div>
+    <div class="analysis-item"><div class="a-label">Longest gap</div><div class="a-value">${maxGap}<span class="a-unit">d</span></div></div>
+  `;
+}
+
+// ── Stats ──
+function updateStats(){
+  const today=getToday();
+  const remaining=EXAMS.filter(e=>parseDate(e.date)>=today);
+  const past=EXAMS.length-remaining.length;
+  document.getElementById('s-remaining').textContent=remaining.length;
+  document.getElementById('s-rem-sub').textContent=past+' completed';
+
+  const first=parseDate(EXAMS[0].date),last=parseDate(EXAMS[EXAMS.length-1].date);
+  const totalSpan=Math.max(1,(last-first)/86400000);
+  const elapsed=Math.max(0,Math.min(totalSpan,(today-first)/86400000));
+  const pct=Math.round(elapsed/totalSpan*100);
+  document.getElementById('s-progress').textContent=pct+'%';
+  document.getElementById('s-prog-sub').textContent=pct<100?'in progress':'complete';
+  document.getElementById('pb-fill').style.width=pct+'%';
+  document.getElementById('pb-pct').textContent=pct+'% complete';
+
+  if(remaining.length>0){
+    const next=remaining[0];
+    const diff=daysFromToday(next.date);
+    document.getElementById('s-first').textContent=diff<=0?'0':diff;
+    document.getElementById('s-first-sub').textContent=diff<=0?'today':diff===1?'tomorrow':parseDate(next.date).toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+    document.getElementById('next-name').textContent=next.code+' — '+next.name;
+    document.getElementById('next-meta').textContent=parseDate(next.date).toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})+' · '+next.time;
+  } else {
+    document.getElementById('s-first').textContent='—';
+    document.getElementById('next-name').textContent='All exams completed';
+    document.getElementById('next-meta').textContent='Well done!';
+  }
+}
+
+// ── Countdown ──
+function updateCountdown(){
+  const today=getToday();
+  const remaining=EXAMS.filter(e=>parseDate(e.date)>=today);
+  if(!remaining.length){['cd-d','cd-h','cd-m','cd-s'].forEach(id=>document.getElementById(id).textContent='00');return;}
+  const next=remaining[0];
+  const target=parseStartTime(next.time,next.date);
+  let diff=target-new Date();
+  if(diff<0&&daysFromToday(next.date)===0)diff=0;
+  if(diff<=0){['cd-d','cd-h','cd-m','cd-s'].forEach(id=>document.getElementById(id).textContent='00');return;}
+  document.getElementById('cd-d').textContent=String(Math.floor(diff/86400000)).padStart(2,'0');
+  document.getElementById('cd-h').textContent=String(Math.floor((diff%86400000)/3600000)).padStart(2,'0');
+  document.getElementById('cd-m').textContent=String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
+  document.getElementById('cd-s').textContent=String(Math.floor((diff%60000)/1000)).padStart(2,'0');
+}
+
+function updateClock(){
+  document.getElementById('live-clock').textContent=new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+}
+
+// ── Filters ──
+let currentDept='all',currentSearch='';
+function applyFilters(){
+  let any=false;
+  document.querySelectorAll('.day-block').forEach(day=>{
+    let dayVisible=false;
+    day.querySelectorAll('.exam-row').forEach(r=>{
+      const dm=currentDept==='all'||r.dataset.dept===currentDept;
+      const sm=!currentSearch||(r.dataset.text||'').includes(currentSearch);
+      const show=dm&&sm;
+      r.classList.toggle('hidden',!show);
+      if(show)dayVisible=true;
+    });
+    day.style.display=dayVisible?'':'none';
+    if(dayVisible)any=true;
+  });
+  document.getElementById('no-results').style.display=any?'none':'block';
+}
+function filterDept(dept,btn){
+  currentDept=dept;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters();
+}
+function searchExams(val){currentSearch=val.toLowerCase().trim();applyFilters();}
+
+// ── Init ──
+renderSchedule();
+renderAnalysis();
+updateStats();
+updateCountdown();
+updateClock();
+setInterval(updateCountdown,1000);
+setInterval(updateClock,1000);
+setInterval(updateStats,60000);
+</script>
+</body>
+</html>
