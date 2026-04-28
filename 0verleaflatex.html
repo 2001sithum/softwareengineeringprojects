@@ -1,0 +1,2019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IEEE LaTeX Editor — Lab Report Suite</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&family=Spectral:ital,wght@0,300;0,400;0,600;1,300&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script>
+window.MathJax = {
+  tex:{inlineMath:[['$','$'],['\\(','\\)']],displayMath:[['$$','$$'],['\\[','\\]']],processEscapes:true,tags:'ams'},
+  options:{skipHtmlTags:['script','noscript','style','textarea','pre']},
+  startup:{typeset:false}
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml.min.js"></script>
+<style>
+:root{
+  --bg:#0e0f11;
+  --bg2:#14151a;
+  --bg3:#1c1d24;
+  --bg4:#22232c;
+  --bg5:#2a2b36;
+  --border:#2e303d;
+  --border2:#3a3c4e;
+  --accent:#c8a96e;
+  --accent2:#e8c987;
+  --accent3:#8bb4d8;
+  --red:#d96c6c;
+  --green:#7ab87a;
+  --text:#e8e4dc;
+  --text2:#b8b4ac;
+  --text3:#7a7870;
+  --text4:#4a4844;
+  --ieee-bg:#faf9f6;
+  --ieee-text:#111;
+  --ieee-border:#ccc;
+  --ieee-accent:#8b0000;
+  --font-ui:'IBM Plex Sans',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --font-serif:'Crimson Pro',Georgia,serif;
+  --font-preview:'Spectral',Georgia,serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:var(--font-ui)}
+
+/* ─── Layout ─── */
+#shell{display:flex;flex-direction:column;height:100vh}
+#topbar{display:flex;align-items:center;gap:0;height:44px;background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0;position:relative;z-index:100}
+#main{display:flex;flex:1;overflow:hidden}
+#statusbar{height:26px;background:var(--bg2);border-top:1px solid var(--border);display:flex;align-items:center;padding:0 14px;gap:16px;font-size:11px;color:var(--text3);flex-shrink:0}
+
+/* ─── Topbar ─── */
+.logo{padding:0 18px;font-size:13px;font-weight:600;letter-spacing:0.04em;color:var(--accent);white-space:nowrap;display:flex;align-items:center;gap:8px;border-right:1px solid var(--border)}
+.logo svg{width:18px;height:18px;opacity:0.9}
+.topbar-sep{width:1px;height:22px;background:var(--border);margin:0 2px;flex-shrink:0}
+.tb-group{display:flex;align-items:center;gap:1px;padding:0 6px}
+.tb-btn{display:flex;align-items:center;gap:5px;padding:4px 9px;border:none;background:transparent;color:var(--text2);font-size:12px;font-family:var(--font-ui);cursor:pointer;border-radius:4px;transition:all 0.12s;white-space:nowrap;height:28px}
+.tb-btn:hover{background:var(--bg4);color:var(--text)}
+.tb-btn.active{background:var(--bg5);color:var(--accent)}
+.tb-btn .icon{font-size:13px;line-height:1}
+.tb-btn kbd{font-size:9px;background:var(--bg4);border:1px solid var(--border2);border-radius:3px;padding:1px 4px;color:var(--text3);font-family:var(--font-mono)}
+.tb-spacer{flex:1}
+.compile-btn{margin-right:10px;padding:5px 14px;background:var(--accent);color:#1a1408;font-weight:600;font-size:12px;border:none;border-radius:5px;cursor:pointer;transition:all 0.15s;font-family:var(--font-ui);display:flex;align-items:center;gap:6px}
+.compile-btn:hover{background:var(--accent2);transform:translateY(-1px)}
+.compile-btn.compiling{background:var(--bg4);color:var(--text3);transform:none}
+
+/* ─── Sidebar (outline) ─── */
+#sidebar{width:220px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow:hidden;transition:width 0.2s}
+#sidebar.collapsed{width:0}
+.sidebar-header{padding:10px 14px;font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);border-bottom:1px solid var(--border);flex-shrink:0}
+#outline-tree{flex:1;overflow-y:auto;padding:6px 0}
+.outline-item{padding:5px 14px;font-size:12px;color:var(--text2);cursor:pointer;transition:all 0.1s;display:flex;align-items:center;gap:6px;border-left:2px solid transparent}
+.outline-item:hover{background:var(--bg3);color:var(--text)}
+.outline-item.active{background:var(--bg4);color:var(--accent);border-left-color:var(--accent)}
+.outline-item.sub{padding-left:26px;font-size:11px;color:var(--text3)}
+.outline-item.sub:hover{color:var(--text2)}
+.outline-section-icon{font-size:10px;opacity:0.6}
+.sidebar-snippets{border-top:1px solid var(--border);padding:8px 0}
+.snippet-item{padding:5px 14px;font-size:11px;color:var(--text3);cursor:pointer;font-family:var(--font-mono);transition:all 0.1s}
+.snippet-item:hover{background:var(--bg3);color:var(--accent2)}
+
+/* ─── Editor Pane ─── */
+#editor-pane{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+#editor-wrap{flex:1;position:relative;overflow:hidden;display:flex}
+#line-numbers{width:42px;padding:14px 0;background:var(--bg);text-align:right;font-family:var(--font-mono);font-size:13px;line-height:1.65;color:var(--text4);flex-shrink:0;overflow:hidden;user-select:none;border-right:1px solid var(--border)}
+#code-editor{flex:1;padding:14px 18px;font-family:var(--font-mono);font-size:13px;line-height:1.65;background:var(--bg);color:var(--text);border:none;outline:none;resize:none;tab-size:2;overflow-y:auto;white-space:pre;overflow-wrap:normal}
+#code-editor::selection{background:rgba(200,169,110,0.2)}
+/* Syntax highlighting overlay */
+#hl-overlay{position:absolute;top:0;left:42px;right:0;bottom:0;pointer-events:none;padding:14px 18px;font-family:var(--font-mono);font-size:13px;line-height:1.65;overflow:hidden;white-space:pre;overflow-wrap:normal}
+
+/* ─── Divider ─── */
+#divider{width:4px;background:var(--border);cursor:col-resize;flex-shrink:0;position:relative;transition:background 0.15s}
+#divider:hover,#divider.dragging{background:var(--accent)}
+#divider::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:2px;height:30px;background:currentColor;opacity:0.3;border-radius:2px}
+
+/* ─── Preview Pane ─── */
+#preview-pane{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;background:var(--bg2)}
+#preview-scroll{flex:1;overflow-y:auto;padding:24px;background:var(--bg3)}
+#preview-scroll::-webkit-scrollbar{width:5px}
+#preview-scroll::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+
+/* ─── IEEE Paper Render ─── */
+#ieee-paper{background:white;width:100%;max-width:800px;margin:0 auto;padding:32px 40px 48px;font-family:'Times New Roman',Times,serif;font-size:10pt;line-height:1.3;color:#111;box-shadow:0 4px 40px rgba(0,0,0,0.5);border:1px solid #ddd;min-height:600px;position:relative}
+#ieee-paper.dark-paper{background:#1a1b22;color:#ddd;border-color:#333;box-shadow:0 4px 40px rgba(0,0,0,0.7)}
+
+/* IEEE typography */
+.ieee-title{font-size:22pt;font-weight:bold;text-align:center;margin-bottom:6px;line-height:1.2;font-family:'Times New Roman',Times,serif;color:#111}
+.ieee-authors{font-size:11pt;text-align:center;margin-bottom:3px;font-family:'Times New Roman',Times,serif}
+.ieee-affil{font-size:9pt;text-align:center;color:#444;margin-bottom:3px;font-style:italic}
+.ieee-email{font-size:9pt;text-align:center;color:#1a5276;margin-bottom:12px;font-family:monospace}
+.ieee-divider-line{border:none;border-top:1px solid #888;margin:8px 0}
+.ieee-abstract-block{border:1px solid #888;padding:8px 10px;margin-bottom:10px}
+.ieee-abstract-title{font-size:8.5pt;font-weight:bold;font-style:italic;margin-bottom:3px}
+.ieee-abstract-body{font-size:8.5pt;line-height:1.4;text-align:justify}
+.ieee-keywords{font-size:8.5pt;margin-bottom:10px}
+.ieee-keywords b{font-style:italic}
+.ieee-columns{column-count:2;column-gap:18px;column-rule:0.5px solid #ccc}
+.ieee-section{font-size:9.5pt;font-weight:bold;text-align:center;text-transform:uppercase;margin:10px 0 5px;letter-spacing:0.03em;break-inside:avoid}
+.ieee-section-num{margin-right:6px}
+.ieee-subsection{font-size:9.5pt;font-style:italic;font-weight:bold;margin:7px 0 3px}
+.ieee-body-p{font-size:9.5pt;line-height:1.55;text-align:justify;margin-bottom:5px;text-indent:1em}
+.ieee-body-p.no-indent{text-indent:0}
+.ieee-equation-block{text-align:center;margin:7px 0;break-inside:avoid}
+.ieee-eq-num{float:right;margin-top:-1.5em}
+.ieee-figure{text-align:center;margin:8px 0;break-inside:avoid;border:1px solid #ddd;padding:8px}
+.ieee-figure-placeholder{width:100%;height:80px;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:9pt;color:#888;border:1px dashed #bbb}
+.ieee-figure-caption{font-size:8.5pt;margin-top:4px;text-align:justify}
+.ieee-figure-caption b{font-size:8.5pt}
+.ieee-table{width:100%;border-collapse:collapse;margin:6px 0;font-size:8.5pt;break-inside:avoid}
+.ieee-table th{border-top:1.5px solid #111;border-bottom:1px solid #111;padding:3px 6px;text-align:center;font-weight:bold}
+.ieee-table td{padding:2px 6px;text-align:center}
+.ieee-table .last-row td{border-bottom:1.5px solid #111}
+.ieee-table-caption{font-size:8.5pt;text-align:center;text-transform:uppercase;letter-spacing:0.02em;font-weight:bold;margin-bottom:3px}
+.ieee-references{font-size:8.5pt;line-height:1.5}
+.ieee-ref-item{margin-bottom:3px;text-align:justify}
+.ieee-ref-num{font-weight:bold;margin-right:4px}
+.ieee-code-block{font-family:'Courier New',monospace;font-size:8pt;background:#f8f8f8;border:1px solid #ddd;padding:6px;margin:5px 0;line-height:1.4;overflow-x:auto;break-inside:avoid}
+.ieee-ul{margin:4px 0 4px 16px;font-size:9.5pt;line-height:1.5}
+.ieee-ol{margin:4px 0 4px 16px;font-size:9.5pt;line-height:1.5}
+
+/* Scrollbar editor */
+#code-editor::-webkit-scrollbar{width:6px;height:6px}
+#code-editor::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+
+/* Minimap */
+#minimap{width:64px;background:var(--bg);border-left:1px solid var(--border);flex-shrink:0;position:relative;overflow:hidden;cursor:pointer}
+#minimap-canvas{position:absolute;top:0;left:0;width:100%;image-rendering:pixelated}
+#minimap-viewport{position:absolute;left:0;right:0;background:rgba(200,169,110,0.08);border:1px solid rgba(200,169,110,0.2);pointer-events:none}
+
+/* Statusbar */
+.sb-item{display:flex;align-items:center;gap:5px}
+.sb-dot{width:6px;height:6px;border-radius:50%;background:var(--green)}
+.sb-dot.warn{background:var(--accent)}
+.sb-dot.err{background:var(--red)}
+.sb-sep{width:1px;height:12px;background:var(--border)}
+
+/* Modals */
+#modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:1000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+#modal-overlay.show{display:flex}
+.modal{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:24px;min-width:420px;max-width:600px}
+.modal h2{font-size:15px;font-weight:600;color:var(--accent);margin-bottom:16px;font-family:var(--font-ui)}
+.modal-close{float:right;background:none;border:none;color:var(--text3);cursor:pointer;font-size:16px;line-height:1;margin-top:-2px}
+.modal-close:hover{color:var(--text)}
+.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.snippet-card{background:var(--bg4);border:1px solid var(--border);border-radius:5px;padding:10px 12px;cursor:pointer;transition:all 0.12s}
+.snippet-card:hover{background:var(--bg5);border-color:var(--accent);transform:translateY(-1px)}
+.snippet-card .sc-title{font-size:12px;font-weight:500;color:var(--text);margin-bottom:3px}
+.snippet-card .sc-code{font-family:var(--font-mono);font-size:10px;color:var(--text3)}
+
+/* Settings panel */
+#settings-panel{position:absolute;right:0;top:44px;width:280px;background:var(--bg3);border:1px solid var(--border2);border-radius:0 0 0 8px;z-index:200;padding:16px;display:none;box-shadow:-4px 4px 20px rgba(0,0,0,0.4)}
+#settings-panel.show{display:block}
+.sp-label{font-size:11px;color:var(--text3);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.07em}
+.sp-row{margin-bottom:14px}
+.sp-row input[type=range]{width:100%;accent-color:var(--accent)}
+.sp-row select{width:100%;background:var(--bg4);border:1px solid var(--border);color:var(--text);padding:5px 8px;border-radius:4px;font-size:12px;font-family:var(--font-ui)}
+.sp-toggle{display:flex;align-items:center;justify-content:space-between}
+.toggle-sw{position:relative;width:32px;height:18px;cursor:pointer}
+.toggle-sw input{display:none}
+.toggle-sw .track{position:absolute;inset:0;background:var(--bg5);border-radius:9px;transition:background 0.2s}
+.toggle-sw input:checked+.track{background:var(--accent)}
+.toggle-sw .thumb{position:absolute;top:2px;left:2px;width:14px;height:14px;background:white;border-radius:50%;transition:transform 0.2s}
+.toggle-sw input:checked~.thumb{transform:translateX(14px)}
+
+/* Cursor indicator */
+#cursor-line{position:absolute;left:0;right:0;height:1.65em;background:rgba(200,169,110,0.04);pointer-events:none;transition:top 0.05s}
+
+/* Find bar */
+#find-bar{display:none;padding:6px 12px;background:var(--bg3);border-bottom:1px solid var(--border);align-items:center;gap:8px;flex-shrink:0}
+#find-bar.show{display:flex}
+#find-input{background:var(--bg4);border:1px solid var(--border2);color:var(--text);padding:4px 8px;border-radius:4px;font-size:12px;font-family:var(--font-ui);width:200px}
+#find-input:focus{outline:none;border-color:var(--accent)}
+.find-btn{padding:3px 8px;background:var(--bg4);border:1px solid var(--border);color:var(--text2);border-radius:4px;font-size:11px;cursor:pointer;font-family:var(--font-ui)}
+.find-btn:hover{background:var(--bg5);color:var(--text)}
+#find-count{font-size:11px;color:var(--text3);min-width:60px}
+
+/* Animations */
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.compiling-pulse{animation:pulse 1s infinite}
+@keyframes compileDone{from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:scale(1)}}
+.compile-done{animation:compileDone 0.25s ease-out}
+
+/* Print */
+@media print{
+  #shell>*:not(#main){display:none!important}
+  #sidebar,#divider{display:none!important}
+  #preview-pane{flex:1}
+  #preview-scroll{padding:0}
+  #ieee-paper{box-shadow:none;border:none;max-width:100%}
+}
+
+/* WYSIWYG Editing Mode */
+#ieee-paper.wysiwyg-mode {
+  outline: 2px dashed var(--accent);
+  outline-offset: 2px;
+  cursor: text;
+}
+
+#ieee-paper.wysiwyg-mode [contenteditable="true"] {
+  padding: 2px 4px;
+  border-radius: 2px;
+  min-height: 1.2em;
+}
+
+#ieee-paper.wysiwyg-mode [contenteditable="true"]:hover {
+  background: rgba(200, 169, 110, 0.1);
+}
+
+#ieee-paper.wysiwyg-mode [contenteditable="true"]:focus {
+  background: rgba(200, 169, 110, 0.15);
+  outline: 1px solid var(--accent);
+}
+
+.wysiwyg-toolbar {
+  display: none;
+  position: fixed;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px;
+  gap: 4px;
+  z-index: 500;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.wysiwyg-toolbar.show {
+  display: flex;
+}
+
+.wysiwyg-toolbar button {
+  padding: 4px 8px;
+  background: var(--bg4);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.1s;
+}
+
+.wysiwyg-toolbar button:hover {
+  background: var(--bg5);
+  border-color: var(--accent);
+}
+
+/* Help Panel */
+#help-panel {
+  position: fixed;
+  right: 0;
+  top: 44px;
+  width: 380px;
+  height: calc(100vh - 44px - 26px);
+  background: var(--bg3);
+  border-left: 1px solid var(--border2);
+  z-index: 200;
+  display: none;
+  flex-direction: column;
+  box-shadow: -4px 0 20px rgba(0,0,0,0.4);
+}
+
+#help-panel.show {
+  display: flex;
+}
+
+.hp-header {
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.hp-header h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.hp-close {
+  background: none;
+  border: none;
+  color: var(--text3);
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  transition: color 0.1s;
+}
+
+.hp-close:hover {
+  color: var(--text);
+}
+
+.hp-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+.hp-section {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.hp-section:last-child {
+  border-bottom: none;
+}
+
+.hp-section h4 {
+  margin: 0 0 8px 0;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent2);
+}
+
+.hp-section p {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--text2);
+}
+
+.hp-section ul {
+  margin: 0;
+  padding-left: 16px;
+  font-size: 11px;
+  color: var(--text2);
+  line-height: 1.6;
+}
+
+.hp-section li {
+  margin-bottom: 4px;
+}
+
+.hp-section code {
+  background: var(--bg4);
+  padding: 2px 5px;
+  border-radius: 3px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--accent3);
+}
+
+.hp-shortcuts {
+  width: 100%;
+  font-size: 10px;
+  color: var(--text2);
+  border-collapse: collapse;
+}
+
+.hp-shortcuts tr {
+  border-bottom: 1px solid var(--border);
+}
+
+.hp-shortcuts td {
+  padding: 6px 0;
+  padding-right: 8px;
+}
+
+.hp-shortcuts td:first-child {
+  text-align: right;
+  padding-right: 12px;
+  color: var(--text3);
+}
+
+.hp-shortcuts kbd {
+  background: var(--bg4);
+  border: 1px solid var(--border2);
+  border-radius: 3px;
+  padding: 2px 5px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--accent3);
+  display: inline-block;
+}
+
+.hp-section a {
+  color: var(--accent3);
+  text-decoration: none;
+  transition: color 0.1s;
+}
+
+.hp-section a:hover {
+  color: var(--accent2);
+  text-decoration: underline;
+}
+
+#help-panel::-webkit-scrollbar {
+  width: 5px;
+}
+
+#help-panel::-webkit-scrollbar-thumb {
+  background: var(--border2);
+  border-radius: 3px;
+}
+
+/* Documentation Panel */
+#docs-panel {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 44px;
+  bottom: 26px;
+  background: var(--bg3);
+  z-index: 150;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#docs-panel.show {
+  display: flex;
+}
+
+.docs-header {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+  color: #1a1408;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.docs-header h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.docs-close {
+  background: rgba(0,0,0,0.1);
+  border: none;
+  color: #1a1408;
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 1;
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  transition: all 0.1s;
+}
+
+.docs-close:hover {
+  background: rgba(0,0,0,0.2);
+}
+
+.docs-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px;
+}
+
+.docs-tabs {
+  display: flex;
+  gap: 8px;
+  padding: 0 24px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.docs-tab {
+  padding: 8px 14px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text3);
+  cursor: pointer;
+  font-size: 12px;
+  border-radius: 4px;
+  transition: all 0.1s;
+  white-space: nowrap;
+  font-family: var(--font-ui);
+}
+
+.docs-tab:hover {
+  background: var(--bg4);
+  color: var(--text2);
+}
+
+.docs-tab.active {
+  background: var(--accent);
+  color: #1a1408;
+  border-color: var(--accent);
+  font-weight: 600;
+}
+
+.docs-section {
+  display: none;
+}
+
+.docs-section.active {
+  display: block;
+}
+
+.docs-section h3 {
+  font-size: 16px;
+  color: var(--accent2);
+  margin: 20px 0 12px;
+  font-weight: 600;
+}
+
+.docs-section p {
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.docs-section ul, .docs-section ol {
+  margin-left: 20px;
+  margin-bottom: 12px;
+}
+
+.docs-section li {
+  font-size: 12px;
+  color: var(--text2);
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
+
+.docs-code {
+  background: var(--bg4);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text2);
+  overflow-x: auto;
+}
+
+.docs-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+  font-size: 11px;
+}
+
+.docs-table th {
+  background: var(--bg4);
+  padding: 8px;
+  text-align: left;
+  color: var(--accent2);
+  font-weight: 600;
+  border-bottom: 1px solid var(--border);
+}
+
+.docs-table td {
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text2);
+}
+
+.docs-table tr:hover {
+  background: var(--bg5);
+}
+
+#docs-panel::-webkit-scrollbar {
+  width: 5px;
+}
+
+#docs-panel::-webkit-scrollbar-thumb {
+  background: var(--border2);
+  border-radius: 3px;
+}
+</style>
+</head>
+<body>
+<div id="shell">
+
+<!-- ─── Topbar ─── -->
+<div id="topbar">
+  <div class="logo">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12h6M9 8h6M9 16h4M5 4h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5a1 1 0 011-1z"/></svg>
+    IEEE Lab Editor
+  </div>
+  <div class="tb-group">
+    <button class="tb-btn" onclick="newDoc()" title="New"><span class="icon">◻</span> New</button>
+    <button class="tb-btn" onclick="saveDoc()" title="Save .tex Ctrl+S"><span class="icon">⬇</span> Save <kbd>S</kbd></button>
+    <button class="tb-btn" onclick="exportHtml()" title="Export HTML"><span class="icon">⬆</span> Export</button>
+  </div>
+  <div class="topbar-sep"></div>
+  <div class="tb-group">
+    <button class="tb-btn" onclick="insertBold()"><span class="icon">𝐁</span> Bold</button>
+    <button class="tb-btn" onclick="insertItalic()"><span class="icon">𝐼</span> Italic</button>
+    <button class="tb-btn" onclick="insertSnip('\\\\underline{','}')" title="Underline"><span class="icon">U̲</span></button>
+  </div>
+  <div class="topbar-sep"></div>
+  <div class="tb-group">
+    <button class="tb-btn" onclick="insertSection()">§ Section</button>
+    <button class="tb-btn" onclick="insertSubsection()">§§ Subsection</button>
+  </div>
+  <div class="topbar-sep"></div>
+  <div class="tb-group">
+    <button class="tb-btn" onclick="insertInlineMath()">∑ Math</button>
+    <button class="tb-btn" onclick="insertDisplayMath()">∑∑ Display</button>
+    <button class="tb-btn" onclick="insertEquation()">Eq.</button>
+    <button class="tb-btn" onclick="showSnippets()">⊞ Snippets</button>
+  </div>
+  <div class="topbar-sep"></div>
+  <div class="tb-group" id="view-btns">
+    <button class="tb-btn active" id="vbtn-split" onclick="setView('split')">⊟ Split</button>
+    <button class="tb-btn" id="vbtn-code" onclick="setView('code')">⌨ Code</button>
+    <button class="tb-btn" id="vbtn-preview" onclick="setView('preview')">◉ Preview</button>
+    <button class="tb-btn" id="vbtn-wysiwyg" onclick="toggleWYSIWYG()" title="Edit like Word">✎ Edit</button>
+  </div>
+  <div class="topbar-sep"></div>
+  <div class="tb-group">
+    <button class="tb-btn" onclick="toggleFind()">⌕ Find <kbd>F</kbd></button>
+    <button class="tb-btn" onclick="toggleSettings()">⚙ Settings</button>
+    <button class="tb-btn" onclick="showHelp()">? Help</button>
+    <button class="tb-btn" onclick="toggleDocs()">📖 Docs</button>
+    <button class="tb-btn" onclick="toggleSidebar()">☰ Outline</button>
+  </div>
+  <div class="tb-spacer"></div>
+  <button class="compile-btn" id="compile-btn" onclick="compileNow()">
+    <span id="compile-icon">▶</span> <span id="compile-label">Compile</span>
+  </button>
+
+  <!-- Settings panel -->
+  <div id="settings-panel">
+    <div class="sp-row">
+      <div class="sp-label">Font Size</div>
+      <input type="range" min="10" max="18" value="13" id="font-size-slider" oninput="setFontSize(this.value)">
+      <span id="font-size-val" style="font-size:11px;color:var(--text3)">13px</span>
+    </div>
+    <div class="sp-row">
+      <div class="sp-label">Theme</div>
+      <select id="theme-sel" onchange="setTheme(this.value)">
+        <option value="dark">Dark (default)</option>
+        <option value="darker">Darker</option>
+        <option value="light">Light</option>
+      </select>
+    </div>
+    <div class="sp-row">
+      <div class="sp-label">Auto-compile delay</div>
+      <select id="delay-sel">
+        <option value="400">Fast (400ms)</option>
+        <option value="800" selected>Normal (800ms)</option>
+        <option value="1500">Slow (1.5s)</option>
+        <option value="0">Manual only</option>
+      </select>
+    </div>
+    <div class="sp-row">
+      <div class="sp-label sp-toggle">Paper Mode <label class="toggle-sw"><input type="checkbox" id="dark-paper-toggle" onchange="toggleDarkPaper()"><span class="track"></span><span class="thumb"></span></label></div>
+    </div>
+    <div class="sp-row">
+      <div class="sp-label sp-toggle">Line Numbers <label class="toggle-sw"><input type="checkbox" id="ln-toggle" checked onchange="toggleLineNums()"><span class="track"></span><span class="thumb"></span></label></div>
+    </div>
+    <div class="sp-row">
+      <div class="sp-label sp-toggle">Minimap <label class="toggle-sw"><input type="checkbox" id="mm-toggle" checked onchange="toggleMinimap()"><span class="track"></span><span class="thumb"></span></label></div>
+    </div>
+  </div>
+
+  <!-- Help Panel -->
+  <div id="help-panel">
+    <div class="hp-header">
+      <h3>Help & Documentation</h3>
+      <button class="hp-close" onclick="closeHelp()">✕</button>
+    </div>
+    <div class="hp-content">
+      <div class="hp-section">
+        <h4>Quick Start</h4>
+        <p>Write LaTeX code on the left, see the rendered IEEE paper on the right. Click "Compile" or use Ctrl+Enter to compile.</p>
+      </div>
+      <div class="hp-section">
+        <h4>Keyboard Shortcuts</h4>
+        <table class="hp-shortcuts">
+          <tr><td><kbd>Ctrl+S</kbd></td><td>Save as .tex</td></tr>
+          <tr><td><kbd>Ctrl+E</kbd></td><td>Toggle WYSIWYG Edit</td></tr>
+          <tr><td><kbd>Ctrl+F</kbd></td><td>Find in code</td></tr>
+          <tr><td><kbd>Ctrl+Enter</kbd></td><td>Compile</td></tr>
+          <tr><td><kbd>Escape</kbd></td><td>Exit WYSIWYG mode</td></tr>
+        </table>
+      </div>
+      <div class="hp-section">
+        <h4>Formatting Tips</h4>
+        <ul>
+          <li><code>\textbf{text}</code> - Bold</li>
+          <li><code>\textit{text}</code> - Italic</li>
+          <li><code>$...$</code> - Inline math</li>
+          <li><code>\[...\]</code> - Display math</li>
+          <li><code>\section{Title}</code> - Section heading</li>
+        </ul>
+      </div>
+      <div class="hp-section">
+        <h4>WYSIWYG Editor</h4>
+        <p>Click the "✎ Edit" button to switch to word processor-style editing. Click any text to edit directly, select text to access formatting tools.</p>
+      </div>
+      <div class="hp-section">
+        <h4>Snippets</h4>
+        <p>Use the "⊞ Snippets" button to access pre-made templates for equations, figures, tables, and code listings.</p>
+      </div>
+      <div class="hp-section">
+        <h4>View Modes</h4>
+        <ul>
+          <li><strong>⊟ Split</strong> - Code and preview side-by-side</li>
+          <li><strong>⌨ Code</strong> - Full editor view</li>
+          <li><strong>◉ Preview</strong> - Full preview (IEEE paper)</li>
+        </ul>
+      </div>
+      <div class="hp-section">
+        <h4>Settings</h4>
+        <p>Use the "⚙ Settings" button to adjust font size, theme, auto-compile speed, and toggle line numbers/minimap.</p>
+      </div>
+      <div class="hp-section">
+        <h4>Getting Help</h4>
+        <p>Click the "📖 Docs" button to access the full documentation. IEEE LaTeX Editor v2.0</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Documentation Panel -->
+  <div id="docs-panel">
+    <div class="docs-header">
+      <h2>📖 Documentation</h2>
+      <button class="docs-close" onclick="toggleDocs()">✕</button>
+    </div>
+    <div class="docs-tabs">
+      <button class="docs-tab active" onclick="switchDocsTab('quickstart')">Quick Start</button>
+      <button class="docs-tab" onclick="switchDocsTab('interface')">Interface</button>
+      <button class="docs-tab" onclick="switchDocsTab('editing')">Editing</button>
+      <button class="docs-tab" onclick="switchDocsTab('wysiwyg')">WYSIWYG</button>
+      <button class="docs-tab" onclick="switchDocsTab('formatting')">Formatting</button>
+      <button class="docs-tab" onclick="switchDocsTab('shortcuts')">Shortcuts</button>
+      <button class="docs-tab" onclick="switchDocsTab('tips')">Tips</button>
+    </div>
+    <div class="docs-content">
+      <!-- Quick Start -->
+      <div id="quickstart" class="docs-section active">
+        <h3>Quick Start</h3>
+        <p>Get up and running in 5 minutes with IEEE LaTeX Editor.</p>
+        <ol>
+          <li><strong>Load a Document:</strong> Click <strong>New</strong> to start with template, or paste existing LaTeX code</li>
+          <li><strong>Write Content:</strong> Edit LaTeX code on the left side</li>
+          <li><strong>Compile & Preview:</strong> Click <strong>Compile</strong> or press Ctrl+Enter</li>
+          <li><strong>Save Your Work:</strong> Use <strong>Save</strong> or Ctrl+S to download .tex file</li>
+          <li><strong>Export:</strong> Click <strong>Export</strong> to save rendered paper as HTML</li>
+        </ol>
+      </div>
+
+      <!-- Interface -->
+      <div id="interface" class="docs-section">
+        <h3>Interface Overview</h3>
+        <p><strong>Top Menu Bar:</strong> File operations, text formatting, structure, and math tools</p>
+        <p><strong>View Modes:</strong></p>
+        <ul>
+          <li><strong>⊟ Split</strong> - Code editor left, preview right (default)</li>
+          <li><strong>⌨ Code</strong> - Full-width LaTeX editor</li>
+          <li><strong>◉ Preview</strong> - Full-width rendered paper</li>
+          <li><strong>✎ Edit</strong> - Word processor-style editing</li>
+        </ul>
+        <p><strong>Right Sidebar:</strong> Document outline for navigation and quick snippets</p>
+        <p><strong>Status Bar:</strong> Shows compilation status, cursor position, and document stats</p>
+      </div>
+
+      <!-- Editing -->
+      <div id="editing" class="docs-section">
+        <h3>Editing LaTeX Code</h3>
+        <p><strong>Auto-Compilation:</strong> Document compiles automatically after you stop typing (configurable in Settings)</p>
+        <div class="docs-code">\textbf{bold}
+\textit{italic}
+$math equation$
+\section{Title}
+\cite{ref}</div>
+        <p><strong>Find & Replace:</strong> Press Ctrl+F to search the LaTeX code</p>
+        <p><strong>Line Numbers:</strong> Toggle in Settings for cleaner view</p>
+      </div>
+
+      <!-- WYSIWYG -->
+      <div id="wysiwyg" class="docs-section">
+        <h3>WYSIWYG Editing Mode</h3>
+        <p>Click <strong>✎ Edit</strong> to enter Word-like editing. Click any text to edit, select to format.</p>
+        <h3>Formatting Toolbar</h3>
+        <table class="docs-table">
+          <tr>
+            <th>Button</th>
+            <th>Action</th>
+            <th>Shortcut</th>
+          </tr>
+          <tr>
+            <td>𝐁</td>
+            <td>Bold</td>
+            <td>Ctrl+B</td>
+          </tr>
+          <tr>
+            <td>𝐼</td>
+            <td>Italic</td>
+            <td>Ctrl+I</td>
+          </tr>
+          <tr>
+            <td>U̲</td>
+            <td>Underline</td>
+            <td>Ctrl+U</td>
+          </tr>
+          <tr>
+            <td>🔗</td>
+            <td>Link</td>
+            <td>Ctrl+K</td>
+          </tr>
+        </table>
+        <p>WYSIWYG maintains full undo/redo history (up to 50 changes)</p>
+      </div>
+
+      <!-- Formatting -->
+      <div id="formatting" class="docs-section">
+        <h3>Text Formatting</h3>
+        <table class="docs-table">
+          <tr>
+            <th>Effect</th>
+            <th>LaTeX Code</th>
+          </tr>
+          <tr>
+            <td>Bold</td>
+            <td>\textbf{text}</td>
+          </tr>
+          <tr>
+            <td>Italic</td>
+            <td>\textit{text}</td>
+          </tr>
+          <tr>
+            <td>Underline</td>
+            <td>\underline{text}</td>
+          </tr>
+          <tr>
+            <td>Monospace</td>
+            <td>\texttt{code}</td>
+          </tr>
+        </table>
+        <h3>Math Equations</h3>
+        <p><strong>Inline:</strong> $E = mc^2$</p>
+        <p><strong>Display:</strong> Use \[...\] or \begin{equation}...\end{equation}</p>
+        <h3>Lists</h3>
+        <p><strong>Bullets:</strong> \begin{itemize} \item ... \end{itemize}</p>
+        <p><strong>Numbered:</strong> \begin{enumerate} \item ... \end{enumerate}</p>
+      </div>
+
+      <!-- Shortcuts -->
+      <div id="shortcuts" class="docs-section">
+        <h3>Keyboard Shortcuts</h3>
+        <table class="docs-table">
+          <tr>
+            <th>Shortcut</th>
+            <th>Action</th>
+          </tr>
+          <tr>
+            <td>Ctrl+S</td>
+            <td>Save as .tex</td>
+          </tr>
+          <tr>
+            <td>Ctrl+E</td>
+            <td>Toggle WYSIWYG</td>
+          </tr>
+          <tr>
+            <td>Ctrl+F</td>
+            <td>Find in code</td>
+          </tr>
+          <tr>
+            <td>Ctrl+Enter</td>
+            <td>Compile</td>
+          </tr>
+          <tr>
+            <td>Escape</td>
+            <td>Exit WYSIWYG</td>
+          </tr>
+        </table>
+      </div>
+
+      <!-- Tips -->
+      <div id="tips" class="docs-section">
+        <h3>Tips & Tricks</h3>
+        <ul>
+          <li>Use Snippets library for common elements like figures and tables</li>
+          <li>Switch between split, code, and preview views as needed</li>
+          <li>Use document outline sidebar for quick navigation</li>
+          <li>WYSIWYG mode is great for final proofreading</li>
+          <li>Auto-save stores changes to browser storage</li>
+          <li>Adjust auto-compile delay in Settings for better performance</li>
+          <li>Press Find button or Ctrl+F to search LaTeX code</li>
+          <li>Each theme (Dark/Darker/Light) affects only the UI, not the paper</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── Find Bar ─── -->
+<div id="find-bar">
+  <span style="font-size:11px;color:var(--text3)">Find:</span>
+  <input id="find-input" placeholder="Search…" oninput="doFind()" onkeydown="findNav(event)">
+  <span id="find-count"></span>
+  <button class="find-btn" onclick="findPrev()">↑ Prev</button>
+  <button class="find-btn" onclick="findNext()">↓ Next</button>
+  <button class="find-btn" onclick="toggleFind()">✕</button>
+</div>
+
+<!-- ─── Main ─── -->
+<div id="main">
+  <!-- Sidebar -->
+  <div id="sidebar">
+    <div class="sidebar-header">Document Outline</div>
+    <div id="outline-tree"></div>
+    <div class="sidebar-snippets">
+      <div class="sidebar-header" style="border-top:1px solid var(--border)">Quick Snippets</div>
+      <div class="snippet-item" onclick="insertEnv('figure')">fig: Figure env</div>
+      <div class="snippet-item" onclick="insertEnv('table-ieee')">tbl: IEEE Table</div>
+      <div class="snippet-item" onclick="insertEnv('algorithm')">alg: Algorithm</div>
+      <div class="snippet-item" onclick="insertEnv('lstlisting')">lst: Code listing</div>
+      <div class="snippet-item" onclick="insertEnv('cite')">cite: Citation</div>
+    </div>
+  </div>
+
+  <!-- Editor Pane -->
+  <div id="editor-pane">
+    <div id="editor-wrap">
+      <div id="line-numbers"></div>
+      <textarea id="code-editor" spellcheck="false" autocorrect="off" autocapitalize="off"></textarea>
+      <div id="minimap">
+        <canvas id="minimap-canvas"></canvas>
+        <div id="minimap-viewport"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Divider -->
+  <div id="divider"></div>
+
+  <!-- Preview Pane -->
+  <div id="preview-pane">
+    <div id="preview-scroll">
+      <div id="ieee-paper"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── Statusbar ─── -->
+<div id="statusbar">
+  <div class="sb-item"><div class="sb-dot" id="sb-dot"></div><span id="sb-status">Ready</span></div>
+  <div class="sb-sep"></div>
+  <span id="sb-cursor">Ln 1, Col 1</span>
+  <div class="sb-sep"></div>
+  <span id="sb-words">0 words</span>
+  <div class="sb-sep"></div>
+  <span id="sb-chars">0 chars</span>
+  <div class="sb-sep"></div>
+  <span id="sb-lines">0 lines</span>
+  <div style="flex:1"></div>
+  <span style="color:var(--text4)">IEEE LaTeX Lab Editor v2.0</span>
+  <span style="color:var(--accent);font-size:10px">● Unsaved</span>
+</div>
+</div>
+
+<!-- ─── Snippets Modal ─── -->
+<div id="modal-overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h2>⊞ IEEE Snippet Library</h2>
+    <div class="modal-grid" id="snippet-grid"></div>
+  </div>
+</div>
+
+<!-- ─── WYSIWYG Toolbar ─── -->
+<div class="wysiwyg-toolbar" id="wysiwyg-toolbar">
+  <button onclick="wysiwygFormat('bold')" title="Bold">𝐁</button>
+  <button onclick="wysiwygFormat('italic')" title="Italic">𝐼</button>
+  <button onclick="wysiwygFormat('underline')" title="Underline">U̲</button>
+  <span style="width:1px;background:var(--border)"></span>
+  <button onclick="wysiwygFormat('createLink')" title="Link">🔗</button>
+  <button onclick="wysiwygFormat('undo')" title="Undo">↶</button>
+  <button onclick="wysiwygFormat('redo')" title="Redo">↷</button>
+</div>
+
+<!-- ─── Tips Modal ─── -->
+<div id="tips-overlay" onclick="if(event.target===this)closeTips()">
+  <div class="modal" style="max-width:500px">
+    <button class="modal-close" onclick="closeTips()">✕</button>
+    <h2>💡 Tip of the Day</h2>
+    <div id="tip-content" style="font-size:13px;color:var(--text2);line-height:1.7"></div>
+    <div style="margin-top:20px;display:flex;gap:8px">
+      <button class="compile-btn" style="flex:1;background:var(--border);color:var(--text3);margin:0" onclick="showPrevTip()">← Previous</button>
+      <button class="compile-btn" style="flex:1;background:var(--bg5);color:var(--text);margin:0" onclick="showNextTip()">Next →</button>
+      <button class="compile-btn" style="flex:1;background:var(--accent);color:#1a1408;margin:0" onclick="closeTips()">Got it</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── Default IEEE Template ───
+const IEEE_TEMPLATE = `\\documentclass[conference]{IEEEtran}
+\\IEEEoverridecommandlockouts
+\\usepackage{cite}
+\\usepackage{amsmath,amssymb,amsfonts}
+\\usepackage{algorithmic}
+\\usepackage{graphicx}
+\\usepackage{textcomp}
+\\usepackage{xcolor}
+\\usepackage{listings}
+\\def\\BibTeX{{\\rm B\\kern-.05em{\\sc i\\kern-.025em b}\\kern-.08em T\\kern-.1667em\\lower.7ex\\hbox{E}\\kern-.125emX}}
+
+\\begin{document}
+
+\\title{Design and Analysis of a High-Performance\\\\
+  Adaptive Signal Processing Algorithm}
+
+\\author{\\IEEEauthorblockN{John A. Smith\\textsuperscript{1}, Maria B. Johnson\\textsuperscript{2}}
+\\IEEEauthorblockA{\\textsuperscript{1}Department of Electrical Engineering, MIT, Cambridge, MA 02139\\\\
+\\textsuperscript{2}School of Computing, Stanford University, Stanford, CA 94305\\\\
+Email: jsmith@mit.edu, mjohnson@stanford.edu}}
+
+\\maketitle
+
+\\begin{abstract}
+This paper presents a novel adaptive algorithm for high-performance signal processing in resource-constrained embedded systems. We propose a modified least mean squares (LMS) approach incorporating dynamic step-size adaptation and sparse regularization. Experimental results demonstrate a 34\\% reduction in mean-squared error compared to conventional methods, while maintaining computational complexity of $\\mathcal{O}(n \\log n)$. The proposed system achieves real-time performance on ARM Cortex-M4 processors at 168 MHz, making it suitable for IoT and edge computing applications.
+\\end{abstract}
+
+\\begin{IEEEkeywords}
+adaptive filtering, signal processing, LMS algorithm, embedded systems, IoT
+\\end{IEEEkeywords}
+
+\\section{Introduction}
+Signal processing in resource-constrained environments presents significant challenges in balancing computational efficiency with algorithmic performance \\cite{haykin2014}. The proliferation of Internet of Things (IoT) devices has created demand for algorithms capable of operating under strict power and memory budgets while delivering acceptable signal quality.
+
+Classical adaptive filtering algorithms, such as the Recursive Least Squares (RLS) and Least Mean Squares (LMS), have been extensively studied \\cite{widrow1985}. However, their application to embedded platforms requires careful optimization. The LMS algorithm, while computationally attractive with complexity $\\mathcal{O}(N)$, suffers from slow convergence in non-stationary environments.
+
+In this work, we address these limitations through three key contributions:
+\\begin{itemize}
+  \\item A variable step-size mechanism that adapts to local signal statistics
+  \\item Sparse regularization for improved convergence in noisy conditions
+  \\item A memory-efficient implementation suitable for 32-bit microcontrollers
+\\end{itemize}
+
+\\section{Background and Related Work}
+
+\\subsection{Standard LMS Algorithm}
+The standard LMS algorithm updates the weight vector $\\mathbf{w}(n)$ according to:
+\\begin{equation}
+  \\mathbf{w}(n+1) = \\mathbf{w}(n) + \\mu\\, e(n)\\, \\mathbf{x}(n)
+  \\label{eq:lms}
+\\end{equation}
+where $\\mu$ is the step size, $e(n) = d(n) - \\mathbf{w}^T(n)\\mathbf{x}(n)$ is the error signal, $d(n)$ is the desired response, and $\\mathbf{x}(n) \\in \\mathbb{R}^N$ is the input vector.
+
+The steady-state mean-squared error (MSE) is bounded by:
+\\begin{equation}
+  \\text{MSE}_{\\infty} \\leq \\frac{\\mu N \\sigma_v^2}{2 - \\mu \\text{tr}(\\mathbf{R})}
+\\end{equation}
+where $\\sigma_v^2$ is the noise variance and $\\mathbf{R} = E[\\mathbf{x}(n)\\mathbf{x}^T(n)]$ is the input autocorrelation matrix.
+
+\\subsection{Variable Step-Size Methods}
+Several variable step-size (VSS) approaches have been proposed \\cite{kwong1992}. The general update rule takes the form:
+\\[
+  \\mu(n+1) = f\\bigl(\\mu(n),\\, e(n),\\, \\mathbf{x}(n)\\bigr)
+\\]
+
+\\section{Proposed Algorithm}
+
+\\subsection{Adaptive Step-Size Mechanism}
+We propose updating the step size using an exponential gradient:
+\\begin{equation}
+  \\mu(n) = \\mu_{\\max} \\cdot \\exp\\!\\left(-\\alpha \\frac{e^2(n)}{\\hat{\\sigma}_d^2(n)}\\right)
+  \\label{eq:vss}
+\\end{equation}
+where $\\hat{\\sigma}_d^2(n)$ is a running estimate of the desired signal power and $\\alpha > 0$ controls adaptation speed.
+
+\\subsection{Sparse Regularization}
+To exploit sparsity in the weight vector, we add an $\\ell_1$ penalty:
+\\[
+  \\mathbf{w}(n+1) = \\mathbf{w}(n) + \\mu(n)\\,e(n)\\,\\mathbf{x}(n) - \\rho\\,\\text{sgn}\\bigl(\\mathbf{w}(n)\\bigr)
+\\]
+
+\\section{Experimental Results}
+
+\\subsection{Simulation Setup}
+Experiments were conducted using MATLAB R2023b. The system identification scenario used a sparse 64-tap unknown system with additive white Gaussian noise at SNR $= 20$ dB.
+
+\\begin{table}[h]
+\\caption{Algorithm Performance Comparison}
+\\label{tab:results}
+\\begin{tabular}{lccc}
+\\hline
+\\textbf{Algorithm} & \\textbf{MSE (dB)} & \\textbf{Conv. Iter.} & \\textbf{FLOPS/iter} \\\\
+\\hline
+Standard LMS & $-18.4$ & 2,450 & $2N$ \\\\
+VSS-LMS \\cite{kwong1992} & $-22.1$ & 1,820 & $2N+5$ \\\\
+RLS & $-28.3$ & 380 & $4N^2$ \\\\
+\\textbf{Proposed} & $\\mathbf{-29.7}$ & \\textbf{412} & $\\mathbf{2N+8}$ \\\\
+\\hline
+\\end{tabular}
+\\end{table}
+
+\\subsection{Hardware Evaluation}
+The algorithm was implemented in C99 and benchmarked on an STM32F407 (ARM Cortex-M4, 168 MHz). Using DSP intrinsics and the CMSIS-DSP library, real-time processing at 48 kHz with $N=64$ was achieved consuming only 18\\% of available CPU cycles.
+
+\\section{Conclusion}
+We have presented an adaptive signal processing algorithm with variable step size and sparse regularization. The proposed method achieves near-RLS accuracy ($-29.7$ dB MSE) at LMS computational cost ($\\mathcal{O}(N)$), validated on real embedded hardware. Future work will extend the approach to multi-channel scenarios and investigate online hyperparameter adaptation via Bayesian optimization.
+
+\\section*{Acknowledgment}
+This work was supported in part by NSF Grant No. EEC-2112893 and the MIT Lincoln Laboratory Beaver Works program.
+
+\\begin{thebibliography}{00}
+\\bibitem{haykin2014} S. Haykin, \\textit{Adaptive Filter Theory}, 5th ed. Pearson, 2014.
+\\bibitem{widrow1985} B. Widrow and S. D. Stearns, \\textit{Adaptive Signal Processing}. Prentice-Hall, 1985.
+\\bibitem{kwong1992} R. H. Kwong and E. W. Johnston, "A variable step size LMS algorithm," \\textit{IEEE Trans. Signal Process.}, vol. 40, no. 7, pp. 1633--1642, Jul. 1992.
+\\end{thebibliography}
+
+\\end{document}`;
+
+// ─── State ───
+const editor = document.getElementById('code-editor');
+const paper  = document.getElementById('ieee-paper');
+let compileTimer = null;
+let mjReady = false;
+let currentView = 'split';
+let wysiwygMode = false;
+let wysiwygUndoStack = [];
+let wysiwygRedoStack = [];
+let findMatches = [];
+let findIdx = 0;
+let sidebarOpen = true;
+let settingsOpen = false;
+
+editor.value = IEEE_TEMPLATE;
+
+// ─── MathJax ready ───
+window.addEventListener('load', () => {
+  if (window.MathJax && MathJax.startup) {
+    const orig = MathJax.startup.promise || Promise.resolve();
+    orig.then ? orig.then(() => { mjReady = true; scheduleCompile(0); }) : scheduleCompile(800);
+  }
+  setTimeout(() => { if (!mjReady) { mjReady = true; scheduleCompile(0); } }, 2000);
+  updateLineNumbers();
+  updateMinimap();
+  updateOutline();
+  updateStatusBar();
+});
+
+// ─── Editor events ───
+editor.addEventListener('input', () => {
+  scheduleCompile();
+  updateLineNumbers();
+  updateMinimap();
+  updateOutline();
+  updateStatusBar();
+  markUnsaved();
+});
+editor.addEventListener('keydown', handleEditorKey);
+editor.addEventListener('click', updateCursor);
+editor.addEventListener('keyup', updateCursor);
+editor.addEventListener('scroll', syncLineScroll);
+
+function handleEditorKey(e) {
+  if (e.key === 'Tab') {
+    e.preventDefault();
+    const s = editor.selectionStart, end = editor.selectionEnd;
+    editor.value = editor.value.slice(0,s)+'  '+editor.value.slice(end);
+    editor.selectionStart = editor.selectionEnd = s+2;
+    scheduleCompile();
+  }
+  if ((e.ctrlKey||e.metaKey) && e.key==='s') { e.preventDefault(); saveDoc(); }
+  if ((e.ctrlKey||e.metaKey) && e.key==='f') { e.preventDefault(); toggleFind(); }
+  if ((e.ctrlKey||e.metaKey) && e.key==='Enter') { e.preventDefault(); compileNow(); }
+  // Auto-close braces
+  const pairs = {'{':'}','(':')',  '[':']','$':'$'};
+  if (pairs[e.key]) {
+    const s = editor.selectionStart, end = editor.selectionEnd;
+    if (s === end) return; // only wrap selections
+    e.preventDefault();
+    const sel = editor.value.slice(s, end);
+    editor.value = editor.value.slice(0,s)+e.key+sel+pairs[e.key]+editor.value.slice(end);
+    editor.selectionStart = s+1; editor.selectionEnd = end+1;
+  }
+  updateCursor();
+}
+
+function scheduleCompile(delay) {
+  clearTimeout(compileTimer);
+  const d = delay !== undefined ? delay : parseInt(document.getElementById('delay-sel').value);
+  if (d === 0) return;
+  compileTimer = setTimeout(compileNow, d);
+}
+
+// ─── Compile ───
+function compileNow() {
+  const btn = document.getElementById('compile-btn');
+  const lbl = document.getElementById('compile-label');
+  const ico = document.getElementById('compile-icon');
+  btn.classList.add('compiling'); lbl.textContent='Compiling…'; ico.textContent='◌';
+  setStatus('warn','Compiling…');
+
+  try {
+    const src = editor.value;
+    const html = renderIEEE(src);
+    paper.innerHTML = html;
+    paper.classList.add('compile-done');
+    setTimeout(() => paper.classList.remove('compile-done'), 300);
+
+    if (mjReady && window.MathJax && MathJax.typesetPromise) {
+      MathJax.typesetPromise([paper]).then(() => {
+        setStatus('ok','Compiled ✓');
+        btn.classList.remove('compiling'); lbl.textContent='Compile'; ico.textContent='▶';
+      }).catch(err => {
+        setStatus('err','Math error');
+        btn.classList.remove('compiling'); lbl.textContent='Compile'; ico.textContent='▶';
+      });
+    } else {
+      setStatus('ok','Compiled (MathJax loading)');
+      btn.classList.remove('compiling'); lbl.textContent='Compile'; ico.textContent='▶';
+    }
+  } catch(err) {
+    setStatus('err','Parse error: '+err.message);
+    btn.classList.remove('compiling'); lbl.textContent='Compile'; ico.textContent='▶';
+  }
+}
+
+// ─── IEEE Renderer ───
+function renderIEEE(src) {
+  // Extract metadata
+  const get = (cmd) => { const m = src.match(new RegExp('\\\\'+cmd+'\\{([^}]*)\\}')); return m ? m[1] : ''; };
+  const title   = get('title').replace(/\\\\/g,' ').replace(/\s+/g,' ').trim();
+
+  // Author block
+  const authorM = src.match(/\\author\{([\s\S]*?)\}(?=\s*\\maketitle|\s*\\begin)/);
+  const rawAuthor = authorM ? authorM[1] : '';
+  const authorLines = rawAuthor.split('\\IEEEauthorblockN').filter(s=>s.trim());
+  let authorHtml = '';
+  if (authorLines.length) {
+    authorLines.forEach(block => {
+      const nameM = block.match(/^\{([^}]*)\}/);
+      const name = nameM ? nameM[1].replace(/\\textsuperscript\{([^}]*)\}/g,'<sup>$1</sup>') : '';
+      const affilM = block.match(/\\IEEEauthorblockA\{([^}]*(?:\{[^}]*\}[^}]*)*)\}/s);
+      const affil = affilM ? affilM[1].replace(/\\\\/g,'<br>').replace(/\\textsuperscript\{([^}]*)\}/g,'<sup>$1</sup>') : '';
+      authorHtml += `<div style="display:inline-block;margin:0 12px;text-align:center"><div style="font-size:11pt;font-weight:bold">${name}</div><div style="font-size:8.5pt;color:#444;line-height:1.4">${affil}</div></div>`;
+    });
+  }
+
+  // Abstract
+  const abstM = src.match(/\\begin\{abstract\}([\s\S]*?)\\end\{abstract\}/);
+  const abst = abstM ? processInline(abstM[1].trim()) : '';
+
+  // Keywords
+  const kwM = src.match(/\\begin\{IEEEkeywords\}([\s\S]*?)\\end\{IEEEkeywords\}/);
+  const kw = kwM ? kwM[1].trim() : '';
+
+  // Body
+  const bodyM = src.match(/\\maketitle([\s\S]*?)\\end\{document\}/);
+  let body = bodyM ? bodyM[1] : src;
+  body = body.replace(/\\begin\{abstract\}[\s\S]*?\\end\{abstract\}/, '');
+  body = body.replace(/\\begin\{IEEEkeywords\}[\s\S]*?\\end\{IEEEkeywords\}/, '');
+
+  let out = '';
+
+  // Title block
+  out += `<div style="text-align:center;margin-bottom:10px">`;
+  out += `<div class="ieee-title">${title}</div>`;
+  if (authorHtml) out += `<div style="margin:8px 0;font-size:11pt;text-align:center">${authorHtml}</div>`;
+  out += `</div>`;
+  out += `<hr class="ieee-divider-line">`;
+
+  // Abstract + keywords in single column
+  if (abst) {
+    out += `<div class="ieee-abstract-block">`;
+    out += `<div class="ieee-abstract-title">Abstract—</div>`;
+    out += `<div class="ieee-abstract-body">${abst}</div>`;
+    out += `</div>`;
+  }
+  if (kw) {
+    out += `<div class="ieee-keywords"><b>Index Terms</b>—${kw}</div>`;
+  }
+
+  // Body in 2-column
+  out += `<div class="ieee-columns">${processBody(body)}</div>`;
+
+  return out;
+}
+
+function processBody(src) {
+  let html = src;
+  let sectionCounter = 0;
+  let subsectionCounter = 0;
+
+  // Sections
+  html = html.replace(/\\section\*?\{([^}]*)\}/g, (_, t) => {
+    sectionCounter++; subsectionCounter=0;
+    const rn = toRoman(sectionCounter);
+    return `<div class="ieee-section"><span class="ieee-section-num">${rn}.</span> ${processInline(t)}</div>`;
+  });
+  html = html.replace(/\\subsection\*?\{([^}]*)\}/g, (_, t) => {
+    subsectionCounter++;
+    return `<div class="ieee-subsection">${String.fromCharCode(64+subsectionCounter)}. <em>${processInline(t)}</em></div>`;
+  });
+  html = html.replace(/\\subsubsection\*?\{([^}]*)\}/g, (_, t) => {
+    return `<div style="font-size:9.5pt;font-style:italic;margin:5px 0 2px;font-family:'Times New Roman',Times,serif">${processInline(t)}:</div>`;
+  });
+
+  // Environments
+  html = processEnvironments(html);
+
+  // Paragraphs
+  html = processInline(html);
+
+  // Split into paragraphs
+  const lines = html.split(/\n\n+/);
+  let out = '';
+  for (const line of lines) {
+    const t = line.trim();
+    if (!t) continue;
+    if (t.startsWith('<div') || t.startsWith('<table') || t.startsWith('<pre') || t.startsWith('<ul') || t.startsWith('<ol')) {
+      out += t;
+    } else {
+      out += `<p class="ieee-body-p">${t}</p>`;
+    }
+  }
+  return out;
+}
+
+function processEnvironments(html) {
+  let eqCounter = 0;
+
+  // Equation
+  html = html.replace(/\\begin\{equation\}([\s\S]*?)\\end\{equation\}/g, (_, inner) => {
+    eqCounter++;
+    const lbl = inner.match(/\\label\{([^}]*)\}/);
+    const math = inner.replace(/\\label\{[^}]*\}/g,'').trim();
+    return `<div class="ieee-equation-block">$$${math}$$<span class="ieee-eq-num">(${eqCounter})</span></div>`;
+  });
+  html = html.replace(/\\begin\{align\*?\}([\s\S]*?)\\end\{align\*?\}/g, (_, inner) => {
+    return `<div class="ieee-equation-block">$$\\begin{aligned}${inner.trim()}\\end{aligned}$$</div>`;
+  });
+  html = html.replace(/\\\[([\s\S]*?)\\\]/g, (_, inner) => {
+    return `<div class="ieee-equation-block">$$${inner.trim()}$$</div>`;
+  });
+
+  // Table
+  html = html.replace(/\\begin\{table\}[\s\S]*?\\caption\{([^}]*)\}[\s\S]*?\\begin\{tabular\}\{([^}]*)\}([\s\S]*?)\\end\{tabular\}[\s\S]*?\\end\{table\}/g, (_, cap, fmt, body) => {
+    return buildTable(cap, fmt, body);
+  });
+  html = html.replace(/\\begin\{tabular\}\{([^}]*)\}([\s\S]*?)\\end\{tabular\}/g, (_, fmt, body) => {
+    return buildTable('', fmt, body);
+  });
+
+  // Itemize
+  html = html.replace(/\\begin\{itemize\}([\s\S]*?)\\end\{itemize\}/g, (_, inner) => {
+    const items = inner.split('\\item').filter(s=>s.trim());
+    return '<ul class="ieee-ul">'+ items.map(i=>`<li>${processInline(i.trim())}</li>`).join('') +'</ul>';
+  });
+
+  // Enumerate
+  html = html.replace(/\\begin\{enumerate\}([\s\S]*?)\\end\{enumerate\}/g, (_, inner) => {
+    const items = inner.split('\\item').filter(s=>s.trim());
+    return '<ol class="ieee-ol">'+ items.map(i=>`<li>${processInline(i.trim())}</li>`).join('') +'</ol>';
+  });
+
+  // Figure placeholder
+  html = html.replace(/\\begin\{figure\}[\s\S]*?\\caption\{([^}]*)\}[\s\S]*?\\end\{figure\}/g, (_, cap) => {
+    return `<div class="ieee-figure"><div class="ieee-figure-placeholder">[ Figure ]</div><div class="ieee-figure-caption"><b>Fig.</b> ${processInline(cap)}</div></div>`;
+  });
+
+  // Verbatim / lstlisting
+  html = html.replace(/\\begin\{(?:verbatim|lstlisting)\}([\s\S]*?)\\end\{(?:verbatim|lstlisting)\}/g, (_, inner) => {
+    return `<pre class="ieee-code-block">${inner.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</pre>`;
+  });
+
+  // Bibliography
+  html = html.replace(/\\begin\{thebibliography\}\{[^}]*\}([\s\S]*?)\\end\{thebibliography\}/g, (_, inner) => {
+    const refs = inner.match(/\\bibitem\{[^}]*\}[^\\]*/g) || [];
+    let out = '<div class="ieee-section">References</div><div class="ieee-references">';
+    refs.forEach((r, i) => {
+      const text = r.replace(/\\bibitem\{[^}]*\}/,'').trim();
+      out += `<div class="ieee-ref-item"><span class="ieee-ref-num">[${i+1}]</span>${processInline(text)}</div>`;
+    });
+    out += '</div>';
+    return out;
+  });
+
+  // Section with star
+  html = html.replace(/\\section\*\{([^}]*)\}/g, (_, t) => `<div class="ieee-section">${processInline(t)}</div>`);
+
+  return html;
+}
+
+function buildTable(caption, fmt, body) {
+  const cols = fmt.replace(/[|]/g,'').split('');
+  const rows = body.split('\\\\').map(r=>r.trim()).filter(r=>r && !r.match(/^\\hline$/));
+  let thtml = '';
+  if (caption) thtml += `<div class="ieee-table-caption">Table — ${caption}</div>`;
+  thtml += '<table class="ieee-table">';
+  let isHeader = true;
+  rows.forEach((row, ri) => {
+    const clean = row.replace(/\\hline/g,'').trim();
+    if (!clean) return;
+    const cells = clean.split('&');
+    const tag = isHeader ? 'th' : 'td';
+    const isLast = ri === rows.length-1;
+    thtml += `<tr${isLast?' class="last-row"':''}>`;
+    cells.forEach((c, ci) => {
+      const align = (cols[ci]==='c')?'center':(cols[ci]==='r')?'right':'left';
+      thtml += `<${tag} style="text-align:${align}">${processInline(c.trim())}</${tag}>`;
+    });
+    thtml += '</tr>';
+    isHeader = false;
+  });
+  thtml += '</table>';
+  return thtml;
+}
+
+function processInline(s) {
+  let t = s;
+  // Math — protect first
+  t = t.replace(/\\\[([\s\S]*?)\\\]/g, (_, m) => `$$${m}$$`);
+  t = t.replace(/\$\$([\s\S]*?)\$\$/g, (_, m) => `<span class="display-math">$$${m}$$</span>`);
+
+  t = t.replace(/\\textbf\{([^}]*)\}/g,'<strong>$1</strong>');
+  t = t.replace(/\\textit\{([^}]*)\}/g,'<em>$1</em>');
+  t = t.replace(/\\emph\{([^}]*)\}/g,'<em>$1</em>');
+  t = t.replace(/\\underline\{([^}]*)\}/g,'<span style="text-decoration:underline">$1</span>');
+  t = t.replace(/\\texttt\{([^}]*)\}/g,'<code style="font-family:\'Courier New\',monospace;font-size:0.9em;background:#f0f0f0;padding:0 2px">$1</code>');
+  t = t.replace(/\\textsc\{([^}]*)\}/g,'<span style="font-variant:small-caps">$1</span>');
+  t = t.replace(/\\cite\{([^}]*)\}/g,(_, k)=>{
+    const keys = k.split(',').map(x=>x.trim());
+    return '['+keys.map(()=>'?').join(',')+']';
+  });
+  t = t.replace(/\\ref\{([^}]*)\}/g,'(?)');
+  t = t.replace(/\\label\{[^}]*\}/g,'');
+  t = t.replace(/\\footnote\{([^}]*)\}/g,'<sup style="color:#666" title="$1">*</sup>');
+  t = t.replace(/\\\\(\s)/g,'<br>');
+  t = t.replace(/\\noindent\s?/g,'');
+  t = t.replace(/~~/g,'&nbsp;&nbsp;');
+  t = t.replace(/~/g,'&nbsp;');
+  t = t.replace(/\\,/g,'&thinsp;');
+  t = t.replace(/\\;/g,'&ensp;');
+  t = t.replace(/---/g,'—');
+  t = t.replace(/--/g,'–');
+  t = t.replace(/``([^']*)''/g,'"$1"');
+  t = t.replace(/`([^']*)'/g,"'$1'");
+  t = t.replace(/\\%/g,'%');
+  t = t.replace(/\\[a-zA-Z]+\{([^}]*)\}/g,'$1');
+  t = t.replace(/\\[a-zA-Z@]+/g,'');
+  t = t.replace(/\{|\}/g,'');
+  return t;
+}
+
+function toRoman(n) {
+  const v=['I','II','III','IV','V','VI','VII','VIII','IX','X'];
+  return v[n-1] || String(n);
+}
+
+// ─── Line Numbers ───
+function updateLineNumbers() {
+  const ln = document.getElementById('line-numbers');
+  const count = editor.value.split('\n').length;
+  ln.textContent = Array.from({length:count},(_,i)=>i+1).join('\n');
+}
+
+function syncLineScroll() {
+  document.getElementById('line-numbers').scrollTop = editor.scrollTop;
+  updateMinimapViewport();
+}
+
+// ─── Minimap ───
+function updateMinimap() {
+  const canvas = document.getElementById('minimap-canvas');
+  const mm = document.getElementById('minimap');
+  const W = mm.offsetWidth, H = mm.offsetHeight;
+  if (!W || !H) return;
+  canvas.width = W; canvas.height = H;
+  canvas.style.width = W+'px'; canvas.style.height = H+'px';
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0,0,W,H);
+  const lines = editor.value.split('\n');
+  const lh = Math.max(1.5, H/lines.length);
+  lines.forEach((line, i) => {
+    const y = i*lh;
+    const indent = (line.match(/^\s*/)[0].length)*0.5;
+    const len = Math.min(line.trim().length * (W*0.012), W-indent*2);
+    if (len > 0) {
+      let color = 'rgba(120,115,100,0.4)';
+      if (line.trim().startsWith('\\section')) color='rgba(200,169,110,0.8)';
+      else if (line.trim().startsWith('\\subsection')) color='rgba(200,169,110,0.5)';
+      else if (line.trim().startsWith('%')) color='rgba(90,110,90,0.5)';
+      else if (line.trim().startsWith('\\begin')||line.trim().startsWith('\\end')) color='rgba(139,180,216,0.5)';
+      ctx.fillStyle = color;
+      ctx.fillRect(indent, y, len, Math.max(1, lh*0.6));
+    }
+  });
+  updateMinimapViewport();
+}
+
+function updateMinimapViewport() {
+  const mm = document.getElementById('minimap');
+  const vp = document.getElementById('minimap-viewport');
+  const H = mm.offsetHeight;
+  const totalLines = editor.value.split('\n').length;
+  const visibleLines = Math.floor(editor.clientHeight / (editor.scrollHeight / totalLines));
+  const scrollRatio = editor.scrollTop / (editor.scrollHeight - editor.clientHeight || 1);
+  const vpH = Math.max(20, (visibleLines/totalLines)*H);
+  const vpTop = scrollRatio*(H-vpH);
+  vp.style.top = vpTop+'px';
+  vp.style.height = vpH+'px';
+}
+
+document.getElementById('minimap').addEventListener('click', e => {
+  const mm = document.getElementById('minimap');
+  const ratio = e.offsetY / mm.offsetHeight;
+  editor.scrollTop = ratio * (editor.scrollHeight - editor.clientHeight);
+});
+
+// ─── Outline ───
+function updateOutline() {
+  const tree = document.getElementById('outline-tree');
+  const lines = editor.value.split('\n');
+  let html = '';
+  lines.forEach((line, i) => {
+    const sm = line.match(/\\section\*?\{([^}]*)\}/);
+    const sbm = line.match(/\\subsection\*?\{([^}]*)\}/);
+    if (sm) html += `<div class="outline-item" onclick="jumpToLine(${i})"><span class="outline-section-icon">§</span> ${sm[1]}</div>`;
+    else if (sbm) html += `<div class="outline-item sub" onclick="jumpToLine(${i})"><span class="outline-section-icon">§§</span> ${sbm[1]}</div>`;
+  });
+  if (!html) html = '<div style="padding:12px 14px;font-size:11px;color:var(--text4)">No sections found</div>';
+  tree.innerHTML = html;
+}
+
+function jumpToLine(n) {
+  const lines = editor.value.split('\n');
+  const pos = lines.slice(0,n).join('\n').length;
+  editor.focus();
+  editor.selectionStart = editor.selectionEnd = pos;
+  const lh = editor.scrollHeight / lines.length;
+  editor.scrollTop = n * lh - editor.clientHeight/2;
+}
+
+// ─── Status ───
+function setStatus(type, msg) {
+  const dot = document.getElementById('sb-dot');
+  dot.className = 'sb-dot' + (type==='ok'?'':type==='warn'?' warn':' err');
+  document.getElementById('sb-status').textContent = msg;
+}
+
+function updateStatusBar() {
+  const val = editor.value;
+  const lines = val.split('\n');
+  const words = val.replace(/\\[a-zA-Z]+/g,' ').replace(/[{}$\\[\]]/g,' ').trim().split(/\s+/).filter(w=>w.length>1).length;
+  document.getElementById('sb-words').textContent = words.toLocaleString()+' words';
+  document.getElementById('sb-chars').textContent = val.length.toLocaleString()+' chars';
+  document.getElementById('sb-lines').textContent = lines.length.toLocaleString()+' lines';
+}
+
+function updateCursor() {
+  const val = editor.value.slice(0, editor.selectionStart);
+  const lns = val.split('\n');
+  document.getElementById('sb-cursor').textContent = `Ln ${lns.length}, Col ${lns[lns.length-1].length+1}`;
+}
+
+function markUnsaved() {
+  document.querySelector('#statusbar span:last-child').style.display='inline';
+}
+
+// ─── Insert helpers ───
+function insertSnip(before, after) {
+  editor.focus();
+  const s = editor.selectionStart, e = editor.selectionEnd;
+  const sel = editor.value.slice(s,e) || 'text';
+  const ins = before+sel+after;
+  editor.value = editor.value.slice(0,s)+ins+editor.value.slice(e);
+  editor.selectionStart = s+before.length;
+  editor.selectionEnd = s+before.length+sel.length;
+  editor.dispatchEvent(new Event('input'));
+}
+
+function insertAt(text) {
+  editor.focus();
+  const s = editor.selectionStart;
+  editor.value = editor.value.slice(0,s)+text+editor.value.slice(s);
+  editor.selectionStart = editor.selectionEnd = s+text.length;
+  editor.dispatchEvent(new Event('input'));
+}
+
+function insertBold() { insertSnip('\\textbf{','}'); }
+function insertItalic() { insertSnip('\\textit{','}'); }
+function insertSection() { insertAt('\n\\section{Section Title}\n'); }
+function insertSubsection() { insertAt('\n\\subsection{Subsection Title}\n'); }
+function insertInlineMath() { insertSnip('$','$'); }
+function insertDisplayMath() { insertAt('\n\\[\n  \n\\]\n'); }
+function insertEquation() { insertAt('\n\\begin{equation}\n  \n\\label{eq:label}\n\\end{equation}\n'); }
+
+function insertEnv(env) {
+  const envs = {
+    'figure': '\n\\begin{figure}[h]\n\\centering\n% \\includegraphics[width=0.8\\columnwidth]{figure}\n\\caption{Caption text.}\n\\label{fig:label}\n\\end{figure}\n',
+    'table-ieee': '\n\\begin{table}[h]\n\\caption{Table Caption}\n\\label{tab:label}\n\\begin{tabular}{lcc}\n\\hline\n\\textbf{Col 1} & \\textbf{Col 2} & \\textbf{Col 3} \\\\\n\\hline\nData & Value & Result \\\\\n\\hline\n\\end{tabular}\n\\end{table}\n',
+    'algorithm': '\n\\begin{algorithmic}\n\\STATE Initialize $\\mathbf{w}(0) = \\mathbf{0}$\n\\FOR{$n = 1$ to $N$}\n\\STATE $e(n) = d(n) - \\mathbf{w}^T(n)\\mathbf{x}(n)$\n\\STATE $\\mathbf{w}(n+1) = \\mathbf{w}(n) + \\mu\\, e(n)\\, \\mathbf{x}(n)$\n\\ENDFOR\n\\end{algorithmic}\n',
+    'lstlisting': '\n\\begin{lstlisting}[language=C]\nvoid lms_update(float *w, float *x, float e, float mu, int N) {\n    for (int i = 0; i < N; i++)\n        w[i] += mu * e * x[i];\n}\n\\end{lstlisting}\n',
+    'cite': '\\cite{key}',
+  };
+  insertAt(envs[env] || `\n\\begin{${env}}\n\n\\end{${env}}\n`);
+}
+
+// ─── Find ───
+function toggleFind() {
+  const bar = document.getElementById('find-bar');
+  bar.classList.toggle('show');
+  if (bar.classList.contains('show')) document.getElementById('find-input').focus();
+}
+
+function doFind() {
+  const q = document.getElementById('find-input').value;
+  findMatches = []; findIdx = 0;
+  if (!q) { document.getElementById('find-count').textContent=''; return; }
+  const src = editor.value;
+  let i = 0;
+  while ((i = src.indexOf(q, i)) !== -1) { findMatches.push(i); i += q.length; }
+  document.getElementById('find-count').textContent = findMatches.length ? `${findIdx+1}/${findMatches.length}` : 'Not found';
+  if (findMatches.length) highlightFind();
+}
+
+function highlightFind() {
+  if (!findMatches.length) return;
+  const pos = findMatches[findIdx];
+  editor.focus();
+  editor.selectionStart = pos;
+  editor.selectionEnd = pos + document.getElementById('find-input').value.length;
+  document.getElementById('find-count').textContent = `${findIdx+1}/${findMatches.length}`;
+}
+
+function findNext() { if (!findMatches.length) return; findIdx=(findIdx+1)%findMatches.length; highlightFind(); }
+function findPrev() { if (!findMatches.length) return; findIdx=(findIdx-1+findMatches.length)%findMatches.length; highlightFind(); }
+function findNav(e) { if (e.key==='Enter') findNext(); if (e.key==='Escape') toggleFind(); }
+
+// ─── View ───
+function setView(mode) {
+  currentView = mode;
+  const ep = document.getElementById('editor-pane');
+  const pp = document.getElementById('preview-pane');
+  const dv = document.getElementById('divider');
+  ['split','code','preview'].forEach(m => document.getElementById('vbtn-'+m).classList.remove('active'));
+  document.getElementById('vbtn-'+mode).classList.add('active');
+  ep.style.display = (mode==='preview') ? 'none' : 'flex';
+  pp.style.display = (mode==='code') ? 'none' : 'flex';
+  dv.style.display = (mode==='split') ? 'block' : 'none';
+  ep.style.flex = '1'; pp.style.flex = '1';
+}
+
+// ─── Sidebar ───
+function toggleSidebar() {
+  const sb = document.getElementById('sidebar');
+  sidebarOpen = !sidebarOpen;
+  sb.classList.toggle('collapsed', !sidebarOpen);
+}
+
+// ─── Settings ───
+function toggleSettings() {
+  const sp = document.getElementById('settings-panel');
+  settingsOpen = !settingsOpen;
+  sp.classList.toggle('show', settingsOpen);
+}
+
+// ─── Help ───
+function showHelp() {
+  const hp = document.getElementById('help-panel');
+  hp.classList.add('show');
+  setStatus('ok', 'Help panel opened');
+}
+
+function closeHelp() {
+  const hp = document.getElementById('help-panel');
+  hp.classList.remove('show');
+}
+
+// ─── Documentation ───
+function toggleDocs() {
+  const dp = document.getElementById('docs-panel');
+  dp.classList.toggle('show');
+  if (dp.classList.contains('show')) {
+    setStatus('ok', 'Documentation opened');
+  }
+}
+
+function switchDocsTab(tabName) {
+  // Hide all sections
+  document.querySelectorAll('.docs-section').forEach(el => {
+    el.classList.remove('active');
+  });
+  
+  // Remove active class from all tabs
+  document.querySelectorAll('.docs-tab').forEach(el => {
+    el.classList.remove('active');
+  });
+  
+  // Show selected section
+  const section = document.getElementById(tabName);
+  if (section) {
+    section.classList.add('active');
+  }
+  
+  // Add active class to clicked tab
+  event.target.classList.add('active');
+}
+
+function setFontSize(v) {
+  editor.style.fontSize = v+'px';
+  document.getElementById('line-numbers').style.fontSize = v+'px';
+  document.getElementById('font-size-val').textContent = v+'px';
+}
+
+function setTheme(t) {
+  if (t==='light') {
+    document.documentElement.style.setProperty('--bg','#f5f4f0');
+    document.documentElement.style.setProperty('--bg2','#eeece8');
+    document.documentElement.style.setProperty('--bg3','#e8e6e2');
+    document.documentElement.style.setProperty('--bg4','#dedad4');
+    document.documentElement.style.setProperty('--bg5','#d4d0c8');
+    document.documentElement.style.setProperty('--text','#2a2820');
+    document.documentElement.style.setProperty('--text2','#4a4840');
+    document.documentElement.style.setProperty('--text3','#7a7860');
+    document.documentElement.style.setProperty('--border','#c8c4bc');
+    document.documentElement.style.setProperty('--border2','#b8b4ac');
+  } else if (t==='darker') {
+    document.documentElement.style.setProperty('--bg','#060708');
+    document.documentElement.style.setProperty('--bg2','#0c0d10');
+    document.documentElement.style.setProperty('--bg3','#121318');
+    document.documentElement.style.setProperty('--bg4','#181920');
+    document.documentElement.style.setProperty('--bg5','#1e1f28');
+    document.documentElement.style.setProperty('--text','#e8e4dc');
+    document.documentElement.style.setProperty('--text2','#b8b4ac');
+    document.documentElement.style.setProperty('--text3','#6a6860');
+    document.documentElement.style.setProperty('--border','#222330');
+    document.documentElement.style.setProperty('--border2','#2e3040');
+  } else {
+    document.documentElement.style.setProperty('--bg','#0e0f11');
+    document.documentElement.style.setProperty('--bg2','#14151a');
+    document.documentElement.style.setProperty('--bg3','#1c1d24');
+    document.documentElement.style.setProperty('--bg4','#22232c');
+    document.documentElement.style.setProperty('--bg5','#2a2b36');
+    document.documentElement.style.setProperty('--text','#e8e4dc');
+    document.documentElement.style.setProperty('--text2','#b8b4ac');
+    document.documentElement.style.setProperty('--text3','#7a7870');
+    document.documentElement.style.setProperty('--border','#2e303d');
+    document.documentElement.style.setProperty('--border2','#3a3c4e');
+  }
+}
+
+function toggleDarkPaper() {
+  paper.classList.toggle('dark-paper', document.getElementById('dark-paper-toggle').checked);
+}
+
+function toggleLineNums() {
+  document.getElementById('line-numbers').style.display = document.getElementById('ln-toggle').checked ? 'block' : 'none';
+}
+
+function toggleMinimap() {
+  document.getElementById('minimap').style.display = document.getElementById('mm-toggle').checked ? 'block' : 'none';
+}
+
+// ─── Save / Export ───
+function saveDoc() {
+  const blob = new Blob([editor.value], {type:'text/plain'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'lab_report.tex';
+  a.click();
+  setStatus('ok','Saved as lab_report.tex');
+  document.querySelector('#statusbar span:last-child').style.display='none';
+}
+
+function exportHtml() {
+  const content = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>IEEE Paper</title><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml.min.js"><\/script></head><body style="font-family:'Times New Roman',Times,serif;max-width:800px;margin:40px auto;padding:20px">${paper.innerHTML}</body></html>`;
+  const blob = new Blob([content], {type:'text/html'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'paper.html';
+  a.click();
+}
+
+function newDoc() {
+  if (confirm('Start a new document? Unsaved changes will be lost.')) {
+    editor.value = IEEE_TEMPLATE;
+    editor.dispatchEvent(new Event('input'));
+    scheduleCompile(0);
+  }
+}
+
+// ─── Snippets Modal ───
+const SNIPPETS = [
+  {title:'Section',code:'\\section{Title}',fn:()=>insertSection()},
+  {title:'Subsection',code:'\\subsection{Title}',fn:()=>insertSubsection()},
+  {title:'Equation',code:'\\begin{equation}...\\end{equation}',fn:()=>insertEquation()},
+  {title:'Align block',code:'\\begin{align}...\\end{align}',fn:()=>insertAt('\n\\begin{align}\n  a &= b+c \\\\\n  d &= e+f\n\\end{align}\n')},
+  {title:'Figure',code:'\\begin{figure}...\\end{figure}',fn:()=>insertEnv('figure')},
+  {title:'Table',code:'\\begin{tabular}...\\end{tabular}',fn:()=>insertEnv('table-ieee')},
+  {title:'Itemize',code:'\\begin{itemize}...\\end{itemize}',fn:()=>insertAt('\n\\begin{itemize}\n  \\item First\n  \\item Second\n\\end{itemize}\n')},
+  {title:'Enumerate',code:'\\begin{enumerate}...\\end{enumerate}',fn:()=>insertAt('\n\\begin{enumerate}\n  \\item First\n  \\item Second\n\\end{enumerate}\n')},
+  {title:'Algorithm',code:'\\begin{algorithmic}...',fn:()=>insertEnv('algorithm')},
+  {title:'Code listing',code:'\\begin{lstlisting}...',fn:()=>insertEnv('lstlisting')},
+  {title:'Citation',code:'\\cite{key}',fn:()=>insertEnv('cite')},
+  {title:'Fraction',code:'\\frac{a}{b}',fn:()=>insertSnip('\\frac{','}{b}')},
+  {title:'Sum',code:'\\sum_{i=0}^{N}',fn:()=>insertAt('\\sum_{i=0}^{N} ')},
+  {title:'Integral',code:'\\int_a^b f(x)dx',fn:()=>insertAt('\\int_0^{\\infty} ')},
+  {title:'Matrix',code:'\\begin{bmatrix}...',fn:()=>insertAt('\n\\begin{bmatrix}\na & b \\\\\nc & d\n\\end{bmatrix}\n')},
+  {title:'Greek letters',code:'\\alpha \\beta \\gamma…',fn:()=>insertAt('\\alpha, \\beta, \\gamma, \\delta, \\epsilon ')},
+];
+
+function showSnippets() {
+  const grid = document.getElementById('snippet-grid');
+  grid.innerHTML = SNIPPETS.map((s,i)=>`<div class="snippet-card" onclick="snippetClick(${i})"><div class="sc-title">${s.title}</div><div class="sc-code">${s.code}</div></div>`).join('');
+  document.getElementById('modal-overlay').classList.add('show');
+}
+
+function snippetClick(i) {
+  SNIPPETS[i].fn();
+  closeModal();
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('show');
+}
+
+// ─── WYSIWYG Editing ───
+function toggleWYSIWYG() {
+  wysiwygMode = !wysiwygMode;
+  if (wysiwygMode) {
+    enableWYSIWYGMode();
+  } else {
+    disableWYSIWYGMode();
+  }
+}
+
+function enableWYSIWYGMode() {
+  setView('preview');
+  paper.classList.add('wysiwyg-mode');
+  document.getElementById('vbtn-wysiwyg').classList.add('active');
+  
+  // Save initial state
+  wysiwygUndoStack = [paper.innerHTML];
+  wysiwygRedoStack = [];
+  
+  // Make all paragraphs and text elements editable
+  paper.querySelectorAll('.ieee-body-p, .ieee-title, .ieee-authors, .ieee-abstract-body, .ieee-keywords').forEach(el => {
+    el.contentEditable = 'true';
+  });
+  
+  // Handle changes
+  paper.addEventListener('input', trackWYSIWYGChange);
+  paper.addEventListener('paste', handleWYSIWYGPaste);
+  paper.addEventListener('blur', syncPreviewToCode, true);
+  
+  setStatus('ok', 'WYSIWYG Edit mode enabled. Click text to edit.');
+}
+
+function disableWYSIWYGMode() {
+  paper.classList.remove('wysiwyg-mode');
+  document.getElementById('vbtn-wysiwyg').classList.remove('active');
+  
+  // Remove event listeners
+  paper.removeEventListener('input', trackWYSIWYGChange);
+  paper.removeEventListener('paste', handleWYSIWYGPaste);
+  paper.removeEventListener('blur', syncPreviewToCode, true);
+  
+  // Remove contenteditable from all elements
+  paper.querySelectorAll('[contenteditable="true"]').forEach(el => {
+    el.removeAttribute('contenteditable');
+  });
+  
+  setStatus('ok', 'WYSIWYG mode disabled.');
+}
+
+function trackWYSIWYGChange(e) {
+  if (e.inputType !== 'historyUndo' && e.inputType !== 'historyRedo') {
+    wysiwygUndoStack.push(paper.innerHTML);
+    wysiwygRedoStack = [];
+    if (wysiwygUndoStack.length > 50) wysiwygUndoStack.shift();
+  }
+}
+
+function handleWYSIWYGPaste(e) {
+  e.preventDefault();
+  const text = e.clipboardData.getData('text/plain');
+  document.execCommand('insertText', false, text);
+}
+
+function wysiwygFormat(cmd) {
+  if (cmd === 'undo') wysiwygUndo();
+  else if (cmd === 'redo') wysiwygRedo();
+  else if (cmd === 'createLink') {
+    const url = prompt('Enter URL:');
+    if (url) document.execCommand('createLink', false, url);
+  } else {
+    document.execCommand(cmd, false, null);
+  }
+}
+
+function wysiwygUndo() {
+  if (wysiwygUndoStack.length > 1) {
+    wysiwygRedoStack.push(wysiwygUndoStack.pop());
+    paper.innerHTML = wysiwygUndoStack[wysiwygUndoStack.length - 1];
+    paper.querySelectorAll('.ieee-body-p, .ieee-title, .ieee-authors, .ieee-abstract-body, .ieee-keywords').forEach(el => {
+      el.contentEditable = 'true';
+    });
+  }
+}
+
+function wysiwygRedo() {
+  if (wysiwygRedoStack.length > 0) {
+    wysiwygUndoStack.push(wysiwygRedoStack.pop());
+    paper.innerHTML = wysiwygUndoStack[wysiwygUndoStack.length - 1];
+    paper.querySelectorAll('.ieee-body-p, .ieee-title, .ieee-authors, .ieee-abstract-body, .ieee-keywords').forEach(el => {
+      el.contentEditable = 'true';
+    });
+  }
+}
+
+function syncPreviewToCode() {
+  if (!wysiwygMode) return;
+  markUnsaved();
+  // The preview changes are already reflected in the HTML
+  // This could be enhanced to actually sync back to LaTeX source
+}
+
+// ─── Divider drag ───
+let divDrag = false;
+document.getElementById('divider').addEventListener('mousedown', e => { divDrag=true; document.getElementById('divider').classList.add('dragging'); e.preventDefault(); });
+document.addEventListener('mousemove', e => {
+  if (!divDrag) return;
+  const main = document.getElementById('main');
+  const rect = main.getBoundingClientRect();
+  const sb = document.getElementById('sidebar');
+  const sbW = sidebarOpen ? sb.offsetWidth : 0;
+  const x = e.clientX - rect.left - sbW;
+  const w = rect.width - sbW - 4;
+  const pct = Math.min(75, Math.max(25, (x/w)*100));
+  document.getElementById('editor-pane').style.flex = `0 0 ${pct}%`;
+  document.getElementById('preview-pane').style.flex = `0 0 ${100-pct}%`;
+});
+document.addEventListener('mouseup', () => { divDrag=false; document.getElementById('divider').classList.remove('dragging'); });
+
+// Close settings on outside click
+document.addEventListener('click', e => {
+  if (settingsOpen && !e.target.closest('#settings-panel') && !e.target.closest('.tb-btn')) {
+    settingsOpen = false;
+    document.getElementById('settings-panel').classList.remove('show');
+  }
+  if (document.getElementById('help-panel').classList.contains('show') && 
+      !e.target.closest('#help-panel') && 
+      !e.target.closest('.tb-btn')) {
+    closeHelp();
+  }
+  if (document.getElementById('docs-panel').classList.contains('show') && 
+      !e.target.closest('#docs-panel') && 
+      !e.target.closest('.tb-btn')) {
+    toggleDocs();
+  }
+});
+
+// Keyboard shortcuts
+document.addEventListener('keydown', e => {
+  if (e.ctrlKey || e.metaKey) {
+    if (e.key === 'e' || e.key === 'E') {
+      e.preventDefault();
+      toggleWYSIWYG();
+    }
+    if (e.key === 's' || e.key === 'S') {
+      e.preventDefault();
+      saveDoc();
+    }
+    if (e.key === 'f' || e.key === 'F') {
+      e.preventDefault();
+      toggleFind();
+    }
+  }
+  if (e.key === 'Escape' && wysiwygMode) {
+    toggleWYSIWYG();
+  }
+});
+
+// Show WYSIWYG toolbar on text selection
+document.addEventListener('mouseup', () => {
+  if (!wysiwygMode) return;
+  const selection = window.getSelection();
+  const toolbar = document.getElementById('wysiwyg-toolbar');
+  
+  if (selection.toString().length > 0) {
+    const range = selection.getRangeAt(0);
+    const rect = range.getBoundingClientRect();
+    toolbar.classList.add('show');
+    toolbar.style.top = (Math.max(50, rect.top - 45)) + 'px';
+    toolbar.style.left = (rect.left) + 'px';
+  } else {
+    toolbar.classList.remove('show');
+  }
+});
+</script>
+</body>
+</html>
